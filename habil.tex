@@ -1,0 +1,291 @@
+% This is the main file of the Habilitation thesis of Max Neunhoeffer
+
+\documentclass[openany,11pt,british]{book}
+
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage[british]{babel}
+%\usepackage{stmaryrd}
+\usepackage[mtbold,subscriptcorrection,mtpluscal]{mathtime}
+%\usepackage[heavybold,uprightgreek,subscriptcorrection,mtpluscal]{mathtime}
+\usepackage{theorem}
+\usepackage[all,ps]{xy}
+%\usepackage{showkeys}
+\usepackage{ifthen}
+\usepackage[bf,center]{caption}
+%\renewcommand{\captionfont}{\sffamily}
+\usepackage{calc}
+\usepackage{tocloft}
+\setlength{\cftchapnumwidth}{7mm}
+\setlength{\cftsecnumwidth}{10mm}
+%\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{longtable}
+
+\usepackage[numbib,numindex,notlot,notlof]{tocbibind}
+
+%\definecolor{RoyalBlue}{rgb}{0.0236,0.0894,0.6179}
+%\definecolor{RoyalGreen}{rgb}{0.0236,0.6179,0.0894}
+%\definecolor{RoyalRed}{rgb}{0.6179,0.0236,0.0894}
+\definecolor{MyBlue}{rgb}{0.01,0.05,0.5}
+\definecolor{MyGreen}{rgb}{0.01,0.4,0.05}
+\definecolor{MyRed}{rgb}{0.7,0.01,0.05}
+
+% The paper format:
+%\usepackage{a4wide}
+%So am Ende:
+\usepackage[a4paper,top=1in,bottom=2in,width=5.5in,
+            headheight=1\baselineskip,verbose]{geometry}
+%So zum Korrekturlesen mit breitem rechtem Rand:
+%\usepackage[a4paper,width=6.125in,headheight=1\baselineskip,left=5mm,twoside=false]{geometry}
+
+\usepackage[colorlinks=true,backref=section,%hypertex,
+            linkcolor=MyBlue,urlcolor=MyRed,citecolor=MyGreen,
+            pdftitle={Computing with Matrix Groups},
+            pdfauthor={Max Neunh\string\öffer},
+            pdfsubject={Matrix Groups},
+            pdfkeywords={constructive recognition}]{hyperref}
+%\usepackage{myhyppdf}
+% Bemerkung: showkeys und hyperref funktionieren nicht zusammen!
+
+% The page headings:
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[FCO,FCE]{}
+\pagestyle{fancy}
+
+\setcounter{tocdepth}{1}
+
+% Change arrows in xypic:
+\SelectTips{cm}{11}
+\UseTips
+
+\makeindex
+
+\parindent0pt
+
+% Mathematische Operatoren wie z.B. rad:
+\makeatletter
+\newcommand{\maop}[1]{%
+\ensuremath{\mathop{\operator@font #1}\nolimits}}
+\newcommand{\maopl}[1]{%
+\ensuremath{\mathop{\operator@font #1}\limits}}
+\makeatother
+
+\newcommand{\rad}{\maop{rad}}
+\newcommand{\soc}{\maop{soc}}
+\newcommand{\myimplies}{\ensuremath{\Longrightarrow}}
+\newcommand{\myiff}{\ensuremath{\iff}}
+\newcommand{\Hom}{\maop{Hom}}
+\newcommand{\End}{\maop{End}}
+\newcommand{\Tr}{\maop{Tr}}
+\newcommand{\id}{\maop{id}}
+\newcommand{\Ima}{\maop{Im}}
+\newcommand{\Char}{\maop{char}}
+\newcommand{\GL}{\maop{GL}}
+\newcommand{\PGL}{\maop{PGL}}
+\newcommand{\SL}{\maop{SL}}
+\newcommand{\PSL}{\maop{PSL}}
+\newcommand{\tens}[1][]{\ifthenelse{\equal{#1}{}}{\maopl{\otimes}}%
+{\mathop{\raisebox{0.4mm}{$\scriptstyle\maopl{\otimes}_{#1}$}}}}
+\newcommand{\smtens}[1][]{\ifthenelse{\equal{#1}{}}{\maopl{\otimes}}%
+{\mathop{\raisebox{0.15mm}{$\scriptscriptstyle\maopl{\otimes}_{#1}$}}}}
+\newcommand{\myle}{\leqslant}
+\newcommand{\myge}{\geqslant}
+
+% Einige Definitionen fuer haeufig vorkommende Buchstaben:
+
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\let\ll=\l   % fuer alle Faelle!
+\renewcommand{\l}{\ensuremath{\ell}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+
+% Ich will spaeter noch umkonfigurieren:
+\newcommand{\Emph}[1]{{\boldmath\textbf{#1}}}
+\newcommand{\ba}[1]{\overline{\rule{0mm}{1.2ex}#1}}
+
+% Einige Gimmicks:
+\newcommand{\Proof}{Proof: }
+\newcommand{\ProofEnd}{\hfill$\square$\par}
+
+\newenvironment{compactlist}{\begin{list}{}{\setlength{\itemsep}{0pt}%
+\setlength{\labelwidth}{1cm}\addtolength{\labelsep}{3mm}%
+\addtolength{\leftmargin}{3mm}}}{\end{list}}
+
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thesubsection}{(\arabic{section}.\arabic{subsection})}
+\newcommand{\mychapter}[1]{\chapter{#1}}
+\makeatletter
+\let\@oldrefstepcounter=\refstepcounter
+\def\refstepcounter#1{\@oldrefstepcounter{#1}%
+\ifthenelse{\equal{#1}{subsection}}%
+{\gdef\@currentlabel{\thechapter.\thesubsection}}{}}
+\makeatother
+
+\theoremstyle{changebreak} 
+\theoremheaderfont{\bfseries\boldmath}
+\newtheorem{Prop}[subsection]{Proposition}
+\newtheorem{Theo}[subsection]{Theorem}
+\newtheorem{Lemm}[subsection]{Lemma}
+\newtheorem{Corr}[subsection]{Corollary}
+\newtheorem{DefProp}[subsection]{Definition/Proposition}
+\newtheorem{Conj}[subsection]{Conjecture}
+\theorembodyfont{\upshape}
+\newtheorem{Def}[subsection]{Definition}
+\newtheorem{Rem}[subsection]{Remark}
+\newtheorem{Rems}[subsection]{Remarks}
+\newtheorem{Not}[subsection]{Notation}
+\newtheorem{Hyp}[subsection]{Hypothesis}
+\newtheorem{Exa}[subsection]{Example}
+
+\newcommand{\ruecke}{\mbox{\phantom{\rm\bf\thesubsection\ }}}
+
+%\includeonly{}
+
+\begin{document}
+
+\tableofcontents
+\thispagestyle{fancy}
+
+\include{intro}
+\include{matrices}
+\include{comptree}
+\include{leaves}
+
+\appendix
+
+\include{addendum}
+
+%\mbox{}
+\thispagestyle{fancy}
+
+\chapter{Notations}
+
+\label{NotationIndex}
+\begin{longtable}{|lll|}
+\hline\endfoot
+\hline\endhead
+\hline
+\multicolumn{3}{|l|}{Symbols:}\\
+\hline
+$\emptyset$             & the empty set
+                        & \\
+$\subseteq$             & is contained in
+                        & \\
+$\supseteq$             & contains
+                        & \\
+$\subsetneq$            & is contained properly
+                        & \\
+$\supsetneq$            & contains properly
+                        & \\
+$\circ$                 & concatenation of mappings
+                        & \ref{conventions} \\
+$\circlearrowleft$      & commutative diagram 
+                        & \\
+$\hookrightarrow$       & injective mapping
+                        & \\
+$\twoheadrightarrow$    & surjective mapping
+                        & \\
+$\cong$                 & isomorphism
+                        & \\
+$\equiv$                & congruence
+                        & \\
+$(-|-)$                 & bilinear form
+                        & \\
+$\displaystyle\prod$    & product
+                        & \\
+$\displaystyle\coprod$  & coproduct
+                        & \\
+$\displaystyle\bigoplus$ & direct sum of modules
+                        & \\
+$\left< - \right>_A$    & $A$-span
+                        & \\
+$\oplus$                & direct sum
+                        & \\
+$\triangleleft$         & is ideal in 
+                        & \\
+$\varphi^{-1}(N)$       & full preimage of the set $N$ under $\varphi$
+                        & \\
+$\mathbb{C}$            & set of complex numbers
+                        & \\
+$\det M$                & determinante of the matrix $M$
+                        & \\
+$E_d$                   & $d \times d$ identity matrix
+                        & \\
+$\End_G(M)$             & set of endomorphisms of the $G$-module $M$
+                        & \\
+$\F_q$                  & field with $q$ elements
+                        & \\
+$\GL_n(q)$              & group of invertible matrices in $\F_q^{n \times n}$
+                        & \\
+$\Hom_G(M,N)$           & set of homomorphism between the $G$-modules $M$
+                          and $N$
+                        & \\
+$\id_M$                 & identity mapping $M \to M$
+                        & \\
+$\Ima f$                & image of the mapping $f$
+                        & \\
+$\ker f$                & kernel of the mapping $f$
+                        & \\
+$\N$                    & set of natural numbers, $0 \notin \N$
+                        & \\
+$\Q$                    & set of rational numbers
+                        & \\
+$\R$                    & set of real numbers
+                        & \\
+$\rad(R)$, $\rad(M)$    & Jacobson-radical of a ring $R$ or module $M$
+                        & \ref{Konventionen} \\
+$S_n$                   & symmetric group on $n$ points
+                        & \\
+$\soc(M)$               & socle of a module $M$
+                        & \\
+$\Z$                    & set of rational integers 
+                        & \\
+\hline
+\end{longtable}
+
+\phantomsection{}
+\label{NotationIndexEnd}
+
+\clearpage
+\markboth{Appendix C: List of figures}{Appendix C: List of figures}
+
+\newcommand{\friss}[1]{}
+\newcommand{\myitem}[2]{\rlap{#1}\hspace*{\cftchapnumwidth}{#2}}
+
+\phantomsection{}
+\addcontentsline{toc}{chapter}{\myitem{C}{List of figures}}
+\vspace*{10mm}
+{\huge\bf Appendix C}
+
+\listoffigures
+
+\phantomsection{}
+\addcontentsline{toc}{chapter}{\myitem{D}{List of tables}}
+\vspace*{28mm}
+{\huge\bf Appendix D}
+
+\listoftables
+
+\stepcounter{chapter}
+\stepcounter{chapter}
+
+\markboth{Appendix C: List of figures}{Appendix C: List of figures}
+
+%\newpage\mbox{}
+%\clearpage\mbox{}\thispagestyle{fancy}
+
+\bibliographystyle{alpha}
+\bibliography{habil}
+
+\printindex
+
+\end{document}
+
