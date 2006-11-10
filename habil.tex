@@ -36,21 +36,21 @@
 % The paper format:
 \usepackage[a4paper,
 %\usepackage[letterpaper,  % for letter: make it possible but not optimized
-            height=8.52in,width=5.68in,
+            height=8.30in,width=5.87in,
             % this is 71% of a4 in both dimensions ==> page usage 50%
             % use default: hmarginratio=2:3,vmarginratio=2:3,
-            % showframe,   % for verification purposes
+            showframe,   % for verification purposes
             headheight=1\baselineskip,verbose]{geometry}
 %So zum Korrekturlesen mit breitem rechtem Rand:
 %\usepackage[a4paper,width=6.125in,headheight=1\baselineskip,left=5mm,twoside=false]{geometry}
 
-\usepackage[colorlinks=true,backref=section,%hypertex,
+\usepackage[colorlinks=true,backref=page,dvipdfm,%hypertex,
             linkcolor=MyBlue,urlcolor=MyRed,citecolor=MyGreen,
             pdftitle={Computing with Matrix Groups},
             pdfauthor={Max Neunh\string\öffer},
             pdfsubject={Matrix Groups},
             pdfkeywords={constructive recognition}]{hyperref}
-%\usepackage{myhyppdf}
+\usepackage{myhyppdf}
 % Bemerkung: showkeys und hyperref funktionieren nicht zusammen!
 
 % The page headings:
@@ -155,7 +155,7 @@
 \begin{document}
 
 \title{Computing with matrix groups}
-\author{Max Neun\"offer}
+\author{Max Neunh\"offer}
 \maketitle
 
 \include{preface}
