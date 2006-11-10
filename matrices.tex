@@ -6,16 +6,29 @@ This chapter covers the implementation of the basic operations for matrices
 over finite fields. We begin with a description of a new concrete 
 representation of such matrices on nowadays computers in 
 Section~\ref{sec:ffematrices}, both in main memory and on storage.
-We then analyse the complexity of matrix arithmetic for this new
-representation in Section~\ref{sec:matarith} and compare it to
-previous implementations. In Section~\ref{sec:basalgmat}, we give an
-overview over the most basic algorithms for finite field matrices,
+We then analyse the performance and complexity of matrix arithmetic 
+for this new representation in Section~\ref{sec:matarith} and compare
+it to previous implementations. In Section~\ref{sec:basalgmat}, we give
+an overview over the most basic algorithms for finite field matrices,
 before we conclude this chapter with the description of a new method
 to compute minimal polynomials of matrices over finite fields in
-Section~\ref{sec:minpoly}.
+Section~\ref{sec:minpoly}, which is used to compute projective orders
+of matrices.
 
 \section{Representing matrices over finite fields}
 \label{sec:ffematrices}
+
+\subsection{The idea}
+
+If $p$ is a prime then elements of the finite field $\F_p$ with $p$
+elements can be represented by the integers $0, 1, \ldots, p-1$. Thus,
+storing one such element on a computer needs only $\lceil \log_2(p)
+\rceil$ bits. The finite extension field  $\F_q$ with for $q = p^k$ is built
+as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
+$c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
+Conway polynomials are monic by definition, one can represent an element
+of $\F_q$ by one polynomial over $\F_p$ of degree less then $k$ and thus
+by storing $k$ elements of $\F_p$ using $\lceil \log_2(p^k) \rceil$ bits.
 
 
 \index{Matrix}
