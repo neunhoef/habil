@@ -18,6 +18,10 @@ of matrices.
 \section{Representing matrices over finite fields}
 \label{sec:ffematrices}
 
+If you already know something about compressed matrices over finite
+fields you can safely skip the next subsection and directly proceed
+to Section~\ref{ssec:cvec}. We first explain the basic idea.
+
 \subsection{The idea}
 
 If $p$ is a prime then elements of the finite field $\F_p$ with $p$
@@ -26,10 +30,20 @@ storing one such element on a computer needs only $\lceil \log_2(p)
 \rceil$ bits. The finite extension field  $\F_q$ with for $q = p^k$ is built
 as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
 $c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
-Conway polynomials are monic by definition, one can represent an element
-of $\F_q$ by one polynomial over $\F_p$ of degree less then $k$ and thus
-by storing $k$ elements of $\F_p$ using $\lceil \log_2(p^k) \rceil$ bits.
+Conway polynomials are monic by definition, an element
+of $\F_q$ can be represented by one polynomial over $\F_p$ of degree 
+less then $k$ and thus by storing $k$ elements of $\F_p$ using $\lceil
+\log_2(p^k) \rceil$ bits.
 
+Since linear algebra operations over finite fields can be performed
+extremely efficiently by modern microprocessors, the limiting factor 
+for such computations is memory access. Therefore, it is performance
+critical to store vectors and matrices using as little memory as possible.
+
+This idea is quite old 
+
+\subsection{Compressed vectors}
+\label{ssec:cvec}
 
 \index{Matrix}
 
