@@ -31,24 +31,141 @@ storing one such element on a computer needs only $\lceil \log_2(p)
 as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
 $c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
 Conway polynomials are monic by definition, an element
-of $\F_q$ can be represented by one polynomial over $\F_p$ of degree 
-less then $k$ and thus by storing $k$ elements of $\F_p$ using $\lceil
+of\, $\F_q$ can be represented by one polynomial over\, $\F_p$ of degree 
+less then $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
 \log_2(p^k) \rceil$ bits.
 
 Since linear algebra operations over finite fields can be performed
-extremely efficiently by modern microprocessors, the limiting factor 
+rather efficiently by modern microprocessors, the limiting factor 
 for such computations is memory access. Therefore, it is performance
-critical to store vectors and matrices using as little memory as possible.
+critical to store vectors and matrices using as little memory as possible,
+and to choose the data structure in a way that allows for fast memory
+access. We call such memory efficient data structures ``compressed''.
 
-This idea is quite old 
+This idea is quite old (see ADDREFERENCE) and has already been used
+extensively (see for example \cite{CMeatAxe} or \cite{GAP4} or
+various other systems).
+
+There is a fundamental difference between the characteristic $p=2$ case
+and all other characteristics. The reason for this is that in
+characteristic $2$ the addition of vectors can be implemented by using
+the XOR (exclusive or) operation available in every microprocessor
+instruction set. In odd characteristic, the available instructions
+do not fit so well to finite field arithmetic. Therefore, previous
+implementations mostly rely on table lookups to perform arithmetic
+operations. Since the memory space available for lookup tables is
+limited, this method is limited to relatively small fields (usually up to
+fields with $256$ elements) and has to use single byte accesses
+as opposed to processor word accesses, for which modern machines
+seem to be optimised. These limitations seem to become more serious
+as word lengths in standard microprocessors increase.
+
+The main novelty in the approach presented here is to overcome this
+problem by choosing the data structures in a way that allows to use
+processor word operations for all arithmetic operations in all
+characteristics. Also this idea has been used before (see
+\cite{EssenLinAlg}), however, no implementation of this seems to
+be available any more and, more importantly, the approach still
+insisted on storing whole elements of\, $\F_q$ in one machine word.
+We will pack as many prime field elements as possible into a machine
+word and distribute the various prime field coefficients of a single
+element of\, $\F_q$ into distinct machine words to allow for better
+compression of extension field elements.
+
 
 \subsection{Compressed vectors}
 \label{ssec:cvec}
+
+We now describe first in detail how a vector of length $n$ over the field
+$\F_q$ with $q=p^k$ elements is stored on a machine with word length $32$ 
+or $64$ bits respectively. The ideas for the step from $32$ to $64$ bits
+can be applied analogously for future microprocessors with even larger
+word length. We ignore architectures with funny word lengths not being
+a multiple of $32$ bits.
+
+Let $e$ be $\lceil \log_2(2p-2)\rceil$. This is the number of bits
+necessary to store an integer in the range $0,1, \ldots, 2p-2$ except
+for $p=2$, where it is $1$. This number $e$ is the number of bits we 
+reserve for every prime field element we want to store. For $p=2$ this
+is evidently best possible, whereas for odd $p$, we seem to waste
+one bit per prime field element, since we seem to need only store
+numbers in the range $0,1,\ldots p-1$. This additional bit in the
+data structure allows us to represent a sum of two numbers in the
+range $0,1,\ldots, p-1$ using $e$ bits in odd characteristic.
+
+We start with the prime field case $q=p$.
+
+We now pack as many prime field elements as possible into a machine
+word, that is, $w := \lfloor 32/e \rfloor$ prime field elements per word
+on a machine with word length $32$ bit. On machines with $64$ bits
+we pack $w := 2 \lfloor 32/e \rfloor$ prime field elements into one word.
+Note that we do not use $\lfloor 64/e \rfloor$ elements which can be one
+more, since then the conversion between the different data formats for
+different word lengths becomes too expensive.
+
+We always imagine the least significant bit in a machine word as being 
+on the right hand side. To store a vector, we start filling machine words 
+from right to left, always using $e$ bits for one prime field element and
+packing $w$ prime field elements into a word.
+
+We illustrate this layout in the following example for $p=5$ and thus
+$e=4$ on a machine with $32$ bit word length:
+
+\begin{verbatim}
+  bit             3322|2222|2222|1111|1111|1100|0000|0000
+  number:         1098|7654|3210|9876|5432|1098|7654|3210
+  prime field         |    |    |    |    |    |    |
+  element number: 7777|6666|5555|4444|3333|2222|1111|0000
+\end{verbatim}
+
+Within each block of $e$ bits, we represent prime field elements
+by the binary representation of a number in the range $0,1,\ldots,p-1$
+with the least significant bit of this binary representation on the
+right hand side. Thus, in our example $1+1+1+1 \in \F_5$ would be
+represented by the bit sequence \texttt{0100} and $1+1+1$ by \texttt{0011}.
+Note that the most significant bit in this representation is always $0$.
+
+The first $w$ prime field elements in a vector are stored in the first
+machine word of the vector, the next $w$ in the next word and so on.
+
+We describe now the extension field case $q=p^k$. Let $e$ and $w$ be
+exactly the same values as above. We now have to store $k$ prime field
+elements for every element of $\F_q = \F_p[x]/c_k\F_p[x]$, namely the 
+coefficients of the unique residue class representative of degree smaller 
+than $k$, where $c_k$ is the Conway polynomial used to construct the 
+finite field extension $\F_q$ over $\F_p$ (for details see \cite{Nickel}
+or on the web \cite{ConwayFL}). Namely, if $a \in \F_q$ is represented by
+the polynomial $\sum_{i=0}^{k-1} a_i x^i$, then we have to store the prime 
+field elements $a_0, a_1, \ldots, a_{k-1}$. 
+
+In a compressed vector of length $n$ of elements of $\F_q$ we distribute
+those numbers in the following way: The first $k$ machine words in the
+memory representation of the vector are used to store the first $w$
+elements of the vector. The first machine word holds all the coefficients
+$a_0$ of those $\F_q$ elements, the second the coefficients $a_1$ and so
+on. Since one machine word can hold up to $w$ prime field elements this
+fills the first $k$ words rather satisfactory. The second $k$ machine words
+in the vector then hold the vector elements $w+1, w+2, \ldots, 2w$ in
+exactly the same way.
+
+Note again, that for machines with a word length of $64$ bit choose the
+value $w$ only twice as big as for $32$ bit machines even if one more
+prime field element would fit into the machine word.
+
+The only natural limit of this implementation is that 
+$\lceil \log_2(2p-2) \rceil$ must be smaller or equal to the word length
+of the microprocessor.
+
+We can now explain, how we can add vectors in the above representation
+only by doing a series of word operations.
 
 \index{Matrix}
 
 \section{Matrix arithmetic}
 \label{sec:matarith}
+
+\section{Cache issues}
+\label{sec:cache}
 
 \section{Basic algorithms for matrices}
 \label{sec:basalgmat}
