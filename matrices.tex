@@ -27,7 +27,8 @@ to Section~\ref{ssec:cvec}. We first explain the basic idea.
 If $p$ is a prime then elements of the finite field $\F_p$ with $p$
 elements can be represented by the integers $0, 1, \ldots, p-1$. Thus,
 storing one such element on a computer needs only $\lceil \log_2(p)
-\rceil$ bits. The finite extension field  $\F_q$ with for $q = p^k$ is built
+\rceil$ bits. The finite extension field  $\F_q$ with $q = p^k$ elements 
+is built
 as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
 $c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
 Conway polynomials are monic by definition, an element
@@ -76,14 +77,15 @@ compression of extension field elements.
 \subsection{Compressed vectors}
 \label{ssec:cvec}
 
-We now describe first in detail how a vector of length $n$ over the field
+We first describe in detail how a vector of length $n$ over the field
 $\F_q$ with $q=p^k$ elements is stored on a machine with word length $32$ 
 or $64$ bits respectively. The ideas for the step from $32$ to $64$ bits
 can be applied analogously for future microprocessors with even larger
 word length. We ignore architectures with funny word lengths not being
 a multiple of $32$ bits.
 
-Let $e$ be $\lceil \log_2(2p-2)\rceil$. This is the number of bits
+Let $e$ be $\lceil \log_2(2p-1)\rceil$ for $p > 2$ and $1$ for $p=2$. 
+This is the number of bits
 necessary to store an integer in the range $0,1, \ldots, 2p-2$ except
 for $p=2$, where it is $1$. This number $e$ is the number of bits we 
 reserve for every prime field element we want to store. For $p=2$ this
@@ -95,13 +97,13 @@ range $0,1,\ldots, p-1$ using $e$ bits in odd characteristic.
 
 We start with the prime field case $q=p$.
 
-We now pack as many prime field elements as possible into a machine
+We pack as many prime field elements as possible into a machine
 word, that is, $w := \lfloor 32/e \rfloor$ prime field elements per word
 on a machine with word length $32$ bit. On machines with $64$ bits
 we pack $w := 2 \lfloor 32/e \rfloor$ prime field elements into one word.
 Note that we do not use $\lfloor 64/e \rfloor$ elements which can be one
 more, since then the conversion between the different data formats for
-different word lengths becomes too expensive.
+different word lengths becomes too expensive and awkward.
 
 We always imagine the least significant bit in a machine word as being 
 on the right hand side. To store a vector, we start filling machine words 
@@ -128,7 +130,7 @@ Note that the most significant bit in this representation is always $0$.
 The first $w$ prime field elements in a vector are stored in the first
 machine word of the vector, the next $w$ in the next word and so on.
 
-We describe now the extension field case $q=p^k$. Let $e$ and $w$ be
+We proceed now to the extension field case $q=p^k$. Let $e$ and $w$ be
 exactly the same values as above. We now have to store $k$ prime field
 elements for every element of $\F_q = \F_p[x]/c_k\F_p[x]$, namely the 
 coefficients of the unique residue class representative of degree smaller 
@@ -144,20 +146,115 @@ memory representation of the vector are used to store the first $w$
 elements of the vector. The first machine word holds all the coefficients
 $a_0$ of those $\F_q$ elements, the second the coefficients $a_1$ and so
 on. Since one machine word can hold up to $w$ prime field elements this
-fills the first $k$ words rather satisfactory. The second $k$ machine words
-in the vector then hold the vector elements $w+1, w+2, \ldots, 2w$ in
-exactly the same way.
+fills the first $k$ words rather satisfactorily. The second $k$ machine words
+in the vector then hold the vector elements with indices 
+$w+1, w+2, \ldots, 2w$ in exactly the same way.
 
-Note again, that for machines with a word length of $64$ bit choose the
+Note again that for machines with a word length of $64$ bit we choose the
 value $w$ only twice as big as for $32$ bit machines even if one more
 prime field element would fit into the machine word.
 
 The only natural limit of this implementation is that 
-$\lceil \log_2(2p-2) \rceil$ must be smaller or equal to the word length
+$\lceil \log_2(2p-1) \rceil$ must be smaller or equal to the word length
 of the microprocessor.
 
 We can now explain, how we can add vectors in the above representation
 only by doing a series of word operations.
+
+\subsection{Adding compressed vectors}
+
+The basic addition formula for finite field elements is rather simple:
+For prime field elements we just have to add two numbers in the range 
+from $0$ to $p-1$, and
+subtract $p$, if the sum is greater or equal to $p$. The extension
+field elements are done component-wise. However, we have to solve
+the problem of doing this simple operation using word operations and 
+thus doing this for $w$ prime field elements at the same time.
+This is easy for $p=2$, since we can use the standard XOR (exclusive or)
+operation.
+
+The idea to overcome this problem for $p > 2$ is the following. 
+Assume $a$ and $b$
+are two integers in the range from $0$ to $p-1$. By adding
+$2^{e-1}-p$ to the sum $a+b$ we get $t := a+b+2^{e-1}-p$, which
+has the property, that $t \ge 2^{e-1}$ if and only if $a+b \ge p$
+(remember $2p-1 \le 2^e$ and thus $p-1 < 2^{e-1}$). That is, if
+the number $t$ is represented using binary expansion with $e$ bits,
+then the most significant bit is set if and only if $a+b \ge p$.
+
+This idea is now used for two words $a$ and $b$, containing $w$
+prime field elements each. Every prime field element uses exactly $e$ bits
+in its word and we call these sections of $e$ adjacent bits in a word 
+``components'' for the moment. 
+
+We prepare an ``offset'' word $o$ that contains in each component the
+number $2^{e-1}-p$ and a ``mask'' word $m$ that contains in each component
+the number $2^{e-1}$ meaning, that in each component only the most significant
+bit is set and all others are zero. In addition, we keep a word $n$
+containing the number $p$ in each component.
+
+The finite field sum $c$ of $a$ and $b$ is now computed in the following way:
+First $s := a+b$ and $t := a+b+o$ are computed. We then use an AND 
+operation for words to extract exactly the most significant bits of
+those components, in which the sum was greater or equal to $p$.
+This is done by computing $r := t \ \&\  m$ (we use the \& symbol to
+indicate bit-wise AND operations). Bit-shifting
+the word $r$ by $e-1$ bits to the right (we use the notation
+$r \gg (e-1)$ for this) and subtracting the
+result from $r$ now results in a word $u := r - (r \gg (e-1))$
+having the number $2^{e-1}-1$
+in those components, in which the sum was greater or equal to $p$ and
+$0$ in the others. Finally, doing a bitwise AND operation of $u$ with
+$n$ results in exactly the right word to subtract from $s$ to get
+the correct result.
+
+Thus, the complete formula is
+\[ a+b - \Big(\big(r - (r \gg (e-1))\big) \ \&\ n \Big)
+   \qquad \mbox{where}\quad r = (a+b+o) \ \&\  m \]
+
+We illustrate this by an example for $p=3$ on a machine with
+$32$ bit word length. In this case, $e = 3$ and $w = 10$. We want to
+add the words shown below in the rows depicted by \texttt{a} and \texttt{b}.
+We also show the prepared words $o$, $m$, and $n$. The bits marked
+with \texttt{X} are not used and are all equal to zero.
+
+\begin{verbatim}
+  bit             33|222|222|222|211|111|111|110|000|000|000
+  number:         10|987|654|321|098|765|432|109|876|543|210
+                    |   |   |   |   |   |   |   |   |   |
+  a:              XX|000|010|001|000|010|001|000|010|001|000
+  b:              XX|000|010|010|010|001|001|001|000|000|000
+  o:              XX|001|001|001|001|001|001|001|001|001|001
+  m:              XX|100|100|100|100|100|100|100|100|100|100
+  n:              XX|011|011|011|011|011|011|011|011|011|011
+\end{verbatim}
+
+In the following table we show some intermediate results:
+
+\begin{verbatim}
+  a+b:            XX|000|100|011|010|011|010|001|010|001|000
+  a+b+o:          XX|000|101|100|011|100|011|010|011|010|001
+  r:              XX|000|100|100|000|100|000|000|000|000|000
+  u:              XX|000|011|011|000|011|000|000|000|000|000
+  u&n:            XX|000|011|011|000|011|000|000|000|000|000
+  result:         XX|000|001|000|010|000|010|001|010|001|000
+\end{verbatim}
+
+Of course, it is a coincidence here that $u$ is equal to 
+$u \ \&\ n$, since $p = 2^{e-1}-1$.
+
+This means, that the addition of two words containing $w$ prime field
+elements can be done in $7$ word operations for $p > 2$. For the
+$p=2$ case, we only need one exclusive OR operation. Assuming a microprocessor
+with a long enough instruction pipeline, we can conclude that all this
+can be done as fast as accessing the main memory to fetch $a$ and $b$ and
+store the result somewhere. For some additional comments on processor
+caches see Section~\ref{sec:cache}.
+
+Next we consider multiplication of vectors by scalars.
+
+\subsection{Multiplication by scalars}
+
 
 \index{Matrix}
 
