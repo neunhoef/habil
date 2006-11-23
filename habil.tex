@@ -60,7 +60,7 @@
 \fancyhead[FCO,FCE]{}
 \pagestyle{fancy}
 
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 
 % Change arrows in xypic:
 \SelectTips{cm}{11}
@@ -115,7 +115,7 @@
 \newcommand{\ba}[1]{\overline{\rule{0mm}{1.2ex}#1}}
 
 % Einige Gimmicks:
-\newcommand{\Proof}{Proof: }
+\newcommand{\Proof}{\textbf{Proof:} }
 \newcommand{\ProofEnd}{\hfill$\square$\par}
 
 \newenvironment{compactlist}{\begin{list}{}{\setlength{\itemsep}{0pt}%
@@ -134,19 +134,19 @@
 
 \theoremstyle{changebreak} 
 \theoremheaderfont{\bfseries\boldmath}
-\newtheorem{Prop}[subsection]{Proposition}
-\newtheorem{Theo}[subsection]{Theorem}
-\newtheorem{Lemm}[subsection]{Lemma}
-\newtheorem{Corr}[subsection]{Corollary}
-\newtheorem{DefProp}[subsection]{Definition/Proposition}
-\newtheorem{Conj}[subsection]{Conjecture}
+\newtheorem{Prop}{Proposition}[section]
+\newtheorem{Theo}[Prop]{Theorem}
+\newtheorem{Lemm}[Prop]{Lemma}
+\newtheorem{Corr}[Prop]{Corollary}
+\newtheorem{DefProp}[Prop]{Definition/Proposition}
+\newtheorem{Conj}[Prop]{Conjecture}
 \theorembodyfont{\upshape}
-\newtheorem{Def}[subsection]{Definition}
-\newtheorem{Rem}[subsection]{Remark}
-\newtheorem{Rems}[subsection]{Remarks}
-\newtheorem{Not}[subsection]{Notation}
-\newtheorem{Hyp}[subsection]{Hypothesis}
-\newtheorem{Exa}[subsection]{Example}
+\newtheorem{Def}[Prop]{Definition}
+\newtheorem{Rem}[Prop]{Remark}
+\newtheorem{Rems}[Prop]{Remarks}
+\newtheorem{Not}[Prop]{Notation}
+\newtheorem{Hyp}[Prop]{Hypothesis}
+\newtheorem{Exa}[Prop]{Example}
 
 \newcommand{\ruecke}{\mbox{\phantom{\rm\bf\thesubsection\ }}}
 

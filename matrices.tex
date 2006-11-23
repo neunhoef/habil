@@ -229,7 +229,8 @@ with \texttt{X} are not used and are all equal to zero.
   n:              XX|011|011|011|011|011|011|011|011|011|011
 \end{verbatim}
 
-In the following table we show some intermediate results:
+In the following table we show some intermediate results and repeat
+the input values for easier verification:
 
 \begin{verbatim}
   a+b:            XX|000|100|011|010|011|010|001|010|001|000
@@ -238,6 +239,8 @@ In the following table we show some intermediate results:
   u:              XX|000|011|011|000|011|000|000|000|000|000
   u&n:            XX|000|011|011|000|011|000|000|000|000|000
   result:         XX|000|001|000|010|000|010|001|010|001|000
+  a:              XX|000|010|001|000|010|001|000|010|001|000
+  b:              XX|000|010|010|010|001|001|001|000|000|000
 \end{verbatim}
 
 Of course, it is a coincidence here that $u$ is equal to 
@@ -245,16 +248,117 @@ $u \ \&\ n$, since $p = 2^{e-1}-1$.
 
 This means, that the addition of two words containing $w$ prime field
 elements can be done in $7$ word operations for $p > 2$. For the
-$p=2$ case, we only need one exclusive OR operation. Assuming a microprocessor
+$p=2$ case, we only need one XOR operation. Thus we have proved:
+
+\begin{Prop}[Addition of compressed vectors]
+We assume a machine with $32$ bit word length. For $2 < p < 2^{31}$,
+two compressed vectors of length $n$ over the field of $q=p^k$
+elements can be added using $7k\cdot \lceil n/w \rceil$ word operations
+(plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
+and $e = \lceil \log_2(2p-1) \rceil$. 
+
+For $p=2$, only $k \cdot \lceil n/32 \rceil$ word operations are needed.
+
+For machines with $64$ bit word length, the number of word operations
+is halved in both cases and we can work with primes $p < 2^{63}$.
+\end{Prop}
+\Proof See above. \ProofEnd
+
+\begin{Rem}
+Assuming a microprocessor
 with a long enough instruction pipeline, we can conclude that all this
 can be done as fast as accessing the main memory to fetch $a$ and $b$ and
-store the result somewhere. For some additional comments on processor
+store the result somewhere, such that the number $7$ does not hurt at all. 
+For some additional comments on processor
 caches see Section~\ref{sec:cache}.
+\end{Rem}
 
 Next we consider multiplication of vectors by scalars.
 
 \subsection{Multiplication by scalars}
 
+To explain the method, we restrict our attention to the case that one
+compressed vector shall be multiplied by one scalar and the result 
+shall be stored in some other memory location.
+
+Let $e$ and $w$ be defined as in Section~\ref{ssec:cvec}.
+
+We start by discussing the prime field case $\F_p$.
+Since a scalar $s \in \F_p$ is represented by an integer in the range $0$ 
+to $p-1$ in its binary expansion, we can multiply a compressed vector $v$
+by $s$ by repeatedly adding vectors to themselves starting with $v$ and
+adding up those multiples
+whose corresponding bits in the binary expansion of $s$ are set. That is,
+if $s = \sum_{i=0}^{e-2} s_i 2^i$ with $s_i \in \{0,1\}$ and again
+$e = \lceil \log_2(2p-1) \rceil$, we compute $s\cdot v$ by computing
+$v, 2^1 \cdot v, 2^2 \cdot v, \ldots, 2^{e-2} \cdot v$ and then summing
+$\sum_{i=0}^{e-2} s_i \cdot (2^i \cdot v)$.
+All this can be done with at most $2(e-2)$ vector additions.
+
+We now proceed to the extension field case $\F_q = \F_p[x]/c_k \F_p[x]$ 
+with the Conway polynomial $c_k$ and $q = p^k$.
+Here again a scalar $s \in \F_q$ is represented by an expansion
+$s = \sum_{i=0}^{k-1} s_i x^i + c_k \cdot \F_p[x]$. For the rest of this
+section we omit the ``$+ c_k \cdot \F_p[x]$'' and denote cosets
+by their representing polynomials of degree less than $k$.
+
+We reduce the problem to scalar multiplications of vectors with
+prime field elements. To this end, we have to be able to multiply
+a vector with the primitive root $x$.
+
+Considering a single scalar $t = \sum_{i=0}^{k-1} t_i x^i \in \F_q$, 
+we see that 
+\[ xt = \sum_{i=1}^{k-1} (t_{i-1}x^i) 
++ \sum_{i=0}^{k-1} t_{k-1} \cdot (x^k - c_k) \in \F_q \] 
+(remember that we compute in $\F_p[x]$ modulo $c_k$).
+Thus, the multiplication by $x$ can be achieved by a shift, one
+multiplication of $x^k - c_k$ with the prime field element $t_{k-1}$,
+and an addition.
+
+Since we distribute the prime field elements belonging to a single
+extension field element in our vector into adjacent words, we can 
+do the shift basically for free by accessing a shifted memory location.
+But we still have to deal with the fact, that we have $w$ possibly different
+highest coefficients $t_{k-1}$ stored together in one word. However,
+since we have to multiply all of them with the same prime field element
+coming from the expansion of $x^k - c_k = \sum_{i=0}^{k-1} b_i x^i$ 
+we can use the method described
+for the prime field case above to compute every word to be added to the
+shifted vector. That is, for each $k$ adjacent words 
+$(a_{jk},a_{jk+1},\ldots,a_{(j+1)k-1})$, in our vector, we have to
+add the words shifted by one $(0,a_{jk},a_{jk+1},\ldots,a_{(j+1)k-2})$
+to the words $(a_{(j+1)k-1} \cdot b_0, \ldots, a_{(j+1)k-1} \cdot b_{i-1})$.
+Therefore, the total cost is exactly the same as for one multiplication of
+a vector by a prime field scalar and one addition of vectors.
+
+For the full computation of $s \cdot v$, we have to perform this multiplication
+by $x$ altogether $k-1$ times, multiply each intermediate result by the
+prime field scalar $s_i$ and sum everything up. Thus, the total cost
+of the multiplication $s \cdot v$ is the same as $k$ multiplications
+of a vector by a prime field scalar and $k-1$ additions of vectors.
+Thus, we have proved the following Proposition:
+
+\begin{Prop}[Multiplication of vectors by scalars]
+We assume a machine with $32$ bit word length.
+Let $p$ be a prime, $q = p^k$, and $w$ and $e$ as above:
+$w = \lfloor 32/e \rfloor$ and $e = \lceil \log_2(2p-1) \rceil$.
+
+For $2 < p < 2^{31}$, the total cost of a multiplication of a compressed 
+vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_p$ is at most 
+$14k(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
+and stores). For $p=2$, the scalar
+can only be $0$ or $1$ and therefore no computation is necessary at all.
+
+For $2 < p < 2^{31}$, the total cost of a multiplication of a compressed
+vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_q$ is at most
+$7k^2(2e-3)\cdot \lceil 32/w \rceil$. For $p = 2$, the total cost is
+at most $k(k-1) \cdot \lceil n/32 \rceil$ word operations.
+\end{Prop}
+
+\Proof See above and just add up the number of word operations for up
+to $k$ multiplications of a vector by a prime field scalar and $k-1$
+additions of vectors.
+\ProofEnd
 
 \index{Matrix}
 
