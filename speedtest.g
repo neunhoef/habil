@@ -11,8 +11,13 @@
 
 LoadPackage("cvec");
 
+InstallOtherMethod(BaseDomain,[IsGF2VectorRep],function(v) return GF(2); end);
+InstallOtherMethod(BaseDomain,[Is8BitVectorRep],
+  function(v) return GF(Q_VEC8BIT(v)); end);
+
 FastRandomize := function(v)
   local f,l,i;
+  Print("Randomizing vector...\n");
   f := BaseDomain(v);
   l := Elements(f);
   for i in [1..1000] do
@@ -21,6 +26,7 @@ FastRandomize := function(v)
   for i in [1001,2001..Length(v)-999] do
       CopySubVector(v,v,[1..1000],[i..i+999]);
   od;
+  Print("Done.\n");
 end;
 
 Evaluate := function(v,nr,t1,t2,t3)
@@ -67,6 +73,19 @@ TestADD2 := function(v,w,nr)
   Evaluate(v,nr,t1,t2,t3);
 end;
 
+TestADD2 := function(v,w,z,nr)
+  local t1,t2,t3,i;
+
+  GASMAN("collect");
+  Print("Testing ADD3 over ",BaseDomain(v),"...\n");
+  t1 := Runtime();
+  for i in [1..nr] do CVEC_ADD3(z,v,w); od;
+  t2 := Runtime();
+  for i in [1..nr] do CVEC_ADD3(z,v,w); od;
+  t3 := Runtime();
+  Evaluate(v,nr,t1,t2,t3);
+end;
+
 TestGF2 := function(v,w,nr)
   local t1,t2,t3,i;
 
@@ -93,6 +112,7 @@ Test8bit := function(v,w,nr)
   Evaluate(v,nr,t1,t2,t3);
 end;
 
+Print("Testing cvecs...\n\n");
 
 # First vectors over GF(2) that use 32000000 bytes each:
 cl := CVEC_NewCVecClass(2,1,256000000);
@@ -100,6 +120,7 @@ v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
 TestADD2(v,w,500);
+TestADD3(v,w,z,500);
 
 # Now vectors over GF(2) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(2,1,1000000);
@@ -107,6 +128,15 @@ v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
 TestADD2(v,w,500000);
+TestADD3(v,w,z,500000);
+
+# Now vectors over GF(2) that use 62500 bytes each:
+cl := CVEC_NewCVecClass(2,1,500000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestADD2(v,w,1000000);
+TestADD3(v,w,z,1000000);
 
 # Then vectors over GF(7) that use 32000000 bytes each:
 cl := CVEC_NewCVecClass(7,1,64000000);
@@ -114,6 +144,7 @@ v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
 TestADD2(v,w,500);
+TestADD3(v,w,z,500);
 
 # Now vectors over GF(7) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(7,1,250000);
@@ -121,5 +152,65 @@ v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
 TestADD2(v,w,500000);
+TestADD3(v,w,z,500000);
 
+# Now vectors over GF(7) that use 62500 bytes each:
+cl := CVEC_NewCVecClass(7,1,125000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestADD2(v,w,1000000);
+TestADD3(v,w,z,1000000);
+
+# Now the other compressed vectors:
+
+Print("Testing standard compressed vectors...\n\n");
+
+# First vectors over GF(2) that use 32000000 bytes each:
+v := [0*Z(2)]; ConvertToVectorRep(v,2); RESIZE_GF2VEC(v,256000000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+TestGF2(v,w,500);
+
+# Now vectors over GF(2) that use 125000 bytes each:
+v := [0*Z(2)]; ConvertToVectorRep(v,2); RESIZE_GF2VEC(v,1000000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+TestGF2(v,w,500000);
+
+# Now vectors over GF(2) that use 62500 bytes each:
+v := [0*Z(2)]; ConvertToVectorRep(v,2); RESIZE_GF2VEC(v,500000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+TestGF2(v,w,1000000);
+
+# Then vectors over GF(7) that use 32000000 bytes each:
+v := [0*Z(7)]; ConvertToVectorRep(v,7); RESIZE_VEC8BIT(v,64000000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+Test8bit(v,w,500);
+
+# Now vectors over GF(7) that use 125000 bytes each:
+v := [0*Z(7)]; ConvertToVectorRep(v,7); RESIZE_VEC8BIT(v,250000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+Test8bit(v,w,500000);
+
+# Now vectors over GF(7) that use 62500 bytes each:
+v := [0*Z(7)]; ConvertToVectorRep(v,7); RESIZE_VEC8BIT(v,125000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+Test8bit(v,w,1000000);
 
