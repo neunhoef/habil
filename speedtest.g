@@ -73,7 +73,7 @@ TestADD2 := function(v,w,nr)
   Evaluate(v,nr,t1,t2,t3);
 end;
 
-TestADD2 := function(v,w,z,nr)
+TestADD3 := function(v,w,z,nr)
   local t1,t2,t3,i;
 
   GASMAN("collect");
