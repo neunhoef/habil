@@ -381,9 +381,39 @@ bit is set in $x^k - c_k$.
 %  52,2 ns, bedeutet: 250000 B lesen + 125000 B schreiben
 %                 ==> 4567 MB/s lesen + 2283 MB/s schreiben = 6851 MB/s
 
-\subsection{Timings in a real implementation}
+\subsection{Memory throughput in real implementations}
 
-
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+Test            & cvec, P4 & cvec, Athlon & lib, P4 & lib, Athlon \\
+\hline
+\hline
+$\F_2$, vectors $32\cdot 10^6 b$, $v := v+w$ & 2300 &      &      &      \\
+\hline                                                    
+$\F_2$, vectors $32\cdot 10^6 b$, $z := v+w$ &      &      & ---  & ---  \\
+\hline                                                    
+$\F_2$, vectors $125\,000 b$, $v := v+w$     &      &      &      &      \\
+\hline                                                    
+$\F_2$, vectors $125\,000 b$, $z := v+w$     &      &      & ---  & ---  \\
+\hline                                                    
+$\F_2$, vectors $62\,500 b$, $v := v+w$      &      &      &      &      \\
+\hline                                                    
+$\F_2$, vectors $62\,500 b$, $z := v+w$      &      &      & ---  & ---  \\
+\hline
+\hline
+$\F_7$, vectors $32\cdot 10^6 b$, $v := v+w$ & 2300 &      &      &      \\
+\hline                                                    
+$\F_7$, vectors $32\cdot 10^6 b$, $z := v+w$ &      &      & ---  & ---  \\
+\hline                                                    
+$\F_7$, vectors $125\,000 b$, $v := v+w$     &      &      &      &      \\
+\hline                                                    
+$\F_7$, vectors $125\,000 b$, $z := v+w$     &      &      & ---  & ---  \\
+\hline                                                    
+$\F_7$, vectors $62\,500 b$, $v := v+w$      &      &      &      &      \\
+\hline                                                    
+$\F_7$, vectors $62\,500 b$, $z := v+w$      &      &      & ---  & ---  \\
+\hline
+\end{tabular}
 
 \index{Matrix}
 

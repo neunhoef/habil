@@ -39,10 +39,12 @@ Evaluate := function(v,nr,t1,t2,t3)
   if t < 100 then
       Print("WARNING: Error could be more than 1%!\n");
   fi;
-  if IsCVecRep(v) or IsGF2VectorRep(v) then
+  if IsCVecRep(v) then
       mem := nr * (SHALLOW_SIZE(v)-GAPInfo.BytesPerVariable);
-  else
+  elif IsGF2VectorRep(v) then
       mem := nr * (SHALLOW_SIZE(v)-2*GAPInfo.BytesPerVariable);
+  else
+      mem := nr * (SHALLOW_SIZE(v)-3*GAPInfo.BytesPerVariable);
   fi;
   Print("Vectors use ",mem/nr," bytes each.\n");
   Print("Total memory read: ",2*mem,", total memory written: ",mem,"\n");
