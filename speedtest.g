@@ -42,7 +42,7 @@ Evaluate := function(v,nr,t1,t2,t3)
   # We compute the total amount of memory read and written in 10s:
   totalr := 2*mem*QuoInt(10000000,t);
   totalw := mem*QuoInt(10000000,t);
-  total := totalr + totalm;
+  total := totalr + totalw;
   # Compute into 1/10 MB:
   totalr := QuoInt(totalr,1024*1024);
   totalw := QuoInt(totalw,1024*1024);
