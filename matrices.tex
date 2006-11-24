@@ -12,15 +12,17 @@ it to previous implementations. In Section~\ref{sec:basalgmat}, we give
 an overview over the most basic algorithms for finite field matrices,
 before we conclude this chapter with the description of a new method
 to compute minimal polynomials of matrices over finite fields in
-Section~\ref{sec:minpoly}, which is used to compute projective orders
+Section~\ref{sec:charminpoly}, which is used to compute projective orders
 of matrices.
 
-\section{Representing matrices over finite fields}
+%FIXME
+
+\section{Representing vectors and matrices over finite fields}
 \label{sec:ffematrices}
 
-If you already know something about compressed matrices over finite
-fields you can safely skip the next subsection and directly proceed
-to Section~\ref{ssec:cvec}. We first explain the basic idea.
+If you already know something about compressed vectors and matrices over 
+finite fields you can safely skip the next subsection and directly
+proceed to Section~\ref{ssec:cvec}. We first explain the basic idea.
 
 \subsection{The idea}
 
@@ -325,7 +327,7 @@ coming from the expansion of $x^k - c_k = \sum_{i=0}^{k-1} b_i x^i$
 we can use the method described
 for the prime field case above to compute every word to be added to the
 shifted vector. That is, for each $k$ adjacent words 
-$(a_{jk},a_{jk+1},\ldots,a_{(j+1)k-1})$, in our vector, we have to
+$(a_{jk},a_{jk+1},\ldots,a_{(j+1)k-1})$ in our vector we have to
 add the words shifted by one $(0,a_{jk},a_{jk+1},\ldots,a_{(j+1)k-2})$
 to the words $(a_{(j+1)k-1} \cdot b_0, \ldots, a_{(j+1)k-1} \cdot b_{i-1})$.
 Therefore, the total cost is exactly the same as for one multiplication of
@@ -352,25 +354,70 @@ can only be $0$ or $1$ and therefore no computation is necessary at all.
 For $2 < p < 2^{31}$, the total cost of a multiplication of a compressed
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_q$ is at most
 $7k^2(2e-3)\cdot \lceil 32/w \rceil$. For $p = 2$, the total cost is
-at most $k(k-1) \cdot \lceil n/32 \rceil$ word operations.
+at most $2k(k-1) \cdot \lceil n/32 \rceil$ word operations.
 \end{Prop}
 
 \Proof See above and just add up the number of word operations for up
 to $k$ multiplications of a vector by a prime field scalar and $k-1$
-additions of vectors.
+additions of vectors. Note for $p=2$ that the vector $n$ consists of
+$k \cdot \lceil n/32 \rceil$ words and that we have to count one
+vector addition for the ``multiplication with a scalar'', since 
+the word $a_{(j+1)k-1}$ has to be XORed to those words whose corresponding
+bit is set in $x^k - c_k$.
 \ProofEnd
+
+% Timings: z := v+w without allocation
+% On algol (P4 3GHz)
+% Vector F_2, length 100000000, memory 12 500 000 bytes
+%  13,8 ms, bedeutet: 25*10^6 B lesen + 12.5*10^6 B schreiben
+%                 ==> 1716 MB/s lesen + 858 MB/s schreiben = 2574 MB/s
+% Vector F_2, length 1000000, memory 125 000 bytes
+%  50,5 ns, bedeutet: 250000 B lesen + 125000 B schreiben
+%                 ==> 4720 MB/s lesen + 2360 MB/s schreiben = 7081 MB/s
+% Vector F_7, length 25000000, memory 12 500 000 bytes
+%  16,0 ms, bedeutet: 25*10^6 B lesen + 12.5*10^6 B schreiben
+%                 ==> 1478 MB/s lesen + 739 MB/s schreiben = 2217 MB/s
+% Vector F_7, length 250000, memory 125000 bytes
+%  52,2 ns, bedeutet: 250000 B lesen + 125000 B schreiben
+%                 ==> 4567 MB/s lesen + 2283 MB/s schreiben = 6851 MB/s
+
+\subsection{Timings in a real implementation}
+
+
 
 \index{Matrix}
 
 \section{Matrix arithmetic}
 \label{sec:matarith}
 
+Talk about matrices as lists of vectors and flat matrices.
+
+\subsection{Addition and multiplication with scalars}
+
+\subsection{Vector-matrix multiplication}
+
+\subsection{Matrix multiplication}
+
+Greasing.
+
+\subsection{Matrix inversion}
+
+Greasing.
+
+\subsection{Semi echelonisation}
+
+Cleaning, spinning.
+
 \section{Cache issues}
 \label{sec:cache}
+
+Expected performance gain, problems.
+
+\section{Characteristic and minimal polynomial}
+\label{sec:charminpoly}
 
 \section{Basic algorithms for matrices}
 \label{sec:basalgmat}
 
-\section{Computing minimal polynomials}
-\label{sec:minpoly}
+Evaluation of polynomials at matrices, order of an invertible matrix.
 
