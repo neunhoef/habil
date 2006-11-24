@@ -38,18 +38,20 @@ Evaluate := function(v,nr,t1,t2,t3)
   else
       mem := nr * (SHALLOW_SIZE(v)-2*GAPInfo.BytesPerVariable);
   fi;
+  Print("Vectors use ",mem/nr," bytes each.\n");
   Print("Total memory read: ",2*mem,", total memory written: ",mem,"\n");
   # We compute the total amount of memory read and written in 10s:
-  totalr := 2*mem*QuoInt(10000000,t);
-  totalw := mem*QuoInt(10000000,t);
+  totalr := QuoInt(2*mem*QuoInt(10000000,t),10);
+  totalw := QuoInt(mem*QuoInt(10000000,t),10);
   total := totalr + totalw;
-  # Compute into 1/10 MB:
+  # Transform into MB:
   totalr := QuoInt(totalr,1024*1024);
   totalw := QuoInt(totalw,1024*1024);
   total := QuoInt(total,1024*1024);
   
-  Print("Throughput: ",totalr," MB/s read + ",totalw," MB/s written = ",
-        total," MB/s memory access\n\n");
+  Print("Throughput:   ",String(totalr,5)," MB/s read\n",
+        "            + ",String(totalw,5)," MB/s written\n",
+        "            = ",String(total,5)," MB/s memory access\n\n");
 end;
 
 TestADD2 := function(v,w,nr)
