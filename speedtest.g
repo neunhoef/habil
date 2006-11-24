@@ -25,7 +25,7 @@ end;
 
 Evaluate := function(v,nr,t1,t2,t3)
   local mem,total,totalr,totalw,t;
-  Print("Done, total times: ",t2-t1," ms and ",t3-t2," ms"\n");
+  Print("Done, total times: ",t2-t1," ms and ",t3-t2," ms\n");
   t := QuoInt(t3-t1,2);   # Take the average of both timings
   if AbsInt((t3-t2) - (t2-t1)) * 100 > t then
       Print("WARNING: Both timings differ by more than 1%!\n");
