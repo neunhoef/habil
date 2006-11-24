@@ -30,7 +30,7 @@ Evaluate := function(v,nr,t1,t2,t3)
   if AbsInt((t3-t2) - (t2-t1)) * 100 > t then
       Print("WARNING: Both timings differ by more than 1%!\n");
   fi;
-  if t > 100000 or t < 100 then
+  if t < 100 then
       Print("WARNING: Error could be more than 1%!\n");
   fi;
   if IsCVecRep(v) or IsGF2VectorRep(v) then
@@ -40,9 +40,9 @@ Evaluate := function(v,nr,t1,t2,t3)
   fi;
   Print("Vectors use ",mem/nr," bytes each.\n");
   Print("Total memory read: ",2*mem,", total memory written: ",mem,"\n");
-  # We compute the total amount of memory read and written in 10s:
-  totalr := QuoInt(2*mem*QuoInt(10000000,t),10);
-  totalw := QuoInt(mem*QuoInt(10000000,t),10);
+  # We compute the total amount of memory read and written in 1s:
+  totalr := QuoInt(2*mem*1000,t);
+  totalw := QuoInt(mem*1000,t);
   total := totalr + totalw;
   # Transform into MB:
   totalr := QuoInt(totalr,1024*1024);
