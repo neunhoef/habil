@@ -62,7 +62,7 @@ TestADD2 := function(v,w,nr)
   t2 := Runtime();
   for i in [1..nr] do CVEC_ADD2(v,w,0,0); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t2);
+  Evaluate(v,nr,t1,t2,t3);
 end;
 
 TestGF2 := function(v,w,nr)
@@ -75,7 +75,7 @@ TestGF2 := function(v,w,nr)
   t2 := Runtime();
   for i in [1..nr] do ADDCOEFFS_GF2VEC_GF2VEC(v,w); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t3);
+  Evaluate(v,nr,t1,t2,t3);
 end;
 
 Test8bit := function(v,w,nr)
@@ -88,7 +88,7 @@ Test8bit := function(v,w,nr)
   t2 := Runtime();
   for i in [1..nr] do ADD_ROWVECTOR_VEC8BITS_2(v,w); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t2);
+  Evaluate(v,nr,t1,t2,t3);
 end;
 
 
@@ -97,27 +97,27 @@ cl := CVEC_NewCVecClass(2,1,256000000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,1000);
+TestADD2(v,w,500);
 
 # Now vectors over GF(2) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(2,1,1000000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,1000000);
+TestADD2(v,w,500000);
 
 # Then vectors over GF(7) that use 32000000 bytes each:
 cl := CVEC_NewCVecClass(7,1,64000000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,1000);
+TestADD2(v,w,500);
 
 # Now vectors over GF(7) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(7,1,250000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,1000000);
+TestADD2(v,w,500000);
 
 
