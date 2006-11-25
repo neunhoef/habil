@@ -383,37 +383,40 @@ bit is set in $x^k - c_k$.
 
 \subsection{Memory throughput in real implementations}
 
+\begin{table}
 \begin{tabular}{|l|r|r|r|r|}
 \hline
 Test            & cvec, P4 & cvec, Athlon & lib, P4 & lib, Athlon \\
 \hline
 \hline
-$\F_2$, vectors $32\cdot 10^6 b$, $v := v+w$ & 2300 &      &      &      \\
+$\F_2$, vectors $32\cdot 10^6 B$, $v := v+w$ & 3464 & 2642 & 3345 & 2671 \\
 \hline                                                    
-$\F_2$, vectors $32\cdot 10^6 b$, $z := v+w$ &      &      & ---  & ---  \\
+$\F_2$, vectors $32\cdot 10^6 B$, $z := v+w$ & 2619 & 1958 & ---  & ---  \\
 \hline                                                    
-$\F_2$, vectors $125\,000 b$, $v := v+w$     &      &      &      &      \\
+$\F_2$, vectors $125\,000 B$, $v := v+w$     & 5517 &12179 & 4608 &12214 \\
 \hline                                                    
-$\F_2$, vectors $125\,000 b$, $z := v+w$     &      &      & ---  & ---  \\
+$\F_2$, vectors $125\,000 B$, $z := v+w$     & 6780 & 6260 & ---  & ---  \\
 \hline                                                    
-$\F_2$, vectors $62\,500 b$, $v := v+w$      &      &      &      &      \\
+$\F_2$, vectors $62\,500 B$, $v := v+w$      & 6104 &11258 & 4922 &11517 \\
 \hline                                                    
-$\F_2$, vectors $62\,500 b$, $z := v+w$      &      &      & ---  & ---  \\
+$\F_2$, vectors $62\,500 B$, $z := v+w$      & 5287 & 7614 & ---  & ---  \\
 \hline
 \hline
-$\F_7$, vectors $32\cdot 10^6 b$, $v := v+w$ & 2300 &      &      &      \\
+$\F_7$, vectors $32\cdot 10^6 B$, $v := v+w$ & 2449 & 2513 & 1015 & 487  \\
 \hline                                                    
-$\F_7$, vectors $32\cdot 10^6 b$, $z := v+w$ &      &      & ---  & ---  \\
+$\F_7$, vectors $32\cdot 10^6 B$, $z := v+w$ & 2243 & 1888 & ---  & ---  \\
 \hline                                                    
-$\F_7$, vectors $125\,000 b$, $v := v+w$     &      &      &      &      \\
+$\F_7$, vectors $125\,000 B$, $v := v+w$     & 2704 & 5349 & 1038 & 496  \\
 \hline                                                    
-$\F_7$, vectors $125\,000 b$, $z := v+w$     &      &      & ---  & ---  \\
+$\F_7$, vectors $125\,000 B$, $z := v+w$     & 2532 & 5420 & ---  & ---  \\
 \hline                                                    
-$\F_7$, vectors $62\,500 b$, $v := v+w$      &      &      &      &      \\
+$\F_7$, vectors $62\,500 B$, $v := v+w$      & 2927 & 5588 & 1102 & 497  \\
 \hline                                                    
-$\F_7$, vectors $62\,500 b$, $z := v+w$      &      &      & ---  & ---  \\
+$\F_7$, vectors $62\,500 B$, $z := v+w$      & 2626 & 5427 & ---  & ---  \\
 \hline
 \end{tabular}
+\caption{Memory throughput for vector addition}
+\end{table}
 
 \index{Matrix}
 
