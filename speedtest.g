@@ -173,7 +173,7 @@ w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
 TestADD3(v,w,z,500);
 TestADD2(v,w,500);
-TestMUL1(w,6*Z(7)^0);
+TestMUL1(w,6*Z(7)^0,500);
 
 # Now vectors over GF(7) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(7,1,250000);
