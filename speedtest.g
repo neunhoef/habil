@@ -29,7 +29,7 @@ FastRandomize := function(v)
   Print("Done.\n");
 end;
 
-Evaluate := function(v,nr,t1,t2,t3)
+Evaluate := function(v,nr,t1,t2,t3,readfactor)
   local mem,total,totalr,totalw,t;
   Print("Done, total times: ",t2-t1," ms and ",t3-t2," ms\n");
   t := QuoInt(t3-t1,2);   # Take the average of both timings
@@ -49,7 +49,7 @@ Evaluate := function(v,nr,t1,t2,t3)
   Print("Vectors use ",mem/nr," bytes each.\n");
   Print("Total memory read: ",2*mem,", total memory written: ",mem,"\n");
   # We compute the total amount of memory read and written in 1s:
-  totalr := QuoInt(2*mem*1000,t);
+  totalr := QuoInt(readfactor*mem*1000,t);
   totalw := QuoInt(mem*1000,t);
   total := totalr + totalw;
   # Transform into MB:
@@ -72,7 +72,7 @@ TestADD2 := function(v,w,nr)
   t2 := Runtime();
   for i in [1..nr] do CVEC_ADD2(v,w,0,0); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t2,t3);
+  Evaluate(v,nr,t1,t2,t3,2);
 end;
 
 TestADD3 := function(v,w,z,nr)
@@ -85,7 +85,7 @@ TestADD3 := function(v,w,z,nr)
   t2 := Runtime();
   for i in [1..nr] do CVEC_ADD3(z,v,w); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t2,t3);
+  Evaluate(v,nr,t1,t2,t3,2);
 end;
 
 TestGF2 := function(v,w,nr)
@@ -98,7 +98,7 @@ TestGF2 := function(v,w,nr)
   t2 := Runtime();
   for i in [1..nr] do ADDCOEFFS_GF2VEC_GF2VEC(v,w); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t2,t3);
+  Evaluate(v,nr,t1,t2,t3,2);
 end;
 
 Test8bit := function(v,w,nr)
@@ -111,7 +111,33 @@ Test8bit := function(v,w,nr)
   t2 := Runtime();
   for i in [1..nr] do ADD_ROWVECTOR_VEC8BITS_2(v,w); od;
   t3 := Runtime();
-  Evaluate(v,nr,t1,t2,t3);
+  Evaluate(v,nr,t1,t2,t3,2);
+end;
+
+TestMUL1 := function(v,s,nr)
+  local t1,t2,t3,i;
+
+  GASMAN("collect");
+  Print("Testing MUL1 over ",BaseDomain(v),"...\n");
+  t1 := Runtime();
+  for i in [1..nr] do CVEC_MUL1(v,s,0,0); od;
+  t2 := Runtime();
+  for i in [1..nr] do CVEC_MUL1(v,s,0,0); od;
+  t3 := Runtime();
+  Evaluate(v,nr,t1,t2,t3,1);
+end;
+
+TestMULTROWVECTOR := function(v,s,nr)
+  local t1,t2,t3,i;
+
+  GASMAN("collect");
+  Print("Testing MULT_ROWVECTOR_VEC8BITS over ",BaseDomain(v),"\n");
+  t1 := Runtime();
+  for i in [1..nr] do MULT_ROWVECTOR_VEC8BITS(v,s); od;
+  t2 := Runtime();
+  for i in [1..nr] do MULT_ROWVECTOR_VEC8BITS(v,s); od;
+  t3 := Runtime();
+  Evaluate(v,nr,t1,t2,t3,1);
 end;
 
 Print("Testing cvecs...\n\n");
@@ -121,48 +147,51 @@ cl := CVEC_NewCVecClass(2,1,256000000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,500);
 TestADD3(v,w,z,500);
+TestADD2(v,w,500);
 
 # Now vectors over GF(2) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(2,1,1000000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,500000);
 TestADD3(v,w,z,500000);
+TestADD2(v,w,500000);
 
 # Now vectors over GF(2) that use 62500 bytes each:
 cl := CVEC_NewCVecClass(2,1,500000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,1000000);
 TestADD3(v,w,z,1000000);
+TestADD2(v,w,1000000);
 
 # Then vectors over GF(7) that use 32000000 bytes each:
 cl := CVEC_NewCVecClass(7,1,64000000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,500);
 TestADD3(v,w,z,500);
+TestADD2(v,w,500);
+TestMUL1(w,6*Z(7)^0);
 
 # Now vectors over GF(7) that use 125000 bytes each:
 cl := CVEC_NewCVecClass(7,1,250000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,500000);
 TestADD3(v,w,z,500000);
+TestADD2(v,w,500000);
+TestMUL1(w,6*Z(7)^0,500000);
 
 # Now vectors over GF(7) that use 62500 bytes each:
 cl := CVEC_NewCVecClass(7,1,125000);
 v := CVEC_New(cl); FastRandomize(v);
 w := CVEC_New(cl); FastRandomize(w);
 z := CVEC_New(cl);
-TestADD2(v,w,1000000);
 TestADD3(v,w,z,1000000);
+TestADD2(v,w,1000000);
+TestMUL1(w,6*Z(7)^0,1000000);
 
 # Now the other compressed vectors:
 
@@ -199,6 +228,7 @@ z := ShallowCopy(v);
 FastRandomize(v);
 FastRandomize(w);
 Test8bit(v,w,500);
+TestMULTROWVECTOR(w,6*Z(7)^0,500);
 
 # Now vectors over GF(7) that use 125000 bytes each:
 v := [0*Z(7)]; ConvertToVectorRep(v,7); RESIZE_VEC8BIT(v,250000);
@@ -207,6 +237,7 @@ z := ShallowCopy(v);
 FastRandomize(v);
 FastRandomize(w);
 Test8bit(v,w,500000);
+TestMULTROWVECTOR(w,6*Z(7)^0,500000);
 
 # Now vectors over GF(7) that use 62500 bytes each:
 v := [0*Z(7)]; ConvertToVectorRep(v,7); RESIZE_VEC8BIT(v,125000);
@@ -215,4 +246,5 @@ z := ShallowCopy(v);
 FastRandomize(v);
 FastRandomize(w);
 Test8bit(v,w,1000000);
+TestMULTROWVECTOR(w,6*Z(7)^0,1000000);
 
