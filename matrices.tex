@@ -253,6 +253,7 @@ elements can be done in $7$ word operations for $p > 2$. For the
 $p=2$ case, we only need one XOR operation. Thus we have proved:
 
 \begin{Prop}[Addition of compressed vectors]
+\label{addvec}
 We assume a machine with $32$ bit word length. For $2 < p < 2^{31}$,
 two compressed vectors of length $n$ over the field of $q=p^k$
 elements can be added using $7k\cdot \lceil n/w \rceil$ word operations
@@ -267,12 +268,17 @@ is halved in both cases and we can work with primes $p < 2^{63}$.
 \Proof See above. \ProofEnd
 
 \begin{Rem}
+Note that since the amount of memory needed for a vector of length $n$
+is $k \cdot \lceil n/w \rceil$ for $p > 2$ and $\lceil n/32 \rceil$ for
+$p=2$ this means that the addition needs $7$ word operations for each
+word of a vector for $p>2$ and $1$ word operation for $p=2$.
+
 Assuming a microprocessor
 with a long enough instruction pipeline, we can conclude that all this
 can be done as fast as accessing the main memory to fetch $a$ and $b$ and
 store the result somewhere, such that the number $7$ does not hurt at all. 
-For some additional comments on processor
-caches see Section~\ref{sec:cache}.
+Compare Section~\ref{ssec:discussion} and see Section~\ref{sec:cache}
+for some additional comments on processor caches.
 \end{Rem}
 
 Next we consider multiplication of vectors by scalars.
@@ -366,57 +372,228 @@ the word $a_{(j+1)k-1}$ has to be XORed to those words whose corresponding
 bit is set in $x^k - c_k$.
 \ProofEnd
 
-% Timings: z := v+w without allocation
-% On algol (P4 3GHz)
-% Vector F_2, length 100000000, memory 12 500 000 bytes
-%  13,8 ms, bedeutet: 25*10^6 B lesen + 12.5*10^6 B schreiben
-%                 ==> 1716 MB/s lesen + 858 MB/s schreiben = 2574 MB/s
-% Vector F_2, length 1000000, memory 125 000 bytes
-%  50,5 ns, bedeutet: 250000 B lesen + 125000 B schreiben
-%                 ==> 4720 MB/s lesen + 2360 MB/s schreiben = 7081 MB/s
-% Vector F_7, length 25000000, memory 12 500 000 bytes
-%  16,0 ms, bedeutet: 25*10^6 B lesen + 12.5*10^6 B schreiben
-%                 ==> 1478 MB/s lesen + 739 MB/s schreiben = 2217 MB/s
-% Vector F_7, length 250000, memory 125000 bytes
-%  52,2 ns, bedeutet: 250000 B lesen + 125000 B schreiben
-%                 ==> 4567 MB/s lesen + 2283 MB/s schreiben = 6851 MB/s
+\begin{Rem}
+Since a vector of length $n$ needs $k \cdot \lceil n/w \rceil$ words
+for $p > 2$, this means, that the number of word operations per word of
+the vector needed for one multiplication with a scalar is at most 
+$7k(2e-3)$ for $p > 2$.
+\end{Rem}
 
 \subsection{Memory throughput in real implementations}
 
-\begin{table}
-\begin{tabular}{|l|r|r|r|r|}
+In this section we present timing results in real implementations. We 
+compared two implementations: The first is an implementation of the
+ideas presented in this chapter in the {\sf GAP} package {\sf cvec}
+(see \cite{cvec}) by the author, and the second is the standard implementation
+of compressed vectors in the {\sf GAP} kernel written by Steve Linton
+(see \cite{GAP4}).
+The latter uses byte-oriented table lookup for fields $\F_q$ with 
+$3 \le q \le 256$. We compared vector additions over $\F_2$ and $\F_7$, 
+and multiplications of vectors by scalars over $\F_7$ in both implementations.
+Finally, we tested multiplications of vectors by scalars over $\F_{3^k}$
+for $1 \le k \le 5$ in the new implementation.
+Note that the {\sf GAP} library does not offer direct access to the
+operation $z := v+w$ without memory allocation. Therefore this 
+measurement is missing.
+
+We used three relatively new machines with popular micro processors, 
+namely two different machines
+with an Intel Pentium 4 with 1024 kB second level cache running at 3.2 GHz, 
+and a machine with a AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
+second level cache running at 2.0 GHz. The two Pentium 4 machines were
+equipped with $\ldots$ memory modules, which explains the differences
+in memory throughputs.
+% FIXME: add memory information
+
+In all runs, no other processes
+were consuming significant amounts of CPU time such that nothing should
+have interfered with the caches. Strangely enough, the two nearly identical
+machines show different performance. 
+% FIXME: explainable by memory?
+Therefore we have presented both
+results to show that such measurements have a certain fluctuation
+obviously involving parameters which cannot easily be determined.
+For a discussion of these results see below.
+
+To demonstrate the effect of second level caches, we used different 
+lengths of vectors. We used vectors using $32 \cdot 10^6$ bytes each in
+order to make sure that none of the data is in the second level cache,
+and vectors using $125000$ and $62500$ bytes each to make sure that
+most accesses should lead to cache hits in the second level cache.
+Of course, all operations are repeated many times to get a high accurracy
+of the measured time for one operation by averaging.
+
+We tested three different operations. The first, which we denote by 
+``$z := v+w$'', is addition of two different vectors and writing the
+result to some other memory location. The time for memory allocation
+was not considered. The second operation, which we denote by 
+``$v := v+w$'', is also addition of two different vectors, but the result
+is written into the same memory location as one of the summands.
+The third operation is denoted by ``$w := sw$'' and is multiplication
+of a vector by a (non-zero) scalar in place, that is, the result overwrites
+the original vector. We chose the scalar $6 + 7\Z \in \F_7$, since its
+binary expansion is $110$ and it is thus one of the most ``expensive'' scalars
+for multiplication. Note that for the case of table lookups the chosen
+scalar does not matter.
+
+For vector times scalar computations over $\F_{3^k}$ we always chose as
+scalar the coset of a polynomial with no zero coefficients, which is
+the worst with respect to performance.
+
+All results are memory throughput values in megabytes per second. 
+That is, a result of $1000$ means that altogether $1000$ times
+$1024^2$ bytes of memory have been accessed. ``Altogether'' means, that for
+the operation $z := v+w$ both read operations (for $v$ and $w$) and the
+write operation into $z$ are counted, that is, for vectors of length
+$125000$ one such addition needs to access $375000$ bytes in memory,
+namely reading $250000$ and writing $125000$. The same holds for
+$v := v + w$, whereas the operation $w := sw$ only reads the memory once
+and writes it again, which means that one such operation has to access
+$250000$ bytes of memory.
+
+All our results are shown in Table~\ref{memthrough}. The columns marked
+with ``C'' are results obtained using the {\sf cvec} package and those 
+marked with ``L'' are results obtained using the {\sf GAP} library.
+
+In the next section we discuss some aspects of these results.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|l|r|r|r|r|r|r|}
 \hline
-Test            & cvec, P4 & cvec, Athlon & lib, P4 & lib, Athlon \\
+Test            & C, P4$_1$ & C, P4$_2$ & C, Ath & 
+                  L, P4$_1$  & L, P4$_2$  & L, Ath \\
 \hline
 \hline
-$\F_2$, vectors $32\cdot 10^6 B$, $v := v+w$ & 3464 & 2642 & 3345 & 2671 \\
+$\F_2$, vectors $32\cdot 10^6 B$, $z := v+w$ 
+& 2764 & 2684 & 1940 & ---  & --- & --- \\
 \hline                                                    
-$\F_2$, vectors $32\cdot 10^6 B$, $z := v+w$ & 2619 & 1958 & ---  & ---  \\
+$\F_2$, vectors $32\cdot 10^6 B$, $v := v+w$ 
+& 3629 & 2965 & 2643 & 3577 & 2812 & 2677 \\
 \hline                                                    
-$\F_2$, vectors $125\,000 B$, $v := v+w$     & 5517 &12179 & 4608 &12214 \\
+$\F_2$, vectors $125\,000 B$, $z := v+w$     
+& 6839 & 4249 & 8499 & ---  & --- & --- \\
 \hline                                                    
-$\F_2$, vectors $125\,000 B$, $z := v+w$     & 6780 & 6260 & ---  & ---  \\
+$\F_2$, vectors $125\,000 B$, $v := v+w$     
+& 6167 & 3791 &12076 & 4818 & 3298 & 12116 \\
 \hline                                                    
-$\F_2$, vectors $62\,500 B$, $v := v+w$      & 6104 &11258 & 4922 &11517 \\
+$\F_2$, vectors $62\,500 B$, $z := v+w$      
+& 5643 & 4379 & 7560 & ---  & --- & --- \\
+\hline
+$\F_2$, vectors $62\,500 B$, $v := v+w$      
+& 6458 & 3969 &11237 & 5109 & 3406 &11635 \\
 \hline                                                    
-$\F_2$, vectors $62\,500 B$, $z := v+w$      & 5287 & 7614 & ---  & ---  \\
+\hline
+$\F_7$, vectors $32\cdot 10^6 B$, $z := v+w$ 
+& 2380 & 1691 & 1902 & ---  & --- & --- \\
+\hline
+$\F_7$, vectors $32\cdot 10^6 B$, $v := v+w$ 
+& 2624 & 1749 & 2515 & 1088 & 708 & 488  \\
+\hline                                                    
+$\F_7$, vectors $32\cdot 10^6 B$, $w := sw$  
+& 2289 & 1504 & 2267 & 1205 & 870 & 422  \\
+\hline                                                    
+$\F_7$, vectors $125\,000 B$, $z := v+w$     
+& 2671 & 1761 & 5745 & ---  & --- & --- \\
+\hline
+$\F_7$, vectors $125\,000 B$, $v := v+w$     
+& 2843 & 1816 & 5356 & 1102 & 713 & 496  \\
+\hline                                                    
+$\F_7$, vectors $125\,000 B$, $w := sw$      
+& 2388 & 1490 & 4273 & 1375 & 876 & 427  \\
+\hline                                                    
+$\F_7$, vectors $62\,500 B$, $z := v+w$      
+& 2765 & 1742 & 5472 & ---  & --- & --- \\
+\hline
+$\F_7$, vectors $62\,500 B$, $v := v+w$      
+& 3080 & 1878 & 5529 & 1170 & 737 & 498 \\
+\hline                                                    
+$\F_7$, vectors $62\,500 B$, $w := sw$       
+& 2386 & 1565 & 5138 & 1342 & 898 & 434 \\
 \hline
 \hline
-$\F_7$, vectors $32\cdot 10^6 B$, $v := v+w$ & 2449 & 2513 & 1015 & 487  \\
-\hline                                                    
-$\F_7$, vectors $32\cdot 10^6 B$, $z := v+w$ & 2243 & 1888 & ---  & ---  \\
-\hline                                                    
-$\F_7$, vectors $125\,000 B$, $v := v+w$     & 2704 & 5349 & 1038 & 496  \\
-\hline                                                    
-$\F_7$, vectors $125\,000 B$, $z := v+w$     & 2532 & 5420 & ---  & ---  \\
-\hline                                                    
-$\F_7$, vectors $62\,500 B$, $v := v+w$      & 2927 & 5588 & 1102 & 497  \\
-\hline                                                    
-$\F_7$, vectors $62\,500 B$, $z := v+w$      & 2626 & 5427 & ---  & ---  \\
+$\F_3$, vectors $32\cdot 10^6 B$, $w := sw$
+& 2297 & 1471 & 2219 & --- & --- & --- \\
+\hline
+$\F_9$, vectors $32\cdot 10^6 B$, $w := sw$
+& 153 & 98 & 336 & --- & --- & --- \\
+\hline
+$\F_{27}$, vectors $32\cdot 10^6 B$, $w := sw$
+& 99 & 68 & 232 & --- & --- & --- \\
+\hline
+$\F_{81}$, vectors $32\cdot 10^6 B$, $w := sw$
+& 88 & 58 & 204 & --- & --- & --- \\
+\hline
+$\F_{243}$, vectors $32\cdot 10^6 B$, $w := sw$
+& 70 & 47 & 170 & 1166 & 867 & 422 \\
 \hline
 \end{tabular}
-\caption{Memory throughput for vector addition}
+\end{center}
+\caption{Memory throughput for vector operations, C: {\sf cvec} package, 
+L: {\sf GAP} library}
+\label{memthrough}
 \end{table}
+
+\subsection{Discussion of results}
+\label{ssec:discussion}
+
+The results for the $\F_2$ case show the throughput for raw memory access
+since the XOR operations for addition within the processor registers cost
+nearly nothing. 
+
+We first look at the top $\F_2$ part of Table~\ref{memthrough}.
+
+We observe, that both implementations perform very similar, which is
+only to be expected, since they use the exact same method. For
+main memory access we seem to be nearly identical throughputs. For 
+second level cache accesses we see some differences, which can be
+explained for the given architectures by looking at the C code and the
+produced assembler code, which would lead too far here. However, 
+the general picture is the same.
+
+One can clearly see in the $\F_2$ part of
+Table~\ref{memthrough} that the second level cache seems to help noticably
+when the vectors involved are shorter. This is to be expected, but shows
+only a factor of between $1.5$ and $3$ for the Pentium~4 and up to 
+a factor of $5$ for the Athlon processor.
+
+Theoretically, one could expect a higher speedup factor, but modern
+processors and memory interfaces seem to be highly optimised for 
+linear memory accesses using so-called bursts. This means that the
+processor has a special method of accessing large amounts of consecutive
+memory words, which we seem to use here.
+
+We turn now to the middle part of the table concerning the field $\F_7$.
+Here one can see two important things: The first is that the $7$ word
+operations per word stated in Proposition~\ref{addvec} can be done as
+fast as main memory access (compare main memory throughputs for $p=2$ and
+$p=7$ on all architectures). If nearly all accesses lead to hits in 
+the second level cache, then the $7$ operations reduce the memory
+throughput, but only by a factor of about $2$ to $3$, depending on
+the processor architecture.
+
+The second thing is that the byte oriented table lookup is noticably
+slower than the word accesses. When working in the second level cache,
+this can cripple the memory throughput by a factor of up to $10$, at least on
+the Athlon architecture. Note that the vector sizes are chosen small
+enough, such that not only the three vectors but also the lookup tables
+should fit together completely in the second level cache.
+The same observation holds for the multiplication with a scalar. 
+
+Of course, for other finite fields $\F_q$ with $q \le 256$ the situation
+is different. Among these fields the number $7k(2e-3)$ of word
+operations per vector word is at most $105$. The experiments shown in
+the third part of Table~\ref{memthrough} concerning fields $\F_{3^k}$ 
+indicate, that
+if this number is assumed, the performance of multiplication of a vector
+by a scalar is much slower than with table lookup. It follows that there 
+is no method that is better in all situations.
+
+However, in the light of the grease method explained in
+Section~\ref{ssec:vecmat} computing too many vector times scalar 
+operations can often be avoided, which renders the new method
+superior in many real life examples.
+
 
 \index{Matrix}
 
@@ -428,6 +605,7 @@ Talk about matrices as lists of vectors and flat matrices.
 \subsection{Addition and multiplication with scalars}
 
 \subsection{Vector-matrix multiplication}
+\label{ssec:vecmat}
 
 \subsection{Matrix multiplication}
 

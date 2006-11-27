@@ -1,0 +1,316 @@
+13:34 neunhoef@capella 0% mygap4currL64 -m 1000m -g -g speedtest.g 
+#G  PART       5/      0kb+live        0/      0kb+dead   860582/   1000mb free
+#I  method installed for UnderlyingField matches more than one declaration
+#I  method installed for UnderlyingField matches more than one declaration
+GAP4, Version: 4.dev of today, x86_64-unknown-linux-gnu-gcc
+Components:  small 2.1, small2 2.0, small3 2.0, small4 1.0, small5 1.0, 
+             small6 1.0, small7 1.0, small8 1.0, small9 1.0, small10 0.2, 
+             id2 3.0, id3 2.1, id4 1.0, id5 1.0, id6 1.0, id9 1.0, id10 0.1, 
+             trans 1.0, prim 2.1  loaded.
+Packages:    AutPGrp 1.2, CRISP 1.2.1, CTblLib 1.1.4, TomLib 1.1.2, 
+             GAPDoc 0.9999, AtlasRep 1.2.2  loaded.
+-----------------------------------------------------------------------------
+Loading  IO 1.6 (Bindings to low level IO in the C library)
+by Max Neunhoeffer (http://www.math.rwth-aachen.de/~Max.Neunhoeffer/).
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+Loading  orb 1.3 (orb - Methods to enumerate orbits)
+by Juergen Mueller (http://www.math.rwth-aachen.de/~Juergen.Mueller),
+   Max Neunhoeffer (http://www.math.rwth-aachen.de/~Max.Neunhoeffer), and
+   Felix Noeske (http://www.math.rwth-aachen.de/~Felix.Noeske).
+-----------------------------------------------------------------------------
+---------------------------------------------------------------------
+Loading  cvec 1.3
+by Max Neunhoeffer (http://www.math.rwth-aachen.de/~Max.Neunhoeffer/)
+For help, type: ?cvec package 
+---------------------------------------------------------------------
+#I  method installed for ZeroVector matches more than one declaration
+#I  method installed for ZeroVector matches more than one declaration
+#I  method installed for Randomize matches more than one declaration
+#I  method installed for Memory matches more than one declaration
+#I  method installed for ZeroMatrix matches more than one declaration
+#I  method installed for IdentityMatrix matches more than one declaration
+#I  method installed for Randomize matches more than one declaration
+#I  method installed for DimensionsMat matches more than one declaration
+#I  method installed for PositionNonZero matches more than one declaration
+#I  method installed for PositionNonZero matches more than one declaration
+#I  method installed for PositionLastNonZero matches more than one declaration
+#I  method installed for IsDiagonalMat matches more than one declaration
+#I  method installed for IsUpperTriangularMat matches more than one declaratio\
+n
+#I  method installed for IsLowerTriangularMat matches more than one declaratio\
+n
+#I  method installed for MutableCopyMat matches more than one declaration
+#I  method installed for KroneckerProduct matches more than one declaration
+#I  method installed for Memory matches more than one declaration
+Testing cvecs...
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  307668/ 124518kb live  1598179/0821857mb dead   768788/   1000mb free
+Testing ADD3 over GF(2)...
+Done, total times: 23727 ms and 23452 ms
+WARNING: Both timings differ by more than 1%!
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:    1293 MB/s read
+            +   646 MB/s written
+            =  1940 MB/s memory access
+
+#G  FULL  307668/ 124518kb live       73/   1854mb dead   768788/   1000mb free
+Testing ADD2 over GF(2)...
+Done, total times: 17316 ms and 17318 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:    1762 MB/s read
+            +   881 MB/s written
+            =  2643 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  307684/  31136kb live    10227/ 259346mb dead   861950/   1000mb free
+Testing ADD3 over GF(2)...
+Done, total times: 21058 ms and 21021 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:    5666 MB/s read
+            +  2833 MB/s written
+            =  8499 MB/s memory access
+
+#G  FULL  307684/  31136kb live       63/   7640mb dead   861950/   1000mb free
+Testing ADD2 over GF(2)...
+Done, total times: 14853 ms and 14762 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:    8050 MB/s read
+            +  4025 MB/s written
+            = 12076 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  307686/  30953kb live     7170/ 954678mb dead   862133/   1000mb free
+Testing ADD3 over GF(2)...
+Done, total times: 23657 ms and 23652 ms
+Vectors use 62504 bytes each.
+Total memory read: 125008000000, total memory written: 62504000000
+Throughput:    5040 MB/s read
+            +  2520 MB/s written
+            =  7560 MB/s memory access
+
+#G  FULL  307686/  30953kb live       63/   8399mb dead   862133/   1000mb free
+Testing ADD2 over GF(2)...
+Done, total times: 15938 ms and 15888 ms
+Vectors use 62504 bytes each.
+Total memory read: 125008000000, total memory written: 62504000000
+Throughput:    7491 MB/s read
+            +  3745 MB/s written
+            = 11237 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  307997/ 124820kb live   389426/2401378mb dead   768261/   1000mb free
+Testing ADD3 over GF(7)...
+Done, total times: 24056 ms and 24057 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:    1268 MB/s read
+            +   634 MB/s written
+            =  1902 MB/s memory access
+
+#G  FULL  307997/ 124820kb live       67/   1516mb dead   768261/   1000mb free
+Testing ADD2 over GF(7)...
+Done, total times: 18199 ms and 18199 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:    1676 MB/s read
+            +   838 MB/s written
+            =  2515 MB/s memory access
+
+#G  FULL  307997/ 124820kb live       63/   1426mb dead   768261/   1000mb free
+Testing MUL1 over GF(7)...
+Done, total times: 13495 ms and 13425 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:    1133 MB/s read
+            +  1133 MB/s written
+            =  2267 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  307999/  31436kb live     5675/ 128723mb dead   861645/   1000mb free
+Testing ADD3 over GF(7)...
+Done, total times: 31123 ms and 31121 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:    3830 MB/s read
+            +  1915 MB/s written
+            =  5745 MB/s memory access
+
+#G  FULL  307999/  31436kb live       63/   1429mb dead   861645/   1000mb free
+Testing ADD2 over GF(7)...
+Done, total times: 33385 ms and 33385 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:    3570 MB/s read
+            +  1785 MB/s written
+            =  5356 MB/s memory access
+
+#G  FULL  307999/  31436kb live       63/   1429mb dead   861645/   1000mb free
+Testing MUL1 over GF(7)...
+Done, total times: 28033 ms and 27760 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:    2136 MB/s read
+            +  2136 MB/s written
+            =  4273 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/  31253kb live     4925/ 111628mb dead   861828/   1000mb free
+Testing ADD3 over GF(7)...
+Done, total times: 32673 ms and 32682 ms
+Vectors use 62504 bytes each.
+Total memory read: 125008000000, total memory written: 62504000000
+Throughput:    3648 MB/s read
+            +  1824 MB/s written
+            =  5472 MB/s memory access
+
+#G  FULL  308001/  31253kb live       63/   1426mb dead   861828/   1000mb free
+Testing ADD2 over GF(7)...
+Done, total times: 32505 ms and 32172 ms
+WARNING: Both timings differ by more than 1%!
+Vectors use 62504 bytes each.
+Total memory read: 125008000000, total memory written: 62504000000
+Throughput:    3686 MB/s read
+            +  1843 MB/s written
+            =  5529 MB/s memory access
+
+#G  FULL  308001/  31253kb live       65/   1472mb dead   861828/   1000mb free
+Testing MUL1 over GF(7)...
+Done, total times: 23317 ms and 23087 ms
+Vectors use 62504 bytes each.
+Total memory read: 125008000000, total memory written: 62504000000
+Throughput:    2569 MB/s read
+            +  2569 MB/s written
+            =  5138 MB/s memory access
+
+Testing standard compressed vectors...
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/ 124820kb live  2052159/6054545mb dead   768261/   1000mb free
+Testing ADDCOEFFS_GF2VEC_GF2VEC over GF(2)...
+Done, total times: 17099 ms and 17097 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:    1784 MB/s read
+            +   892 MB/s written
+            =  2677 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/  31436kb live    12115/ 346528mb dead   861645/   1000mb free
+Testing ADDCOEFFS_GF2VEC_GF2VEC over GF(2)...
+Done, total times: 14817 ms and 14700 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:    8077 MB/s read
+            +  4038 MB/s written
+            = 12116 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/  31253kb live     8108/ 231803mb dead   861828/   1000mb free
+Testing ADDCOEFFS_GF2VEC_GF2VEC over GF(2)...
+Done, total times: 15350 ms and 15388 ms
+Vectors use 62504 bytes each.
+Total memory read: 125008000000, total memory written: 62504000000
+Throughput:    7756 MB/s read
+            +  3878 MB/s written
+            = 11635 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/ 124820kb live   516138/2707858mb dead   768261/   1000mb free
+Testing ADD_ROWVECTOR_VEC8BITS_2 over GF(7)
+Done, total times: 93582 ms and 93796 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:     325 MB/s read
+            +   162 MB/s written
+            =   488 MB/s memory access
+
+#G  FULL  308001/ 124820kb live       64/ 910498kb dead   768261/   1000mb free
+Testing MULT_ROWVECTOR_VEC8BITS over GF(7)
+Done, total times: 72400 ms and 72216 ms
+Vectors use 32000000 bytes each.
+Total memory read: 32000000000, total memory written: 16000000000
+Throughput:     211 MB/s read
+            +   211 MB/s written
+            =   422 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/  31436kb live     6124/  84984mb dead   861645/   1000mb free
+Testing ADD_ROWVECTOR_VEC8BITS_2 over GF(7)
+Done, total times: 360345 ms and 359762 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:     331 MB/s read
+            +   165 MB/s written
+            =   496 MB/s memory access
+
+#G  FULL  308001/  31436kb live       64/ 907465kb dead   861645/   1000mb free
+Testing MULT_ROWVECTOR_VEC8BITS over GF(7)
+Done, total times: 279306 ms and 278844 ms
+Vectors use 125000 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:     213 MB/s read
+            +   213 MB/s written
+            =   427 MB/s memory access
+
+Randomizing vector...
+Done.
+Randomizing vector...
+Done.
+#G  FULL  308001/  31253kb live     5122/  71022mb dead   861828/   1000mb free
+Testing ADD_ROWVECTOR_VEC8BITS_2 over GF(7)
+Done, total times: 359221 ms and 358856 ms
+Vectors use 62500 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:     332 MB/s read
+            +   166 MB/s written
+            =   498 MB/s memory access
+
+#G  FULL  308001/  31253kb live       64/ 909997kb dead   861828/   1000mb free
+Testing MULT_ROWVECTOR_VEC8BITS over GF(7)
+Done, total times: 274565 ms and 274158 ms
+Vectors use 62500 bytes each.
+Total memory read: 125000000000, total memory written: 62500000000
+Throughput:     217 MB/s read
+            +   217 MB/s written
+            =   434 MB/s memory access
+
+
