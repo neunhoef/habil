@@ -248,3 +248,50 @@ FastRandomize(w);
 Test8bit(v,w,1000000);
 TestMULTROWVECTOR(w,6*Z(7)^0,1000000);
 
+
+# Finally extension fields:
+
+# Now vectors over GF(3) that use 32000000 bytes each:
+cl := CVEC_NewCVecClass(3,1,80000000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestMUL1(w,Z(3),200);
+
+# Now vectors over GF(3^2) that use 32000000 bytes each:
+cl := CVEC_NewCVecClass(3,2,40000000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestMUL1(w,Z(3,2)+Z(3)^0,200);
+
+# Now vectors over GF(3^3) that use 32000000 bytes each:
+cl := CVEC_NewCVecClass(3,3,26666000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestMUL1(w,Z(3,3)+Z(3,3)^2+Z(3)^0,200);
+
+# Now vectors over GF(3^4) that use 32000000 bytes each:
+cl := CVEC_NewCVecClass(3,4,20000000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestMUL1(w,Z(3,4)+Z(3,4)^2+Z(3,4)^3+Z(3)^0,200);
+
+# Now vectors over GF(3^5) that use 32000000 bytes each:
+cl := CVEC_NewCVecClass(3,5,16000000);
+v := CVEC_New(cl); FastRandomize(v);
+w := CVEC_New(cl); FastRandomize(w);
+z := CVEC_New(cl);
+TestMUL1(w,Z(3,5)+Z(3,5)^2+Z(3,5)^3+Z(3,5)^4+Z(3)^0,200);
+
+# Finally one example with table lookup:
+v := [Z(3,5)]; ConvertToVectorRep(v,3^5); RESIZE_VEC8BIT(v,16000000);
+w := ShallowCopy(v);
+z := ShallowCopy(v);
+FastRandomize(v);
+FastRandomize(w);
+Test8bit(v,w,500);
+TestMULTROWVECTOR(w,Z(3,5)+Z(3,5)^2+Z(3,5)^3+Z(3,5)^4+Z(3)^0,500);
+
