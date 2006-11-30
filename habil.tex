@@ -23,6 +23,7 @@
 \usepackage{fancyhdr}
 \usepackage{color}
 \usepackage{longtable}
+\usepackage{graphicx}
 
 \usepackage[numbib,numindex,notlot,notlof]{tocbibind}
 
@@ -117,6 +118,8 @@
 % Einige Gimmicks:
 \newcommand{\Proof}{\textbf{Proof:} }
 \newcommand{\ProofEnd}{\hfill$\square$\par}
+\newcommand{\GAP}{\textsf{GAP}}
+\newcommand{\cvec}{\textsf{cvec}}
 
 \newenvironment{compactlist}{\begin{list}{}{\setlength{\itemsep}{0pt}%
 \setlength{\labelwidth}{1cm}\addtolength{\labelsep}{3mm}%
@@ -137,7 +140,7 @@
 \newtheorem{Prop}{Proposition}[section]
 \newtheorem{Theo}[Prop]{Theorem}
 \newtheorem{Lemm}[Prop]{Lemma}
-\newtheorem{Corr}[Prop]{Corollary}
+\newtheorem{Cor}[Prop]{Corollary}
 \newtheorem{DefProp}[Prop]{Definition/Proposition}
 \newtheorem{Conj}[Prop]{Conjecture}
 \theorembodyfont{\upshape}

@@ -20,7 +20,7 @@ of matrices.
 \section{Representing vectors and matrices over finite fields}
 \label{sec:ffematrices}
 
-If you already know something about compressed vectors and matrices over 
+If you already know something about compact vectors and matrices over 
 finite fields you can safely skip the next subsection and directly
 proceed to Section~\ref{ssec:cvec}. We first explain the basic idea.
 
@@ -43,7 +43,7 @@ rather efficiently by modern microprocessors, the limiting factor
 for such computations is memory access. Therefore, it is performance
 critical to store vectors and matrices using as little memory as possible,
 and to choose the data structure in a way that allows for fast memory
-access. We call such memory efficient data structures ``compressed''.
+access. We call such memory efficient data structures ``compact''.
 
 This idea is quite old (see ADDREFERENCE) and has already been used
 extensively (see for example \cite{CMeatAxe} or \cite{GAP4} or
@@ -73,10 +73,10 @@ insisted on storing whole elements of\, $\F_q$ in one machine word.
 We will pack as many prime field elements as possible into a machine
 word and distribute the various prime field coefficients of a single
 element of\, $\F_q$ into distinct machine words to allow for better
-compression of extension field elements.
+memory usage in the case of extension fields.
 
 
-\subsection{Compressed vectors}
+\subsection{Compact vectors}
 \label{ssec:cvec}
 
 We first describe in detail how a vector of length $n$ over the field
@@ -142,7 +142,7 @@ or on the web \cite{ConwayFL}). Namely, if $a \in \F_q$ is represented by
 the polynomial $\sum_{i=0}^{k-1} a_i x^i$, then we have to store the prime 
 field elements $a_0, a_1, \ldots, a_{k-1}$. 
 
-In a compressed vector of length $n$ of elements of $\F_q$ we distribute
+In a compact vector of length $n$ of elements of $\F_q$ we distribute
 those numbers in the following way: The first $k$ machine words in the
 memory representation of the vector are used to store the first $w$
 elements of the vector. The first machine word holds all the coefficients
@@ -163,7 +163,7 @@ of the microprocessor.
 We can now explain, how we can add vectors in the above representation
 only by doing a series of word operations.
 
-\subsection{Adding compressed vectors}
+\subsection{Adding compact vectors}
 
 The basic addition formula for finite field elements is rather simple:
 For prime field elements we just have to add two numbers in the range 
@@ -252,10 +252,10 @@ This means, that the addition of two words containing $w$ prime field
 elements can be done in $7$ word operations for $p > 2$. For the
 $p=2$ case, we only need one XOR operation. Thus we have proved:
 
-\begin{Prop}[Addition of compressed vectors]
+\begin{Prop}[Addition of compact vectors]
 \label{addvec}
 We assume a machine with $32$ bit word length. For $2 < p < 2^{31}$,
-two compressed vectors of length $n$ over the field of $q=p^k$
+two compact vectors of length $n$ over the field of $q=p^k$
 elements can be added using $7k\cdot \lceil n/w \rceil$ word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
 and $e = \lceil \log_2(2p-1) \rceil$. 
@@ -286,14 +286,14 @@ Next we consider multiplication of vectors by scalars.
 \subsection{Multiplication by scalars}
 
 To explain the method, we restrict our attention to the case that one
-compressed vector shall be multiplied by one scalar and the result 
+compact vector shall be multiplied by one scalar and the result 
 shall be stored in some other memory location.
 
 Let $e$ and $w$ be defined as in Section~\ref{ssec:cvec}.
 
 We start by discussing the prime field case $\F_p$.
 Since a scalar $s \in \F_p$ is represented by an integer in the range $0$ 
-to $p-1$ in its binary expansion, we can multiply a compressed vector $v$
+to $p-1$ in its binary expansion, we can multiply a compact vector $v$
 by $s$ by repeatedly adding vectors to themselves starting with $v$ and
 adding up those multiples
 whose corresponding bits in the binary expansion of $s$ are set. That is,
@@ -347,17 +347,18 @@ of a vector by a prime field scalar and $k-1$ additions of vectors.
 Thus, we have proved the following Proposition:
 
 \begin{Prop}[Multiplication of vectors by scalars]
+\label{multvec}
 We assume a machine with $32$ bit word length.
 Let $p$ be a prime, $q = p^k$, and $w$ and $e$ as above:
 $w = \lfloor 32/e \rfloor$ and $e = \lceil \log_2(2p-1) \rceil$.
 
-For $2 < p < 2^{31}$, the total cost of a multiplication of a compressed 
+For $2 < p < 2^{31}$, the total cost of a multiplication of a compact 
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_p$ is at most 
 $14k(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
 and stores). For $p=2$, the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
 
-For $2 < p < 2^{31}$, the total cost of a multiplication of a compressed
+For $2 < p < 2^{31}$, the total cost of a multiplication of a compact
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_q$ is at most
 $7k^2(2e-3)\cdot \lceil 32/w \rceil$. For $p = 2$, the total cost is
 at most $2k(k-1) \cdot \lceil n/32 \rceil$ word operations.
@@ -385,7 +386,7 @@ In this section we present timing results in real implementations. We
 compared two implementations: The first is an implementation of the
 ideas presented in this chapter in the {\sf GAP} package {\sf cvec}
 (see \cite{cvec}) by the author, and the second is the standard implementation
-of compressed vectors in the {\sf GAP} kernel written by Steve Linton
+of compact vectors in the {\sf GAP} kernel written by Steve Linton
 (see \cite{GAP4}).
 The latter uses byte-oriented table lookup for fields $\F_q$ with 
 $3 \le q \le 256$. We compared vector additions over $\F_2$ and $\F_7$, 
@@ -401,15 +402,13 @@ namely two different machines
 with an Intel Pentium 4 with 1024 kB second level cache running at 3.2 GHz, 
 and a machine with a AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
 second level cache running at 2.0 GHz. The two Pentium 4 machines were
-equipped with $\ldots$ memory modules, which explains the differences
-in memory throughputs.
-% FIXME: add memory information
+equipped with memory modules with the same specifications (PC 3200, CL3). 
 
 In all runs, no other processes
 were consuming significant amounts of CPU time such that nothing should
 have interfered with the caches. Strangely enough, the two nearly identical
 machines show different performance. 
-% FIXME: explainable by memory?
+We cannot explain the differences in memory throughputs.
 Therefore we have presented both
 results to show that such measurements have a certain fluctuation
 obviously involving parameters which cannot easily be determined.
@@ -600,12 +599,125 @@ superior in many real life examples.
 \section{Matrix arithmetic}
 \label{sec:matarith}
 
-Talk about matrices as lists of vectors and flat matrices.
+Traditionally, matrices are implemented in the {\sf GAP} system as
+lists of (row-) vectors. This means, that the list object only
+holds references to the subobjects, which are the rows of the matrix.
+Therefore, one can for example permute rows very efficiently without
+actually touching the bulk of the data in the rows. Instead, one can
+just redirect references. In addition, different matrices can share
+rows, which leads to the fact that the modification of one matrix
+can in fact modify the other matrix. Although this can give rise to
+nasty bugs, it can also help to increase efficiency both with respect
+to memory usage and with respect to performance. We call matrices
+implemented with this approach ``row list matrices''.
+
+An alternative way would be to actually embed the row data into the
+matrix object itself. A row would then no longer be a {\sf GAP} object
+in its own right, but only a part of one. The advantage here is that
+we need fewer memory allocations (only one per matrix) and can better
+control cache issues, since we know better, where in memory our row data
+is stored. We call matrices implemented with this approach ``flat
+matrices''.
+
+When devising efficient algorithms dealing with matrices one has to know
+which type of matrix one is using, because one has to know, when the
+system actually copies data and when it only passes references.
+
+For the {\cvec} package we chose the row list matrix approach since it fits
+better into the existing {\GAP} library and allows for easier code reusage.
+We also discuss this approach further in this section. We call a list
+of compact vectors of the same length over the same field a ``compact
+matrix''.
+
+Note however, that Beth Holmes and Richard Parker are currently working
+on an implementation of flat matrices in the {\GAP} system.
+
 
 \subsection{Addition and multiplication with scalars}
 
+This section is extremely short, since to add matrices or
+to multiply a matrix by a scalar simply means to add corresponding
+row vectors or multiply all rows by the scalar respectively.
+Thus we immediately get from Propositions~\ref{addvec} and
+\ref{multvec}:
+
+\begin{Cor}[Matrix addition and multiplication of matrices by scalars]
+We assume a machine with $32$ bit word length. Let $M$ and $M'$ be 
+two compact matrices with $m$ rows and $n$ columns over $\F_q$, where $q
+= p^k$.
+
+For $2 < p < 2^{31}$, the matrices $M$ and $M'$
+can be added using $7km\cdot \lceil n/w \rceil$
+word operations
+(plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
+and $e = \lceil \log_2(2p-1) \rceil$. 
+For $p=2$, only $mk \cdot \lceil n/32 \rceil$ word operations are needed.
+
+For $2 < p < 2^{31}$, the total cost of a multiplication of
+$M$ by $s \in \F_p$ is at most 
+$14km(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
+and stores). For $p=2$, the scalar
+can only be $0$ or $1$ and therefore no computation is necessary at all.
+
+For $2 < p < 2^{31}$, the total cost of a multiplication of $M$
+by $s \in \F_q$ is at most
+$7k^2m(2e-3)\cdot \lceil 32/w \rceil$.
+ For $p = 2$, the total cost is
+at most $2k(k-1)m \cdot \lceil n/32 \rceil$ word operations.
+
+For machines with $64$ bit word length, the number of word operations
+is halved in both cases and we can work with primes $p < 2^{63}$.
+\end{Cor}
+\Proof This is immediate from Propositions~\ref{addvec} and \ref{multvec}.
+\ProofEnd
+
 \subsection{Vector-matrix multiplication}
 \label{ssec:vecmat}
+
+This section is about the multiplication of a row vector 
+$v \in \F_q^{1 \times m}$ by a matrix $M \in \F_q^{m \times n}$. The result
+is a vector $vM \in \F_q^{1 \times n}$. Since by convention we are working 
+mainly with row vectors, this is the only operation between vectors
+and matrices we have to consider. The left multiplication of a column
+vector by a matrix can be simulated using the transposed matrix.
+
+The multiplication $vM$ can be understood as taking a linear combination
+of the rows of $M$, the vector $v$ just contains the coefficients. This
+kind of reasoning already leads to the most efficient way to implement
+this operation: We just multiply the $i$-th row of $M$ by the scalar
+$v_i$ and add the product vector to the final result for $1 \le i \le m$.
+Thus this operation can be done using at most $m$ multiplications
+of a vector by a scalar plus $m-1$ vector additions.
+
+If we are considering only one vector-matrix multiplication this is basically
+all one can say. However, in a situation in which we apply one given
+matrix repeatedly to lots of vectors (for example during matrix 
+multiplication (see below) or when enumerating orbits), there is a
+trick called ``grease'', which was invented by Richard Parker and 
+probably others.
+
+The idea is that if the base field is small, there are not so many
+different linear combinations of a finite number of vectors. Thus,
+we can distribute the rows of our matrix into small groups, say of
+$l$ adjacent rows each, and precompute all possible linear combinations of
+all vectors in each group. If we now want to multiply a vector $v$ and the 
+matrix, we extract the entries of $v$ corresponding to each group,
+look up the linear combination and add it to the result. The number
+$l$ of elements in each group is called ``grease level''.
+
+This technique is illustrated pictorially in Figure~\ref{grease}. There
+one can see a vector-matrix multiplication. The vector is divided into
+sections of length $l$, beginning from the left, leaving a section of
+possibly less than $l$ elements at the right hand side. Each such section
+corresponds to $l$ (or less at the end) adjacent rows in the matrix.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=13cm]{grease}
+\end{center}
+\caption{Illustration for Vector-matrix multiplication and grease}
+\label{grease}
+\end{figure}
 
 \subsection{Matrix multiplication}
 
