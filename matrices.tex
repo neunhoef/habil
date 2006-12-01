@@ -699,25 +699,55 @@ probably others.
 The idea is that if the base field is small, there are not so many
 different linear combinations of a finite number of vectors. Thus,
 we can distribute the rows of our matrix into small groups, say of
-$l$ adjacent rows each, and precompute all possible linear combinations of
+$\ell$ adjacent rows each, and precompute all possible linear combinations of
 all vectors in each group. If we now want to multiply a vector $v$ and the 
 matrix, we extract the entries of $v$ corresponding to each group,
 look up the linear combination and add it to the result. The number
-$l$ of elements in each group is called ``grease level''.
-
-This technique is illustrated pictorially in Figure~\ref{grease}. There
-one can see a vector-matrix multiplication. The vector is divided into
-sections of length $l$, beginning from the left, leaving a section of
-possibly less than $l$ elements at the right hand side. Each such section
-corresponds to $l$ (or less at the end) adjacent rows in the matrix.
+$\ell$ of elements in each group is called ``grease level''.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=13cm]{grease}
+\input{grease.pstex_t}
 \end{center}
 \caption{Illustration for Vector-matrix multiplication and grease}
 \label{grease}
 \end{figure}
+
+This technique is illustrated pictorially in Figure~\ref{grease}. There
+one can see a vector-matrix multiplication. The vector is divided into
+sections of length $\ell$, beginning from the left, leaving a section of
+possibly less than $\ell$ elements at the right hand side. Each such section
+corresponds to $\ell$ (or less at the end) adjacent rows in the matrix, we 
+call such a submatrix a ``grease block''.
+To do grease level $\ell$, we compute all possible linear combinations of
+each block of $\ell$ rows and store them. If we have computed and stored
+all this data, we call the matrix ``greased''.
+Then a vector-matrix multiplication
+with this matrix only has to add $\lceil m/\ell-1 \rceil$ vector additions
+of looked up vectors. More precisely, we have the following result:
+
+\begin{Theo}[Grease: expected cost and gain]
+Let $M$ be a matrix with $m$ rows and $n$ columns over the field $\F_q$
+for $q = p^k$, and let $\ell \in \Z_{> 0}$. Let $b := \lceil m/\ell \rceil$ be
+the number of grease blocks.
+
+Then greasing the matrix $M$ with grease level $\ell$ multiplies the amount
+of memory needed for $M$ by at most $q^\ell$ and costs at most 
+$b \cdot (q^\ell+q-4)$ row vector additions and $b \cdot \ell \cdot
+(k-1)$ multiplications of a row vector with a primitive root of $\F_q$.
+
+If $M$ is greased, a vector $v$ can be multiplied from the right with $M$
+using only $b-1 = \lceil m/\ell -1 \rceil$ row vector additions plus the 
+cost of extracting the finite field elements from the vector $v$, which
+is usually neglectible.
+
+The standard approach for a vector-matrix multiplication needs 
+approximately $m(q-1)/q$ multiplications of a row vector by a non-zero
+scalar from $\F_q$ plus $m-1$ row vector additions, assuming that about
+every $q$-th element of $v$ is equal to zero.
+\end{Theo}
+\Proof
+\ProofEnd
 
 \subsection{Matrix multiplication}
 

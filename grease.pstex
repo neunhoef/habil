@@ -1,8 +1,8 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: grease.fig
 %%Creator: fig2dev Version 3.2 Patchlevel 5-alpha7
-%%CreationDate: Fri Dec  1 00:38:36 2006
-%%BoundingBox: 0 0 546 202
+%%CreationDate: Fri Dec  1 01:04:52 2006
+%%BoundingBox: 0 0 374 141
 %Magnification: 1.0000
 %%EndComments
 /$F2psDict 200 dict def
@@ -44,8 +44,8 @@ $F2psDict /mtrx matrix put
 
 end
 save
-newpath 0 202 moveto 0 0 lineto 546 0 lineto 546 202 lineto closepath clip newpath
--52.6 256.5 translate
+newpath 0 141 moveto 0 0 lineto 374 0 lineto 374 141 lineto closepath clip newpath
+-9.2 155.3 translate
 1 -1 scale
 
 /cp {closepath} bind def
@@ -106,146 +106,115 @@ $F2psBegin
 % here starts figure with depth 50
 % Ellipse
 7.500 slw
-n 6030 3330 45 45 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 3774 1944 31 31 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Ellipse
-n 6030 2925 45 45 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 3774 1662 31 31 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Ellipse
-n 6030 2520 45 45 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 3774 1381 31 31 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Ellipse
-n 2610 2475 45 45 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 1399 1350 31 31 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Ellipse
-n 2925 2475 45 45 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 1618 1350 31 31 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Ellipse
-n 3240 2475 45 45 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 1836 1350 31 31 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Ellipse
-n 4275 2475 90 90 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
+n 2555 1350 62 62 0 360 DrawEllipse gs 0.00 setgray ef gr gs col0 s gr
 
 % Polyline
 0 slj
 0 slc
-n 4500 1350 m
- 7650 1350 l gs col0 s gr 
+n 2711 569 m
+ 4899 569 l gs col0 s gr 
 % Polyline
-n 4500 1800 m
- 7650 1800 l gs col0 s gr 
+n 2711 881 m
+ 4899 881 l gs col0 s gr 
 % Polyline
-n 4500 2250 m
- 7650 2250 l gs col0 s gr 
+n 2711 1194 m
+ 4899 1194 l gs col0 s gr 
 % Polyline
-n 4500 3600 m
- 7650 3600 l gs col0 s gr 
+n 2711 2131 m
+ 4899 2131 l gs col0 s gr 
 % Polyline
 75.000 slw
-n 900 2475 m
- 2385 2475 l gs 0.00 setgray ef gr gs col0 s gr 
+n 211 1350 m
+ 1243 1350 l gs 0.00 setgray ef gr gs col0 s gr 
 % Polyline
 7.500 slw
-n 1350 2250 m
- 1350 2700 l gs 0.00 setgray ef gr gs col0 s gr 
+n 524 1194 m
+ 524 1506 l gs 0.00 setgray ef gr gs col0 s gr 
 % Polyline
-n 1800 2250 m
- 1800 2700 l gs 0.00 setgray ef gr gs col0 s gr 
+n 836 1194 m
+ 836 1506 l gs 0.00 setgray ef gr gs col0 s gr 
 % Polyline
-n 2250 2250 m
- 2250 2700 l gs 0.00 setgray ef gr gs col0 s gr 
+n 2086 1194 m
+ 2086 1506 l gs 0.00 setgray ef gr gs col0 s gr 
 % Polyline
-n 3600 2250 m
- 3600 2700 l gs 0.00 setgray ef gr gs col0 s gr 
+n 2430 412 m
+ 2680 287 l gs col0 s gr 
 % Polyline
-n 4095 1125 m
- 4455 945 l gs col0 s gr 
+n 368 1037 m
+ 243 1287 l gs col0 s gr 
 % Polyline
-n 1125 2025 m
- 945 2385 l gs col0 s gr 
+n 368 1037 m
+ 493 1287 l gs col0 s gr 
 % Polyline
-n 1125 2025 m
- 1305 2385 l gs col0 s gr 
+n 2430 412 m
+ 2680 537 l gs col0 s gr 
 % Polyline
-n 4095 1125 m
- 4455 1305 l gs col0 s gr 
+n 2430 725 m
+ 2680 850 l gs col0 s gr 
 % Polyline
-n 4095 1575 m
- 4455 1755 l gs col0 s gr 
+n 2430 725 m
+ 2680 600 l gs col0 s gr 
 % Polyline
-n 4095 1575 m
- 4455 1395 l gs col0 s gr 
+n 368 1037 m 368 412 l
+ 2430 412 l gs col0 s gr 
 % Polyline
-n 1125 2025 m 1125 1125 l
- 4095 1125 l gs col0 s gr 
+n 680 1037 m 680 725 l
+ 2430 725 l gs col0 s gr 
 % Polyline
-n 1575 2025 m 1575 1575 l
- 4095 1575 l gs col0 s gr 
+n 680 1037 m
+ 555 1287 l gs col0 s gr 
 % Polyline
-n 1575 2025 m
- 1395 2385 l gs col0 s gr 
+n 680 1037 m
+ 805 1287 l gs col0 s gr 
 % Polyline
-n 1575 2025 m
- 1755 2385 l gs col0 s gr 
+n 2399 2287 m
+ 2680 2415 l gs col0 s gr 
 % Polyline
-n 4050 3825 m
- 4455 4008 l gs col0 s gr 
+n 2399 2287 m
+ 2677 2164 l gs col0 s gr 
 % Polyline
-n 4050 3825 m
- 4451 3647 l gs col0 s gr 
+n 2243 1664 m
+ 2118 1414 l gs col0 s gr 
 % Polyline
-n 3825 2927 m
- 3645 2567 l gs col0 s gr 
+n 2243 1667 m
+ 2368 1417 l gs col0 s gr 
 % Polyline
-n 3825 2932 m
- 4005 2572 l gs col0 s gr 
-% Polyline
-n 3825 2927 m 3825 3827 l
- 4050 3827 l gs col0 s gr 
+n 2243 1664 m 2243 2289 l
+ 2399 2289 l gs col0 s gr 
 % Polyline
 15.000 slw
-n 4500 900 m 7650 900 l 7650 4050 l 4500 4050 l
+n 2711 256 m 4899 256 l 4899 2444 l 2711 2444 l
  cp gs col0 s gr 
 % Polyline
 75.000 slw
-n 3465 2475 m
- 4050 2475 l gs 0.00 setgray ef gr gs col0 s gr 
-/Times-Roman ff 285.75 scf sf
-8100 2115 m
-gs 1 -1 sc (rows) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-7875 2115 m
-gs 1 -1 sc (l) col0 sh gr
-/Times-Roman ff 285.75 scf sf
-8100 1215 m
-gs 1 -1 sc (rows) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-7875 1215 m
-gs 1 -1 sc (l) col0 sh gr
-/Times-Roman ff 285.75 scf sf
-8100 1665 m
-gs 1 -1 sc (rows) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-7875 1665 m
-gs 1 -1 sc (l) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-1080 2790 m
-gs 1 -1 sc (l) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-1980 2790 m
-gs 1 -1 sc (l) col0 sh gr
-/Times-Roman ff 285.75 scf sf
-7920 3915 m
-gs 1 -1 sc (up to) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-8640 3915 m
-gs 1 -1 sc (l) col0 sh gr
-/Times-Roman ff 285.75 scf sf
-8865 3915 m
-gs 1 -1 sc (rows) col0 sh gr
-/Times-Italic ff 285.75 scf sf
-1530 2790 m
-gs 1 -1 sc (l) col0 sh gr
+n 1993 1350 m
+ 2399 1350 l gs 0.00 setgray ef gr gs col0 s gr 
+% Polyline
+7.500 slw
+n 1149 1194 m
+ 1149 1506 l gs 0.00 setgray ef gr gs col0 s gr 
+% Polyline
+0.000 slw
+n 5085 1350 m
+ 6075 1350 l gs 0.00 setgray ef gr 
 % here ends figure;
 $F2psEnd
 rs
