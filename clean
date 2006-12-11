@@ -1,3 +1,0 @@
-#!/bin/sh
-rm -rf *.aux *.log *.bibmd5sums *.bbl *.blg *.brf habil.dvi *.idx *.ilg *.ind \
-       *.lof *.log *.lot *.out habil.pdf *.toc

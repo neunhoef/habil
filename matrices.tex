@@ -727,31 +727,129 @@ with this matrix only has to add $\lceil m/\ell-1 \rceil$ vector additions
 of looked up vectors. More precisely, we have the following result:
 
 \begin{Theo}[Grease: expected cost and gain]
-Let $M$ be a matrix with $m$ rows and $n$ columns over the field $\F_q$
-for $q = p^k$, and let $\ell \in \Z_{> 0}$. Let $b := \lceil m/\ell \rceil$ be
-the number of grease blocks.
+\label{theogrease}
+Let $M$ be a matrix with $m$ rows and $n$ columns over the field\/ $\F_q$
+for $q = p^k$, and let $\ell \in \Z_{> 0}$.
 
 Then greasing the matrix $M$ with grease level $\ell$ multiplies the amount
 of memory needed for $M$ by at most $q^\ell$ and costs at most 
-$b \cdot (q^\ell+q-4)$ row vector additions and $b \cdot \ell \cdot
-(k-1)$ multiplications of a row vector with a primitive root of $\F_q$.
+$\lceil m/\ell \rceil \cdot (q^\ell-k\cdot \ell -1)$ row vector additions 
+and $m \cdot (k-1)$ multiplications of a row vector with a primitive
+root of $\F_q$.
 
 If $M$ is greased, a vector $v$ can be multiplied from the right with $M$
-using only $b-1 = \lceil m/\ell -1 \rceil$ row vector additions plus the 
+using only $\lceil m/\ell -1 \rceil$ row vector additions plus the 
 cost of extracting the finite field elements from the vector $v$, which
 is usually neglectible.
 
 The standard approach for a vector-matrix multiplication needs 
 approximately $m(q-1)/q$ multiplications of a row vector by a non-zero
-scalar from $\F_q$ plus $m-1$ row vector additions, assuming that about
-every $q$-th element of $v$ is equal to zero.
+scalar from $\F_q$ plus $(m-1)(q-1)/q$ row vector additions, assuming that 
+about every $q$-th element of $v$ is equal to zero.
 \end{Theo}
-\Proof
+\Proof We first discuss the precomputation step to compute the greased
+matrix. Since there are $q^\ell$ different linear combinations of $\ell$ 
+vectors the statement about the needed memory is clear.
+
+We have to do the following for every grease block and thus 
+all costs are multiplied by $\lceil m/\ell \rceil$. 
+After multiplying each vector in the
+block $k-1$ times by the primitive root of $\F_q$ represented by the
+polynomial $x \in \F_p[x]$ and storing the intermediate results, 
+we can compute all $\F_q$-linear combinations
+of the vectors in the block by computing all $\F_p$-linear combinations
+of the vectors we already have. Thus, by Lemma~\ref{alllinkomb} below we can
+compute all those linear combinations with 
+$p^{k\cdot \ell} - k\cdot \ell - 1 = 
+q^\ell - k \cdot \ell - 1$ row vector additions, which is the cost in the
+theorem. Note that we compute here the scalar multiplications by the
+primitive root of $\F_q$ as full multiplication although it can be done
+more efficiently since the element represented by the polynomial $x$
+is sparse, such that the scalar multiplication with it is faster.
+
+After having greased the matrix, a multiplication of a vector with
+the matrix can be done by adding appropriate vectors. We have to add
+one for every grease block, leading to $\lceil m/\ell - 1\rceil$ additions.
 \ProofEnd
+
+\begin{Rems}
+\begin{itemize}
+\item The value $(2m-1)(q-1)/q$ for the standard approach is a
+good estimate for practical considerations about when to grease and when
+not. It can be replaced by the upper bound $2m-1$ neglecting
+possible zero entries in the vector.
+\item It is crucial to implement the extraction of entries
+from the vector $v$ as efficient as possible. If this is not done
+right, the cost of extracting elements in one vector can cancel out
+the benefit of fewer scalar multiplications.
+\item The fact that we need very few scalar multiples in the
+precomputation phase and none in the vector times matrix phase is
+very useful with respect to our new implementation in the
+{\cvec} package, since there additions are sometimes much cheaper
+than multiplication with scalars.
+\end{itemize}
+\end{Rems}
+ 
+The following lemma is used in the proof of Theorem~\ref{theogrease}:
+
+\begin{Lemm}[Computing all\/ $\F_p$-linear combinations]
+\label{alllinkomb}
+Let $v_1, \ldots, v_{j}$ be $\F_p$-linearly  
+independent vectors over a finite field $\F_q$ with $q = p^k$
+for some $j \in \Z_{> 0}$. If
+all $\F_p$-linear combinations of $v_1, \ldots, v_{j-1}$ are already
+computed, then all $\F_p$-linear combinations of $v_1, \ldots, v_j$ can
+be computed with $p^j - p^{j-1} - 1$ vector additions.
+
+This implies in particular that all $\F_p$-scalar multiples of a vector
+can be computed with $p-2$ vector additions, and inductively, that
+all $\F_p$-linear combinations of $v_1, \ldots, v_j$ can be be computed
+without assumption using $p^j-j-1$ vector additions.
+\end{Lemm}
+\Proof All non-zero $\F_p$-scalar multiples of $v_j$ can be computed by
+successively adding $v_j$ altogether $p-2$ times. Then every $\F_p$-linear
+combination of $v_1, \ldots, v_j$ is either one of the already
+computed $\F_p$-linear combinations of $v_1, \ldots, v_{j-1}$ or the
+non-zero multiples of $v_j$, or a sum of two such vectors. Thus, we 
+can compute all missing $p^j - p^{j-1} - (p-1)$ vectors with one
+vector addition each, which proves the first statement. 
+
+This includes the statement for $j=1$, which handles the case of computing
+all $\F_p$-scalar multiples of one vector. Without assumtions, we can
+apply the first statement inductively for $i=1, 2, \ldots, j$ proving
+the last statement, since
+\[ \sum_{i=1}^j (p^i - p^{i-1} - 1) = p^j - j - 1. \]
+\ProofEnd
+
+\begin{Rem}
+Thus computing all $\F_p$-linear combinations can be done
+with one addition per vector that is not already given, assuming
+the zero vector and the input vectors to be already there.
+\end{Rem}
 
 \subsection{Matrix multiplication}
 
-Greasing.
+Let $M \in \F_q^{m \times n}$ and $N \in \F_q^{n \times s}$ with $q = p^k$.
+The matrix multiplication $M \cdot N$ can be computed by multiplying the
+rows of $M$ from the right with the matrix $N$ and putting the $m$ resulting
+rows of length $s$ into the resulting matrix in $\F_q^{m \times s}$.
+
+There are at least three methods to improve the performance of this
+computation: The first is using grease (see the previous section), which
+we will analyse in detail in this section. 
+
+The second is using
+methods to arrange the same computations in a different order to 
+achieve that more memory fetches and stores are handled by the second
+level cache. This approach is used in some implementations and can
+speed up computations. However, we do not want to go into detail here.
+For some discussion of this topic see Section~\ref{sec:cache}. 
+
+The third method is to use the methods of Strassen and Winograd to
+get a lower exponent than $3$ in the complexity of matrix multiplication.
+
+
+
 
 \subsection{Matrix inversion}
 
