@@ -5,7 +5,7 @@ all:	habil.pdf
 habil.pdf:	habil.dvi
 	dvipdfm habil
 
-habil.dvi:	*.tex *.eps matmulF2_all.eps grease.pstex_t
+habil.dvi:	*.tex matmulF2_all.eps grease.pstex_t
 	texer
 
 clean:
