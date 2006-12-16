@@ -846,9 +846,42 @@ speed up computations. However, we do not want to go into detail here.
 For some discussion of this topic see Section~\ref{sec:cache}. 
 
 The third method is to use the methods of Strassen and Winograd to
-get a lower exponent than $3$ in the complexity of matrix multiplication.
+get a lower exponent than $3$ in the complexity of matrix multiplication
+of square matrices.
 
+We now discuss grease before we analyse for which sizes of
+matrices Strassen/Winograd is worthwhile.
 
+When the matrices we want to multiply are big enough such that the number
+of rows of $M$ is large in comparison to $q^\ell$
+for a suitable chosen grease level $\ell$, it is not necessary to grease
+the complete matrix $N$ before beginning the multiplication. Rather,
+we can proceed with the whole multiplication "`by grease blocks"', that
+is, we compute in a first step all possible linear combinations of the
+first $\ell$ rows of $N$, then run through all rows of $M$ looking
+only on the first $\ell$ entries, and add each one looked up
+linear combination of the rows of $N$. After that we can forget
+our precomputed linear combinations and proceed to the next grease block
+in $N$ and so on.
+
+The implementation in the {\cvec} package decides about whether it
+should use this method by looking at the number of rows of $M$. It compares
+the numbers and
+estimating whether $m/\ell$ row vector additions
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF2_all}
+\end{center}
+\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF2_low}
+\end{center}
+\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\end{figure}
 
 
 \subsection{Matrix inversion}
