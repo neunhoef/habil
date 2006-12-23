@@ -634,6 +634,7 @@ on an implementation of flat matrices in the {\GAP} system.
 
 
 \subsection{Addition and multiplication with scalars}
+\label{addmulsca}
 
 This section is extremely short, since to add matrices or
 to multiply a matrix by a scalar simply means to add corresponding
@@ -723,7 +724,7 @@ To do grease level $\ell$, we compute all possible linear combinations of
 each block of $\ell$ rows and store them. If we have computed and stored
 all this data, we call the matrix ``greased''.
 Then a vector-matrix multiplication
-with this matrix only has to add $\lceil m/\ell-1 \rceil$ vector additions
+with this matrix only has to add $\lceil m/\ell \rceil -1$ vector additions
 of looked up vectors. More precisely, we have the following result:
 
 \begin{Theo}[Grease: expected cost and gain]
@@ -737,8 +738,8 @@ $\lceil m/\ell \rceil \cdot (q^\ell-k\cdot \ell -1)$ row vector additions
 and $m \cdot (k-1)$ multiplications of a row vector with a primitive
 root of $\F_q$.
 
-If $M$ is greased, a vector $v$ can be multiplied from the right with $M$
-using only $\lceil m/\ell -1 \rceil$ row vector additions plus the 
+If $M$ is greased, a vector $v$ can be multiplied from the right by $M$
+using at most $\lceil m/\ell \rceil$ row vector additions plus the 
 cost of extracting the finite field elements from the vector $v$, which
 is usually neglectible.
 
@@ -762,14 +763,17 @@ of the vectors we already have. Thus, by Lemma~\ref{alllinkomb} below we can
 compute all those linear combinations with 
 $p^{k\cdot \ell} - k\cdot \ell - 1 = 
 q^\ell - k \cdot \ell - 1$ row vector additions, which is the cost in the
-theorem. Note that we compute here the scalar multiplications by the
-primitive root of $\F_q$ as full multiplication although it can be done
+theorem. Note that we count the scalar multiplications by the
+primitive root of\/ $\F_q$ here as full multiplication although they can be done
 more efficiently since the element represented by the polynomial $x$
-is sparse, such that the scalar multiplication with it is faster.
+is sparse, such that the scalar multiplication by it is faster.
 
-After having greased the matrix, a multiplication of a vector with
+After having greased the matrix, a multiplication of a vector by 
 the matrix can be done by adding appropriate vectors. We have to add
-one for every grease block, leading to $\lceil m/\ell - 1\rceil$ additions.
+one for every grease block, leading to $\lceil m/\ell \rceil - 1$ additions.
+However, since usually the result has to be stored in a different location
+than the table of greased vectors, we have to copy the first summand
+somewhere. Thus we count one addition to account for this copying operation.
 \ProofEnd
 
 \begin{Rems}
@@ -803,7 +807,7 @@ be computed with $p^j - p^{j-1} - 1$ vector additions.
 
 This implies in particular that all $\F_p$-scalar multiples of a vector
 can be computed with $p-2$ vector additions, and inductively, that
-all $\F_p$-linear combinations of $v_1, \ldots, v_j$ can be be computed
+all $\F_p$-linear combinations of $v_1, \ldots, v_j$ can be computed
 without assumption using $p^j-j-1$ vector additions.
 \end{Lemm}
 \Proof All non-zero $\F_p$-scalar multiples of $v_j$ can be computed by
@@ -850,7 +854,7 @@ get a lower exponent than $3$ in the complexity of matrix multiplication
 of square matrices.
 
 We now discuss grease before we analyse for which sizes of
-matrices Strassen/Winograd is worthwhile.
+matrices Strassen/Winograd is worthwhile doing.
 
 When the matrices we want to multiply are big enough such that the number
 of rows of $M$ is large in comparison to $q^\ell$
@@ -859,15 +863,36 @@ the complete matrix $N$ before beginning the multiplication. Rather,
 we can proceed with the whole multiplication "`by grease blocks"', that
 is, we compute in a first step all possible linear combinations of the
 first $\ell$ rows of $N$, then run through all rows of $M$ looking
-only on the first $\ell$ entries, and add each one looked up
-linear combination of the rows of $N$. After that we can forget
-our precomputed linear combinations and proceed to the next grease block
-in $N$ and so on.
+only at the first $\ell$ entries, and add each looked up
+linear combination of the rows of $N$ to the corresponding row of the
+final result. After that we can forget our precomputed linear
+combinations and proceed to the next grease block in $N$ and so on.
 
 The implementation in the {\cvec} package decides about whether it
-should use this method by looking at the number of rows of $M$. It compares
-the numbers and
-estimating whether $m/\ell$ row vector additions
+should use this method by looking at the number of rows of $M$. It
+compares $(q^\ell - k \cdot \ell - 1) + m$ 
+row vector additions plus $k-1$ row vector multiplications to
+$m \cdot \ell \cdot (q-1)/q$ row vector multiplications and additions.
+By Theorem~\ref{theogrease} the former is the number of row vector
+operations necessary for the grease approach and the latter the number
+of row vector operations for the standard approach, both counted for
+one grease block. Obviously, grease becomes more interesting when $m$ is
+large in comparison to $q^\ell$.
+
+In particular for values of $q$ for which multiplication of row vectors
+by scalars is expensive (see Section~\ref{addmulsca}) even grease 
+level $\ell = 1$ is interesting.
+
+For really large values of $m$ we can neglect the cost for the
+precomputation step of greasing and thus the total number of row 
+vector additions for the matrix multiplication of $M$ by $N$ is
+approximately $m \cdot \lceil n/\ell \rceil$. Since the cost of
+a row vector addition of vectors of length $s$ is proportional
+to $s$ (compare Proposition~\ref{addvec}), we get an asymptotic upper
+bound for the total cost for matrix multiplication that is proportional
+to $mnsk$ (remember that we fixed $p < 2^{31}$ or $p< 2^{63}$ in this
+analysis).
+
 
 \begin{figure}[ht]
 \begin{center}
