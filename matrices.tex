@@ -34,7 +34,7 @@ is built
 as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
 $c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
 Conway polynomials are monic by definition, an element
-of\, $\F_q$ can be represented by one polynomial over\, $\F_p$ of degree 
+of\, $\F_q$ can be represented by a polynomial over\, $\F_p$ of degree 
 less then $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
 \log_2(p^k) \rceil$ bits.
 
@@ -89,10 +89,10 @@ a multiple of $32$ bits.
 Let $e$ be $\lceil \log_2(2p-1)\rceil$ for $p > 2$ and $1$ for $p=2$. 
 This is the number of bits
 necessary to store an integer in the range $0,1, \ldots, 2p-2$ except
-for $p=2$, where it is $1$. This number $e$ is the number of bits we 
+for $p=2$. This number $e$ is the number of bits we 
 reserve for every prime field element we want to store. For $p=2$ this
 is evidently best possible, whereas for odd $p$, we seem to waste
-one bit per prime field element, since we seem to need only store
+one bit per prime field element, since we seem to need only to store
 numbers in the range $0,1,\ldots p-1$. This additional bit in the
 data structure allows us to represent a sum of two numbers in the
 range $0,1,\ldots, p-1$ using $e$ bits in odd characteristic.
@@ -101,8 +101,8 @@ We start with the prime field case $q=p$.
 
 We pack as many prime field elements as possible into a machine
 word, that is, $w := \lfloor 32/e \rfloor$ prime field elements per word
-on a machine with word length $32$ bit. On machines with $64$ bits
-we pack $w := 2 \lfloor 32/e \rfloor$ prime field elements into one word.
+on a machine with word length $32$ bit. On machines with word length $64$ bits
+we pack $w := 2 \cdot \lfloor 32/e \rfloor$ prime field elements into one word.
 Note that we do not use $\lfloor 64/e \rfloor$ elements which can be one
 more, since then the conversion between the different data formats for
 different word lengths becomes too expensive and awkward.
@@ -542,9 +542,9 @@ nearly nothing.
 
 We first look at the top $\F_2$ part of Table~\ref{memthrough}.
 
-We observe, that both implementations perform very similar, which is
-only to be expected, since they use the exact same method. For
-main memory access we seem to be nearly identical throughputs. For 
+We observe, that both implementations perform very similarly, which is
+only to be expected, since they use exactly the same method. For
+main memory access we seem to get nearly identical throughputs. For 
 second level cache accesses we see some differences, which can be
 explained for the given architectures by looking at the C code and the
 produced assembler code, which would lead too far here. However, 
@@ -572,11 +572,11 @@ throughput, but only by a factor of about $2$ to $3$, depending on
 the processor architecture.
 
 The second thing is that the byte oriented table lookup is noticably
-slower than the word accesses. When working in the second level cache,
+slower than the word access. When working in the second level cache,
 this can cripple the memory throughput by a factor of up to $10$, at least on
 the Athlon architecture. Note that the vector sizes are chosen small
 enough, such that not only the three vectors but also the lookup tables
-should fit together completely in the second level cache.
+should fit completely in the second level cache together.
 The same observation holds for the multiplication with a scalar. 
 
 Of course, for other finite fields $\F_q$ with $q \le 256$ the situation
@@ -647,20 +647,20 @@ We assume a machine with $32$ bit word length. Let $M$ and $M'$ be
 two compact matrices with $m$ rows and $n$ columns over $\F_q$, where $q
 = p^k$.
 
-For $2 < p < 2^{31}$, the matrices $M$ and $M'$
+For\/ $2 < p < 2^{31}$, the matrices $M$ and $M'$
 can be added using $7km\cdot \lceil n/w \rceil$
 word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
 and $e = \lceil \log_2(2p-1) \rceil$. 
 For $p=2$, only $mk \cdot \lceil n/32 \rceil$ word operations are needed.
 
-For $2 < p < 2^{31}$, the total cost of a multiplication of
+For\/ $2 < p < 2^{31}$, the total cost of a multiplication of
 $M$ by $s \in \F_p$ is at most 
 $14km(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
 and stores). For $p=2$, the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
 
-For $2 < p < 2^{31}$, the total cost of a multiplication of $M$
+For\/ $2 < p < 2^{31}$, the total cost of a multiplication of $M$
 by $s \in \F_q$ is at most
 $7k^2m(2e-3)\cdot \lceil 32/w \rceil$.
  For $p = 2$, the total cost is
@@ -686,7 +686,7 @@ The multiplication $vM$ can be understood as taking a linear combination
 of the rows of $M$, the vector $v$ just contains the coefficients. This
 kind of reasoning already leads to the most efficient way to implement
 this operation: We just multiply the $i$-th row of $M$ by the scalar
-$v_i$ and add the product vector to the final result for $1 \le i \le m$.
+$v_i$ and add the resulting vector to the final result for $1 \le i \le m$.
 Thus this operation can be done using at most $m$ multiplications
 of a vector by a scalar plus $m-1$ vector additions.
 
@@ -819,7 +819,7 @@ can compute all missing $p^j - p^{j-1} - (p-1)$ vectors with one
 vector addition each, which proves the first statement. 
 
 This includes the statement for $j=1$, which handles the case of computing
-all $\F_p$-scalar multiples of one vector. Without assumtions, we can
+all $\F_p$-scalar multiples of one vector. Without assumptions, we can
 apply the first statement inductively for $i=1, 2, \ldots, j$ proving
 the last statement, since
 \[ \sum_{i=1}^j (p^i - p^{i-1} - 1) = p^j - j - 1. \]
@@ -860,12 +860,12 @@ When the matrices we want to multiply are big enough such that the number
 of rows of $M$ is large in comparison to $q^\ell$
 for a suitable chosen grease level $\ell$, it is not necessary to grease
 the complete matrix $N$ before beginning the multiplication. Rather,
-we can proceed with the whole multiplication "`by grease blocks"', that
+we can proceed with the whole multiplication ``by grease blocks'', that
 is, we compute in a first step all possible linear combinations of the
 first $\ell$ rows of $N$, then run through all rows of $M$ looking
 only at the first $\ell$ entries, and add each looked up
-linear combination of the rows of $N$ to the corresponding row of the
-final result. After that we can forget our precomputed linear
+linear combination of the first $\ell$ rows of $N$ to the corresponding
+row of the final result. After that we can forget our precomputed linear
 combinations and proceed to the next grease block in $N$ and so on.
 
 The implementation in the {\cvec} package decides about whether it
@@ -881,7 +881,7 @@ large in comparison to $q^\ell$.
 
 In particular for values of $q$ for which multiplication of row vectors
 by scalars is expensive (see Section~\ref{addmulsca}) even grease 
-level $\ell = 1$ is interesting.
+level $\ell = 1$ is worthwhile doing.
 
 For really large values of $m$ we can neglect the cost for the
 precomputation step of greasing and thus the total number of row 
@@ -891,14 +891,42 @@ a row vector addition of vectors of length $s$ is proportional
 to $s$ (compare Proposition~\ref{addvec}), we get an asymptotic upper
 bound for the total cost for matrix multiplication that is proportional
 to $mnsk$ (remember that we fixed $p < 2^{31}$ or $p< 2^{63}$ in this
-analysis).
+analysis). For square $n \times n$-matrices this is the classical
+$n^3$ complexity for the number of field operations.
 
+We now discuss methods by Strassen and Winograd to reduce this complexity
+for large matrices. These methods apply in practice only to square matrices.
+The basic idea is, that it is possible to multiply two $2 \times 2$-matrices
+using only $7$ multiplications instead of $8$ in the standard approach.
+One pays for this with a few more additions. Using this idea for two 
+$2n \times 2n$-matrices means cutting both into $4$ blocks of 
+$n\times n$-matrices each and computing the whole product by computing
+$7$ matrix products of $n \times n$-matrices. For details of the
+procedures developed by Strassen and Winograd see \cite[???]{AOCP}.
+With their help one can reduce the theoretical complexity for the 
+multiplication of two $n \times n$-matrices from $n^3$
+to $n^{2.83}$. There are also more involved methods reducing the exponent
+further, but they seem to be of theoretical interest only.
+
+Since using the Winograd method recursively needs a certain amount of
+additional administration as well as memory,
+it is clear that it is only worthwhile for ``large'' matrices. In particular,
+the method is only good if $7$ multiplications of two $n \times n$-matrices
+plus the administrational overhead need in fact less time than one
+multiplication of two $2n \times 2n$-matrices. 
+
+Cache-induced saving effects for ``small'' matrices however lead to the
+effect, that for matrices over finite fields $n$ need to be rather large
+for this condition to be fulfilled. We want to underpin this claim
+by experimental evidence. In Figures~\ref{matmulf2} and \ref{matmulf2scaled}
+we have
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=14cm]{matmulF2_all}
 \end{center}
 \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\label{matmulf2}
 \end{figure}
 
 \begin{figure}[ht]
@@ -906,6 +934,7 @@ analysis).
 \includegraphics[width=14cm]{matmulF2_low}
 \end{center}
 \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\label{matmulf2scaled}
 \end{figure}
 
 
