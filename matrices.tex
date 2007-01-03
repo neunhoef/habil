@@ -854,7 +854,7 @@ get a lower exponent than $3$ in the complexity of matrix multiplication
 of square matrices.
 
 We now discuss grease before we analyse for which sizes of
-matrices Strassen/Winograd is worthwhile doing.
+matrices the Strassen/Winograd method is worthwhile doing.
 
 When the matrices we want to multiply are big enough such that the number
 of rows of $M$ is large in comparison to $q^\ell$
@@ -863,25 +863,27 @@ the complete matrix $N$ before beginning the multiplication. Rather,
 we can proceed with the whole multiplication ``by grease blocks'', that
 is, we compute in a first step all possible linear combinations of the
 first $\ell$ rows of $N$, then run through all rows of $M$ looking
-only at the first $\ell$ entries, and add each looked up
-linear combination of the first $\ell$ rows of $N$ to the corresponding
+only at the first $\ell$ entries, look up the right
+linear combination of the first $\ell$ rows of $N$ and add it 
+to the corresponding
 row of the final result. After that we can forget our precomputed linear
 combinations and proceed to the next grease block in $N$ and so on.
 
 The implementation in the {\cvec} package decides about whether it
 should use this method by looking at the number of rows of $M$. It
 compares $(q^\ell - k \cdot \ell - 1) + m$ 
-row vector additions plus $k-1$ row vector multiplications to
+row vector additions plus $\ell \cdot (k-1)$ row vector multiplications to
 $m \cdot \ell \cdot (q-1)/q$ row vector multiplications and additions.
-By Theorem~\ref{theogrease} the former is the number of row vector
+By Theorem~\ref{theogrease} the former are the numbers of row vector
 operations necessary for the grease approach and the latter the number
 of row vector operations for the standard approach, both counted for
 one grease block. Obviously, grease becomes more interesting when $m$ is
-large in comparison to $q^\ell$.
+large in comparison to $q^\ell$. Furthermore, the advantage of grease
+grows with the matrix size.
 
-In particular for values of $q$ for which multiplication of row vectors
-by scalars is expensive (see Section~\ref{addmulsca}) even grease 
-level $\ell = 1$ is worthwhile doing.
+Note that in particular for values of $q$ for which multiplication 
+of row vectors by scalars is expensive (see Section~\ref{addmulsca})
+even grease level $\ell = 1$ is worthwhile doing.
 
 For really large values of $m$ we can neglect the cost for the
 precomputation step of greasing and thus the total number of row 
@@ -906,7 +908,8 @@ procedures developed by Strassen and Winograd see \cite[???]{AOCP}.
 With their help one can reduce the theoretical complexity for the 
 multiplication of two $n \times n$-matrices from $n^3$
 to $n^{2.83}$. There are also more involved methods reducing the exponent
-further, but they seem to be of theoretical interest only.
+further, but they seem to be of theoretical interest only (see 
+\cite[???]{AOCP}).
 
 Since using the Winograd method recursively needs a certain amount of
 additional administration as well as memory,
@@ -915,11 +918,12 @@ the method is only good if $7$ multiplications of two $n \times n$-matrices
 plus the administrational overhead need in fact less time than one
 multiplication of two $2n \times 2n$-matrices. 
 
-Cache-induced saving effects for ``small'' matrices however lead to the
-effect, that for matrices over finite fields $n$ need to be rather large
-for this condition to be fulfilled. We want to underpin this claim
-by experimental evidence. In Figures~\ref{matmulf2} and \ref{matmulf2scaled}
-we have
+The percentage of administrative work for the preparation of a matrix
+multiplication among the total work is higher for small matrices.
+This effect and the increasing
+effect of grease lead to the
+effect, that for matrices over finite fields $n$ needs to be rather large
+for the above condition to be fulfilled. 
 
 \begin{figure}[ht]
 \begin{center}
@@ -937,14 +941,111 @@ we have
 \label{matmulf2scaled}
 \end{figure}
 
+We want to underpin this claim by experimental evidence. In
+Figures~\ref{matmulf2} through \ref{matmulf7scaled} we have depicted times
+for the multiplication of two randomised $n\times n$-matrices, not
+using the Strassen/Winograd method but using grease.
+All measurements were performed on a machine with a AMD Athlon 64 X2 
+Dual Core Processor 3800+ with 512 kB second level cache running at 2.0 GHz.
 
-\subsection{Matrix inversion}
+The horizontal axis indicates the size $n$ of the matrices and the vertical
+axis the time $t$ for one multiplication in milliseconds. 
+The actual measured values are depicted by
+little $\times$ signs. A curve with equation $t=c \cdot n^3$ with some constant
+$c$ has been fitted to the origin and the measurement for the biggest 
+matrices. 
 
-Greasing.
+One can see that the measurements are very near the expected
+curve but a little bit above. This is due to the fact that administrative
+saving effects and grease render the multiplication
+of bigger matrices a little more efficient. 
+
+In addition for every tested matrix size we have added two further marks.
+Namely, for a measurement $(n,t)$ we have put a little $+$ sign at the
+position $(2n,7t)$ and a little square sign at the position $(2n,8t)$.
+In this way, one can easily compare the time for one multiplication of two
+$2n \times 2n$-matrices with the time for 7 or 8 multiplications of two
+$n \times n$-matrices respectively. The figures clearly show, that the $\times$
+sign is closer to the square sign than to the $+$ sign except for rather
+large matrices.
+
+For the field $\F_2$ with $2$ elements for example and for $2n$ not bigger than
+26000 there is no point in using the Strassen/Winograd method at all, 
+since the time for one multiplication of two $2n \times 2n$-matrices
+is closer to that of 7 multiplications of two $n \times n$-matrices than to
+that of 8. And indeed, experiments with our Winograd-implementation give
+further evidence, that using this method is only worthwhile over the field
+$\F_2$ for matrices of at least size $32000 \times 32000$.
+Since we have to stop the recursion there, for the multiplication of
+two $64000 \times 64000$ matrices over $\F_2$ we can save about $1/8$ of
+the CPU time using the Winograd method once. We pay with a lot more needed
+memory.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF7_all}
+\end{center}
+\caption{Matrix multiplication times over $\F_7$ against matrix dimension}
+\label{matmulf7}
+\end{figure}
+
+For the field with $7$ elements the situation is similar,
+Figures~\ref{matmulf7} and \ref{matmulf7scaled} show the details
+analogously. Here the break-even point lies at about 16000.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF7_low}
+\end{center}
+\caption{Matrix multiplication times over $\F_7$ against matrix dimension}
+\label{matmulf7scaled}
+\end{figure}
+
+For the field with $3^5 = 243$ elements the situation is even more extreme.
+Figure~\ref{matmulF243} shows the details analogously. The saving effects
+of grease are so prominent that it is never a good idea to use the Winograd 
+method for matrices that fit into the main memory of today's computers.
+Note that a matrix of dimensions $15000 \times 15000$ over $\F_{243}$
+needs about $450$ megabytes in main memory.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF243_all}
+\end{center}
+\caption{Matrix multiplication times over $\F_{243}$ against matrix dimension}
+\label{matmulF243}
+\end{figure}
+
 
 \subsection{Semi echelonisation}
 
-Cleaning, spinning.
+Definition semi-echelon form
+
+Definition full-echelon form
+
+Cleaning, complements
+
+Alg. to compute semi-echelon form
+
+Analysis
+
+Alg. to compute full-echelon form
+
+Analysis
+
+Comparing subspaces
+
+Spinning. (fast spinning?)
+
+
+\subsection{Matrix inversion}
+
+Algorithm.
+
+Grease.
+
+Analysis
+
 
 \section{Cache issues}
 \label{sec:cache}
