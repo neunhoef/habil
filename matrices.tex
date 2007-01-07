@@ -871,24 +871,42 @@ combinations and proceed to the next grease block in $N$ and so on.
 
 The implementation in the {\cvec} package decides about whether it
 should use this method by looking at the number of rows of $M$. It
-compares $(q^\ell - k \cdot \ell - 1) + m$ 
-row vector additions plus $\ell \cdot (k-1)$ row vector multiplications to
-$m \cdot \ell \cdot (q-1)/q$ row vector multiplications and additions.
+compares $(q^\ell/\ell - k - 1/\ell) + m/\ell$ 
+row vector additions plus $k-1$ row vector multiplications to
+$m \cdot (q-1)/q$ row vector multiplications and additions.
 By Theorem~\ref{theogrease} the former are the numbers of row vector
 operations necessary for the grease approach and the latter the number
 of row vector operations for the standard approach, both counted for
-one grease block. Obviously, grease becomes more interesting when $m$ is
-large in comparison to $q^\ell$. Furthermore, the advantage of grease
+one column of the left matrix. Obviously, grease becomes more interesting 
+when $m$ is large in comparison to $q^\ell$. 
+Furthermore, the advantage of grease
 grows with the matrix size.
 
-Note that in particular for values of $q$ for which multiplication 
-of row vectors by scalars is expensive (see Section~\ref{addmulsca})
-even grease level $\ell = 1$ is worthwhile doing.
+To optimise this, a calibration phase is done once and for all: For all finite
+fields separately, a procedure determines, how long a multiplication
+of a vector by an arbitrary scalar and the primitive root respectively
+takes in comparison to an addition of two vectors.
+This depends on the particular machine architecture, especially on 
+cache sizes and memory interfaces and thus has to be done for every
+machine separately. The result is a table advising which level of grease
+to use for which values of $m$. Since all the above mentioned cost
+functions are linear functions in $m$, it is easy to show that the
+optimal grease level depends monotonically increasing on $m$.
 
-For really large values of $m$ we can neglect the cost for the
+Note that this analysis shows that in particular for values of $q$
+for which multiplication of row vectors by scalars is expensive (see
+Section~\ref{addmulsca}) even grease level $\ell = 1$ is worthwhile
+doing.
+
+For really large values of $m$ and fixed $\ell$ we can neglect the cost for the
 precomputation step of greasing and thus the total number of row 
 vector additions for the matrix multiplication of $M$ by $N$ is
-approximately $m \cdot \lceil n/\ell \rceil$. Since the cost of
+approximately $m \cdot \lceil n/\ell \rceil$. Note that we cannot
+neglect the cost for the precomputation for larger values of $\ell$,
+since the precomputation cost contain a term $q^\ell$. Thus in practice,
+the grease level always stays rather small.
+
+Since the cost of
 a row vector addition of vectors of length $s$ is proportional
 to $s$ (compare Proposition~\ref{addvec}), we get an asymptotic upper
 bound for the total cost for matrix multiplication that is proportional
