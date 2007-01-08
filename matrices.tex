@@ -585,14 +585,22 @@ operations per vector word is at most $105$. The experiments shown in
 the third part of Table~\ref{memthrough} concerning fields $\F_{3^k}$ 
 indicate, that
 if this number is assumed, the performance of multiplication of a vector
-by a scalar is much slower than with table lookup. It follows that there 
-is no method that is better in all situations.
+by a scalar is much slower than with table lookup. 
 
 However, in the light of the grease method explained in
 Section~\ref{ssec:vecmat} computing too many vector times scalar 
 operations can often be avoided, which renders the new method
 superior in many real life examples.
 
+Finally, note that due to the extra bit per prime field element that
+is necessary for doing word operations, vectors in the {\cvec}
+implementation need a bit more memory than in the {\GAP} library
+implementation (for characteristic not equal to $2$).
+Thus, if the memory throughput is the same, the practical performance is 
+a bit worse with word operations than with table lookup.
+
+Considering all the aspects in this comparison we conclude that there 
+is no method that is better in all situations.
 
 \index{Matrix}
 
@@ -733,10 +741,14 @@ Let $M$ be a matrix with $m$ rows and $n$ columns over the field\/ $\F_q$
 for $q = p^k$, and let $\ell \in \Z_{> 0}$.
 
 Then greasing the matrix $M$ with grease level $\ell$ multiplies the amount
-of memory needed for $M$ by at most $q^\ell$ and costs at most 
-$\lceil m/\ell \rceil \cdot (q^\ell-k\cdot \ell -1)$ row vector additions 
-and $m \cdot (k-1)$ multiplications of a row vector with a primitive
-root of $\F_q$.
+of memory needed for $M$ by at most $q^\ell$. The precomputation of the
+linear combinations costs at most 
+$q^\ell-k\cdot \ell -1$ row vector additions 
+and $\ell \cdot (k-1)$ multiplications of a row vector with a primitive
+root of $\F_q$ per grease block. That is, for the complete matrix, we
+need at most $\lceil m/\ell \rceil \cdot (q^\ell-k\cdot \ell -1)$ row
+vector additions and $m \cdot (k-1)$ multiplications by the primitive
+root.
 
 If $M$ is greased, a vector $v$ can be multiplied from the right by $M$
 using at most $\lceil m/\ell \rceil$ row vector additions plus the 
@@ -763,8 +775,8 @@ of the vectors we already have. Thus, by Lemma~\ref{alllinkomb} below we can
 compute all those linear combinations with 
 $p^{k\cdot \ell} - k\cdot \ell - 1 = 
 q^\ell - k \cdot \ell - 1$ row vector additions, which is the cost in the
-theorem. Note that we count the scalar multiplications by the
-primitive root of\/ $\F_q$ here as full multiplication although they can be done
+theorem. Note that the scalar multiplications by the
+primitive root of\/ $\F_q$ can be done
 more efficiently since the element represented by the polynomial $x$
 is sparse, such that the scalar multiplication by it is faster.
 
@@ -778,10 +790,10 @@ somewhere. Thus we count one addition to account for this copying operation.
 
 \begin{Rems}
 \begin{itemize}
-\item The value $(2m-1)(q-1)/q$ for the standard approach is a
-good estimate for practical considerations about when to grease and when
-not. It can be replaced by the upper bound $2m-1$ neglecting
-possible zero entries in the vector.
+\item The factor $(q-1)/q$ used for the standard approach is a
+good estimate for practical considerations when comparing to
+the grease approach. For larger values of $q$ it is of course negligible,
+however for $q=2$ it is equal to $2$.
 \item It is crucial to implement the extraction of entries
 from the vector $v$ as efficient as possible. If this is not done
 right, the cost of extracting elements in one vector can cancel out
@@ -922,12 +934,13 @@ One pays for this with a few more additions. Using this idea for two
 $2n \times 2n$-matrices means cutting both into $4$ blocks of 
 $n\times n$-matrices each and computing the whole product by computing
 $7$ matrix products of $n \times n$-matrices. For details of the
-procedures developed by Strassen and Winograd see \cite[???]{AOCP}.
+procedures developed by Strassen and Winograd see \cite[4.6.4]{AOCP}.
 With their help one can reduce the theoretical complexity for the 
 multiplication of two $n \times n$-matrices from $n^3$
-to $n^{2.83}$. There are also more involved methods reducing the exponent
+to $n^{\log_2(7)} \approx n^{2.807}$. 
+There are also more involved methods reducing the exponent
 further, but they seem to be of theoretical interest only (see 
-\cite[???]{AOCP}).
+also \cite[4.6.4]{AOCP}).
 
 Since using the Winograd method recursively needs a certain amount of
 additional administration as well as memory,
@@ -955,7 +968,8 @@ for the above condition to be fulfilled.
 \begin{center}
 \includegraphics[width=14cm]{matmulF2_low}
 \end{center}
-\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\caption{Matrix multiplication times over $\F_2$ against matrix dimension
+(magnification)}
 \label{matmulf2scaled}
 \end{figure}
 
@@ -1015,7 +1029,8 @@ analogously. Here the break-even point lies at about 16000.
 \begin{center}
 \includegraphics[width=14cm]{matmulF7_low}
 \end{center}
-\caption{Matrix multiplication times over $\F_7$ against matrix dimension}
+\caption{Matrix multiplication times over $\F_7$ against matrix dimension
+(magnification)}
 \label{matmulf7scaled}
 \end{figure}
 
@@ -1034,24 +1049,207 @@ needs about $450$ megabytes in main memory.
 \label{matmulF243}
 \end{figure}
 
+The behaviour for other finite fields is similar. The {\cvec} package
+contains an implementation of the Winograd method but does not use
+it without explicit command.
+
 
 \subsection{Semi echelonisation}
 
-Definition semi-echelon form
+The concept of echelonisation is fundamental to solve systems of linear
+equations (see Proposition~\ref{syslineqsolve}). All the concepts
+introduced in this section are well known. We present them here for
+the sake of completeness and to present a complete analysis in terms
+of numbers of row vector operations.
 
-Definition full-echelon form
+\begin{Def}[Row echelon form]
+Let $\F$ be an arbitrary field. 
 
-Cleaning, complements
+We say that a matrix $S = (S_{i,j}) \in \F$
+is \textbf{in row semi echelon form}, if the first non-zero entry in each
+row is equal to $1$ and every entry in the same column below these ones
+is equal to $0$. More formally, the condition is: There
+is a non-negative integer $r \le m$ and integers $1 \le j_1 \le \cdots \le
+j_r \le n$ such that the following hold:
+\begin{itemize}
+\item $S_{i,j_i} = 1$ and $S_{i,k} = 0$ for all $i$ with $1 \le i \le r$
+and for all $k$ with $1 \le k < j_i$,
+\item $S_{k,j_i} = 0$ for all $i$ with $1 \le i \le r$ and all $k$ with 
+$j_i < k \le m$,
+\item $S_{k,l} = 0$ for all $k$ with $r < k \le m$ and for all $l$ with
+$1 \le l \le n$.
+\end{itemize}
+Note that the numbers $r$ and $j_i$ are --- if they exist --- uniquely
+determined by the matrix $S$. The number $r$ is the rank if $S$ and
+the $j_i$ are called \textbf{pivot column numbers} and the corresponding
+columns \textbf{pivot columns}. 
 
-Alg. to compute semi-echelon form
+We say that a matrix $S = (S_{i,j}) \in \F$
+is \textbf{in row full echelon form}, if the first non-zero entry in each
+row is equal to $1$ and every entry in the same column below and above
+these ones is equal to $0$. More formally, the condition is: There
+is a non-negative integer $r \le m$ and integers $1 \le j_1 \le \cdots \le
+j_r \le n$ such that the following hold:
+\begin{itemize}
+\item $S_{i,j_i} = 1$ and $S_{i,k} = 0$ for all $i$ with $1 \le i \le r$
+and for all $k$ with $1 \le k < j_i$,
+\item $S_{k,j_i} = 0$ for all $i$ with $1 \le i \le r$ and all $k$ with 
+$1 \le k < j_i$ or $j_i < k \le m$,
+\item $S_{k,l} = 0$ for all $k$ with $r < k \le m$ and for all $l$ with
+$1 \le l \le n$.
+\end{itemize}
+Every matrix in row full echelon form is in particular in row semi echelon form.
+Sometimes we leave out the word ``row'' and speak of semi echelon form
+or full echelon form. \ProofEnd
+\end{Def}
 
-Analysis
+The reason why a matrix $S \in \F^{m \times n}$ in row semi echelon     
+form is useful is that it defines the direct sum decomposition          
+$V := \F^{1 \times n} = \Span(S) \oplus \Cmpl(S)$ where $\Span(S)$
+is the linear span of the rows of $S$
+and $\Cmpl(S) := \left\{ v \in V \mid v_{j_i} = 0 \mbox{ for } 1 \le i \le r
+\right\}$ and that there are very efficient
+algorithms to deal with this decomposition. It is for example possible
+to compute the canonical projections $V \to \Span(S)$ and 
+$V \to \Cmpl(S)$ and thus
+test membership in $\Span(S)$ and $\Cmpl(S)$, or explicitly decompose a 
+vector $v \in V$
+info $v=u+w$ with $u \in \Span(S)$ and $w \in \Cmpl(S)$. It is also possible to
+express an arbitrary vector $u \in \Span(S)$ in the form $u = a\cdot S$ with
+$a \in \F^{m \times 1}$ which essentially solves a system of linear
+equations given by $S$.
 
+Since all this is well known from any linear algebra course, we only 
+describe and analyse the one fundamental Algorithm \textsf{CleanRow}
+before we move on to algorithms to transform arbitrary matrices to
+echelon form.
+
+\begin{figure}[ht]
+\hrule
+\vspace*{1mm}
+\begin{algorithmic}
+\STATE \textbf{Input:} $S \in \F^{m \times n}$ in
+row semi echelon form with $r$ and $1 \le j_1 \le \cdots \le j_r \le m$,
+and $v \in \F^{1 \times n}$
+\STATE \textbf{Output:} $w \in \Cmpl{S}$ with $v-w \in
+\Span(S)$ and $a \in \F^{1 \times m}$ with $a\cdot S = v-w$
+\vspace*{1mm}
+\STATE $w := v$
+\STATE $a := 0 \in \F^m$, or $a:=\emptyset$ if $m=0$ \hspace*{2.4mm}
+\COMMENT{note that $w=v-aS$ if $m\ne0$}
+\FOR {$i = 1$ to $r$}
+    \STATE $a_i := w_{j_i}$
+    \STATE $w := w - a_i \cdot S[i]$
+    \hspace*{2cm} \COMMENT{here $S[i]$ is the $i$-th row of $S$}
+\ENDFOR\hspace*{4.2cm}
+\COMMENT{still $w=v-aS$ if $m\ne0$}
+\STATE \textbf{return} $w,a$
+\end{algorithmic}
+\vspace*{1mm}
+\hrule
+\caption{Algorithm \textsf{CleanRow}}
+\label{AlgCleanRow}
+\end{figure}
+
+\begin{Prop}[Analysis of Algorithm~\ref{AlgCleanRow} \textsf{CleanRow}]
+Given $S \in \F^{m \times n}$ in row semi echelon form and $v \in \F^{1
+\times n}$, Algorithm~\ref{AlgCleanRow} \textsf{CleanRow} returns
+vectors $w \in \F^{1 \times n}$ and $a \in \F^{1 \times m}$ such that
+$aS + w = v$ and $w \in \Cmpl(S)$. Thus, it computes the decomposition
+of $v$ with respect to the direct sum 
+$\F^{1 \times n} = \Span(S) \oplus \Cmpl(S)$.
+
+The algorithm needs at most $r$ multiplications of a row vector in\/ $\F^{1
+\times n}$ by a scalar and $r$ additions of two such row vectors.
+\end{Prop}
+\Proof After step $i$ in the loop the vector $w$ has zeroes
+in positions $j_1, \ldots, j_i$, because $S$ is in row semi echelon form.
+In particular, the zeroes below the ones in the pivot columns see to it,
+that the zeroes in $w$ are not changed any more in later steps of the loop.
+
+The statement about the costs is obvious.
+\ProofEnd
+
+\smallskip
+Algorithm~\ref{AlgCleanRow} \textsf{CleanRow} already enables us to perform
+the following tasks: It computes the canonical projection of $v$ onto
+$\Cmpl(S)$ with respect to the decomposition\/ $\F^{1 \times n} = \Span(S)
+\oplus \Cmpl(S)$. From this we can compute the other canonical
+projection of $v$ onto $\Span(S)$ by one more row operation $v-w$.
+In particular, we thus can test membership in $\Span(S)$ and $\Cmpl(S)$
+by comparing $w$ or $v-w$ to zero respectively. Also, for $v \in \Span(S)$
+we can solve the system of linear equations $v = xS$, the unique solution
+is $x=a$.
+
+To solve more generally a system of linear equations $v=aS$ for an
+arbitrary matrix $M \in \F^{m \times n}$ we want a way to apply
+these results. Given $M$, the basic idea is to find a matrix
+$S \in \F^{r \times n}$ in row semi echelon form together with a
+lower triangular matrix $T \in \F^{r \times m}$ with $S = TM$, where $r$
+is the rank of $M$ and $\Span(S) = \Span(M)$.
+
+This can be achieved by starting with a empty matrices 
+$S \in \F^{0 \times n}$ and $T \in \F^{0 \times m}$ and successively
+using Algorithm~\ref{AlgCleanRow} to clean the rows of $M$. We describe
+one such step in detail here. 
+
+Assume inductively, that 
+$S \in \F^{k \times n}$ is in row semi echelon form,
+$T \in \F^{k \times m}$ with $S = TM$, and $v$ is a row of $M$.
+Let $w$ and $a$ be the results of Algorithm~\ref{AlgCleanRow} called
+with $S$ and $v$. If $w = 0$ then $v \in \Span(S)$ and we proceed to the
+next row of $M$ without changing $S$ and $T$. Otherwise, $w \in \Cmpl(S)$
+and by multiplying $w$ with a non-zero constant $c \in \F$ we get
+a vector $cw$ whose first non-zero entry is equal to $1$. We append
+$cw$ to the matrix $S$ and get $S' \in \F^{(k+1) \times n}$,
+again in row semi echelon form.
+Since $cw = c\cdot (v-aS) = cv - caTM$, appending the row 
+$(-caT,c,0,\ldots,0) \in \F^{1 \times m}$ to $T$ gives us a new 
+$T' \in \F^{(k+1)\times m}$ with $S' = T'M$.
+
+This procedure inductively solves the above problem. We summarise:
+
+\begin{Prop}[Semi echelonisation]
+Let $\F$ be an arbitrary field and $M \in \F^{m \times n}$. Then the
+above inductive procedure computes a matrix $S \in \F^{r \times n}$
+in row semi echelon form and a lower triangular matrix 
+$T \in \F^{r \times m}$ with $S=TM$,
+such that $r$ is the rank of $M$ and $\Span(S) = \Span(M)$.
+The procedure needs at most $m(m+1)/2+r$ multiplications by a scalar
+and $m(m+1)/2$ additions of vectors in $\F^{1 \times n}$ plus
+$r(r+1)/2$ multiplications of a vector in $\F^{1 \times m}$ by a scalar
+and $r(r-1)/2$ additions of such vectors.
+\end{Prop}
+\Proof The above described procedure performs the task in the
+statement by construction. As to the costs, since
+Algorithm~\ref{AlgCleanRow} is called for all rows of $M$
+inductively and since $S$ has at most $i$ rows after step $i$,
+this needs at most $m(m+1)/2$ scalar multiplications and additions
+of vectors in $\F^{1 \times n}$. The normalisation of the
+resulting vector needs another $r$ multiplications by a scalar.
+To build up $T$ we inductively use the $a$-results of
+Algorithm~\ref{AlgCleanRow}. However, in each step, we have to multiply
+$a$ by the current matrix $T$. Since $T$ is lower triangular, the
+multiplication in step $i$ involves only $i-1$ multiplications of
+a vector in $\F^{1 \times m}$ by a scalar and $i-1$ additions of
+such vectors. Because of the multiplication by $-c$ in each step
+the total number of operations sums up to the numbers in the 
+statement. 
+\ProofEnd
+
+\begin{Rem}
+Note that the shape of $T$ allows for further
+improvements in a practical implementation, which we ignore here.
+\end{Rem}
+
+\vspace*{2cm}
 Alg. to compute full-echelon form
 
 Analysis
 
 Comparing subspaces
+
+Nullspaces
 
 Spinning. (fast spinning?)
 
