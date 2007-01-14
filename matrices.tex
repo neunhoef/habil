@@ -854,12 +854,12 @@ There are at least three methods to improve the performance of this
 computation: The first is using grease (see the previous section), which
 we will analyse in detail in this section. 
 
-The second is using
-methods to arrange the same computations in a different order to 
+The second is arranging the same computations in a different order to 
 achieve that more memory fetches and stores are handled by the second
 level cache. This approach is used in some implementations and can
-speed up computations. However, we do not want to go into detail here.
-For some discussion of this topic see Section~\ref{sec:cache}. 
+speed up computations. Since the third method produces this cache locality
+automatically, we only come back to this below briefly.
+For some additional discussion of this topic see Section~\ref{sec:cache}. 
 
 The third method is to use the methods of Strassen and Winograd to
 get a lower exponent than $3$ in the complexity of matrix multiplication
@@ -881,9 +881,9 @@ to the corresponding
 row of the final result. After that we can forget our precomputed linear
 combinations and proceed to the next grease block in $N$ and so on.
 
-The implementation in the {\cvec} package decides about whether it
-should use this method by looking at the number of rows of $M$. It
-compares $(q^\ell/\ell - k - 1/\ell) + m/\ell$ 
+We have to determine the appropriate grease level (where $0$ stands for not
+using grease at all). To this end we 
+compare $(q^\ell/\ell - k - 1/\ell) + m/\ell$ 
 row vector additions plus $k-1$ row vector multiplications to
 $m \cdot (q-1)/q$ row vector multiplications and additions.
 By Theorem~\ref{theogrease} the former are the numbers of row vector
@@ -909,6 +909,30 @@ Note that this analysis shows that in particular for values of $q$
 for which multiplication of row vectors by scalars is expensive (see
 Section~\ref{addmulsca}) even grease level $\ell = 1$ is worthwhile
 doing.
+
+When we use the optimal grease level determined as described, the
+cost of matrix multiplication depends on the size of the matrices
+in a relatively complicated way. In Figure~\ref{matmulgrease} we
+show times $t$ of matrix multiplications over $\F_2$ for different
+sizes $n$ of square matrices. The timings were obtaind by using the
+{\cvec} package in {\GAP} on a machine with an AMD Athlon 64 X2 Dual
+Core processor 3800+ with 512 kB second level cache running at
+2.0 GHz. The displayed behaviour is typical and
+holds also for other finite fields.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF2_grease}
+\end{center}
+\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\label{matmulgrease}
+\end{figure}
+
+The actual measurements are depicted by little $\times$ signs and
+the curve is a plot of the function $t = cn^3$ for some constant $c$, such
+that the curve passes through the actual measurement for $n=4000$.
+
+We see two effects. The first is that 
 
 For really large values of $m$ and fixed $\ell$ we can neglect the cost for the
 precomputation step of greasing and thus the total number of row 

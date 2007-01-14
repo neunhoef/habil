@@ -6,7 +6,7 @@ habil.pdf:	habil.dvi
 	dvipdfm habil
 
 habil.dvi:	*.tex matmulF2_all.eps matmulF7_all.eps matmulF243_all.eps \
-		grease.pstex_t
+		grease.pstex_t matmulF2grease.eps
 	texer
 
 clean:
@@ -22,6 +22,9 @@ matmulF7_all.eps:	matmulF7.dat plotF7.py
 
 matmulF243_all.eps:	matmulF243.dat plotF243.py
 	plotF243.py
+
+matmulF2grease.eps:	matmulF2grease.dat plotF2grease.py
+	plotF2grease.py
 
 grease.pstex_t:	grease.fig
 	fig2dev -L pstex grease.fig grease.pstex
