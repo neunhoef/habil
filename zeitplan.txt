@@ -1,0 +1,32 @@
+Parallel: 
+  * Fertigstellen von C3/C5-Paper mit Colva und Jon
+    (hat Komplexitätsanalyse von Standard-Basis-Alg.)
+    Plan: Fertig bis Ende Juni
+  * Nachdenken über MeatAxe-Analyse (Alternativen?)
+
+Planungszustand vom 
+Do Mai 10 12:42:29 CEST 2007
+
+bis 11.5.: Matrizenkapitel fertig, Char und Minpoly ausgliedern
+bis 19.5.: Minimalpoly paper einarbeiten, plus (Proj) Ordnung einer Mat 
+bis 26.5.: Composition tree Kapitel aufschreiben (dabei Perm beschreiben)
+           hint business
+bis  9.6.: Aschbacher-Ansatz erklaeren (mit Theorem und Struktur)
+bis 16.6.: Mat/Proj, C1, balancing, C3/C5 stub, C6, C2 (ohne Analyse), 
+           C4 (oA), C7?
+bis 23.6.: C8 (non-constr, constr., only overview)
+bis 30.7.: C9 (characteristic, non-constr, std. gens, hints database)
+bis  7.7.: C3/C5 einarbeiten
+bis 28.7.: Ausblick, Einleitung
+
+Protokoll, was wann fertig wurde:
+
+Stand: Do Mai 10 12:54:25 CEST 2007
+
+* Gerüst ist da
+* Matrizen-Kapitel fast fertig, braucht Überarbeitung
+
+* Do Mai 10 12:56:35 CEST 2007
+  ... fertig
+
+
