@@ -1,4 +1,4 @@
-% this is a part of the habilitation thesis of Max Neunhoeffer
+% is is a part of the habilitation thesis of Max Neunhoeffer
 
 \chapter{Matrices over finite fields}
 
@@ -9,10 +9,12 @@ Section~\ref{sec:ffematrices}, both in main memory and on storage.
 We then analyse the performance and complexity of matrix arithmetic 
 for this new representation in Section~\ref{sec:matarith} and compare
 it to previous implementations. In Section~\ref{sec:basalgmat}, we give
-an overview over the most basic algorithms for finite field matrices,
-before we conclude this chapter with the description of a new method
-to compute minimal polynomials of matrices over finite fields in
-Section~\ref{sec:charminpoly}, which is used to compute projective orders
+an overview over the most basic algorithms for finite field matrices.
+
+We conclude our presentation of fundamental matrix algorithms
+in the next chapter where we present a method to compute the characteristic
+polynomial of matrices over finite fields and a new method
+for the minimal polynomial, which is used to compute projective orders
 of matrices.
 
 %FIXME
@@ -160,13 +162,13 @@ The only natural limit of this implementation is that
 $\lceil \log_2(2p-1) \rceil$ must be smaller or equal to the word length
 of the microprocessor.
 
-We can now explain, how we can add vectors in the above representation
+We can now explain how we can add vectors in the above representation
 only by doing a series of word operations.
 
 \subsection{Adding compact vectors}
 
 The basic addition formula for finite field elements is rather simple:
-For prime field elements we just have to add two numbers in the range 
+For prime field elements we only have to add two numbers in the range 
 from $0$ to $p-1$, and
 subtract $p$, if the sum is greater or equal to $p$. The extension
 field elements are done component-wise. However, we have to solve
@@ -364,7 +366,7 @@ $7k^2(2e-3)\cdot \lceil 32/w \rceil$. For $p = 2$, the total cost is
 at most $2k(k-1) \cdot \lceil n/32 \rceil$ word operations.
 \end{Prop}
 
-\Proof See above and just add up the number of word operations for up
+\Proof See above and add up the number of word operations for up
 to $k$ multiplications of a vector by a prime field scalar and $k-1$
 additions of vectors. Note for $p=2$ that the vector $n$ consists of
 $k \cdot \lceil n/32 \rceil$ words and that we have to count one
@@ -383,7 +385,7 @@ $7k(2e-3)$ for $p > 2$.
 \subsection{Memory throughput in real implementations}
 
 In this section we present timing results in real implementations. We 
-compared two implementations: The first is an implementation of the
+compare two implementations: The first is an implementation of the
 ideas presented in this chapter in the {\sf GAP} package {\sf cvec}
 (see \cite{cvec}) by the author, and the second is the standard implementation
 of compact vectors in the {\sf GAP} kernel written by Steve Linton
@@ -612,7 +614,7 @@ lists of (row-) vectors. This means, that the list object only
 holds references to the subobjects, which are the rows of the matrix.
 Therefore, one can for example permute rows very efficiently without
 actually touching the bulk of the data in the rows. Instead, one can
-just redirect references. In addition, different matrices can share
+simply redirect references. In addition, different matrices can share
 rows, which leads to the fact that the modification of one matrix
 can in fact modify the other matrix. Although this can give rise to
 nasty bugs, it can also help to increase efficiency both with respect
@@ -691,9 +693,9 @@ and matrices we have to consider. The left multiplication of a column
 vector by a matrix can be simulated using the transposed matrix.
 
 The multiplication $vM$ can be understood as taking a linear combination
-of the rows of $M$, the vector $v$ just contains the coefficients. This
+of the rows of $M$, the vector $v$ contains the coefficients. This
 kind of reasoning already leads to the most efficient way to implement
-this operation: We just multiply the $i$-th row of $M$ by the scalar
+this operation: We multiply the $i$-th row of $M$ by the scalar
 $v_i$ and add the resulting vector to the final result for $1 \le i \le m$.
 Thus this operation can be done using at most $m$ multiplications
 of a vector by a scalar plus $m-1$ vector additions.
@@ -745,7 +747,7 @@ of memory needed for $M$ by at most $q^\ell$. The precomputation of the
 linear combinations costs at most 
 $q^\ell-k\cdot \ell -1$ row vector additions 
 and $\ell \cdot (k-1)$ multiplications of a row vector with a primitive
-root of $\F_q$ per grease block. That is, for the complete matrix, we
+root of\/ $\F_q$ per grease block. That is, for the complete matrix, we
 need at most $\lceil m/\ell \rceil \cdot (q^\ell-k\cdot \ell -1)$ row
 vector additions and $m \cdot (k-1)$ multiplications by the primitive
 root.
@@ -757,7 +759,7 @@ is usually neglectible.
 
 The standard approach for a vector-matrix multiplication needs 
 approximately $m(q-1)/q$ multiplications of a row vector by a non-zero
-scalar from $\F_q$ plus $(m-1)(q-1)/q$ row vector additions, assuming that 
+scalar from\/ $\F_q$ plus $(m-1)(q-1)/q$ row vector additions, assuming that 
 about every $q$-th element of $v$ is equal to zero.
 \end{Theo}
 \Proof We first discuss the precomputation step to compute the greased
@@ -810,16 +812,16 @@ The following lemma is used in the proof of Theorem~\ref{theogrease}:
 
 \begin{Lemm}[Computing all\/ $\F_p$-linear combinations]
 \label{alllinkomb}
-Let $v_1, \ldots, v_{j}$ be $\F_p$-linearly  
-independent vectors over a finite field $\F_q$ with $q = p^k$
+Let $v_1, \ldots, v_{j}$ be\/ $\F_p$-linearly  
+independent vectors over a finite field\/ $\F_q$ with $q = p^k$
 for some $j \in \Z_{> 0}$. If
-all $\F_p$-linear combinations of $v_1, \ldots, v_{j-1}$ are already
-computed, then all $\F_p$-linear combinations of $v_1, \ldots, v_j$ can
+all\/ $\F_p$-linear combinations of $v_1, \ldots, v_{j-1}$ are already
+computed, then all\/ $\F_p$-linear combinations of $v_1, \ldots, v_j$ can
 be computed with $p^j - p^{j-1} - 1$ vector additions.
 
-This implies in particular that all $\F_p$-scalar multiples of a vector
+This implies in particular that all\/ $\F_p$-scalar multiples of a vector
 can be computed with $p-2$ vector additions, and inductively, that
-all $\F_p$-linear combinations of $v_1, \ldots, v_j$ can be computed
+all\/ $\F_p$-linear combinations of $v_1, \ldots, v_j$ can be computed
 without assumption using $p^j-j-1$ vector additions.
 \end{Lemm}
 \Proof All non-zero $\F_p$-scalar multiples of $v_j$ can be computed by
@@ -912,27 +914,51 @@ doing.
 
 When we use the optimal grease level determined as described, the
 cost of matrix multiplication depends on the size of the matrices
-in a relatively complicated way. In Figure~\ref{matmulgrease} we
-show times $t$ of matrix multiplications over $\F_2$ for different
-sizes $n$ of square matrices. The timings were obtaind by using the
-{\cvec} package in {\GAP} on a machine with an AMD Athlon 64 X2 Dual
-Core processor 3800+ with 512 kB second level cache running at
-2.0 GHz. The displayed behaviour is typical and
-holds also for other finite fields.
+in a relatively complicated way. In Figures~\ref{matmulgrease} and
+\ref{matmulgrease_scaled} we show times $t$ of matrix multiplications
+over $\F_2$ for different sizes $n$ of square matrices using grease.
+The timings were obtained by using the {\cvec} package in {\GAP} on a
+machine with an AMD Athlon 64 X2 Dual Core processor 4600+ with 512
+kB second level cache running at 2.4 GHz. The displayed behaviour is
+typical and holds also for other finite fields.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=14cm]{matmulF2_grease}
+\includegraphics[width=14cm]{matmulF2grease}
 \end{center}
 \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
 \label{matmulgrease}
 \end{figure}
 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=14cm]{matmulF2grease_scaled}
+\end{center}
+\caption{Matrix multiplication times over $\F_2$ against matrix dimension
+(magnification)}
+\label{matmulgrease_scaled}
+\end{figure}
+
 The actual measurements are depicted by little $\times$ signs and
 the curve is a plot of the function $t = cn^3$ for some constant $c$, such
-that the curve passes through the actual measurement for $n=4000$.
+that the curve passes through the actual measurement for $n=5000$.
 
-We see two effects. The first is that 
+We see two effects. The first is that the actual measurements do not lie
+exactly on the theoretical $n^3$ curve. Rather, most measurements lie above
+that curve. This means that multiplying small matrices seems to take
+longer than expected by the needed number of operations in comparison 
+to larger matrices. This effect can be explained on the one hand by grease,
+which is more effective the bigger the matrices become. On the other hand
+for larger matrices the actual row operations dominate the administrative
+tasks like loops and also memory accesses to large consecutive areas of
+memory seem to be more efficient.
+
+The second effect is that for very small matrices (smaller than about $1500
+\times 1500$ for the field $\F_2$) the multiplication is again faster
+than expected. This is due to the second level cache built into nowadays
+microprocessors. A $(1500\times 1500)$-matrix over $\F_2$ needs about
+$300$ kB of memory. Thus, for smaller matrix multiplications most memory
+accesses are in fact cache hits.
 
 For really large values of $m$ and fixed $\ell$ we can neglect the cost for the
 precomputation step of greasing and thus the total number of row 
@@ -1002,7 +1028,7 @@ Figures~\ref{matmulf2} through \ref{matmulf7scaled} we have depicted times
 for the multiplication of two randomised $n\times n$-matrices, not
 using the Strassen/Winograd method but using grease.
 All measurements were performed on a machine with a AMD Athlon 64 X2 
-Dual Core Processor 3800+ with 512 kB second level cache running at 2.0 GHz.
+Dual Core Processor 4600+ with 512 kB second level cache running at 2.4 GHz.
 
 The horizontal axis indicates the size $n$ of the matrices and the vertical
 axis the time $t$ for one multiplication in milliseconds. 
@@ -1026,16 +1052,12 @@ sign is closer to the square sign than to the $+$ sign except for rather
 large matrices.
 
 For the field $\F_2$ with $2$ elements for example and for $2n$ not bigger than
-26000 there is no point in using the Strassen/Winograd method at all, 
+about $1600$ there is no point in using the Strassen/Winograd method at all, 
 since the time for one multiplication of two $2n \times 2n$-matrices
 is closer to that of 7 multiplications of two $n \times n$-matrices than to
 that of 8. And indeed, experiments with our Winograd-implementation give
 further evidence, that using this method is only worthwhile over the field
-$\F_2$ for matrices of at least size $32000 \times 32000$.
-Since we have to stop the recursion there, for the multiplication of
-two $64000 \times 64000$ matrices over $\F_2$ we can save about $1/8$ of
-the CPU time using the Winograd method once. We pay with a lot more needed
-memory.
+$\F_2$ for matrices of at least size $1600 \times 1600$.
 
 \begin{figure}[ht]
 \begin{center}
@@ -1047,7 +1069,7 @@ memory.
 
 For the field with $7$ elements the situation is similar,
 Figures~\ref{matmulf7} and \ref{matmulf7scaled} show the details
-analogously. Here the break-even point lies at about 16000.
+analogously. Here the break-even point lies at about $600$.
 
 \begin{figure}[ht]
 \begin{center}
@@ -1074,8 +1096,33 @@ needs about $450$ megabytes in main memory.
 \end{figure}
 
 The behaviour for other finite fields is similar. The {\cvec} package
-contains an implementation of the Winograd method but does not use
-it without explicit command.
+contains an implementation of the Winograd method and uses a calibration
+phase to determine for every finite field with $q \le 1024$ from which
+size the method is worth doing. In fact, there are two implementations
+of this method, one using more memory and less administrative overhead
+and one using less memory. The first is used for smaller matrices since
+for them it is crucial to cut down administrative costs as much as
+possible. For really large matrices, the extra memory needed would hurt
+too much and the saving effects of the better complexity render the
+method useful even with the higher administrative overhead.
+
+The following table shows for some finite fields the size limits for
+square matrices, from which the {\cvec} package uses the Winograd method.
+Note that these numbers depend heavily on the machine architecture and
+thus have to be determined individually for every machine.
+
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|}
+\hline
+q & 2 & 3 & 4 & 5 & 7 & 8 & 9 & 16 & 17 & 47 \\
+\hline
+n & 1600 & 1430 & 1502 & 1137 & 1438 & 1186 & 1201 & 1151 & --- & 800 \\
+\hline
+\end{tabular}
+\end{center}
+
+The dash for $q=17$ means that the Winograd method is not used for matrices
+over the field with $17$ elements.
 
 
 \subsection{Semi echelonisation}
