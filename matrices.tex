@@ -8,8 +8,9 @@ representation of such matrices on nowadays computers in
 Section~\ref{sec:ffematrices}, both in main memory and on storage.
 We then analyse the performance and complexity of matrix arithmetic 
 for this new representation in Section~\ref{sec:matarith} and compare
-it to previous implementations. In Section~\ref{sec:basalgmat}, we give
-an overview over the most basic algorithms for finite field matrices.
+it to previous implementations. 
+%In Section~\ref{sec:basalgmat}, we give
+%an overview over the most basic algorithms for finite field matrices.
 
 We conclude our presentation of fundamental matrix algorithms
 in the next chapter where we present a method to compute the characteristic
@@ -973,38 +974,295 @@ a row vector addition of vectors of length $s$ is proportional
 to $s$ (compare Proposition~\ref{addvec}), we get an asymptotic upper
 bound for the total cost for matrix multiplication that is proportional
 to $mnsk$ (remember that we fixed $p < 2^{31}$ or $p< 2^{63}$ in this
-analysis). For square $n \times n$-matrices this is the classical
+analysis). For square $(n \times n)$-matrices this is the classical
 $n^3$ complexity for the number of field operations.
 
 We now discuss methods by Strassen and Winograd to reduce this complexity
 for large matrices. These methods apply in practice only to square matrices.
-The basic idea is, that it is possible to multiply two $2 \times 2$-matrices
+The basic idea is that it is possible to multiply two $(2 \times 2)$-matrices
 using only $7$ multiplications instead of $8$ in the standard approach.
 One pays for this with a few more additions. Using this idea for two 
-$2n \times 2n$-matrices means cutting both into $4$ blocks of 
-$n\times n$-matrices each and computing the whole product by computing
-$7$ matrix products of $n \times n$-matrices. For details of the
+$(2n \times 2n)$-matrices means cutting both into $4$ blocks of 
+$(n\times n)$-matrices each and computing the whole product by computing
+$7$ matrix products of $(n \times n)$-matrices. For details of the
 procedures developed by Strassen and Winograd see \cite[4.6.4]{AOCP}.
 With their help one can reduce the theoretical complexity for the 
-multiplication of two $n \times n$-matrices from $n^3$
+multiplication of two $(n \times n)$-matrices from $n^3$
 to $n^{\log_2(7)} \approx n^{2.807}$. 
 There are also more involved methods reducing the exponent
 further, but they seem to be of theoretical interest only (see 
 also \cite[4.6.4]{AOCP}).
 
-Since using the Winograd method recursively needs a certain amount of
-additional administration as well as memory,
-it is clear that it is only worthwhile for ``large'' matrices. In particular,
-the method is only good if $7$ multiplications of two $n \times n$-matrices
-plus the administrational overhead need in fact less time than one
-multiplication of two $2n \times 2n$-matrices. 
+Using the Winograd method recursively needs a certain amount of
+additional administration, mostly cutting bigger matrices into smaller
+ones and copying the smaller intermediate results back into the
+bigger result. Since the cost of all this administration is proportional
+to the area of the matrices involved (i.e.~it is only quadratic in the
+size of the matrices), it is clear that this will be worthwhile for 
+``large'' matrices. For smaller matrices, the administrative overhead
+might dominate the saving effect of the better complexity.
+In particular, the method is only good if $7$ multiplications of two $(n
+\times n)$-matrices plus the administrational overhead need in fact less
+time than one multiplication of two $(2n \times 2n)$-matrices.
 
 The percentage of administrative work for the preparation of a matrix
 multiplication among the total work is higher for small matrices.
-This effect and the increasing
-effect of grease lead to the
-effect, that for matrices over finite fields $n$ needs to be rather large
+This fact and the increasing effect of grease lead to the
+effect that for matrices over finite fields $n$ needs to be rather large
 for the above condition to be fulfilled. 
+
+Therefore, one has to test individually for each finite field and each
+machine type, from which limit for $n$ on the Winograd method should
+be used. It seems that one can safely assume that provided it is 
+worthwhile for some $n_0$, it is also useful for all $n > n_0$. 
+
+However, in a practical implementation things are not that easy. In
+the following Table~\ref{MatMulWinograd2} we have collected empirical
+data about runtimes of matrix multiplication for different sizes of
+square matrices over the field $\F_2$. In the different columns we vary
+the number of times we use the Winograd trick. ``Wino 2'' for example
+means that the trick is used twice, that is, the matrices are cut once
+and the pieces are cut once again.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|r||r|r|r|r|}
+\hline
+$n$ & Wino 0 & Wino 1 & Wino 2 & Wino 3 \\
+\hline
+1500 & \textbf{36}     &66   & 152    &395      \\
+2000 & 125    &\textbf{116}  & 242    &600      \\
+2500 & 218    &\textbf{190}  & 360    &840      \\
+3000 & 350    &\textbf{310}  & 505    &1090      \\
+3500 & \textbf{520}    &600  & 670    &1410      \\
+4000 & \textbf{790}    &960  & 870    &1790      \\
+4500 & \textbf{1070}   &1270 & 1130   &2180      \\
+5000 & 1480   &1670 & \textbf{1420}   &2640      \\
+5500 & 1930   &2070 & \textbf{1720}   &3130      \\
+6000 & 2540   &2610 & \textbf{2190}   &3680      \\
+6500 & \textbf{3090}   &3170 & 3460   &4240      \\
+7000 & \textbf{3810}   &3870 & 4670   &4930      \\
+7500 & 4760   &\textbf{4670} & 5630   &5580      \\
+8000 & 5700   &\textbf{5600} & 6800   &6280      \\
+8500 & \textbf{6700}   &6720 & 8150   &7160      \\
+9000 & 8050   &\textbf{7910} & 9130   &8220      \\
+9500 & 9310   &\textbf{9070} & 10400  &9130      \\
+10000 &10800  &11430&  11920 & \textbf{10170}     \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Matrix multiplication times over $\F_2$ using Winograd}
+\label{MatMulWinograd2}
+\end{table}
+
+One can observe that it is not true that the bigger the matrices are
+the more often one should use the Winograd trick. For $(4000 \times
+4000)$-matrices it is for example better not to use the Winograd trick
+at all, whereas it helps to do it once for $(3000 \times
+3000)$-matrices. Even worse, if the best number of
+Winograd applications for $(n \times n)$-matrices is $i$, then it 
+is not necessarily true that the best number of Winograd applications
+for $(2n \times 2n)$-matrices is $i+1$ (see for example $n=2000$ in 
+the Table~\ref{MatMulWinograd2}). The situation for the base field 
+$\F_2$ is admittedly an extreme example but it is typical for small
+fields as can be seen by comparison with the field $\F_3$ for which we
+show some analogous timings in Table~\ref{MatMulWinograd3}.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|r||r|r|r|r|}
+\hline
+$n$ & Wino 0 & Wino 1 & Wino 2 & Wino 3 \\
+\hline
+1500 & 425 & \textbf{415} & 510 & 800\\
+2000 & 980 & \textbf{940} & 1020 & 1420\\
+2500 & \textbf{1810} & 1880 & 1870 & 2400\\
+3000 & 2970 & 3100 & \textbf{2900} & 3660\\
+3500 & 4650 & 4760 & \textbf{4420} & 5350\\
+4000 & \textbf{6620} & 6850 & 6690 & 7310\\
+4500 & \textbf{9260} & 9820 & 9840 & 9970\\
+5000 & \textbf{12420} & 12910 & 13250 & 13280\\
+5500 & \textbf{16340} & 16740 & 17260 & 16770\\
+6000 & 20800 & 20840 & 21780 & \textbf{20760}\\
+6500 & 26350 & 26370 & 27370 & \textbf{25920}\\
+7000 & 31990 & 32590 & 33470 & \textbf{31210}\\
+7500 & 39730 & 39350 & 41290 & \textbf{39260}\\
+8000 & 47430 & \textbf{46610} & 48350 & 47040\\
+8500 & 57960 & \textbf{55610} & 57580 & 59040\\
+9000 & 69450 & \textbf{65310} & 69100 & 69410\\
+9500 & 78740 & \textbf{75780} & 79880 & 81380\\
+10000 & 91130 & \textbf{87290} & 91120 & 93040\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Matrix multiplication times over $\F_3$ using Winograd}
+\label{MatMulWinograd3}
+\end{table}
+
+A good theoretical explanation of these findings is difficult, in
+particular since such measurements depend very much on the particular
+processor type and memory interface. As mentioned above, at least
+three factors
+seem to play a role: The first is that the saving effects of grease
+are greater for bigger matrices, the second is that administrative
+costs for the Winograd method play a bigger role for smaller matrices
+and finally the processor caches and specialities in main memory
+interfaces like burst accesses sometimes have nearly unpredictable
+effects on performance. For example for the field $\F_2$ it seems that
+for square matrices in the range of $n=3500$ to $n=4500$ cutting them
+once does not make the pieces small enough to fit into the second
+level cache and doing the Winograd trick twice already involves
+too much administrative overhead such that altogether it is best not
+to use the Winograd at all. For smaller matrices in the range $n=2000$
+to $n=3000$ on the other hand it seems worthwhile to use Winograd once
+which brings the pieces into the second level cache. For $n=5000$ in
+turn it seems to be the best to use Winograd twice to end up with
+matrices of size $1250$ fitting into the second level cache. Thus it
+seems that this strange cache related behaviour in the range 
+$2000$--$4500$ is repeated in the range $5000$--$9000$ and possibly
+above.
+
+% \begin{figure}[ht]
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF2_all}
+% \end{center}
+% \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+% \label{matmulf2}
+% \end{figure}
+% 
+% \begin{figure}[ht]
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF2_low}
+% \end{center}
+% \caption{Matrix multiplication times over $\F_2$ against matrix dimension
+% (magnification)}
+% \label{matmulf2scaled}
+% \end{figure}
+% 
+% We want to underpin this claim by experimental evidence. In
+% Figures~\ref{matmulf2} through \ref{matmulf7scaled} we have depicted times
+% for the multiplication of two randomised $(n\times n)$-matrices, not
+% using the Strassen/Winograd method but using grease.
+% All measurements were performed on a machine with a AMD Athlon 64 X2 
+% Dual Core Processor 4600+ with 512 kB second level cache running at 2.4 GHz.
+% 
+% The horizontal axis indicates the size $n$ of the matrices and the vertical
+% axis the time $t$ for one multiplication in milliseconds. 
+% The actual measured values are depicted by
+% little $\times$ signs. A curve with equation $t=c \cdot n^3$ with some constant
+% $c$ has been fitted to the origin and the measurement for the biggest 
+% matrices. 
+% 
+% One can see that the measurements are very near the expected
+% curve but a little bit above. This is due to the fact that administrative
+% saving effects and grease render the multiplication
+% of bigger matrices a little more efficient. 
+% 
+% In addition for every tested matrix size we have added two further marks.
+% Namely, for a measurement $(n,t)$ we have put a little $+$ sign at the
+% position $(2n,7t)$ and a little square sign at the position $(2n,8t)$.
+% In this way, one can easily compare the time for one multiplication of two
+% $(2n \times 2n)$-matrices with the time for 7 or 8 multiplications of two
+% $(n \times n)$-matrices respectively. The figures clearly show, that the $\times$
+% sign is closer to the square sign than to the $+$ sign except for rather
+% large matrices.
+% 
+% For the field $\F_2$ with $2$ elements for example and for $2n$ in the range 
+% from $3000$ to about $10000$ there seems to be no point in using the 
+% Strassen/Winograd method at all, 
+% since the time for one multiplication of two $(2n \times 2n)$-matrices
+% is closer to that of 7 multiplications of two $(n \times n)$-matrices than to
+% that of 8. For bigger values of $2n$, this method is definitely
+% sensible since one can save about $1/8$ of the computing time by
+% doing Winograd once. However, even for smaller matrices the method
+% helps, since it can help to ...
+% 
+% And indeed, experiments with our Winograd-implementation give
+% further evidence, that using this method is only worthwhile over the field
+% $\F_2$ for matrices of at least size $1600 \times 1600$.
+% 
+% \begin{figure}[ht]
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF7_all}
+% \end{center}
+% \caption{Matrix multiplication times over $\F_7$ against matrix dimension}
+% \label{matmulf7}
+% \end{figure}
+% 
+% For the field with $7$ elements the situation is similar,
+% Figures~\ref{matmulf7} and \ref{matmulf7scaled} show the details
+% analogously. Here the break-even point lies at about $600$.
+% 
+% \begin{figure}[ht]
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF7_low}
+% \end{center}
+% \caption{Matrix multiplication times over $\F_7$ against matrix dimension
+% (magnification)}
+% \label{matmulf7scaled}
+% \end{figure}
+% 
+% For the field with $3^5 = 243$ elements the situation is even more extreme.
+% Figure~\ref{matmulF243} shows the details analogously. The saving effects
+% of grease are so prominent that it is never a good idea to use the Winograd 
+% method for matrices that fit into the main memory of today's computers.
+% Note that a matrix of dimensions $15000 \times 15000$ over $\F_{243}$
+% needs about $450$ megabytes in main memory.
+% 
+% \begin{figure}[ht]
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF243_all}
+% \end{center}
+% \caption{Matrix multiplication times over $\F_{243}$ against matrix dimension}
+% \label{matmulF243}
+% \end{figure}
+% 
+% The behaviour for other finite fields is similar. 
+The {\cvec} package
+contains an implementation of the Winograd method and uses a calibration
+phase to determine for every finite field with $q \le 1024$ from which
+size the method is worth doing. In fact, there are two implementations
+of this method, one using more memory and less administrative overhead
+and one using less memory. The first is used for smaller matrices since
+for them it is crucial to cut down administrative costs as much as
+possible. For really large matrices, the extra memory needed would hurt
+too much and the saving effects of the better complexity render the
+method useful even with the higher administrative overhead.
+
+However, the question of when to use the Winograd method and how often
+in practical applications remains quite difficult and highly machine
+dependent.
+
+%The following table shows for some finite fields the size limits for
+%square matrices, from which the {\cvec} package uses the Winograd method.
+%Note that these numbers depend heavily on the machine architecture and
+%thus have to be determined individually for every machine.
+%
+%\begin{center}
+%\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|}
+%\hline
+%q & 2 & 3 & 4 & 5 & 7 & 8 & 9 & 16 & 17 & 47 \\
+%\hline
+%n & 1600 & 1430 & 1502 & 1137 & 1438 & 1186 & 1201 & 1151 & --- & 800 \\
+%\hline
+%\end{tabular}
+%\end{center}
+%
+%The dash for $q=17$ means that the Winograd method is not used at all 
+%for matrices over the field with $17$ elements.
+
+We conclude this section with Figures~\ref{matmulf2} amd
+\ref{matmulf3} showing the
+performance of matrix multiplication using grease together with
+the Winograd method. Here, we used the Winograd method for matrices
+of size greater or equal to $n=2500$ for $\F_2$ and ($n=3000$ for
+$\F_3$), that is, from $n=5000$ ($n=6000$ resp.) on it
+is used twice and so on. The curve shown there is 
+again the plot of the function $t = cn^3$ for some constant $c$, such
+that the curve passes through the actual measurement for $n=15000$
+($n=10000$ resp.).
+The better complexity begins to show with a few outliers following
+the pattern observed above.
 
 \begin{figure}[ht]
 \begin{center}
@@ -1016,334 +1274,271 @@ for the above condition to be fulfilled.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=14cm]{matmulF2_low}
+\includegraphics[width=14cm]{matmulF3_all}
 \end{center}
-\caption{Matrix multiplication times over $\F_2$ against matrix dimension
-(magnification)}
-\label{matmulf2scaled}
+\caption{Matrix multiplication times over $\F_3$ against matrix dimension}
+\label{matmulf3}
 \end{figure}
 
-We want to underpin this claim by experimental evidence. In
-Figures~\ref{matmulf2} through \ref{matmulf7scaled} we have depicted times
-for the multiplication of two randomised $n\times n$-matrices, not
-using the Strassen/Winograd method but using grease.
-All measurements were performed on a machine with a AMD Athlon 64 X2 
-Dual Core Processor 4600+ with 512 kB second level cache running at 2.4 GHz.
-
-The horizontal axis indicates the size $n$ of the matrices and the vertical
-axis the time $t$ for one multiplication in milliseconds. 
-The actual measured values are depicted by
-little $\times$ signs. A curve with equation $t=c \cdot n^3$ with some constant
-$c$ has been fitted to the origin and the measurement for the biggest 
-matrices. 
-
-One can see that the measurements are very near the expected
-curve but a little bit above. This is due to the fact that administrative
-saving effects and grease render the multiplication
-of bigger matrices a little more efficient. 
-
-In addition for every tested matrix size we have added two further marks.
-Namely, for a measurement $(n,t)$ we have put a little $+$ sign at the
-position $(2n,7t)$ and a little square sign at the position $(2n,8t)$.
-In this way, one can easily compare the time for one multiplication of two
-$2n \times 2n$-matrices with the time for 7 or 8 multiplications of two
-$n \times n$-matrices respectively. The figures clearly show, that the $\times$
-sign is closer to the square sign than to the $+$ sign except for rather
-large matrices.
-
-For the field $\F_2$ with $2$ elements for example and for $2n$ not bigger than
-about $1600$ there is no point in using the Strassen/Winograd method at all, 
-since the time for one multiplication of two $2n \times 2n$-matrices
-is closer to that of 7 multiplications of two $n \times n$-matrices than to
-that of 8. And indeed, experiments with our Winograd-implementation give
-further evidence, that using this method is only worthwhile over the field
-$\F_2$ for matrices of at least size $1600 \times 1600$.
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=14cm]{matmulF7_all}
-\end{center}
-\caption{Matrix multiplication times over $\F_7$ against matrix dimension}
-\label{matmulf7}
-\end{figure}
-
-For the field with $7$ elements the situation is similar,
-Figures~\ref{matmulf7} and \ref{matmulf7scaled} show the details
-analogously. Here the break-even point lies at about $600$.
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=14cm]{matmulF7_low}
-\end{center}
-\caption{Matrix multiplication times over $\F_7$ against matrix dimension
-(magnification)}
-\label{matmulf7scaled}
-\end{figure}
-
-For the field with $3^5 = 243$ elements the situation is even more extreme.
-Figure~\ref{matmulF243} shows the details analogously. The saving effects
-of grease are so prominent that it is never a good idea to use the Winograd 
-method for matrices that fit into the main memory of today's computers.
-Note that a matrix of dimensions $15000 \times 15000$ over $\F_{243}$
-needs about $450$ megabytes in main memory.
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=14cm]{matmulF243_all}
-\end{center}
-\caption{Matrix multiplication times over $\F_{243}$ against matrix dimension}
-\label{matmulF243}
-\end{figure}
-
-The behaviour for other finite fields is similar. The {\cvec} package
-contains an implementation of the Winograd method and uses a calibration
-phase to determine for every finite field with $q \le 1024$ from which
-size the method is worth doing. In fact, there are two implementations
-of this method, one using more memory and less administrative overhead
-and one using less memory. The first is used for smaller matrices since
-for them it is crucial to cut down administrative costs as much as
-possible. For really large matrices, the extra memory needed would hurt
-too much and the saving effects of the better complexity render the
-method useful even with the higher administrative overhead.
-
-The following table shows for some finite fields the size limits for
-square matrices, from which the {\cvec} package uses the Winograd method.
-Note that these numbers depend heavily on the machine architecture and
-thus have to be determined individually for every machine.
-
-\begin{center}
-\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|}
-\hline
-q & 2 & 3 & 4 & 5 & 7 & 8 & 9 & 16 & 17 & 47 \\
-\hline
-n & 1600 & 1430 & 1502 & 1137 & 1438 & 1186 & 1201 & 1151 & --- & 800 \\
-\hline
-\end{tabular}
-\end{center}
-
-The dash for $q=17$ means that the Winograd method is not used for matrices
-over the field with $17$ elements.
-
-
-\subsection{Semi echelonisation}
-
-The concept of echelonisation is fundamental to solve systems of linear
-equations (see Proposition~\ref{syslineqsolve}). All the concepts
-introduced in this section are well known. We present them here for
-the sake of completeness and to present a complete analysis in terms
-of numbers of row vector operations.
-
-\begin{Def}[Row echelon form]
-Let $\F$ be an arbitrary field. 
-
-We say that a matrix $S = (S_{i,j}) \in \F$
-is \textbf{in row semi echelon form}, if the first non-zero entry in each
-row is equal to $1$ and every entry in the same column below these ones
-is equal to $0$. More formally, the condition is: There
-is a non-negative integer $r \le m$ and integers $1 \le j_1 \le \cdots \le
-j_r \le n$ such that the following hold:
-\begin{itemize}
-\item $S_{i,j_i} = 1$ and $S_{i,k} = 0$ for all $i$ with $1 \le i \le r$
-and for all $k$ with $1 \le k < j_i$,
-\item $S_{k,j_i} = 0$ for all $i$ with $1 \le i \le r$ and all $k$ with 
-$j_i < k \le m$,
-\item $S_{k,l} = 0$ for all $k$ with $r < k \le m$ and for all $l$ with
-$1 \le l \le n$.
-\end{itemize}
-Note that the numbers $r$ and $j_i$ are --- if they exist --- uniquely
-determined by the matrix $S$. The number $r$ is the rank if $S$ and
-the $j_i$ are called \textbf{pivot column numbers} and the corresponding
-columns \textbf{pivot columns}. 
-
-We say that a matrix $S = (S_{i,j}) \in \F$
-is \textbf{in row full echelon form}, if the first non-zero entry in each
-row is equal to $1$ and every entry in the same column below and above
-these ones is equal to $0$. More formally, the condition is: There
-is a non-negative integer $r \le m$ and integers $1 \le j_1 \le \cdots \le
-j_r \le n$ such that the following hold:
-\begin{itemize}
-\item $S_{i,j_i} = 1$ and $S_{i,k} = 0$ for all $i$ with $1 \le i \le r$
-and for all $k$ with $1 \le k < j_i$,
-\item $S_{k,j_i} = 0$ for all $i$ with $1 \le i \le r$ and all $k$ with 
-$1 \le k < j_i$ or $j_i < k \le m$,
-\item $S_{k,l} = 0$ for all $k$ with $r < k \le m$ and for all $l$ with
-$1 \le l \le n$.
-\end{itemize}
-Every matrix in row full echelon form is in particular in row semi echelon form.
-Sometimes we leave out the word ``row'' and speak of semi echelon form
-or full echelon form. \ProofEnd
-\end{Def}
-
-The reason why a matrix $S \in \F^{m \times n}$ in row semi echelon     
-form is useful is that it defines the direct sum decomposition          
-$V := \F^{1 \times n} = \Span(S) \oplus \Cmpl(S)$ where $\Span(S)$
-is the linear span of the rows of $S$
-and $\Cmpl(S) := \left\{ v \in V \mid v_{j_i} = 0 \mbox{ for } 1 \le i \le r
-\right\}$ and that there are very efficient
-algorithms to deal with this decomposition. It is for example possible
-to compute the canonical projections $V \to \Span(S)$ and 
-$V \to \Cmpl(S)$ and thus
-test membership in $\Span(S)$ and $\Cmpl(S)$, or explicitly decompose a 
-vector $v \in V$
-info $v=u+w$ with $u \in \Span(S)$ and $w \in \Cmpl(S)$. It is also possible to
-express an arbitrary vector $u \in \Span(S)$ in the form $u = a\cdot S$ with
-$a \in \F^{m \times 1}$ which essentially solves a system of linear
-equations given by $S$.
-
-Since all this is well known from any linear algebra course, we only 
-describe and analyse the one fundamental Algorithm \textsf{CleanRow}
-before we move on to algorithms to transform arbitrary matrices to
-echelon form.
-
-\begin{figure}[ht]
-\hrule
-\vspace*{1mm}
-\begin{algorithmic}
-\STATE \textbf{Input:} $S \in \F^{m \times n}$ in
-row semi echelon form with $r$ and $1 \le j_1 \le \cdots \le j_r \le m$,
-and $v \in \F^{1 \times n}$
-\STATE \textbf{Output:} $w \in \Cmpl{S}$ with $v-w \in
-\Span(S)$ and $a \in \F^{1 \times m}$ with $a\cdot S = v-w$
-\vspace*{1mm}
-\STATE $w := v$
-\STATE $a := 0 \in \F^m$, or $a:=\emptyset$ if $m=0$ \hspace*{2.4mm}
-\COMMENT{note that $w=v-aS$ if $m\ne0$}
-\FOR {$i = 1$ to $r$}
-    \STATE $a_i := w_{j_i}$
-    \STATE $w := w - a_i \cdot S[i]$
-    \hspace*{2cm} \COMMENT{here $S[i]$ is the $i$-th row of $S$}
-\ENDFOR\hspace*{4.2cm}
-\COMMENT{still $w=v-aS$ if $m\ne0$}
-\STATE \textbf{return} $w,a$
-\end{algorithmic}
-\vspace*{1mm}
-\hrule
-\caption{Algorithm \textsf{CleanRow}}
-\label{AlgCleanRow}
-\end{figure}
-
-\begin{Prop}[Analysis of Algorithm~\ref{AlgCleanRow} \textsf{CleanRow}]
-Given $S \in \F^{m \times n}$ in row semi echelon form and $v \in \F^{1
-\times n}$, Algorithm~\ref{AlgCleanRow} \textsf{CleanRow} returns
-vectors $w \in \F^{1 \times n}$ and $a \in \F^{1 \times m}$ such that
-$aS + w = v$ and $w \in \Cmpl(S)$. Thus, it computes the decomposition
-of $v$ with respect to the direct sum 
-$\F^{1 \times n} = \Span(S) \oplus \Cmpl(S)$.
-
-The algorithm needs at most $r$ multiplications of a row vector in\/ $\F^{1
-\times n}$ by a scalar and $r$ additions of two such row vectors.
-\end{Prop}
-\Proof After step $i$ in the loop the vector $w$ has zeroes
-in positions $j_1, \ldots, j_i$, because $S$ is in row semi echelon form.
-In particular, the zeroes below the ones in the pivot columns see to it,
-that the zeroes in $w$ are not changed any more in later steps of the loop.
-
-The statement about the costs is obvious.
-\ProofEnd
-
-\smallskip
-Algorithm~\ref{AlgCleanRow} \textsf{CleanRow} already enables us to perform
-the following tasks: It computes the canonical projection of $v$ onto
-$\Cmpl(S)$ with respect to the decomposition\/ $\F^{1 \times n} = \Span(S)
-\oplus \Cmpl(S)$. From this we can compute the other canonical
-projection of $v$ onto $\Span(S)$ by one more row operation $v-w$.
-In particular, we thus can test membership in $\Span(S)$ and $\Cmpl(S)$
-by comparing $w$ or $v-w$ to zero respectively. Also, for $v \in \Span(S)$
-we can solve the system of linear equations $v = xS$, the unique solution
-is $x=a$.
-
-To solve more generally a system of linear equations $v=aS$ for an
-arbitrary matrix $M \in \F^{m \times n}$ we want a way to apply
-these results. Given $M$, the basic idea is to find a matrix
-$S \in \F^{r \times n}$ in row semi echelon form together with a
-lower triangular matrix $T \in \F^{r \times m}$ with $S = TM$, where $r$
-is the rank of $M$ and $\Span(S) = \Span(M)$.
-
-This can be achieved by starting with a empty matrices 
-$S \in \F^{0 \times n}$ and $T \in \F^{0 \times m}$ and successively
-using Algorithm~\ref{AlgCleanRow} to clean the rows of $M$. We describe
-one such step in detail here. 
-
-Assume inductively, that 
-$S \in \F^{k \times n}$ is in row semi echelon form,
-$T \in \F^{k \times m}$ with $S = TM$, and $v$ is a row of $M$.
-Let $w$ and $a$ be the results of Algorithm~\ref{AlgCleanRow} called
-with $S$ and $v$. If $w = 0$ then $v \in \Span(S)$ and we proceed to the
-next row of $M$ without changing $S$ and $T$. Otherwise, $w \in \Cmpl(S)$
-and by multiplying $w$ with a non-zero constant $c \in \F$ we get
-a vector $cw$ whose first non-zero entry is equal to $1$. We append
-$cw$ to the matrix $S$ and get $S' \in \F^{(k+1) \times n}$,
-again in row semi echelon form.
-Since $cw = c\cdot (v-aS) = cv - caTM$, appending the row 
-$(-caT,c,0,\ldots,0) \in \F^{1 \times m}$ to $T$ gives us a new 
-$T' \in \F^{(k+1)\times m}$ with $S' = T'M$.
-
-This procedure inductively solves the above problem. We summarise:
-
-\begin{Prop}[Semi echelonisation]
-Let $\F$ be an arbitrary field and $M \in \F^{m \times n}$. Then the
-above inductive procedure computes a matrix $S \in \F^{r \times n}$
-in row semi echelon form and a lower triangular matrix 
-$T \in \F^{r \times m}$ with $S=TM$,
-such that $r$ is the rank of $M$ and $\Span(S) = \Span(M)$.
-The procedure needs at most $m(m+1)/2+r$ multiplications by a scalar
-and $m(m+1)/2$ additions of vectors in $\F^{1 \times n}$ plus
-$r(r+1)/2$ multiplications of a vector in $\F^{1 \times m}$ by a scalar
-and $r(r-1)/2$ additions of such vectors.
-\end{Prop}
-\Proof The above described procedure performs the task in the
-statement by construction. As to the costs, since
-Algorithm~\ref{AlgCleanRow} is called for all rows of $M$
-inductively and since $S$ has at most $i$ rows after step $i$,
-this needs at most $m(m+1)/2$ scalar multiplications and additions
-of vectors in $\F^{1 \times n}$. The normalisation of the
-resulting vector needs another $r$ multiplications by a scalar.
-To build up $T$ we inductively use the $a$-results of
-Algorithm~\ref{AlgCleanRow}. However, in each step, we have to multiply
-$a$ by the current matrix $T$. Since $T$ is lower triangular, the
-multiplication in step $i$ involves only $i-1$ multiplications of
-a vector in $\F^{1 \times m}$ by a scalar and $i-1$ additions of
-such vectors. Because of the multiplication by $-c$ in each step
-the total number of operations sums up to the numbers in the 
-statement. 
-\ProofEnd
-
-\begin{Rem}
-Note that the shape of $T$ allows for further
-improvements in a practical implementation, which we ignore here.
-\end{Rem}
-
-\vspace*{2cm}
-Alg. to compute full-echelon form
-
-Analysis
-
-Comparing subspaces
-
-Nullspaces
-
-Spinning. (fast spinning?)
-
-
-\subsection{Matrix inversion}
-
-Algorithm.
-
-Grease.
-
-Analysis
-
-
+% \subsection{Semi echelonisation}
+% 
+% The concept of echelonisation is fundamental to solve systems of linear
+% equations (see Proposition~\ref{syslineqsolve}). All the concepts
+% introduced in this section are well known. We present them here for
+% the sake of completeness and to present a complete analysis in terms
+% of numbers of row vector operations.
+% 
+% \begin{Def}[Row echelon form]
+% Let $\F$ be an arbitrary field. 
+% 
+% We say that a matrix $S = (S_{i,j}) \in \F$
+% is \textbf{in row semi echelon form}, if the first non-zero entry in each
+% row is equal to $1$ and every entry in the same column below these ones
+% is equal to $0$. More formally, the condition is: There
+% is a non-negative integer $r \le m$ and integers $1 \le j_1 \le \cdots \le
+% j_r \le n$ such that the following hold:
+% \begin{itemize}
+% \item $S_{i,j_i} = 1$ and $S_{i,k} = 0$ for all $i$ with $1 \le i \le r$
+% and for all $k$ with $1 \le k < j_i$,
+% \item $S_{k,j_i} = 0$ for all $i$ with $1 \le i \le r$ and all $k$ with 
+% $j_i < k \le m$,
+% \item $S_{k,l} = 0$ for all $k$ with $r < k \le m$ and for all $l$ with
+% $1 \le l \le n$.
+% \end{itemize}
+% Note that the numbers $r$ and $j_i$ are --- if they exist --- uniquely
+% determined by the matrix $S$. The number $r$ is the rank if $S$ and
+% the $j_i$ are called \textbf{pivot column numbers} and the corresponding
+% columns \textbf{pivot columns}. 
+% 
+% We say that a matrix $S = (S_{i,j}) \in \F$
+% is \textbf{in row full echelon form}, if the first non-zero entry in each
+% row is equal to $1$ and every entry in the same column below and above
+% these ones is equal to $0$. More formally, the condition is: There
+% is a non-negative integer $r \le m$ and integers $1 \le j_1 \le \cdots \le
+% j_r \le n$ such that the following hold:
+% \begin{itemize}
+% \item $S_{i,j_i} = 1$ and $S_{i,k} = 0$ for all $i$ with $1 \le i \le r$
+% and for all $k$ with $1 \le k < j_i$,
+% \item $S_{k,j_i} = 0$ for all $i$ with $1 \le i \le r$ and all $k$ with 
+% $1 \le k < j_i$ or $j_i < k \le m$,
+% \item $S_{k,l} = 0$ for all $k$ with $r < k \le m$ and for all $l$ with
+% $1 \le l \le n$.
+% \end{itemize}
+% Every matrix in row full echelon form is in particular in row semi echelon form.
+% Sometimes we leave out the word ``row'' and speak of semi echelon form
+% or full echelon form. \ProofEnd
+% \end{Def}
+% 
+% The reason why a matrix $S \in \F^{m \times n}$ in row semi echelon     
+% form is useful is that it defines the direct sum decomposition          
+% $V := \F^{1 \times n} = \Span(S) \oplus \Cmpl(S)$ where $\Span(S)$
+% is the linear span of the rows of $S$
+% and $\Cmpl(S) := \left\{ v \in V \mid v_{j_i} = 0 \mbox{ for } 1 \le i \le r
+% \right\}$ and that there are very efficient
+% algorithms to deal with this decomposition. It is for example possible
+% to compute the canonical projections $V \to \Span(S)$ and 
+% $V \to \Cmpl(S)$ and thus
+% test membership in $\Span(S)$ and $\Cmpl(S)$, or explicitly decompose a 
+% vector $v \in V$
+% info $v=u+w$ with $u \in \Span(S)$ and $w \in \Cmpl(S)$. It is also possible to
+% express an arbitrary vector $u \in \Span(S)$ in the form $u = a\cdot S$ with
+% $a \in \F^{m \times 1}$ which essentially solves a system of linear
+% equations given by $S$.
+% 
+% Since all this is well known from any linear algebra course, we only 
+% describe and analyse the one fundamental Algorithm \textsf{CleanRow}
+% before we move on to algorithms to transform arbitrary matrices to
+% echelon form.
+% 
+% \begin{figure}[ht]
+% \hrule
+% \vspace*{1mm}
+% \begin{algorithmic}
+% \STATE \textbf{Input:} $S \in \F^{m \times n}$ in
+% row semi echelon form with $r$ and $1 \le j_1 \le \cdots \le j_r \le m$,
+% and $v \in \F^{1 \times n}$
+% \STATE \textbf{Output:} $w \in \Cmpl{S}$ with $v-w \in
+% \Span(S)$ and $a \in \F^{1 \times m}$ with $a\cdot S = v-w$
+% \vspace*{1mm}
+% \STATE $w := v$
+% \STATE $a := 0 \in \F^m$, or $a:=\emptyset$ if $m=0$ \hspace*{2.4mm}
+% \COMMENT{note that $w=v-aS$ if $m\ne0$}
+% \FOR {$i = 1$ to $r$}
+%     \STATE $a_i := w_{j_i}$
+%     \STATE $w := w - a_i \cdot S[i]$
+%     \hspace*{2cm} \COMMENT{here $S[i]$ is the $i$-th row of $S$}
+% \ENDFOR\hspace*{4.2cm}
+% \COMMENT{still $w=v-aS$ if $m\ne0$}
+% \STATE \textbf{return} $w,a$
+% \end{algorithmic}
+% \vspace*{1mm}
+% \hrule
+% \caption{Algorithm \textsf{CleanRow}}
+% \label{AlgCleanRow}
+% \end{figure}
+% 
+% \begin{Prop}[Analysis of Algorithm~\ref{AlgCleanRow} \textsf{CleanRow}]
+% Given $S \in \F^{m \times n}$ in row semi echelon form and $v \in \F^{1
+% \times n}$, Algorithm~\ref{AlgCleanRow} \textsf{CleanRow} returns
+% vectors $w \in \F^{1 \times n}$ and $a \in \F^{1 \times m}$ such that
+% $aS + w = v$ and $w \in \Cmpl(S)$. Thus, it computes the decomposition
+% of $v$ with respect to the direct sum 
+% $\F^{1 \times n} = \Span(S) \oplus \Cmpl(S)$.
+% 
+% The algorithm needs at most $r$ multiplications of a row vector in\/ $\F^{1
+% \times n}$ by a scalar and $r$ additions of two such row vectors.
+% \end{Prop}
+% \Proof After step $i$ in the loop the vector $w$ has zeroes
+% in positions $j_1, \ldots, j_i$, because $S$ is in row semi echelon form.
+% In particular, the zeroes below the ones in the pivot columns see to it,
+% that the zeroes in $w$ are not changed any more in later steps of the loop.
+% 
+% The statement about the costs is obvious.
+% \ProofEnd
+% 
+% \smallskip
+% Algorithm~\ref{AlgCleanRow} \textsf{CleanRow} already enables us to perform
+% the following tasks: It computes the canonical projection of $v$ onto
+% $\Cmpl(S)$ with respect to the decomposition\/ $\F^{1 \times n} = \Span(S)
+% \oplus \Cmpl(S)$. From this we can compute the other canonical
+% projection of $v$ onto $\Span(S)$ by one more row operation $v-w$.
+% In particular, we thus can test membership in $\Span(S)$ and $\Cmpl(S)$
+% by comparing $w$ or $v-w$ to zero respectively. Also, for $v \in \Span(S)$
+% we can solve the system of linear equations $v = xS$, the unique solution
+% is $x=a$.
+% 
+% To solve more generally a system of linear equations $v=aS$ for an
+% arbitrary matrix $M \in \F^{m \times n}$ we want a way to apply
+% these results. Given $M$, the basic idea is to find a matrix
+% $S \in \F^{r \times n}$ in row semi echelon form together with a
+% lower triangular matrix $T \in \F^{r \times m}$ with $S = TM$, where $r$
+% is the rank of $M$ and $\Span(S) = \Span(M)$.
+% 
+% This can be achieved by starting with a empty matrices 
+% $S \in \F^{0 \times n}$ and $T \in \F^{0 \times m}$ and successively
+% using Algorithm~\ref{AlgCleanRow} to clean the rows of $M$. We describe
+% one such step in detail here. 
+% 
+% Assume inductively, that 
+% $S \in \F^{k \times n}$ is in row semi echelon form,
+% $T \in \F^{k \times m}$ with $S = TM$, and $v$ is a row of $M$.
+% Let $w$ and $a$ be the results of Algorithm~\ref{AlgCleanRow} called
+% with $S$ and $v$. If $w = 0$ then $v \in \Span(S)$ and we proceed to the
+% next row of $M$ without changing $S$ and $T$. Otherwise, $w \in \Cmpl(S)$
+% and by multiplying $w$ with a non-zero constant $c \in \F$ we get
+% a vector $cw$ whose first non-zero entry is equal to $1$. We append
+% $cw$ to the matrix $S$ and get $S' \in \F^{(k+1) \times n}$,
+% again in row semi echelon form.
+% Since $cw = c\cdot (v-aS) = cv - caTM$, appending the row 
+% $(-caT,c,0,\ldots,0) \in \F^{1 \times m}$ to $T$ gives us a new 
+% $T' \in \F^{(k+1)\times m}$ with $S' = T'M$.
+% 
+% This procedure inductively solves the above problem. We summarise:
+% 
+% \begin{Prop}[Semi echelonisation]
+% Let $\F$ be an arbitrary field and $M \in \F^{m \times n}$. Then the
+% above inductive procedure computes a matrix $S \in \F^{r \times n}$
+% in row semi echelon form and a lower triangular matrix 
+% $T \in \F^{r \times m}$ with $S=TM$,
+% such that $r$ is the rank of $M$ and $\Span(S) = \Span(M)$.
+% The procedure needs at most $m(m+1)/2+r$ multiplications by a scalar
+% and $m(m+1)/2$ additions of vectors in $\F^{1 \times n}$ plus
+% $r(r+1)/2$ multiplications of a vector in $\F^{1 \times m}$ by a scalar
+% and $r(r-1)/2$ additions of such vectors.
+% \end{Prop}
+% \Proof The above described procedure performs the task in the
+% statement by construction. As to the costs, since
+% Algorithm~\ref{AlgCleanRow} is called for all rows of $M$
+% inductively and since $S$ has at most $i$ rows after step $i$,
+% this needs at most $m(m+1)/2$ scalar multiplications and additions
+% of vectors in $\F^{1 \times n}$. The normalisation of the
+% resulting vector needs another $r$ multiplications by a scalar.
+% To build up $T$ we inductively use the $a$-results of
+% Algorithm~\ref{AlgCleanRow}. However, in each step, we have to multiply
+% $a$ by the current matrix $T$. Since $T$ is lower triangular, the
+% multiplication in step $i$ involves only $i-1$ multiplications of
+% a vector in $\F^{1 \times m}$ by a scalar and $i-1$ additions of
+% such vectors. Because of the multiplication by $-c$ in each step
+% the total number of operations sums up to the numbers in the 
+% statement. 
+% \ProofEnd
+% 
+% \begin{Rem}
+% Note that the shape of $T$ allows for further
+% improvements in a practical implementation, which we ignore here.
+% \end{Rem}
+% 
+% \vspace*{2cm}
+% Alg. to compute full-echelon form
+% 
+% Analysis
+% 
+% Comparing subspaces
+% 
+% Nullspaces
+% 
+% Spinning. (fast spinning?)
+% 
+% 
+% \subsection{Matrix inversion}
+% 
+% Algorithm.
+% 
+% Grease.
+% 
+% Analysis
+% 
+% 
 \section{Cache issues}
 \label{sec:cache}
+ 
+All modern microprocessors have builtin caches, most of them more than
+one. For our purposes the second level cache is crucial. The potential
+of proper cache usage can be read off the data in
+Table~\ref{memthrough}. Varying between different processor
+architecture accesses into the cache are about $2$ to $5$ times faster
+than into the main memory. Of course, these factors apply only for the
+case of accessing larger areas of main memory consecutively, because
+in this case modern processors use burst accesses. However, most
+linear algebra operations over finite fields can be done using mostly 
+such consecutive accesses. Note that these are empirical results,
+theoretically, cache accesses should be a bit faster, depending on the
+exact architecture.
 
-Expected performance gain, problems.
+We assume for the moment that cache accesses are $5$ times faster
+than main memory accesses. If we manage to implement our linear
+algebra algorithms in a way such that $90$\% of all storage accesses
+are cache hits, then we can speed up $90$\% of the calculation by a
+factor of $5$ (assuming that memory access is the most time-critical
+part of the computation). Optimally, the remaining $10$\% remain unchanged.
+This means that the overall saving factor is between $3$ and $4$ because the
+needed time is $(90/5+10)\% = 28\%$ of the time without cache-aware
+methods. 
 
-\section{Characteristic and minimal polynomial}
-\label{sec:charminpoly}
+However, reaping this saving factor is tricky. On one hand it proves
+increasingly difficult to understand exactly, what modern processors,
+memory interfaces and caches actually do. On the other hand for many
+algorithms it is quite difficult to rearrange the computations in a
+way, such that in fact $90\%$ of memory accesses lead to cache hits.
+Quite often, such rearrangements need a certain administrative effort,
+which can devour parts of the performance gain.
+Our observations displayed in Tables~\ref{MatMulWinograd2} and
+\ref{MatMulWinograd3} provide a glance on the arising difficulties.
 
-\section{Basic algorithms for matrices}
-\label{sec:basalgmat}
+For the {\cvec} package we have mostly ignored the potential gains
+through cache-aware programming since in most instances experiments
+indicated that the necessary effort did not promise enough benefit.
 
-Evaluation of polynomials at matrices, order of an invertible matrix.
-
+On the other hand Jon Thackray has reported successes in his
+standalone implementation of basic linear algebra routines using
+cache-aware programming. His performance gains seem to lie in the
+above mentioned expected range.
+ 
+% \section{Characteristic and minimal polynomial}
+% \label{sec:charminpoly}
+% 
+% \section{Basic algorithms for matrices}
+% \label{sec:basalgmat}
+% 
+% Evaluation of polynomials at matrices, order of an invertible matrix.
+% 

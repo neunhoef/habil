@@ -17,6 +17,9 @@ clean:
 matmulF2_all.eps:	matmulF2.dat plotF2.py
 	plotF2.py
 
+matmulF3_all.eps:	matmulF3.dat plotF3.py
+	plotF3.py
+
 matmulF7_all.eps:	matmulF7.dat plotF7.py
 	plotF7.py
 
