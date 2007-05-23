@@ -26,6 +26,11 @@ Stand: Do Mai 10 12:54:25 CEST 2007
 * Gerüst ist da
 * Matrizen-Kapitel fast fertig, braucht Überarbeitung
 
+* Mi 23. Mai 19:23:04 CEST 2007
+  Matrizen-Kapiter fertig
+
+
+
 * Do Mai 10 12:56:35 CEST 2007
   ... fertig
 
