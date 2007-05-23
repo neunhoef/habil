@@ -6,7 +6,8 @@ habil.pdf:	habil.dvi
 	dvipdfm habil
 
 habil.dvi:	*.tex matmulF2_all.eps matmulF7_all.eps matmulF243_all.eps \
-		matmulF17_all.eps grease.pstex_t matmulF2grease.eps
+		matmulF17_all.eps grease.pstex_t matmulF2grease.eps \
+		matmulF3_all.eps
 	texer
 
 clean:

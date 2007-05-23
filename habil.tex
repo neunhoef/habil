@@ -24,6 +24,13 @@
 \usepackage{color}
 \usepackage{longtable}
 \usepackage{graphicx}
+\usepackage[colorlinks=true,backref=page,dvipdfm,%hypertex,
+            linkcolor=MyBlue,urlcolor=MyRed,citecolor=MyGreen,
+            pdftitle={Computing with Matrix Groups},
+            pdfauthor={Max Neunh\string\öffer},
+            pdfsubject={Matrix Groups},
+            pdfkeywords={constructive recognition}]{hyperref}
+\usepackage{myhyppdf}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
@@ -47,13 +54,6 @@
 %So zum Korrekturlesen mit breitem rechtem Rand:
 %\usepackage[a4paper,width=6.125in,headheight=1\baselineskip,left=5mm,twoside=false]{geometry}
 
-\usepackage[colorlinks=true,backref=page,dvipdfm,%hypertex,
-            linkcolor=MyBlue,urlcolor=MyRed,citecolor=MyGreen,
-            pdftitle={Computing with Matrix Groups},
-            pdfauthor={Max Neunh\string\öffer},
-            pdfsubject={Matrix Groups},
-            pdfkeywords={constructive recognition}]{hyperref}
-\usepackage{myhyppdf}
 % Bemerkung: showkeys und hyperref funktionieren nicht zusammen!
 
 % The page headings:
@@ -103,6 +103,24 @@
 \newcommand{\myge}{\geqslant}
 \newcommand{\Span}{\maop{Span}}
 \newcommand{\Cmpl}{\maop{Cmpl}}
+\newcommand{\ord}{\mathrm{ord}}
+\newcommand{\ann}{\mathrm{ann}}
+\newcommand{\len}{\mathrm{length}}
+\newcommand{\lc}{\mathrm{lc}}
+\newcommand{\lcm}{\mathrm{lcm}}
+\newcommand{\opspd}{\mbox{\sc OpsPD}}
+\newcommand{\opsgcd}{\mbox{\sc OpsGcd}}
+\newcommand{\Prob}{\mathrm{Prob}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\rsp}{\mathrm{RowSp}}
+\newcommand{\la}{\left<}
+\newcommand{\ra}{\right>}
+\newcommand{\ve}{\varepsilon}
+
+\newcommand{\proofbeg}{\medskip\noindent\emph{Proof:}\ }
+\newcommand{\proofof}[1]{\medskip\noindent\emph{Proof of #1:}}
+\newcommand{\proofend}{\hfill$\blacksquare$}
+
 
 % Einige Definitionen fuer haeufig vorkommende Buchstaben:
 
@@ -172,6 +190,7 @@
 
 \include{intro}
 \include{matrices}
+\include{charminpoly}
 \include{meataxe}
 \include{comptree}
 \include{findhom}
