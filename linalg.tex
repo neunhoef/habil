@@ -10,8 +10,15 @@ that are used in later chapters.
 \label{sec:orders}
 
 This section is about the computation of the order and the projective
-order of a square matrix. 
+order of a matrix $M \in \F_q^{n \times n}$. After defining these 
+terms we describe the 
+ideas of the method in \cite{CellLeedOrder} in particular to show
+two things: Firstly that computing the minimal polynomial of a matrix
+is a crucial step in the computation of its order, and secondly that
+integer factorisations of some of the numbers $q^i-1$ for $1 \le i \le n$ 
+can be needed in the process.
 
+\begin{DefProp}[Order and projective order]
 Let $\F$ be a field and $M \in \F^{n \times
 n}$ an invertible matrix. The \emph{order} of $M$ is the least natural
 number $o$ such that $M^o$ is equal to the identity matrix $\mathbf{1}$.
@@ -23,10 +30,11 @@ $M^k$ is equal to $\one$ and that $p$ divides every natural number $k$
 for which $M^k$ is a scalar multiple of $\one$. Thus $p$ divides in
 particular $o$ and it follows immediately, that if $M^p = \lambda \cdot
 \one$ with $\lambda \in \F$, then $o$ is $p$ times the order of the
-scalar $\lambda$.
+scalar $\lambda$. \proofend
+\end{DefProp}
 
 For a monic polynomial $f \in \F[X]$ with non-zero constant term
-we define \emph{order} (\emph{projective order} resp.) of 
+we define the \emph{order} (\emph{projective order} resp.) of 
 $X + f\F[X]$ in $\F[X]/f\F[X]$ modulo $f$ as the least natural 
 number $p$ such that $X^p$ is congruent 
 to $1$ (a scalar resp.) modulo $f$ or equivalently, that $X^p-1$ 
@@ -37,7 +45,7 @@ of a matrix $M$ as above and that of $X$ modulo its minimal polynomial are
 linked by the following lemma:
 
 \begin{Lemm}[Orders and projective orders]
-Let $\F$ be a field and $M \in \F^{n \times n}$ an invertible square matrix.
+Let $\F$ be a field and $M \in \F^{n \times n}$ an invertible matrix.
 Then the (projective) order of $M$ is equal to the (projective) order of
 $X + \mu_M \F[X]$ module its minimal polynomial $\mu_M$.
 \end{Lemm}
@@ -91,7 +99,7 @@ size $e$, thus every eigenvalue of $C$ occurs in the minimal
 polynomial of $N$ with multiplicity $e$. Thus the minimal polynomial
 of $N$ over $K$ is $g^e$ and thus also $\mu_N = g^e$.
 
-We assume from now on that $\F$ is a finite field $\F_q$ with $q$
+We assume from now on that $\F$ is the finite field $\F_q$ with $q$
 elements.
 Writing $N = \tilde C + \tilde \one$ where $\tilde C$ is the matrix
 with only $C$ along the main block diagonal and $\tilde \one$
@@ -101,18 +109,174 @@ and thus $N^k = \sum_{i=0}^k {k \choose i} \tilde C^{k-i} \tilde
 of $N^k$ in position $(j,j+i)$ is ${k \choose i}C^{k-i}$ for all
 $1 \le j \le d-i$. 
 
-Therefore the (projective) order of $N$ can be determined
-in the following way: Let $k$ be the least natural number, such that
-all binomial coefficients ${k \choose i} = 0$ for $1 \le i \le e$
-(where we set ${k \choose i} = 0$ for $i > k$. Let further $l$ be the
-(projective) order of $X+g\F[X]$ in the field $\F[X]/g\F[X]$. Then the 
-(projective) order of $N$ is the least common multiple of $k$ and $l$.
+Therefore the (projective) order of $N$ can be determined in the
+following way: The number $\lceil \log_p(e)\rceil$ is the number
+of factors $p$ that have to occur in $k$, such that all binomial
+coefficients ${k \choose i} = 0$ for $1 \le i \le e$ (where we set ${k
+\choose i} = 0$ for $i > k$). Let $l$ be the (projective) order of
+$X+g\F[X]$ in the field $\F[X]/g\F[X]$. Then the (projective) order of
+$N$ is the product $p^{\lceil \log_p(e) \rceil} \cdot l$. Note that
+determining the number $l$ involves computing in the field extension
+$\F[X]/g\F[X]$.
 
+In practice one takes $q^d-1$ (resp.~$\frac{q^d-1}{q-1}$) as an upper bound
+for the (projective) order of $X+g\F[X]$ and then uses the ``bounded order
+algorithm'' described in \cite[Section 2]{CellLeedOrder} to get the
+actual (projective) order. However, this algorithm depends on the
+integer factorisation of $q^d-1$ since it uses a divide-and-conquer
+approach using this factorisation.
 
+Altogether, we can conclude the following result:
+
+\begin{Prop}[Computing the (projective) order of a matrix]
+Let $M$ be a matrix in $\F_q^{n \times n}$. Assume that the 
+minimal polynomial of $M$ is known and completely factorised into
+irreducible factors, and that all integer factorisations of $q^i-1$
+for $1 \le i \le n$ are known. 
+
+Then the (projective) order of $M$ can be
+computed in $O(n^3 \cdot \log(q) \cdot \log(n\log(q)))$
+field operations.
+\end{Prop}
+\proofbeg Use the same arguments as in the proof of 
+\cite[\textsc{Order Algorithm}]{CellLeedOrder}. 
+\proofend
+
+\begin{Rem}
+This shows that every improvement of the algorithm to compute the
+minimal polynomial also helps to compute the (projective) order.
+\end{Rem}
 
 \section{Solving systems of linear equations}
 \label{sec:syslineq}
 
+This section describes and analyses the problem of solving a system
+of linear equations. This can be formulated as follows:
+
+Let $\F$ be a field, $Y \in \F^{m \times n}$ and $b \in \F^{1 \times n}$.
+Find all $x \in \F^{1 \times m}$ with $xY = b$.
+
+Sometimes the problem has to be solved for more than one $b$ and sometimes
+it is enough to find one solution $x$. In particular the homogeneous case 
+$b=0$ is important, the set of solutions is called the \emph{nullspace}
+of $M$.
+
+The general approach to this problem is standard, thus we are mostly
+interested in the complexity. The basic procedure is
+Algorithm~\ref{semiechelonise}: By running
+all rows of $Y$ successively through Algorithm~\ref{clean} we
+find three things in the process: Firstly a subsequence
+$t=(t_1,t_2, \ldots, t_{r})$ of $(1,2,\ldots, m)$ with
+$1 \le t_1 < t_2 < \cdots < t_r \le m$ such that the matrix
+$Y' \in \F^{r \times n}$ consisting of the rows with numbers 
+$t_1, t_2, \ldots, t_r$ of $Y$ has rank $r$. Secondly we get a
+semi echelon data sequence $\calY = (Y',S,T,l)$ for $Y'$ as defined
+in Definition~\ref{semiecheseq}. Thirdly, for every row of $Y$ that
+is a linear combination of the rows above it in $Y$, we find a linear 
+relation of the rows of $Y$ and all these relations span the nullspace
+of $Y$ in the end.
+
+We leave the details and the proof that this procedure does what
+we claim to the reader. The following proposition analyses the cost
+of Algorithm~\ref{semiechelonise}.
+
+\begin{algorithm}
+\caption{$\quad$ \sc SemiEchelonise}
+\label{semiechelonise}
+\begin{algorithmic}
+\STATE \textbf{Input:} A matrix $Y \in \F^{m \times n}$.
+\STATE \textbf{Output:} Indices $1 \le t_1 < t_2 < \cdots < t_r$,
+a matrix $Y' \in \F^{r \times n}$ with semi echelon data sequence
+\STATE \mbox{}\phantom{\textbf{Output:}}
+$\calY = (Y',S,T,l)$, and a matrix $N \in \F^{(m-r) \times n}$
+whose rows span the nullspace of $Y$
+\STATE $\calY := $ empty semi echelon sequence for rows with length $n$
+\STATE $N := $ empty matrix for rows with length $n$
+\STATE $t := $ empty sequence
+\FOR {$i=1$ to $m$}
+    \STATE $(f,\calY,a) := \textsc{CleanAndExtend}(\calY,Y[i])$
+    \IF {$f = \textsc{True}$}
+        \STATE Append row to $N$ using $a$
+    \ELSE
+        \STATE Append $i$ to sequence $t$
+    \ENDIF
+\ENDFOR
+\STATE \textbf{Return:} $(t,\calY,N)$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Prop}[Complexity of Algorithm~\ref{semiechelonise}]
+\label{semiechelon}
+If $r$ is the rank of $M$, then Algorithm~\ref{semiechelonise} needs
+at most
+\[ \frac{r(r+1)(2r+1)}{6} + nr^2 + 2rn(m-r)\]
+elementary field operations. This is $O(nm^2)$.
+\end{Prop}
+\proofbeg
+We add up the maximal number of elementary field operations needed
+by the calls to \textsc{CleanAndExtend} using
+Proposition~\ref{PropCleanAndExtend}. We start with the calls that
+extend the semi echelon data sequence:
+\begin{eqnarray*}
+\sum_{i=0}^{r-1} \left( (2i+1)n + (i+1)^2 + 1 \right) 
+  &=& \frac{r(r-1)}{2} \cdot 2n + rn + \frac{r(r+1)(2r+1)}{6} \\
+  &=& nr^2 + \frac{r(r+1)(2r+1)}{6},
+\end{eqnarray*}
+where we use Formulas \ref{formels1} and \ref{formels2}. In the worst
+case that the first $r$ rows of $Y$ are linearly independent the
+number of operations used to clean the rows that do not extend
+the semi echelon data sequence is at most $(m-r)\cdot 2rn$.
+For the asymptotic statement we use $r \le \min\{ m,n \}$.
+\proofend
+
+\medskip
+After Algorithm~\ref{semiechelonise} has completed the rows of the
+matrix $N$ span the solution space of the system of linear equations
+$xY = 0$. For a given $0 \neq b \in \F^{1 \times n}$ we have to run
+the ``cleaning'' part of Algorithm~\ref{clean} once.
+The result is either that the system has no solutions or a vector
+$a \in \F^{1 \times r}$ such that $b = aS = aTY'$ for the matrix $S$ in
+$\calY$ that is in row semi echelon form. Since $Y'$ consists of a 
+selection of the rows of $Y$ the vector $aT$ contains all the necessary
+information to put together a solution $x$ with $b = xY$. The set
+of all solutions is then equal to $\{ x+n \mid n \in \rsp(N) \}$.
+
+\begin{Cor}[Solving a linear system of equations]
+\label{solvelinsys}
+The set of solutions of the system of linear equations $xY=0$ can be
+read off from the output of Algorithm~\ref{semiechelonise}. For
+the system $xY=b$ it can be derived using
+$2rn + r(r+1)$ elementary field operations.
+
+Thus, such a system can be solved in $O(nm^2)$ elementary field operations.
+\end{Cor}
+\proofbeg
+The above method needs one call to \textsc{CleanAndExtend} using at most
+$2rn$ elementary field operations and the vector matrix multiplication
+$aT$ with the lower triangular matrix $T$ needs at most
+$2\cdot \frac{r(r+1)}{2}$ elementary field operations.
+\proofend
+
 \section{Inverting matrices}
 \label{sec:invert}
 
+Inverting a matrix $M \in \F^{n \times n}$ is the same as solving the
+system of linear equations $xM = e_i$ for all the standard basis
+vectors $e_i \in \F^{1 \times n}$. By Proposition~\ref{semiechelon}
+and Corollary~\ref{solvelinsys} we get:
+
+\begin{Prop}[Inverting a matrix]
+Let $M \in \F^{n \times n}$ be an invertible matrix. Then the inverse
+can be computed using at most
+\[ \frac{n(n+1)(2n+1)}{6} + 4n^3 + n^2 \]
+elementary field operations, which is asymptotically less than $5n^3$
+and this is $O(n^3)$.
+\end{Prop}
+\proofbeg
+We first run Algorithm~\ref{semiechelonise} using at most
+\[ \frac{n(n+1)(2n+1)}{6} + n^3 \]
+elementary field operations by Proposition~\ref{semiechelon}. Then
+we solve $xM = e_i$ for $1 \le i \le n$ using a total of
+\[ n(2n^2+n(n+1)) = 3n^3+n^2 \]
+elementary field operations. Summing up gives the claim.
+\proofend

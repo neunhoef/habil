@@ -1534,11 +1534,28 @@ standalone implementation of basic linear algebra routines using
 cache-aware programming. His performance gains seem to lie in the
 above mentioned expected range.
  
-% \section{Characteristic and minimal polynomial}
-% \label{sec:charminpoly}
-% 
-% \section{Basic algorithms for matrices}
-% \label{sec:basalgmat}
-% 
-% Evaluation of polynomials at matrices, order of an invertible matrix.
-% 
+\section{Raising matrices to powers}
+
+For the sake of completeness we conclude this chapter with the description
+of a well-known technique to raise an element to a power:
+
+\begin{Lemm}[Powering up]
+If $R$ is a monoid and $x \in R$, then the power $x^m$ can be computed
+in at most $2\lceil\log(m)\rceil$ multiplications in $R$.
+\end{Lemm}
+\proofbeg
+Let $l := \lfloor\log(m)\rfloor$ and write $m$ in its binary expansion 
+$m = \sum_{i=0}^l m_i 2^i$ with $m_i \in \{0,1\}$. Then
+\[ x^m = \prod_{i=0, m_i \neq 0}^l x^{2^i}. \]
+Computing the repeated squares $x^{2^i}$ for $1 \le i \le l$ needs $l$
+multiplications in $R$ and taking the final product needs at most
+another $l$ multiplications.
+\proofend
+
+\begin{Rem}
+Note that there is an unpublished algorithm due to Charles Leedham-Green
+in the folklore that uses the minimal polynomial and polynomial arithmetic
+to raise a matrix over a finite field to an arbitrary power. Neglecting 
+the time for integer arithmetic this algorithm needs for a given matrix
+only a constant number of operations to compute an arbitrary power.
+\end{Rem}
