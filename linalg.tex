@@ -1,0 +1,118 @@
+% is is a part of the habilitation thesis of Max Neunhoeffer
+
+\chapter{Further linear algebra algorithms}
+
+In this chapter we collect for the sake of completeness some
+linear algebra algorithms together with their complexity analysis
+that are used in later chapters. 
+
+\section{Order and projective order of a matrix}
+\label{sec:orders}
+
+This section is about the computation of the order and the projective
+order of a square matrix. 
+
+Let $\F$ be a field and $M \in \F^{n \times
+n}$ an invertible matrix. The \emph{order} of $M$ is the least natural
+number $o$ such that $M^o$ is equal to the identity matrix $\mathbf{1}$.
+The \emph{projective order} of $M$ is the least natural number $p$
+such that $M^p$ is a scalar matrix, that is, a scalar multiple of the
+identity matrix. It follows immediately by division with remainder in
+the exponent that $o$ divides every natural number $k$ for which 
+$M^k$ is equal to $\one$ and that $p$ divides every natural number $k$
+for which $M^k$ is a scalar multiple of $\one$. Thus $p$ divides in
+particular $o$ and it follows immediately, that if $M^p = \lambda \cdot
+\one$ with $\lambda \in \F$, then $o$ is $p$ times the order of the
+scalar $\lambda$.
+
+For a monic polynomial $f \in \F[X]$ with non-zero constant term
+we define \emph{order} (\emph{projective order} resp.) of 
+$X + f\F[X]$ in $\F[X]/f\F[X]$ modulo $f$ as the least natural 
+number $p$ such that $X^p$ is congruent 
+to $1$ (a scalar resp.) modulo $f$ or equivalently, that $X^p-1$ 
+($X^p-\lambda$ resp.) is
+divisible by $f$ (for some $\lambda \in \F$). 
+The order and projective order
+of a matrix $M$ as above and that of $X$ modulo its minimal polynomial are 
+linked by the following lemma:
+
+\begin{Lemm}[Orders and projective orders]
+Let $\F$ be a field and $M \in \F^{n \times n}$ an invertible square matrix.
+Then the (projective) order of $M$ is equal to the (projective) order of
+$X + \mu_M \F[X]$ module its minimal polynomial $\mu_M$.
+\end{Lemm}
+\proofbeg 
+The polynomial $X^p-\lambda$ is divisible by $\mu_M$ if and
+only if $M^p = \lambda \one$ for all $\lambda \in \F$.
+\proofend
+
+In the following we use this lemma to switch between matrices and
+polynomials as seems appropriate for the argumentation.
+
+We now want to discuss the computation of both the order and the
+projective order of a matrix or its minimal polynomial respectively.
+
+Let $f \in \F[X]$ be a monic polynomial with non-zero constant term. 
+By the Chinese Remainder theorem the factor ring
+$\F[X]/f\F[X]$ is isomorphic to
+\[ \F[X]/f\F[X] \cong
+   \prod_{i=1}^k \F[X]/f_i^{e_i} \F[X] \]
+where $f = \prod_{i=1}^k f_i^{e_i}$ is the factorisation of $f$ into
+its pairwise distinct irreducible factors $f_i$. Using this
+isomorphism the (projective) order of $X+f\F[X]$ is equal to the least 
+common multiple of the (projective) orders of the $X + f_i^{e_i}
+\F[X]$ in $\F[X]/f_i^{e_i}\F[X]$. Thus, as a first step we factorise
+$f$ completely and now determine the (projective) order of
+$X+g^e\F[X]$ for an irreducible monic polynomial $g$ of degree $d$ 
+with non-zero constant term.
+
+From now on we switch again to matrices. Let $C \in \F^{d \times d}$ be 
+the companion matrix of $g$ and $N$ the $(de \times de)$-block matrix with 
+$C$ along the main block diagonal, $(d \times d)$-identity matrices
+along the block diagonal directly above the main diagonal and zero blocks
+elsewhere:
+\[ N = \left[ \begin{array}{ccccc}
+    C      & \one   & 0      & \cdots & 0 \\
+    0      & C      & \one   & \ddots & \vdots \\
+    \vdots & \ddots & \ddots & \ddots & 0 \\
+    \vdots & \ddots & \ddots & C      & \one \\
+    0      & \cdots & \cdots & 0      & C
+\end{array} \right]. \]
+The minimal polynomial of $N$ is $g^e$ which can be seen as follows:
+Let $K$ be the splitting field $K$ of $g$ over $\F$. Since $g$ is
+irreducible and thus has no multiple roots, the 
+matrix $C$ is similar to a diagonal matrix over $K$, that is, there is an
+invertible $T \in K^{d \times d}$ such that $TCT^{-1}$ is diagonal
+with pairwise disjoint eigenvalues.
+Thus, conjugating $N$ with the block matrix having $T$ along the
+main block diagonal and permuting rows and columns suitably shows that
+the Jordan normal form of $N$ over $K$ consists of $d$ blocks of
+size $e$, thus every eigenvalue of $C$ occurs in the minimal
+polynomial of $N$ with multiplicity $e$. Thus the minimal polynomial
+of $N$ over $K$ is $g^e$ and thus also $\mu_N = g^e$.
+
+We assume from now on that $\F$ is a finite field $\F_q$ with $q$
+elements.
+Writing $N = \tilde C + \tilde \one$ where $\tilde C$ is the matrix
+with only $C$ along the main block diagonal and $\tilde \one$
+accordingly we have $\tilde C \cdot \tilde \one = \tilde \one \cdot \tilde C$
+and thus $N^k = \sum_{i=0}^k {k \choose i} \tilde C^{k-i} \tilde
+\one^i$. This immediately implies that the $(d \times d)$-block
+of $N^k$ in position $(j,j+i)$ is ${k \choose i}C^{k-i}$ for all
+$1 \le j \le d-i$. 
+
+Therefore the (projective) order of $N$ can be determined
+in the following way: Let $k$ be the least natural number, such that
+all binomial coefficients ${k \choose i} = 0$ for $1 \le i \le e$
+(where we set ${k \choose i} = 0$ for $i > k$. Let further $l$ be the
+(projective) order of $X+g\F[X]$ in the field $\F[X]/g\F[X]$. Then the 
+(projective) order of $N$ is the least common multiple of $k$ and $l$.
+
+
+
+\section{Solving systems of linear equations}
+\label{sec:syslineq}
+
+\section{Inverting matrices}
+\label{sec:invert}
+

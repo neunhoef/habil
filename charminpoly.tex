@@ -46,9 +46,8 @@
 
 This chapter is about the computation of characteristic and minimal
 polynomials of matrices over finite fields. The contents of this
-chapter until Section~\ref{performance} are joint work with Cheryl
+chapter are joint work with Cheryl
 Praeger and are already published as \cite{minpolypaper}.
-%FIXME
 
 \section{Introduction}
 
@@ -63,9 +62,10 @@ revealing information about the Frobenius
 normal form of $M$, the minimal polynomial also elucidates the structure 
 of $\F^n$ viewed as $\F[x]$-module, where $x$ acts by multiplication with $M$. 
 In addition the order of $M$ modulo scalars is often found by first 
-determining the minimal polynomial. Apart from these applications it has
-important practical utility, for example
-in the context of the matrix group recognition project~\cite{OB}.
+determining the minimal polynomial (see also Section~\ref{sec:orders}). 
+%Apart from these applications it has
+%important practical utility, for example
+%in the context of the matrix group recognition project~\cite{OB}.
 
 For these and other reasons a number of algorithms to determine the 
 minimal polynomial may be found in the literature. We discuss some 
@@ -329,7 +329,7 @@ elements.
 %\end{Not}
 
 \begin{Prop}[Complexity of standard greatest common divisor algorithm]
-\label{standardgcd}\mbox{}
+\label{standardgcd}
 
 Let $f,g \in \F[x]$ with $n := \deg f \ge \deg g =: m$, and $f = qg + r$
 with $q,r \in \F[x]$ such that $r=0$ or $\deg r < \deg g$. Then there is an
@@ -922,7 +922,7 @@ echelon data sequence of length $n$.
 
 \begin{Prop}[Correctness and complexity of Algorithm~\ref{algcharpoly}]
 %: {\sc CharPoly}]
-\label{propcharpoly}\mbox{}
+\label{propcharpoly}
 Given a matrix $M \in \F^{n \times n}$, Algorithm~\ref{algcharpoly} returns
 a tuple $(k,(p^{(i)})_{1 \le i \le k}, (Y,S,T,l),(b^{(i)})_{1 \le i \le k})$ 
 with the following features: $\prod_{i=1}^k p^{(i)} = \chi_{M,V}$ is the 
@@ -1695,8 +1695,8 @@ algorithm using more memory may be suitable.
 \end{Rem}
 
 We now present Algorithm~\ref{algminpolyverify} that can be run after
-Algorithm~\ref{algminpolymc} to verify the correctness of the resulting polynomial
-deterministically.
+Algorithm~\ref{algminpolymc} to verify the correctness of the resulting
+polynomial deterministically.
 
 \begin{algorithm}
 \caption{$\quad$ \sc MinPoly verification}
@@ -1720,7 +1720,7 @@ all data from Algorithm~\ref{algminpolymc}
 \end{algorithm}
 
 \begin{Prop}[Deterministic minimal polynomial verification]
-\label{propverify}\mbox{}
+\label{propverify}
 
 If Algorithm~\ref{algminpolyverify} is called with candidate minimal polynomial
 $\prod_{i=1}^t q_i^{f_i}$ from Algorithm~\ref{algminpolymc}, 
