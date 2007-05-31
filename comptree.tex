@@ -2,6 +2,9 @@
 
 \chapter{Composition trees}
 
+FIXME: Explain about the step-by-step development of the proper formulation
+of the question.
+
 After lots of preparations in the previous chapters
 in this chapter the main part of the whole book begins. We begin to talk
 about the recognition of matrix groups. We start by formulating
@@ -51,7 +54,8 @@ and then formulate the fundamental problem.
 When we speak about an \emph{ambient group} we mean a finite group that can
 be represented on a computer such that we can perform the following tasks:
 \begin{itemize}
-\item Store and compare group elements.
+\item Store and compare group elements using a bounded amount of memory
+per element.
 \item Multiply group elements.
 \item Invert group elements.
 \item Compute the order of a group element.
@@ -67,33 +71,170 @@ the hypotheses. We call subgroups of $\GL(n,q)$ \emph{matrix groups}
 and subgroups of $\PGL(n,q)$ \emph{projective groups}.
 \end{Rem}
 
-\begin{Problem}[Constructive recognition --- first formulation]
+\begin{Problem}[Constructive recognition --- preliminary formulation]
 \label{ProbCR1}
-Let $\mathcal{G}$ be an ambient group in the sense of \ref{ambient} and 
+Let $\GG$ be an ambient group in the sense of \ref{ambient} and 
 assume we are given a generating tuple $(g_1, \ldots, g_k) \in
-\mathcal{G}^k$ for a group
-$G := \left< g_1, \ldots, g_k \right> \le \mathcal{G}$. 
+\GG^k$ for a group
+$G := \left< g_1, \ldots, g_k \right> \le \GG$. 
 
 We say that we have \emph{recognised $G$ constructively} if we have 
 computed $|G|$ and a
 generating tuple $( g'_1, \ldots, g'_l )$ for $G$, for which we have
-prepared a procedure that does the following: Given $g \in \mathcal{G}$,
+prepared a procedure that does the following: Given $g \in \GG$,
 decide whether $g \in G$ and if so, express $g$ as a straight line program
 in $(g'_1, \ldots, g'_l)$. The new generating tuple may or may not be the
 same as the original one.
+\proofend
 \end{Problem}
 
-\begin{Rem}
 The problem as posed in \ref{ProbCR1} can be solved easily by just
 enumerating the finite group $G$ completely. However, this is neither
 a sensible approach nor very interesting. The crucial point missing
 in \ref{ProbCR1} is that we want to do constructive recognition
-\emph{efficiently}. 
+\emph{efficiently}. To express what we mean by that we use complexity
+theory. The class of problems is given by all possible tuples of
+generators of subgroups of our ambient groups. We have to specify
+what we mean by ``input size'':
+
+\begin{Def}[Input size parameters]
+\label{inputsize}
+Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient}
+and $(g_1, \ldots, g_k) \in \GG^k$. If $\GG$ is either $\GL(n,q)$ or
+$\PGL(n,q)$, then the input size of our problem is measured by $n$, $k$
+and $\log(q)$. If $\GG$ is the symmetric group on $n$ points then the
+input size is measured by $n$ and $k$. We silently set $q := 1$ in that
+case such that we can uniformly speak of the input size parameters $n$, $k$
+and $q$ in call cases.
+\end{Def}
+
+\begin{Rem}
+Note that we use $\log(q)$ as one of the parameters of the input size
+rather than $q$ itself. The reason behind this is that one needs
+$\log(q)$ bits of data to store one finite field element of $\F_q$.
+This means that the amount of storage needed for the input matrices is
+proportional to $kn^2\log(q)$. Of course, the fact that the discrete
+logarithm problem in $\F_q$ prevents us from finding a real polymial
+time algorithm for constructive recognition stems from this decision
+(compare Section~\ref{thedlp}).
 \end{Rem}
 
-\section{A recursive approach}
+\begin{Problem}[Constructive recognition --- final formulation]
+\label{ProbCR2}
+Let $\GG$ be an ambient group in the sense of \ref{ambient} and 
+assume we are given a generating tuple $(g_1, \ldots, g_k) \in
+\GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
+
+We say that we have \emph{recognised $G$ constructively} if we have 
+computed $|G|$ and a
+generating tuple $( g'_1, \ldots, g'_l )$ for $G$, for which we have
+prepared a procedure that does the following: Given $g \in \GG$,
+decide whether $g \in G$ and if so, express $g$ as a straight line program
+in $(g'_1, \ldots, g'_l)$. The new generating tuple may or may not be the
+same as the original one.
+
+We assume that we have factorised all integers $q^i-1$ for $1 \le i \le n$
+and that we can solve the discrete logarithm problem in all fields $\F_q$
+for $1 \le i \le q$ efficiently. 
+
+We call the first phase until $G$ is
+recognised constructively the \emph{recognition phase} and the second
+phase the \emph{(constructive) membership test phase}.
+
+The aim is that the algorithms for both phases have a runtime that is proved
+to be bounded by a fixed polynomial in the input size parameters $n$, $k$
+and $q$ in the sense of Definition~\ref{inputsize}.
+
+In this book we refer to this problem as the \emph{constructive recognition
+problem (CRP)}.
+\proofend
+\end{Problem}
+
+For the rest of the chapter we always use the notation in \ref{ProbCR2}.
+
+\smallskip
+\begin{Rem}[Randomised algorithm]
+We are content with using Las Vegas or Monte Carlo algorithms (see
+Section~\ref{montevegas}) provided that we can later on verify our results
+deterministically, even if this takes longer than the randomised
+recognition step. However, also the verification phase should have a
+runtime that is proved to be bounded by a fixed polynomial in the input
+size parameters $n$, $k$ and $q$.
+\end{Rem}
+
+\section{A recursive approach --- reductions}
 \label{recapproach}
 
+Traditionally, the constructive recognition problem for permutation
+groups is solved by computing a stabiliser chain and a set of strong
+generators using the Schreier-Sims method (see~\cite{Si} and \cite{Ser}). 
+
+Although an analogous method can be used for matrix and projective groups,
+this becomes infeasible already for very small values of $n$ since the
+occurring orbit lengths can be very large. Also for large base permutation
+groups (for a formal definition see Section~\ref{permgrps}) like the
+symmetric and alternating groups in their natural representation there
+are asymptotically better methods because the stabiliser chains are very long.
+
+Therefore one seeks \emph{reductions} in these cases. A reduction is
+a surjective group homomorphism $\varphi : G \to H$ that can be computed
+explicitly and for which $H$ is again a subgroup of a possibly different
+ambient group. In addition, the homomorphism $\varphi$ must either have
+a non-trivial kernel or the group $H$ must be ``easier to handle'' in some
+sense. This can for example mean that one of the values $n$, $k$ and
+$q$ is smaller for $H$ than for $G$ while the others remain unchanged,
+or that the expression $kn^2\log(q)$ becomes smaller such that we need
+less memory to store the generators for $H$ than those for $G$.
+Another possibility is that for a matrix group $G$ the homomorphic image
+$H$ is a permutation group.
+
+Having found a reduction $\varphi : G \to H$ one first tries to recognise
+$H$ constructively, then computes generators for the kernel $N$ of
+$\varphi$, recognises $N$ constructively and then puts everything together
+to achieve a constructive recognition of $G$ from all other intermediate
+results. This procedure can be repeated recursively for the image $H$ and
+the kernel $N$ such that we end up with a tree (see
+Figure~\ref{comptreefig}), where the nodes correspond
+to subfactors of the original $G$ and where we have to recognise
+the groups in the leaf nodes constructively by other means without
+a further reduction.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=2.5in]{comptree}
+\end{center}
+\caption{A composition tree}
+\label{comptreefig}
+\end{figure}
+
+To make this recursion work we have to say quite carefully what has to
+happen at a non-leaf node $G$ such that we actually have solved the
+constructive recognition problem for the group $G$ at this node provided
+we have solved the corresponding problem for the homomorphic image
+$H=\varphi(G)$ and the kernel $N = \ker(\varphi)$. We also have to
+clearly say what the original generators and the new, ``nice'' generators
+of our groups $G$, $H$ and $N$ are. This is the purpose of the following
+definition.
+
+\begin{Def}[Reduction node]
+\label{reducnode}
+Let $G = \left< g_1, \ldots, g_k \right> < \GG$ be as in \ref{ProbCR2}.
+We say that we have set up a \emph{reduction node} for $G$, if we have
+found the following data:
+\begin{enumerate}
+\item A surjective group homomorphism $\varphi : G \to H$ for which we
+have a procedure to compute $\varphi(g)$ for all $g \in G$. If this
+procedure is given an element $g \in \GG \setminus G$ then it returns
+either {\fail} or an arbitrary element of $H$.
+\item A tuple $(g'_1,\ldots,g'_l) \in G^l$ of ``nice'' generators for which
+we have a procedure to compute a straight line program 
+\end{enumerate}
+
+\end{Def}
+
+Then 
+$H$ is generated by the images $(\varphi(g_1),\ldots,\varphi(g_k)) \in
+H^k$ because $\varphi$ is surjective.
 \section{Finding homomorphisms and nice generators}
 \label{findhom}
 

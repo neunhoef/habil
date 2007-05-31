@@ -7,7 +7,7 @@ habil.pdf:	habil.dvi
 
 habil.dvi:	*.tex matmulF2_all.eps matmulF7_all.eps matmulF243_all.eps \
 		matmulF17_all.eps grease.pstex_t matmulF2grease.eps \
-		matmulF3_all.eps
+		matmulF3_all.eps comptree.eps
 	texer
 
 clean:
@@ -37,3 +37,5 @@ grease.pstex_t:	grease.fig
 	fig2dev -L pstex grease.fig grease.pstex
 	fig2dev -L pstex_t grease.fig grease.pstex_t
 
+comptree.eps:	comptree.fig
+	fig2dev -L eps comptree.fig comptree.eps

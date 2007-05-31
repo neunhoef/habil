@@ -1304,8 +1304,6 @@ the vector $v$ lies in $W'_i$ is given as input to the algorithm.
 We denote the $j^{th}$ entry of $v$ by $v_j$.
 
 \begin{figure}
-\caption{Overview over the matrix $YMY^{-1}$}
-\label{bigmat}
 \[ \left[ \begin{array}{cccccc|cccccc|c|cccccc}
 \cline{1-6}
   0 & 1 &      &      &   &   \\
@@ -1332,6 +1330,8 @@ We denote the $j^{th}$ entry of $v$ by $v_j$.
   {}*&*&*&*&*&*& *&*&*&*&*&*&* &*& * &   *  &   *  & * & * \\
 \hline
 \end{array} \right] \]
+\caption{Overview over the matrix $YMY^{-1}$}
+\label{bigmat}
 \end{figure}
 
 \begin{algorithm}
@@ -1917,8 +1917,6 @@ very quickly discovered that the least common multiple of the relative order
 polynomials was already equal to the characteristic polynomial.
 
 \begin{figure}
-\caption{Timings for minimal polynomial computation}
-\label{timings}
 \begin{center}
 \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
 \hline
@@ -1942,6 +1940,8 @@ $M_{10}$& 17  &  400 & 0.607 & 0.504 & 0.583 & 0.583 & 0 & 0 & 0 \\
 \medskip
 $^*$ averaged over 10 runs
 \end{center}
+\caption{Timings for minimal polynomial computation}
+\label{timings}
 \end{figure}
 
 %\bibliographystyle{alpha}
