@@ -78,7 +78,7 @@ and subgroups of $\PGL(n,q)$ \emph{projective groups}.
 
 \begin{Problem}[Constructive recognition --- first formulation]
 \label{ProbCR1}
-Let $\GG$ be an ambient group in the sense of \ref{ambient} and 
+Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group
 $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
@@ -145,7 +145,7 @@ formulate a preliminary version of the constructive recognition problem:
 
 \begin{Problem}[Constructive recognition --- preliminary formulation]
 \label{ProbCR2}
-Let $\GG$ be an ambient group in the sense of \ref{ambient} and 
+Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
 
@@ -241,7 +241,7 @@ formulation:
 
 \begin{Problem}[Constructive recognition --- final formulation]
 \label{ProbCR3}
-Let $\GG$ be an ambient group in the sense of \ref{ambient} and 
+Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
 
@@ -299,11 +299,10 @@ performed the following steps:
 \item[(1)] Finding a surjective group homomorphism $\varphi : G \to H$ for
 which we have a procedure to compute $\varphi(g)$ for all $g \in G$.
 If this procedure is given an element $g \in \GG \setminus G$ then it
-returns either {\fail} or an arbitrary element of $H$.
+returns either {\fail} or an arbitrary element in the ambient group of $H$.
 \item[(2)] Solving Problem~\ref{ProbCR3} for $H = \left< \varphi(g_1),
-\ldots, \varphi(g_k) \right>$ with nice generators $(h_1, \ldots, h_m)
-\in H^m$.
-\item[(3)] Computing preimages $(h'_1, \ldots, h'_s) \in G^m$ under $\varphi$
+\ldots, \varphi(g_k) \right>$ with nice generators $(h_1, \ldots, h_s)$.
+\item[(3)] Computing preimages $(h'_1, \ldots, h'_s) \in G^s$ under $\varphi$
 of the nice generators $(h_1, \ldots, h_s)$ of $H$ using the solution
 of (2).
 \item[(4)] Computing generators $(n_1, \ldots, n_t) \in N^t$ with $N :=
@@ -319,22 +318,295 @@ n'_u)$ its nice generators.
 \begin{Prop}[The recursion works]
 Let $G = \left< g_1, \ldots, g_k \right> \le \GG$ be as in 
 Problem~\ref{ProbCR3}.
-If we have set up a reduction node for $G$, then we have solved the
+If we have set up a reduction node for $G$ (in the sense of
+Definition~\ref{reducnode}), then we have solved
 Problem~\ref{ProbCR3} for $G$.
 \end{Prop}
 \proofbeg
 The group order $|G|$ is equal to the product $|H| \cdot |N|$ since
 $\varphi$ is surjective and $N = \ker(\varphi)$.
+
+Recall that we call the tuple $(h'_1, \ldots, h'_s, n'_1, \ldots, n'_u)$
+the nice generators for $G$. Since 
+\[ (\varphi(h'_1), \ldots, \varphi(h'_s))
+= (h_1, \ldots, h_s) \] 
+generates the epimorphic image $H$ of $G$ and
+$(n'_1, \ldots, n'_u)$ generates the kernel $N$ the tuple of nice
+generators is a generating tuple for $G$.
+
+Given $g \in \GG$, we can test membership in $G$ constructively as follows:
+first we try to map $g$ with $\varphi$. If this fails, the element $g$
+does not lie in $G$ by our assumptions in \ref{reducnode}.(1). Otherwise
+call the image $h \in H$. Note that in this case it can still be that
+$g$ is not contained in $G$, regardless whether $h$ lies in $H$ or not! 
+
+We then try to express $h$ as a straight 
+line program $s_1$ in the nice generators $(h_1, \ldots, h_s)$ of $H$. If this
+fails, then $h$ is not contained in $H$ and thus $g$ is not contained in
+$G$. Otherwise we evaluate $s_1$ with inputs
+$(h'_1, \ldots, h'_s)$, the preimages of the nice generators of $H$ under
+$\varphi$. If $g$ is contained in $G$, then the result $h'$ is a preimage 
+under $\varphi$ of $h = \varphi(g)$. Thus $n := h'^{-1}\cdot g$ is contained
+in the kernel $N$ of $\varphi$. We try to express $n$ as a straight
+line program $s_2$ in $(n'_1, \ldots, n'_u)$. If this fails, then $n$
+is not contained in $N$ and thus $g$ is not contained in $G$. Otherwise,
+we put together the straight line programs $s_1$ and $s_2$ to form
+one big straight line program $s$ that reaches $h'n$ from the input 
+$(h'_1, \ldots, h'_s, n'_1, \ldots, n'_u)$. In this case we have proved
+that $g$ lies in $G$.
 \proofend
+
+\medskip
+We conclude this section with a short overview over the rest of the chapter
+and an outlook onto the following ones:
+We have now found our final formulation of the constructive
+recognition problem and we have shown a general approach for its solution
+by means of reduction. In the next Section~\ref{findkernel} we explain how
+to find the kernel $N$ of a homomorphism as in Definition~\ref{reducnode}
+once we have constructively recognised the epimorphic image $H$. After that
+in Section~\ref{findhom} we describe a generic framework to organise the
+finding of reductions using a database of different methods. Finally we
+explain how this whole framework can be used to implement the
+asymptotically best algorithms for arbitrary permutation groups.
+The following chapters cover the question how to actually find reductions
+and solve the constructive recognition problem for matrix groups and
+projective groups.
+
+\section{Finding the kernel of a homomorphism}
+\label{findkernel}
+
+In this section we assume that we are in the situation described in
+Problem~\ref{ProbCR3} and want to construct a reduction node in the sense
+of Definition~\ref{reducnode}. We assume that we can produce evenly
+distributed random elements in $G$ (see Section~\ref{randomelts}).
+
+Assume that we have already found a homomorphism
+$\varphi : G \to \HH$ into some ambient group $\HH$ in the sense of
+Hypothesis~\ref{ambient}, such that we can map arbitrary group elements
+$g \in G$ with $\varphi$. Then we set $H := \left< \varphi(g_1), \ldots,
+\varphi(g_k) \right>$ and constructively recognise $H$ which produces
+among other things nice generators $(h_1, \ldots, h_s)$ of $H$. Another
+result of the recognition is that we can compute preimages $(h'_1, \ldots,
+h'_s) \in G^s$ of the $(h_1, \ldots, h_s)$ under $\varphi$.
+
+Equipped with all this data and methods we can now do the following
+for an arbitrary element $g \in G$: Map it with $\varphi$ into $H$
+and call $h := \varphi(g)$. Then find a straight line program $s$ reaching
+$h$ from $(h_1, \ldots, h_s)$ and evaluate it on $(h'_1, \ldots, h'_s)$
+to get an element $h' \in G$ with the property that
+$\varphi(g)=\varphi(h') = h$, thus $h'^{-1}\cdot g$ lies in the kernel $N$
+of $\varphi$. For this construction we have:
+
+\begin{Prop}[Even distribution of kernel elements]
+\label{evendistker}
+If $x_1, x_2, \ldots, x_m$ are evenly distributed random elements in $G$,
+then the above procedure produces evenly distributed random elements in
+$N$.
+\end{Prop}
+\proofbeg
+Since $H \cong G/N$, the elements of $H$ correspond to cosets of $N$ in
+$G$. Our constructive membership test in $H$ produces a unique straight
+line program for every element $h \in H$ and the evaluation of those
+programs on the preimages $(h'_1, \ldots, h'_s)$ thus chooses exactly one
+element of $G$ from each coset of $N$. Since the $x_i$ are evenly
+distributed in the whole of $G$ their images under $\varphi$ are
+distributed evenly in $H$. Multiplying $x_i$ with the inverse of the
+chosen coset representative in the coset $x_iN$ amounts to mapping
+$x_i N$ bijectively onto $N$. Again by the even distribution of the $x_i$
+it follows, that the elements $y_i$ are evenly distributed in $N$.
+\proofend
+
+\smallskip
+Proposition~\ref{evendistker} now allows to produce evenly distributed
+elements in $N$. To find a generating tuple of $N$ we simply produce
+a certain amount of random elements. Since every proper subgroup of $N$ 
+has index at least $2$ in $N$, the probability to increase the
+subgroup that is generated by the already produced elements is at least 
+$1/2$ for every produced element. Thus the probability to find a generating
+set for the whole of $N$ is very high provided we produce enough random
+elements.
+
+\medskip
+Sometimes, we not only recognise $H$ constructively in the sense of
+Problem~\ref{ProbCR3} but also find a presentation in terms of the 
+nice generators. This happens mostly but not exclusively if $H$ is an 
+almost simple group. In that case, we have the following result:
+
+\begin{Prop}[Kernel if a presentation of $H$ is known]
+\label{kernelpres}
+Assume that in the above situation $H$ is isomorphic to the
+finitely presented group generated by generators $(h_1, \ldots, h_s)$
+subject to relations $(r_1, \ldots, r_m)$ given as a straight line
+program $s$ in terms of the $(h_1, \ldots, h_s)$. Let $(r'_1, \ldots,
+r'_m)$ be preimages of the $(r_1, \ldots, r_m)$ under $\varphi$. 
+Let further $x_i$ for $1 \le i \le k$ be elements in $\left< h'_1, \ldots, 
+h'_s \right>$ with $\varphi(x_i) = \varphi(g_i)$ obtained by the procedure 
+described directly before Proposition~\ref{evendistker}, and set 
+$y_i := x_i^{-1} \cdot g_i \in N$. Then the kernel $N$ of
+$\varphi$ is the normal closure in $G$ of the group generated by
+$(y_1, \ldots, y_k, r'_1, \ldots, r'_m)$.
+\end{Prop}
+\proofbeg
+Clearly, all the elements $y_i$ and $r'_i$ lie in $N$. Since $N$ is a
+normal subgroup of $G$, the normal closure $\tilde N$ of the group generated
+by $(y_1, \ldots, y_k, r'_1, \ldots, r'_m)$ is contained in $N$.
+
+On the other hand, every element $n$ of $N$ is a product of the generators
+$g_i$. Thus, setting $n = g_{i_1} \cdots g_{i_t}$ for some numbers
+$i_j \in \{ 1, \ldots, k \}$, we get:
+\[ n = x_{i_1} x_{i_1}^{-1} g_{i_1} \cdots x_{i_t} x_{i_t}^{-1} g_{i_t}
+     = x_{i_1} y_{i_1} \cdots x_{i_t} y_{i_t}
+     = \tilde n \cdot x \]
+where $\tilde n$ is a product of some $G$-conjugates of the $y_{i_j}$
+and $x$ is a product of the $h'_i$ that lies in $N$. Since the $h'_i$
+are preimages of the generators $h_i$ of $H$ and $r'_i$ are preimages
+of the relations $r_i$ the element $x$ lies in the normal closure
+of the subgroup generated by the $r'_i$ and thus $\tilde N = N$.
+\proofend
+
+\begin{Rem}[Computing the kernel with a given presentation of $H$]
+Using the results of the constructive recognition of $H$ together we
+can explicitly compute preimages $r'_i$ of the relations $r_i$ since
+the latter are given as straight line programs in terms of the nice
+generators of $H$. Thus we can explicitly compute all the generators in
+Proposition~\ref{kernelpres}. The normal closure can be computed using
+the methods in \cite[Chapter 2]{Ser}.
+% FIXME: add reference
+\end{Rem}
+
+In this section we have shown that to set up a reduction node only needs
+an explicitly computable homomorphism $\varphi$ from $G$ into some
+ambient group $\HH$. Given this, one can constructively recognise the
+image, compute generators for the kernel and constructively recognise it,
+thereby fulfilling all requirements for a reduction node.
+
 
 \section{Finding homomorphisms and nice generators}
 \label{findhom}
 
-\section{Expressing group elements in terms of the nice generators}
-\label{expressslp}
+During the recursive recognition procedure we have to solve
+Problem~\ref{ProbCR3} at every node of the composition tree, either
+by finding a reduction and setting up a reduction node or by solving 
+the constructive recognition problem directly. In this section we describe
+a generic framework to organise an algorithm to achieve this.
 
-\section{Finding the kernel of a homomorphism}
-\label{findkernel}
+We have to explore every group $G$ as in Problem~\ref{ProbCR3} 
+occurring in our tree to find out whether we 
+can solve the constructive recognition 
+problem, or what kind of homomorphism can be 
+applied to it. To this end, the framework holds a collection
+of so-called ``find homomorphism'' methods in stock. A find homomorphism
+method's objective is either to find a homomorphism $\varphi: G \to H$
+onto some subgroup $H$, thereby setting up a reduction node and 
+creating a new non-leaf node, or to
+solve the constructive recognition 
+problem directly, which can but does not always have to find
+an isomorphism to some known group.
+
+For each type of groups (permutation groups, matrix groups, and black-box
+groups), the system has a database of find homomorphism methods.
+We call the procedure that decides, which methods to try and in which order 
+the ``method selection''. For this purpose we define a very simple and yet 
+versatile algorithm, which we will describe now. It is usable independently
+from group recognition, but we will explain it here in the context of
+our generic recognition procedure. Note that this new method selection
+procedure is not to be confused with the {\GAP} (see \cite{GAP4}) method
+selection. 
+
+The group recognition procedure for a node just calls the generic method
+selection procedure with the database of find homomorphism methods
+corresponding to the type of the group.
+
+The methods in each database are ranked, thereby defining a total
+order. The method selection procedure calls the methods one after another,
+starting with high ranks. A find homomorphism method reports back to
+the generic procedure by returning one of the four values in
+Table~\ref{methselresults}.
+
+\begin{table}[ht]
+\begin{tabular}{lp{4in}}
+\texttt{true}: &
+   The method was successful and has either set up a
+   leaf or a non-leaf node. For details see below. \\
+\texttt{fail}: &
+   The method has failed to find a homomorphism or
+   to solve the constructive recognition problem, at least temporarily. \\
+\texttt{false}: &
+   The method has failed and will do so always for
+   the group $G$ in question, such that there is no point in trying
+   this method again for the group $G$. \\
+\texttt{NotApplicable}: &
+   The method is currently not applicable
+   but it might become applicable later, provided new knowledge is
+   found out about the group $G$.
+\end{tabular}
+\caption{Possible results of a find-homomorphism method}
+\label{methselresults}
+\end{table}
+
+The first case is the only one that terminates the recognition procedure
+for the current node in the composition tree.
+All other cases make it necessary to try other methods. The difference
+between these latter three cases lies in the fact, how the generic
+procedure chooses the next method called. If a method returns
+\texttt{NotApplicable}, then the method selection just calls the next
+method in the database. In the other two cases \texttt{false} and 
+\texttt{fail}, the method selection again starts with the highest ranked
+method, but skipping all methods that have already been tried and
+have failed by returning either \texttt{false} or \texttt{fail}.
+
+When all available methods either have declared themselves
+\texttt{NotApplicable} or have failed, then the method selection 
+starts all over again, now calling methods again that have returned
+\texttt{fail} once but of course skipping methods that have returned
+\texttt{false}. This whole process is repeated until each method has
+failed a configurable number of times, when the method selection
+finally gives up.
+
+We hope that this design is simple enough to keep an overview of what is
+tried in which order to prove the whole algorithm to work correctly,
+and versatile enough to implement a wide range of different algorithms,
+in which ``trying different methods'' is involved. We now explain
+the rationale behind some of the features of this procedure.
+
+The idea behind the fact that after a method having returned
+\texttt{fail} or \texttt{false} the method selection starts again
+with the highest ranked method is that even a failed method might
+have found out new information about the group, thereby making
+higher ranked methods, that have refused to work earlier by
+returning \texttt{NotApplicable}, newly applicable.
+
+In the {\GAP} system, information about a group $G$ is collected in
+so-called {\em attributes} (for example,
+a permutation group object may store an attribute whether it is transitive
+or not), but we may also acquire the information that 
+$G$ is simple, or that it is solvable, or we may know $|G|$, etc. 
+Note that at any given time, the value of an attribute for a given group
+object can already be computed or not, and the group object can learn new
+information about itself during its lifetime. This feature is already
+part of the {\GAP} system library. 
+
+Further attributes may be
+computed when the method selection tries to apply
+different find homomorphism methods while processing the current group $G$.
+Therefore, a find homomorphism method can just look whether or not
+a certain attribute is already known and then decide if it starts
+to work or declares itself \texttt{NotApplicable}. With new attributes
+being computed, this decision might be changed. By convention, a method
+should never use much computation time to find out that it is not
+applicable.
+
+The idea behind a method returning \texttt{fail} is that often
+randomized algorithms are used that have the potential to fail,
+but still may succeed when tried again. The ranking and the failure 
+probabilities of course have to be tuned carefully to assemble
+a sensible recognition system.
+
+We illustrate the generic method selection described in this section
+in the next one where we explain how it is used to glue together the
+asymptotically best algorithms for the handling of permutation groups
+to set up a constructive recognition algorithm for the case that the
+ambient group is a symmetric group.
 
 \section{Asymptotically best algorithms for permutation groups}
 \label{permgrps}
