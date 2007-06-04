@@ -540,7 +540,7 @@ Table~\ref{methselresults}.
    but it might become applicable later, provided new knowledge is
    found out about the group $G$.
 \end{tabular}
-\caption{Possible results of a find-homomorphism method}
+\caption{Possible results of a find homomorphism method}
 \label{methselresults}
 \end{table}
 
@@ -610,4 +610,109 @@ ambient group is a symmetric group.
 
 \section{Asymptotically best algorithms for permutation groups}
 \label{permgrps}
+
+Traditionally, the constructive recognition problem for permutation
+groups is solved by computing a stabiliser chain and a set of strong
+generators using the Schreier-Sims method (see~\cite{Si} and \cite{Ser}). 
+
+However, this method does not work very efficiently for so-called
+``large base groups''. We start by developing the necessary language
+from the complexity theory of permutation groups.
+
+\begin{Def}[Base of a permutation group]
+Let $G \le S_n$ be a subgroup of the symmetric group on $\{1,\ldots,n\}$.
+A tuple $B \in \{ 1, \ldots, n\}^l$ is called a \emph{base of $G$ with
+length $l$}, if only the identity of $G$ fixes every point in $B$: 
+\[ \{ g \in G \mid b_i^g = b_i \mbox{ for all } 1 \le i \le l \} = \{ \id \}. \]
+The \emph{stabiliser chain} belonging to a base $B$ is the chain of
+subgroups
+\[ G \ge G_{b_1} \ge G_{b_1,b_2} \ge \cdots \ge G_{b_1,\ldots,b_k} =
+\{\id\} \]
+where $G_{b_1, \ldots, b_j} =
+\{ g \in G \mid b_i^g = b_i \mbox{ for all } 1 \le i \le j \}$.
+\end{Def}
+
+Obviously, the length of every stabiliser chain for a permutation group 
+$G$ is at least as big as the length of a shortest base of $G$.
+This is the reason why computing stabiliser chains is not efficient
+for groups without a ``reasonably short'' base. Of course, the
+Schreier-Sims method does not necessarily find a shortest possible base.
+However, one can implement the method such that in the resulting
+stabiliser chain all inclusions are proper.
+Therefore, we consider not the shortest possible base length but
+an upper bound for the length of a base:
+
+\begin{Prop}[Maximal base length]
+If $G \le S_n$ then every base of $G$, for which all inclusions in its
+stabiliser chain are proper, has length at most $\lceil \log(|G|) \rceil$.
+\end{Prop}
+\proofbeg
+The index of one stabiliser in the previous one in the stabiliser chain is
+at least $2$.
+\proofend
+
+To formulate precise complexity statements we have to talk about families
+of permutation groups:
+
+\begin{Def}[Families of small and large base groups]
+Let $\calF$ be a family of permutation groups, all embedded into
+possibly different symmetric groups $S_n$. For a $G \in \calF$ we denote 
+by $n(G)$ the $n$ of the symmetric group $S_n$ into which $G$ is embedded
+and by $k(G)$ the number of generators by which $G$ is defined.
+
+The family $\calF$ is called \emph{a family of small base groups} if there
+is a positive constant $c$ such that $\log(|G|) \le \log(n(G))^c$ for all
+$G \in \calF$. If there is no such constant then $\calF$ is called
+\emph{a family of large base groups}.
+\end{Def}
+
+\begin{Rem}[A single permutation group]
+Note that the terms ``large base group'' and ``small base group'' are
+\emph{not defined} for a single permutation group $G$ although one is
+sometimes tempted to call a member of a family of large base groups
+a ``large base group''. However, complexity statements about algorithms
+only make sense for families of inputs and thus it is only sensible to
+talk about ``small'' or ``large'' bases in the context of families of
+permutation groups.
+\end{Rem}
+
+The motivation for the terms ``family of large/small base permutation
+groups'' is the following result:
+
+\begin{Theo}[Complexity of the Schreier-Sims method]
+Let $\calF$ be a family of small base groups. Then a randomised version
+of the Schreier-Sims method computes a base and strong generators
+for any $G \in \calF$ in nearly-linear time in the input size $k(G)\cdot
+n(G)$, that is the runtime is bounded by a function in
+$O(k(G)n(G) \cdot \log(k(G)n(G)))$.
+\end{Theo}
+\proofbeg See \cite[Chapter 2]{Ser}. \proofend
+
+If a permutation group $G \le S_n$ is given by a list of generators, it
+is at first glance not clear, whether it has a short base. Of course,
+we want to avoid to compute a base by an application of the Schreier-Sims
+method if there is no short base.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|r|l|l|c|}
+\hline
+Rank & Name & Action & Hom/Leaf \\
+\hline
+\hline
+50 & \texttt{NonTransitive} & Restrict to orbit & Hom \\
+\hline
+40 & \texttt{Giant} $A_n/S_n$ & Find standard generators & Leaf \\
+\hline
+30 & \texttt{Imprimitive} & Find block system & Hom \\
+\hline
+20 & \texttt{Jellyfish} & Find standard generators & Leaf \\
+\hline
+10 & \texttt{StabilizerChain} & Compute a base and strong generators & Leaf \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Find homomorphism methods for permutation groups}
+\label{permdb}
+\end{table}
 
