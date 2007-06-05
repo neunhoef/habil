@@ -602,11 +602,43 @@ but still may succeed when tried again. The ranking and the failure
 probabilities of course have to be tuned carefully to assemble
 a sensible recognition system.
 
+Once a method returns \texttt{true} it reports whether it has found a
+reduction or has solved the constructive recognition problem by other
+means. In the first case the generic machinery sets up a recognition node
+as described in Sections~\ref{recapproach} and \ref{findkernel}. In the
+other case a leaf in the composition tree is built and the find
+homomorphism method that returned \texttt{true} is responsible for the
+data and methods to do constructive membership testing in the group 
+of the node. In this way, a composition tree is built recursively using the
+database of find homomorphism methods together with the generic code
+organising the recursive framework.
+
+Another important feature of this framework is the following. Quite often,
+a find homomorphism method finds out information about the group in
+question that can be used further down in the composition tree most notably
+in the homomorphic image or the kernel of the group homomorphism found.
+For example it might already know that it has set up an isomorphism such
+that the kernel is trivial or it might know that the homomorphic image of a
+matrix group is a permutation group. To communicate such information to the
+methods used further down in the tree there is an infrastructure to hand
+down so-called ``hints''. These hints might for example consist of additional
+knowledge about the group such that certain find homomorphism methods
+are particularly well suited. Having this type of information available
+further down in the tree helps choosing the best find homomorphism method
+first. Furthermore, even a failed method can store already 
+obtained data about the group in the data structure of the node it tried
+to work on. In this way methods that are called later in the method
+selection process can profit from this additional information. In the
+chapters to come in this book we describe find homomorphism methods
+and mention such hints that can help other methods along with the
+description of the methods.
+
 We illustrate the generic method selection described in this section
-in the next one where we explain how it is used to glue together the
-asymptotically best algorithms for the handling of permutation groups
-to set up a constructive recognition algorithm for the case that the
-ambient group is a symmetric group.
+in the next Section~\ref{permgrps} where we explain how it is used to
+glue together the asymptotically best algorithms currently known for
+the handling of permutation groups to set up a constructive recognition
+algorithm for the case that the ambient group is a symmetric group.
+
 
 \section{Asymptotically best algorithms for permutation groups}
 \label{permgrps}
@@ -697,7 +729,32 @@ method if there is no short base.
 To solve Problem~\ref{ProbCR3} for a permutation group we use the method
 selection procedure described in Section~\ref{findhom}. In the following we
 describe the methods that are used in this process. An overview of these 
-methods is given in Table~\ref{permdb}.
+methods is given in Table~\ref{permdb}. The basic idea is to recognise
+and handle alternating composition factors without computing a stabiliser 
+chain.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|c|l|l|c|}
+\hline
+Rank & Name & Action & Hom/Leaf \\
+\hline
+\hline
+50 & \texttt{NonTransitive} & Restrict to orbit & Hom \\
+\hline
+40 & \texttt{Giant} $A_n/S_n$ & Find standard generators & Leaf \\
+\hline
+30 & \texttt{Imprimitive} & Find block system & Hom \\
+\hline
+20 & \texttt{Jellyfish} & Find standard generators & Leaf \\
+\hline
+10 & \texttt{StabilizerChain} & Compute a base and strong generators & Leaf \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Find homomorphism methods for permutation groups}
+\label{permdb}
+\end{table}
 
 The method with the highest rank $50$ is the reduction method called
 \texttt{NonTransitive} for intransitive groups. It first tests, whether
@@ -728,32 +785,38 @@ finds one it constructs a homomorphism onto the action on the set of
 blocks. Since the algorithm is deterministic, it returns \texttt{false}
 if no block system is found and the group $G$ is proved to be primitive.
 
-Jellyfish.
+Note that in the case that the \texttt{Imprimitive} method finds a block
+system, it hands the information about the blocks down to the node that is
+set up for the kernel. This allows firstly to use a different method to
+create generators for the kernel since one needs often much more elements
+to generate a subgroup of a repeated direct product than usual. Secondly,
+the system can use a special find homomorphism
+method for the kernel that produces a balanced composition tree, which 
+is more efficient both during the recognition phase and the membership
+testing phase. Here, the infrastructure in our framework to hand down 
+hints to kernel and homomorphic image of a homomorphism is used 
+extensively.
+
+The fourth find homomorphism method \texttt{Jellyfish} with rank $20$
+handles another special case in which the Schreier-Sims method does
+not work efficiently. This case is that an alternating or symmetric
+group on $\{1,\ldots,m\}$ acts on $n = {m \choose k}^r$ $r$-tuples
+of $k$-subsets of $\{1,\ldots,m\}$. Of course, the action is not
+given in this way but simply as an action on the set $\{1,\ldots,n\}$
+and the problem is to identify each number in $\{1,\ldots,n\}$ with
+an $r$-tuple of $k$-subsets of $\{ 1, \ldots, m\}$. In fact, the
+algorithm does not solve this latter problem but tries to guess
+$m$, $k$ and $r$ and directly find standard generators for $A_m$ or
+$S_m$. A deterministic algorithm to solve this problem is described
+in \cite[Section~4]{fastmanag} and a faster randomised one in
+\cite{Jellyfish}.
 
 Finally, if everything that has previously been tried has failed, we
 compute a base and strong generators using the Schreier-Sims method. This
 is done by the method called \texttt{StabilizerChain} with rank $10$.
 
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{|r|l|l|c|}
-\hline
-Rank & Name & Action & Hom/Leaf \\
-\hline
-\hline
-50 & \texttt{NonTransitive} & Restrict to orbit & Hom \\
-\hline
-40 & \texttt{Giant} $A_n/S_n$ & Find standard generators & Leaf \\
-\hline
-30 & \texttt{Imprimitive} & Find block system & Hom \\
-\hline
-20 & \texttt{Jellyfish} & Find standard generators & Leaf \\
-\hline
-10 & \texttt{StabilizerChain} & Compute a base and strong generators & Leaf \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Find homomorphism methods for permutation groups}
-\label{permdb}
-\end{table}
+This setup tries the right things in the right order to handle groups
+with small as well as with large bases and thus implements a framework to
+handle all permutation groups with the asymptotically best algorithms
+known.
 
