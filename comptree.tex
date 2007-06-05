@@ -661,7 +661,7 @@ by $n(G)$ the $n$ of the symmetric group $S_n$ into which $G$ is embedded
 and by $k(G)$ the number of generators by which $G$ is defined.
 
 The family $\calF$ is called \emph{a family of small base groups} if there
-is a positive constant $c$ such that $\log(|G|) \le \log(n(G))^c$ for all
+is a positive constant $c$ such that $\log(|G|) \le \log^c(n(G))$ for all
 $G \in \calF$. If there is no such constant then $\calF$ is called
 \emph{a family of large base groups}.
 \end{Def}
@@ -684,14 +684,55 @@ Let $\calF$ be a family of small base groups. Then a randomised version
 of the Schreier-Sims method computes a base and strong generators
 for any $G \in \calF$ in nearly-linear time in the input size $k(G)\cdot
 n(G)$, that is the runtime is bounded by a function in
-$O(k(G)n(G) \cdot \log(k(G)n(G)))$.
+$O(k(G)n(G) \cdot \log^c(n(G)))$ for some constant $c$.
 \end{Theo}
-\proofbeg See \cite[Chapter 2]{Ser}. \proofend
+\proofbeg See \cite{nearlylin} or \cite[Theorem 4.5.5]{Ser}. \proofend
 
+\medskip
 If a permutation group $G \le S_n$ is given by a list of generators, it
 is at first glance not clear, whether it has a short base. Of course,
 we want to avoid to compute a base by an application of the Schreier-Sims
 method if there is no short base.
+
+To solve Problem~\ref{ProbCR3} for a permutation group we use the method
+selection procedure described in Section~\ref{findhom}. In the following we
+describe the methods that are used in this process. An overview of these 
+methods is given in Table~\ref{permdb}.
+
+The method with the highest rank $50$ is the reduction method called
+\texttt{NonTransitive} for intransitive groups. It first tests, whether
+$G$ is transitive, and if not constructs an explicitly
+computable homomorphism by restricting the action to one of the orbits in the
+permutation domain. If $G$ turns out to be transitive, then the
+\texttt{NonTransitive} method immediately returns \texttt{false}
+indicating, that it can never be successful for the group $G$.
+
+The next method \texttt{Giant} with rank $40$ tries to decide, whether the
+group $G \le S_n$ is a ``giant'', that is, it is either equal to
+$A_n$ or to $S_n$ itself. In these two cases, there are better methods than
+computing a stabiliser chain to solve the constructive recognition problem.
+These methods are described in detail in \cite[Section~10.2]{Ser}, see
+in particular \cite[Section~10.2.4]{Ser}. The algorithm described there
+is one-sided Las Vegas in the following sense:  If it recognises $A_n$ or
+$S_n$, the result is guaranteed to be correct. If $G$ is not a giant, it
+fails very quickly. With a small error probability it can fail even if
+$G$ is equal to $A_n$ or $S_n$. Thus, the method \texttt{Giant} returns
+\texttt{fail} in case of failure meaning that it could be called later
+on to try again. However, in the setup described here this will not
+happen, since later methods will always succeed, even if they take a
+very long time.
+
+The third method \texttt{Imprimitive} with rank $30$ tries to find a block
+system using the algorithm described in \cite[Section~5.5.1]{Ser}. If it 
+finds one it constructs a homomorphism onto the action on the set of
+blocks. Since the algorithm is deterministic, it returns \texttt{false}
+if no block system is found and the group $G$ is proved to be primitive.
+
+Jellyfish.
+
+Finally, if everything that has previously been tried has failed, we
+compute a base and strong generators using the Schreier-Sims method. This
+is done by the method called \texttt{StabilizerChain} with rank $10$.
 
 \begin{table}[ht]
 \begin{center}
