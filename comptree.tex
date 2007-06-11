@@ -79,7 +79,7 @@ and subgroups of $\PGL(n,q)$ \emph{projective groups}.
 \begin{Problem}[Constructive recognition --- first formulation]
 \label{ProbCR1}
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
-assume we are given a generating tuple $(g_1, \ldots, g_k) \in
+assume that we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group
 $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
 
@@ -110,19 +110,19 @@ what we mean by ``input size'':
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient}
 and $(g_1, \ldots, g_k) \in \GG^k$. If $\GG$ is either $\GL(n,q)$ or
 $\PGL(n,q)$, then the input size of our problem is measured by $n$, $k$
-and $\log(q)$. If $\GG$ is the symmetric group on $n$ points then the
+and $\log_2(q)$. If $\GG$ is the symmetric group on $n$ points then the
 input size is measured by $n$ and $k$. We silently set $q := 1$ in that
 case such that we can uniformly speak of the input size parameters $n$, $k$
 and $q$ in all cases.
 \end{Def}
 
 \begin{Rem}
-Note that we use $\log(q)$ as one of the parameters of the input size
+Note that we use $\log_2(q)$ as one of the parameters of the input size
 rather than $q$ itself. The reason behind this is that one needs
-$\log(q)$ bits of data to store one finite field element of $\F_q$.
+$\log_2(q)$ bits of data to store one finite field element of $\F_q$.
 This means that the amount of storage needed for the input matrices is
-proportional to $kn^2\log(q)$. Of course, the fact that the discrete
-logarithm problem in $\F_q$ prevents us from finding a real polymial
+proportional to $kn^2\log_2(q)$. Of course, the fact that the discrete
+logarithm problem in $\F_q$ prevents us from finding a real polynomial
 time algorithm for constructive recognition stems from this decision
 (compare Section~\ref{thedlp}).
 \proofend
@@ -158,8 +158,8 @@ in $(g'_1, \ldots, g'_l)$. The new generating tuple may or may not be the
 same as the original one.
 
 We assume that we have factorised all integers $q^i-1$ for $1 \le i \le n$
-and that we can solve the discrete logarithm problem in all fields $\F_q$
-for $1 \le i \le q$ efficiently. 
+and that we can solve the discrete logarithm problem in all fields
+$\F_{q^i}$ for $1 \le i \le n$ efficiently. 
 
 We call the first phase until $G$ is
 recognised constructively the \emph{recognition phase} and the second
@@ -203,7 +203,7 @@ ambient group. In addition, the homomorphism $\varphi$ must either have
 a non-trivial kernel or the group $H$ must be ``easier to handle'' in some
 sense. This can for example mean that one of the values $n$, $k$ and
 $q$ is smaller for $H$ than for $G$ while the others remain unchanged,
-or that the expression $kn^2\log(q)$ becomes smaller such that we need
+or that the expression $kn^2\log_2(q)$ becomes smaller such that we need
 less memory to store the generators for $H$ than those for $G$.
 Another possibility is that for a matrix group $G$ the homomorphic image
 $H$ is a permutation group.
@@ -242,12 +242,12 @@ formulation:
 \begin{Problem}[Constructive recognition --- final formulation]
 \label{ProbCR3}
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
-assume we are given a generating tuple $(g_1, \ldots, g_k) \in
+assume that we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
 
 We say that we have \emph{recognised $G$ constructively} if we have 
 \begin{itemize}
-\item computed $|G|$, and
+\item computed $|G|$ and
 \item a generating tuple $( g'_1, \ldots, g'_l )$ for $G$, for which we have
 \item 
 prepared a procedure that does the following: Given $g \in \GG$,
@@ -264,8 +264,8 @@ program that expresses $(g'_1, \ldots, g'_l)$ in terms of $(g_1, \ldots,
 g_k)$.
 
 We assume that we have factorised all integers $q^i-1$ for $1 \le i \le n$
-and that we can solve the discrete logarithm problem in all fields $\F_q$
-for $1 \le i \le q$ efficiently. 
+and that we can solve the discrete logarithm problem in all fields
+$\F_{q^i}$ for $1 \le i \le n$ efficiently. 
 
 We call the first phase until $G$ is
 recognised constructively the \emph{recognition phase} and the second
@@ -335,7 +335,7 @@ $(n'_1, \ldots, n'_u)$ generates the kernel $N$ the tuple of nice
 generators is a generating tuple for $G$.
 
 Given $g \in \GG$, we can test membership in $G$ constructively as follows:
-first we try to map $g$ with $\varphi$. If this fails, the element $g$
+First we try to map $g$ with $\varphi$. If this fails, the element $g$
 does not lie in $G$ by our assumptions in \ref{reducnode}.(1). Otherwise
 call the image $h \in H$. Note that in this case it can still be that
 $g$ is not contained in $G$, regardless whether $h$ lies in $H$ or not! 
@@ -422,7 +422,7 @@ elements in $N$. To find a generating tuple of $N$ we simply produce
 a certain amount of random elements. Since every proper subgroup of $N$ 
 has index at least $2$ in $N$, the probability to increase the
 subgroup that is generated by the already produced elements is at least 
-$1/2$ for every produced element. Thus the probability to find a generating
+$1/2$ for every new element. Thus the probability to find a generating
 set for the whole of $N$ is very high provided we produce enough random
 elements.
 
@@ -676,7 +676,7 @@ an upper bound for the length of a base:
 
 \begin{Prop}[Maximal base length]
 If $G \le S_n$ then every base of $G$, for which all inclusions in its
-stabiliser chain are proper, has length at most $\lceil \log(|G|) \rceil$.
+stabiliser chain are proper, has length at most $\lceil \log_2(|G|) \rceil$.
 \end{Prop}
 \proofbeg
 The index of one stabiliser in the previous one in the stabiliser chain is
@@ -688,12 +688,13 @@ of permutation groups:
 
 \begin{Def}[Families of small and large base groups]
 Let $\calF$ be a family of permutation groups, all embedded into
-possibly different symmetric groups $S_n$. For a $G \in \calF$ we denote 
+possibly different symmetric groups $S_n$ and given by generating tuples. 
+For a $G \in \calF$ we denote 
 by $n(G)$ the $n$ of the symmetric group $S_n$ into which $G$ is embedded
 and by $k(G)$ the number of generators by which $G$ is defined.
 
 The family $\calF$ is called \emph{a family of small base groups} if there
-is a positive constant $c$ such that $\log(|G|) \le \log^c(n(G))$ for all
+is a positive constant $c$ such that $\log_2(|G|) \le \log^c_2(n(G))$ for all
 $G \in \calF$. If there is no such constant then $\calF$ is called
 \emph{a family of large base groups}.
 \end{Def}
@@ -716,7 +717,7 @@ Let $\calF$ be a family of small base groups. Then a randomised version
 of the Schreier-Sims method computes a base and strong generators
 for any $G \in \calF$ in nearly-linear time in the input size $k(G)\cdot
 n(G)$, that is the runtime is bounded by a function in
-$O(k(G)n(G) \cdot \log^c(n(G)))$ for some constant $c$.
+$O(k(G)n(G) \cdot \log^c_2(n(G)))$ for some constant $c$.
 \end{Theo}
 \proofbeg See \cite{nearlylin} or \cite[Theorem 4.5.5]{Ser}. \proofend
 
@@ -757,7 +758,7 @@ Rank & Name & Action & Hom/Leaf \\
 \end{table}
 
 The method with the highest rank $50$ is the reduction method called
-\texttt{NonTransitive} for intransitive groups. It first tests, whether
+\texttt{NonTransitive} for intransitive groups. It first tests whether
 $G$ is transitive, and if not constructs an explicitly
 computable homomorphism by restricting the action to one of the orbits in the
 permutation domain. If $G$ turns out to be transitive, then the
@@ -781,7 +782,7 @@ very long time.
 
 The third method \texttt{Imprimitive} with rank $30$ tries to find a block
 system using the algorithm described in \cite[Section~5.5.1]{Ser}. If it 
-finds one it constructs a homomorphism onto the action on the set of
+finds one, it constructs a homomorphism onto the action on the set of
 blocks. Since the algorithm is deterministic, it returns \texttt{false}
 if no block system is found and the group $G$ is proved to be primitive.
 

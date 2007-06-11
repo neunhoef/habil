@@ -399,7 +399,8 @@ fail to find all the irreducible factors.
 It involves the procedure {\sc RandomVector}, which is discussed further in Subsection~\ref{random}, to 
 produce independent uniformly distributed random elements of an 
 $n$-dimensional vector space over $\F$  for 
-which a basis is known. Throughout the chapter logarithms are always taken to base $2$.
+which a basis is known. Throughout the chapter logarithms are always taken 
+to base $2$.
 
 \begin{Rem}[\sc PolynomialFactorisation]\label{rem:polyfactn}
 Suppose $f(x)\in \F[x]$ of degree $n\geq 1$ with $r$ irreducible 
@@ -411,7 +412,7 @@ fact$(n,q)$ of elementary field operations required to factorise $f$ is at most
 \begin{tabular}{lp{2.5in}}
 $8n^3 + (3qr+17\log_2q)n^2$&to find the complete set of irreducible 
 factors, if $q$ is small; \\
-$O\big((\log \,\ve^{-1})(\log n)(\xi_n $ $+ n^2\log^3 q) +n^3\log^2q\big)$& 
+$O\big((\log_2 \,\ve^{-1})(\log_2 n)(\xi_n $ $+ n^2\log_2^3 q) +n^3\log_2^2q\big)$& 
 to find the complete set of irreducible factors, if $q$ is large;\\
 \end{tabular}
 
@@ -1528,7 +1529,7 @@ $\sum_{j=1}^t q^{-u\deg q_j} \le \epsilon$.
 
 For $n$ sufficiently large and fixed $\epsilon$, this is less than
 \[ 6n^3 + {\rm fact}(n,q) + 
-  2 \lceil\frac{\log n-\log \epsilon}{\log q}\rceil^2 \cdot n^2 
+  2 \lceil\frac{\log_2 n-\log_2 \epsilon}{\log_2 q}\rceil^2 \cdot n^2 
 \]
 which is less than $7n^3 + {\rm fact}(n,q)$ (plus the cost of computing at most $n$ random 
 vectors in Algorithm~\ref{algcharpoly}).
@@ -1542,7 +1543,7 @@ for a possible failure of factorisation of the `Factorise' step (line
 2). Thus Theorem~\ref{main} follows from Proposition~\ref{algminpolymc}.
 An upper bound for the term {\rm fact}$(n,q)$ in the complexity
 bound is given in Remark~{\rm\ref{rem:polyfactn}}, and this yields an
-upper bound in Proposition~{\rm\ref{propminpoly}} of $O(n^3\log^3 q)$
+upper bound in Proposition~{\rm\ref{propminpoly}} of $O(n^3\log_2^3 q)$
 for $n$ sufficiently large and fixed $\epsilon$.
 \end{Rem}
 
@@ -1585,7 +1586,7 @@ The largest value of this sum occurs when all the $q_j$ have degree 1, and as th
 then at most $n$ such polynomials,  $\sum_{j=1}^t q^{-u \deg q_j}\le nq^{-u}$. 
 Thus $u$ is at most the least integer such that $nq^{-u}\le \epsilon$, namely 
 \[
-u_0:=\lceil \frac{\log n + \log (\epsilon^{-1})}{\log q}\rceil
+u_0:=\lceil \frac{\log_2 n + \log_2 (\epsilon^{-1})}{\log_2 q}\rceil
 \]
 and the value of $u$ used in the algorithm is at most $\min(\{k,u_0\})\leq u_0$.
 By Proposition~\ref{propcharpoly}, the asymptotic value of char$(n,q)$ is
@@ -1734,8 +1735,8 @@ multiplicity of $q_j$ in  $\mu_{M,\F_q^n}$ is greater than $f_j$.
 The number of elementary field operations required by 
 Algorithm~\ref{algminpolyverify} is at most
 \[ 
-%\sum_{i=1}^t \left( 2r_in^3 + 2\log(f_i) \, n^3 + n^3 \right) =
- n^3 \cdot \sum_{i=1}^t \left( 2r_i + 2\lceil \log f_i \rceil+1 \right).
+%\sum_{i=1}^t \left( 2r_in^3 + 2\log_2(f_i) \, n^3 + n^3 \right) =
+ n^3 \cdot \sum_{i=1}^t \left( 2r_i + 2\lceil \log_2 f_i \rceil+1 \right).
 \] 
 \end{Prop}
 
@@ -1775,7 +1776,7 @@ As to the cost, Algorithm~\ref{algminpolyverify} evaluates $q_i$ at
 $YMY^{-1}$ which needs at most $2r_i n^3$ elementary field operations
 by Lemma~\ref{costpolyeval}. It then takes the result to the
 $f_i^{\mathrm{th}}$ power, which can be done by repeated squaring
-with at most $2n^3\lceil \log f_i \rceil$ elementary field operations, and 
+with at most $2n^3\lceil \log_2 f_i \rceil$ elementary field operations, and 
 finally computes the dimension of a null space, which can be done with at most
 $n^3$ elementary field operations (compute a semi echelon basis
 of the row space of the matrix). Note that we are not using the 

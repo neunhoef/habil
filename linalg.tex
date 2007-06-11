@@ -42,13 +42,13 @@ to $1$ (a scalar resp.) modulo $f$ or equivalently, that $X^p-1$
 ($X^p-\lambda$ resp.) is
 divisible by $f$ (for some $\lambda \in \F$). 
 The order and projective order
-of a matrix $M$ as above and that of $X$ modulo its minimal polynomial are 
-linked by the following lemma:
+of a matrix $M$ as above and that of $X$ modulo the minimal polynomial 
+of $M$ are linked by the following lemma:
 
 \begin{Lemm}[Orders and projective orders]
 Let $\F$ be a field and $M \in \F^{n \times n}$ an invertible matrix.
 Then the (projective) order of $M$ is equal to the (projective) order of
-$X + \mu_M \F[X]$ module its minimal polynomial $\mu_M$.
+$X + \mu_M \F[X]$ modulo the minimal polynomial $\mu_M$ of $M$.
 \end{Lemm}
 \proofbeg 
 The polynomial $X^p-\lambda$ is divisible by $\mu_M$ if and
@@ -136,7 +136,7 @@ irreducible factors, and that all integer factorisations of $q^i-1$
 for $1 \le i \le n$ are known. 
 
 Then the (projective) order of $M$ can be
-computed in $O(n^3 \cdot \log(q) \cdot \log(n\log(q)))$
+computed in $O(n^3 \cdot \log_2(q) \cdot \log_2(n\log_2(q)))$
 field operations.
 \end{Prop}
 \proofbeg Use the same arguments as in the proof of 
@@ -159,7 +159,7 @@ Find all $x \in \F^{1 \times m}$ with $xY = b$.
 
 Sometimes the problem has to be solved for more than one $b$ and sometimes
 it is enough to find one solution $x$. In particular the homogeneous case 
-$b=0$ is important, the set of solutions is called the \emph{nullspace}
+$b=0$ is important, here the set of solutions is called the \emph{nullspace}
 of $M$.
 
 The general approach to this problem is standard, thus we are mostly
@@ -197,7 +197,7 @@ whose rows span the nullspace of $Y$
 \FOR {$i=1$ to $m$}
     \STATE $(f,\calY,a) := \textsc{CleanAndExtend}(\calY,Y[i])$
     \IF {$f = \textsc{True}$}
-        \STATE Append row to $N$ using $a$
+        \STATE Append a row to $N$ using $a$
     \ELSE
         \STATE Append $i$ to sequence $t$
     \ENDIF
@@ -210,7 +210,7 @@ whose rows span the nullspace of $Y$
 \label{semiechelon}
 If $r$ is the rank of $M$, then Algorithm~\ref{semiechelonise} needs
 at most
-\[ \frac{r(r+1)(2r+1)}{6} + nr^2 + 2rn(m-r)\]
+\[ \frac{r(r+1)(2r+1)}{6} + nr^2 + 2rn(m-r) + r \]
 elementary field operations. This is $O(nm^2)$.
 \end{Prop}
 \proofbeg
@@ -220,8 +220,8 @@ Proposition~\ref{PropCleanAndExtend}. We start with the calls that
 extend the semi echelon data sequence:
 \begin{eqnarray*}
 \sum_{i=0}^{r-1} \left( (2i+1)n + (i+1)^2 + 1 \right) 
-  &=& \frac{r(r-1)}{2} \cdot 2n + rn + \frac{r(r+1)(2r+1)}{6} \\
-  &=& nr^2 + \frac{r(r+1)(2r+1)}{6},
+  &=& \frac{r(r-1)}{2} \cdot 2n + rn + \frac{r(r+1)(2r+1)}{6} + r \\
+  &=& nr^2 + \frac{r(r+1)(2r+1)}{6} + r,
 \end{eqnarray*}
 where we use Formulas \ref{formels1} and \ref{formels2}. In the worst
 case that the first $r$ rows of $Y$ are linearly independent the
@@ -269,13 +269,13 @@ and Corollary~\ref{solvelinsys} we get:
 \begin{Prop}[Inverting a matrix]
 Let $M \in \F^{n \times n}$ be an invertible matrix. Then the inverse
 can be computed using at most
-\[ \frac{n(n+1)(2n+1)}{6} + 4n^3 + n^2 \]
+\[ \frac{n(n+1)(2n+1)}{6} + 4n^3 + n^2 + n \]
 elementary field operations, which is asymptotically less than $5n^3$
 and this is $O(n^3)$.
 \end{Prop}
 \proofbeg
 We first run Algorithm~\ref{semiechelonise} using at most
-\[ \frac{n(n+1)(2n+1)}{6} + n^3 \]
+\[ \frac{n(n+1)(2n+1)}{6} + n^3 + n \]
 elementary field operations by Proposition~\ref{semiechelon}. Then
 we solve $xM = e_i$ for $1 \le i \le n$ using a total of
 \[ n(2n^2+n(n+1)) = 3n^3+n^2 \]
