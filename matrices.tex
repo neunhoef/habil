@@ -16,7 +16,7 @@ We conclude our presentation of fundamental matrix algorithms
 in the next chapter where we present a method to compute the characteristic
 polynomial of matrices over finite fields and a new method
 for the minimal polynomial, which is used to compute projective orders
-of matrices.
+of matrices as will be shown in Chapter~\ref{chap:linalg}.
 
 %FIXME
 
@@ -44,12 +44,12 @@ less then $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
 Since linear algebra operations over finite fields can be performed
 rather efficiently by modern microprocessors, the limiting factor 
 for such computations is memory access. Therefore, it is performance
-critical to store vectors and matrices using as little memory as possible,
+critical to store vectors and matrices using as little memory as possible
 and to choose the data structure in a way that allows for fast memory
 access. We call such memory efficient data structures ``compact''.
 
-This idea is quite old (see ADDREFERENCE) and has already been used
-extensively (see for example \cite{CMeatAxe} or \cite{GAP4} or
+This idea is quite old (see for example \cite{MeatAxeRP}) and has already 
+been used extensively (see for example \cite{CMeatAxe} or \cite{GAP4} or
 various other systems).
 
 There is a fundamental difference between the characteristic $p=2$ case
@@ -94,7 +94,7 @@ This is the number of bits
 necessary to store an integer in the range $0,1, \ldots, 2p-2$ except
 for $p=2$. This number $e$ is the number of bits we 
 reserve for every prime field element we want to store. For $p=2$ this
-is evidently best possible, whereas for odd $p$, we seem to waste
+is evidently best possible, whereas for odd $p$ we seem to waste
 one bit per prime field element, since we seem to need only to store
 numbers in the range $0,1,\ldots p-1$. This additional bit in the
 data structure allows us to represent a sum of two numbers in the
@@ -125,7 +125,7 @@ $e=4$ on a machine with $32$ bit word length:
   element number: 7777|6666|5555|4444|3333|2222|1111|0000
 \end{verbatim}
 
-Within each block of $e$ bits, we represent prime field elements
+Within each block of $e$ bits we represent prime field elements
 by the binary representation of a number in the range $0,1,\ldots,p-1$
 with the least significant bit of this binary representation on the
 right hand side. Thus, in our example $1+1+1+1 \in \F_5$ would be
@@ -156,7 +156,7 @@ in the vector then hold the vector elements with indices
 $w+1, w+2, \ldots, 2w$ in exactly the same way.
 
 Note again that for machines with a word length of $64$ bit we choose the
-value $w$ only twice as big as for $32$ bit machines even if one more
+value $w$ only twice as big as for $32$ bit machines, even if one more
 prime field element would fit into the machine word.
 
 The only natural limit of this implementation is that 
@@ -265,8 +265,9 @@ and $e = \lceil \log_2(2p-1) \rceil$.
 
 For $p=2$, only $k \cdot \lceil n/32 \rceil$ word operations are needed.
 
-For machines with $64$ bit word length, the number of word operations
-is halved in both cases and we can work with primes $p < 2^{63}$.
+For machines with $64$ bit word length the number of word operations
+is $7k \cdot \lceil n/(2w) \rceil$ and $\lceil n/64 \rceil$ resp.~and 
+we can work with primes $p < 2^{63}$.
 \end{Prop}
 \Proof See above. \ProofEnd
 
@@ -277,7 +278,7 @@ $p=2$ this means that the addition needs $7$ word operations for each
 word of a vector for $p>2$ and $1$ word operation for $p=2$.
 
 Assuming a microprocessor
-with a long enough instruction pipeline, we can conclude that all this
+with a long enough instruction pipeline we can conclude that all this
 can be done as fast as accessing the main memory to fetch $a$ and $b$ and
 store the result somewhere, such that the number $7$ does not hurt at all. 
 Compare Section~\ref{ssec:discussion} and see Section~\ref{sec:cache}
@@ -329,7 +330,7 @@ and an addition.
 Since we distribute the prime field elements belonging to a single
 extension field element in our vector into adjacent words, we can 
 do the shift basically for free by accessing a shifted memory location.
-But we still have to deal with the fact, that we have $w$ possibly different
+But we still have to deal with the fact that we have $w$ possibly different
 highest coefficients $t_{k-1}$ stored together in one word. However,
 since we have to multiply all of them with the same prime field element
 coming from the expansion of $x^k - c_k = \sum_{i=0}^{k-1} b_i x^i$ 
@@ -345,9 +346,11 @@ a vector by a prime field scalar and one addition of vectors.
 For the full computation of $s \cdot v$, we have to perform this multiplication
 by $x$ altogether $k-1$ times, multiply each intermediate result by the
 prime field scalar $s_i$ and sum everything up. Thus, the total cost
-of the multiplication $s \cdot v$ is the same as $k$ multiplications
-of a vector by a prime field scalar and $k-1$ additions of vectors.
-Thus, we have proved the following Proposition:
+of the multiplication $s \cdot v$ is at most $2k-1$ multiplications
+of a vector by a prime field scalar and $2k-1$ additions of vectors.
+Here we count one more addition to keep the formulas a bit simpler
+and to account for one copying operation.
+Thus, we have proved the following proposition:
 
 \begin{Prop}[Multiplication of vectors by scalars]
 \label{multvec}
@@ -357,21 +360,29 @@ $w = \lfloor 32/e \rfloor$ and $e = \lceil \log_2(2p-1) \rceil$.
 
 For $2 < p < 2^{31}$, the total cost of a multiplication of a compact 
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_p$ is at most 
-$14k(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
+$14k(e-2)\cdot \lceil n/w \rceil$ word operations (plus memory fetches
 and stores). For $p=2$, the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
 
 For $2 < p < 2^{31}$, the total cost of a multiplication of a compact
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_q$ is at most
-$7k^2(2e-3)\cdot \lceil 32/w \rceil$. For $p = 2$, the total cost is
+$7k(2k-1)(2e-3)\cdot \lceil n/w \rceil$. For $p = 2$, the total cost is
 at most $2k(k-1) \cdot \lceil n/32 \rceil$ word operations.
+
+For a machine with $64$ bit word length the factors $\lceil n/w \rceil$
+and $\lceil n/32 \rceil$ have to be changed to $\lceil n/(2w) \rceil$
+and $\lceil n/64 \rceil$ respectively
+and we can work with primes $p < 2^{63}$.
 \end{Prop}
 
 \Proof See above and add up the number of word operations for up
-to $k$ multiplications of a vector by a prime field scalar and $k-1$
-additions of vectors. Note for $p=2$ that the vector $n$ consists of
-$k \cdot \lceil n/32 \rceil$ words and that we have to count one
-vector addition for the ``multiplication with a scalar'', since 
+to $2k-1$ multiplications of a vector by a prime field scalar and $2k-1$
+additions of vectors. 
+
+This gives the result $7k(2(e-2)+1)(2k-1)\cdot
+\lceil n/w \rceil$ for $p > 2$. Note for $p=2$ that the vector $n$ consists of
+$k \cdot \lceil n/32 \rceil$ words and that we have to count only one
+vector addition for the ``multiplication with a prime field scalar'', since 
 the word $a_{(j+1)k-1}$ has to be XORed to those words whose corresponding
 bit is set in $x^k - c_k$.
 \ProofEnd
@@ -380,7 +391,7 @@ bit is set in $x^k - c_k$.
 Since a vector of length $n$ needs $k \cdot \lceil n/w \rceil$ words
 for $p > 2$, this means, that the number of word operations per word of
 the vector needed for one multiplication with a scalar is at most 
-$7k(2e-3)$ for $p > 2$.
+$7(2k-1)(2e-3)$ for $p > 2$.
 \end{Rem}
 
 \subsection{Memory throughput in real implementations}
@@ -400,7 +411,7 @@ Note that the {\sf GAP} library does not offer direct access to the
 operation $z := v+w$ without memory allocation. Therefore this 
 measurement is missing.
 
-We used three relatively new machines with popular micro processors, 
+We used three relatively new machines with popular microprocessors, 
 namely two different machines
 with an Intel Pentium 4 with 1024 kB second level cache running at 3.2 GHz, 
 and a machine with a AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
@@ -545,7 +556,7 @@ nearly nothing.
 
 We first look at the top $\F_2$ part of Table~\ref{memthrough}.
 
-We observe, that both implementations perform very similarly, which is
+We observe that both implementations perform very similarly, which is
 only to be expected, since they use exactly the same method. For
 main memory access we seem to get nearly identical throughputs. For 
 second level cache accesses we see some differences, which can be
@@ -563,7 +574,7 @@ Theoretically, one could expect a higher speedup factor, but modern
 processors and memory interfaces seem to be highly optimised for 
 linear memory accesses using so-called bursts. This means that the
 processor has a special method of accessing large amounts of consecutive
-memory words, which we seem to use here.
+memory words consecutively, which we seem to use here.
 
 We turn now to the middle part of the table concerning the field $\F_7$.
 Here one can see two important things: The first is that the $7$ word
@@ -583,8 +594,8 @@ should fit completely in the second level cache together.
 The same observation holds for the multiplication with a scalar. 
 
 Of course, for other finite fields $\F_q$ with $q \le 256$ the situation
-is different. Among these fields the number $7k(2e-3)$ of word
-operations per vector word is at most $105$. The experiments shown in
+is different. Among these fields the number $7(2k-1)(2e-3)$ of word
+operations per vector word is at most $189$. The experiments shown in
 the third part of Table~\ref{memthrough} concerning fields $\F_{3^k}$ 
 indicate, that
 if this number is assumed, the performance of multiplication of a vector
@@ -630,7 +641,7 @@ control cache issues, since we know better, where in memory our row data
 is stored. We call matrices implemented with this approach ``flat
 matrices''.
 
-When devising efficient algorithms dealing with matrices one has to know
+When devising efficient algorithms dealing with matrices, one has to know
 which type of matrix one is using, because one has to know, when the
 system actually copies data and when it only passes references.
 
@@ -640,7 +651,7 @@ We also discuss this approach further in this section. We call a list
 of compact vectors of the same length over the same field a ``compact
 matrix''.
 
-Note however, that Beth Holmes and Richard Parker are currently working
+Note however that Beth Holmes and Richard Parker are currently working
 on an implementation of flat matrices in the {\GAP} system.
 
 
@@ -670,15 +681,16 @@ $M$ by $s \in \F_p$ is at most
 $14km(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
 and stores). For $p=2$, the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
-
 For\/ $2 < p < 2^{31}$, the total cost of a multiplication of $M$
 by $s \in \F_q$ is at most
-$7k^2m(2e-3)\cdot \lceil 32/w \rceil$.
+$7k(2k-1)m(2e-3)\cdot \lceil n/w \rceil$.
  For $p = 2$, the total cost is
 at most $2k(k-1)m \cdot \lceil n/32 \rceil$ word operations.
 
-For machines with $64$ bit word length, the number of word operations
-is halved in both cases and we can work with primes $p < 2^{63}$.
+For a machine with $64$ bit word length the factors $\lceil n/w \rceil$
+and $\lceil n/32 \rceil$ have to be changed to $\lceil n/(2w) \rceil$
+and $\lceil n/64 \rceil$ respectively
+and we can work with primes $p < 2^{63}$.
 \end{Cor}
 \Proof This is immediate from Propositions~\ref{addvec} and \ref{multvec}.
 \ProofEnd
@@ -706,7 +718,7 @@ all one can say. However, in a situation in which we apply one given
 matrix repeatedly to lots of vectors (for example during matrix 
 multiplication (see below) or when enumerating orbits), there is a
 trick called ``grease'', which was invented by Richard Parker and 
-probably others.
+others (see for example \cite[Algorithm 6.2]{ahohop}).
 
 The idea is that if the base field is small, there are not so many
 different linear combinations of a finite number of vectors. Thus,
@@ -735,7 +747,7 @@ To do grease level $\ell$, we compute all possible linear combinations of
 each block of $\ell$ rows and store them. If we have computed and stored
 all this data, we call the matrix ``greased''.
 Then a vector-matrix multiplication
-with this matrix only has to add $\lceil m/\ell \rceil -1$ vector additions
+with this matrix only has to perform $\lceil m/\ell \rceil -1$ vector additions
 of looked up vectors. More precisely, we have the following result:
 
 \begin{Theo}[Grease: expected cost and gain]
@@ -796,7 +808,7 @@ somewhere. Thus we count one addition to account for this copying operation.
 \item The factor $(q-1)/q$ used for the standard approach is a
 good estimate for practical considerations when comparing to
 the grease approach. For larger values of $q$ it is of course negligible,
-however for $q=2$ it is equal to $2$.
+however for $q=2$ it is equal to $1/2$.
 \item It is crucial to implement the extraction of entries
 from the vector $v$ as efficient as possible. If this is not done
 right, the cost of extracting elements in one vector can cancel out
@@ -804,8 +816,8 @@ the benefit of fewer scalar multiplications.
 \item The fact that we need very few scalar multiples in the
 precomputation phase and none in the vector times matrix phase is
 very useful with respect to our new implementation in the
-{\cvec} package, since there additions are sometimes much cheaper
-than multiplication with scalars.
+{\cvec} package, since there an addition is sometimes much cheaper
+than a multiplication with a scalar.
 \end{itemize}
 \end{Rems}
  
@@ -841,9 +853,9 @@ the last statement, since
 \ProofEnd
 
 \begin{Rem}
-Thus computing all $\F_p$-linear combinations can be done
+Computing all $\F_p$-linear combinations can be done
 with one addition per vector that is not already given, assuming
-the zero vector and the input vectors to be already there.
+the zero vector and the input vectors are already there.
 \end{Rem}
 
 \subsection{Matrix multiplication}
@@ -927,7 +939,8 @@ typical and holds also for other finite fields.
 \begin{center}
 \includegraphics[width=14cm]{matmulF2grease}
 \end{center}
-\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\caption{Multiplication times over $\F_2$ against matrix dimension
+using grease}
 \label{matmulgrease}
 \end{figure}
 
@@ -935,7 +948,8 @@ typical and holds also for other finite fields.
 \begin{center}
 \includegraphics[width=14cm]{matmulF2grease_scaled}
 \end{center}
-\caption{Matrix multiplication times over $\F_2$ against matrix dimension
+\caption{Multiplication times over $\F_2$ against matrix dimension
+using grease
 (magnification)}
 \label{matmulgrease_scaled}
 \end{figure}
@@ -975,7 +989,7 @@ to $s$ (compare Proposition~\ref{addvec}), we get an asymptotic upper
 bound for the total cost for matrix multiplication that is proportional
 to $mnsk$ (remember that we fixed $p < 2^{31}$ or $p< 2^{63}$ in this
 analysis). For square $(n \times n)$-matrices this is the classical
-$n^3$ complexity for the number of field operations.
+$O(n^3)$ complexity for the number of field operations.
 
 We now discuss methods by Strassen and Winograd to reduce this complexity
 for large matrices. These methods apply in practice only to square matrices.
@@ -987,8 +1001,8 @@ $(n\times n)$-matrices each and computing the whole product by computing
 $7$ matrix products of $(n \times n)$-matrices. For details of the
 procedures developed by Strassen and Winograd see \cite[4.6.4]{AOCP2}.
 With their help one can reduce the theoretical complexity for the 
-multiplication of two $(n \times n)$-matrices from $n^3$
-to $n^{\log_2(7)} \approx n^{2.807}$. 
+multiplication of two $(n \times n)$-matrices from $O(n^3)$
+to $O(n^{\log_2(7)}) \approx O(n^{2.807})$. 
 There are also more involved methods reducing the exponent
 further, but they seem to be of theoretical interest only (see 
 also \cite[4.6.4]{AOCP2}).
@@ -1008,7 +1022,7 @@ time than one multiplication of two $(2n \times 2n)$-matrices.
 The percentage of administrative work for the preparation of a matrix
 multiplication among the total work is higher for small matrices.
 This fact and the increasing effect of grease lead to the
-effect that for matrices over finite fields $n$ needs to be rather large
+fact that for matrices over finite fields $n$ needs to be rather large
 for the above condition to be fulfilled. 
 
 Therefore, one has to test individually for each finite field and each
@@ -1063,7 +1077,7 @@ at all, whereas it helps to do it once for $(3000 \times
 Winograd applications for $(n \times n)$-matrices is $i$, then it 
 is not necessarily true that the best number of Winograd applications
 for $(2n \times 2n)$-matrices is $i+1$ (see for example $n=2000$ in 
-the Table~\ref{MatMulWinograd2}). The situation for the base field 
+Table~\ref{MatMulWinograd2}). The situation for the base field 
 $\F_2$ is admittedly an extreme example but it is typical for small
 fields as can be seen by comparison with the field $\F_3$ for which we
 show some analogous timings in Table~\ref{MatMulWinograd3}.
@@ -1113,9 +1127,9 @@ for square matrices in the range of $n=3500$ to $n=4500$ cutting them
 once does not make the pieces small enough to fit into the second
 level cache and doing the Winograd trick twice already involves
 too much administrative overhead such that altogether it is best not
-to use the Winograd at all. For smaller matrices in the range $n=2000$
+to use the Winograd method at all. For smaller matrices in the range $n=2000$
 to $n=3000$ on the other hand it seems worthwhile to use Winograd once
-which brings the pieces into the second level cache. For $n=5000$ in
+which makes the pieces fit into the second level cache. For $n=5000$ in
 turn it seems to be the best to use Winograd twice to end up with
 matrices of size $1250$ fitting into the second level cache. Thus it
 seems that this strange cache related behaviour in the range 
@@ -1496,7 +1510,7 @@ All modern microprocessors have builtin caches, most of them more than
 one. For our purposes the second level cache is crucial. The potential
 of proper cache usage can be read off the data in
 Table~\ref{memthrough}. Varying between different processor
-architectures accesses into the cache are about $2$ to $5$ times faster
+architectures, accesses into the cache are about $2$ to $5$ times faster
 than into the main memory. Of course, these factors apply only for the
 case of accessing larger areas of main memory consecutively, because
 in this case modern processors use burst accesses. However, most
