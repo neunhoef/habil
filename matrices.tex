@@ -422,7 +422,7 @@ In all runs, no other processes
 were consuming significant amounts of CPU time such that nothing should
 have interfered with the caches. Strangely enough, the two nearly identical
 machines show different performance. 
-We cannot explain the differences in memory throughputs.
+We cannot explain the differences in memory throughput.
 Therefore we have presented both
 results to show that such measurements have a certain fluctuation
 obviously involving parameters which cannot easily be determined.
@@ -433,7 +433,7 @@ lengths of vectors. We used vectors using $32 \cdot 10^6$ bytes each in
 order to make sure that none of the data is in the second level cache,
 and vectors using $125000$ and $62500$ bytes each to make sure that
 most accesses should lead to cache hits in the second level cache.
-Of course, all operations are repeated many times to get a high accurracy
+Of course, all operations are repeated many times to get a high accuracy
 of the measured time for one operation by averaging.
 
 We tested three different operations. The first, which we denote by 
@@ -558,14 +558,14 @@ We first look at the top $\F_2$ part of Table~\ref{memthrough}.
 
 We observe that both implementations perform very similarly, which is
 only to be expected, since they use exactly the same method. For
-main memory access we seem to get nearly identical throughputs. For 
+main memory access we seem to get nearly identical throughput. For 
 second level cache accesses we see some differences, which can be
 explained for the given architectures by looking at the C code and the
 produced assembler code, which would lead too far here. However, 
 the general picture is the same.
 
 One can clearly see in the $\F_2$ part of
-Table~\ref{memthrough} that the second level cache seems to help noticably
+Table~\ref{memthrough} that the second level cache seems to help noticeably
 when the vectors involved are shorter. This is to be expected, but shows
 only a factor of between $1.5$ and $3$ for the Pentium~4 and up to 
 a factor of $5$ for the Athlon processor.
@@ -579,13 +579,13 @@ memory words consecutively, which we seem to use here.
 We turn now to the middle part of the table concerning the field $\F_7$.
 Here one can see two important things: The first is that the $7$ word
 operations per word stated in Proposition~\ref{addvec} can be done as
-fast as main memory access (compare main memory throughputs for $p=2$ and
+fast as main memory access (compare main memory throughput for $p=2$ and
 $p=7$ on all architectures). If nearly all accesses lead to hits in 
 the second level cache, then the $7$ operations reduce the memory
 throughput, but only by a factor of about $2$ to $3$, depending on
 the processor architecture.
 
-The second thing is that the byte oriented table lookup is noticably
+The second thing is that the byte oriented table lookup is noticeably
 slower than the word access. When working in the second level cache,
 this can cripple the memory throughput by a factor of up to $10$, at least on
 the Athlon architecture. Note that the vector sizes are chosen small
@@ -768,7 +768,7 @@ root.
 If $M$ is greased, a vector $v$ can be multiplied from the right by $M$
 using at most $\lceil m/\ell \rceil$ row vector additions plus the 
 cost of extracting the finite field elements from the vector $v$, which
-is usually neglectible.
+is usually negligible.
 
 The standard approach for a vector-matrix multiplication needs 
 approximately $m(q-1)/q$ multiplications of a row vector by a non-zero
@@ -1265,7 +1265,7 @@ dependent.
 %The dash for $q=17$ means that the Winograd method is not used at all 
 %for matrices over the field with $17$ elements.
 
-We conclude this section with Figures~\ref{matmulf2} amd
+We conclude this section with Figures~\ref{matmulf2} and
 \ref{matmulf3} showing the
 performance of matrix multiplication using grease together with
 the Winograd method. Here, we used the Winograd method for matrices
@@ -1506,7 +1506,7 @@ the pattern observed above.
 \section{Cache issues}
 \label{sec:cache}
  
-All modern microprocessors have builtin caches, most of them more than
+All modern microprocessors have built in caches, most of them more than
 one. For our purposes the second level cache is crucial. The potential
 of proper cache usage can be read off the data in
 Table~\ref{memthrough}. Varying between different processor
@@ -1544,7 +1544,7 @@ through cache-aware programming since in most instances experiments
 indicated that the necessary effort did not promise enough benefit.
 
 On the other hand Jon Thackray has reported successes in his
-standalone implementation of basic linear algebra routines using
+stand-alone implementation of basic linear algebra routines using
 cache-aware programming. His performance gains seem to lie in the
 above mentioned expected range.
  
