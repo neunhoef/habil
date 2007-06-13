@@ -44,21 +44,21 @@
 \definecolor{MyRed}{rgb}{0.7,0.01,0.05}
 
 % The paper format:
-%%%\usepackage[a4paper,
-%%%%\usepackage[letterpaper,  % for letter: make it possible but not optimized
-%%%            height=8.30in,width=5.87in,
-%%%            % this is 71% of a4 in both dimensions ==> page usage 50%
-%%%            % use default: hmarginratio=2:3,vmarginratio=2:3,
-%%%            %showframe,   % for verification purposes
-%%%            headheight=1\baselineskip,verbose]{geometry}
-%So zum Korrekturlesen mit breitem rechtem Rand:
 \usepackage[a4paper,
 %\usepackage[letterpaper,  % for letter: make it possible but not optimized
             height=8.30in,width=5.87in,
             % this is 71% of a4 in both dimensions ==> page usage 50%
             % use default: hmarginratio=2:3,vmarginratio=2:3,
             %showframe,   % for verification purposes
-            headheight=1\baselineskip,verbose,twoside=false,left=5mm]{geometry}
+            headheight=1\baselineskip,verbose]{geometry}
+%So zum Korrekturlesen mit breitem rechtem Rand:
+%%%\usepackage[a4paper,
+%%%%\usepackage[letterpaper,  % for letter: make it possible but not optimized
+%%%            height=8.30in,width=5.87in,
+%%%            % this is 71% of a4 in both dimensions ==> page usage 50%
+%%%            % use default: hmarginratio=2:3,vmarginratio=2:3,
+%%%            %showframe,   % for verification purposes
+%%%            headheight=1\baselineskip,verbose,twoside=false,left=5mm]{geometry}
 
 % Bemerkung: showkeys und hyperref funktionieren nicht zusammen!
 
@@ -143,6 +143,7 @@
 \newcommand{\Q}{\ensuremath{\mathbb{Q}}}
 \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\CC}{\ensuremath{\mathcal{C}}}
 
 % Ich will spaeter noch umkonfigurieren:
 \newcommand{\Emph}[1]{{\boldmath\textbf{#1}}}
@@ -208,6 +209,7 @@
 \include{comptree}
 \include{findhom}
 \include{leaves}
+\include{subsemi}
 \include{furtheralg}
 
 \appendix

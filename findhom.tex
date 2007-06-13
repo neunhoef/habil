@@ -3,25 +3,108 @@
 \chapter{Finding homomorphisms}
 \label{chap:findhom}
 
+In the previous Chapter~\ref{chap:comptree} we have formulated the problem
+of constructive recognition of groups in Problem~\ref{ProbCR3} and have
+explained what a reduction is. This chapter describes how to find
+reductions for matrix groups and projective groups and how to prove
+that a certain collection of methods will for any given
+matrix group or projective group either find a reduction
+or show that a situation is on hand, in which the constructive 
+recognition problem can be solved efficiently by other means. By the 
+arguments in Chapter~\ref{chap:comptree} this solves
+Problem~\ref{ProbCR3} whenever the ambient group is $\GL(n,q)$ or
+$\PGL(n,q)$.
+
+We use two fundamental theoretical tools. The first is Aschbacher's theorem
+about the subgroup structure of the classical groups, which we describe
+in detail for the case of $\GL(n,q)$ in Section~\ref{sect:aschbacher},
+and the second is the classification of finite simple groups. We are
+content with the statements in Aschbacher's theorem about the general
+linear group since they suffice for the purposes of constructive
+recognition and the statements are quite a bit simpler than for the
+other classical groups. For details see \cite{aschbacher}.
+
+Aschbacher's theorem states that every subgroup of $\GL(n,q)$
+is either a member of at least one of $7$ concretely given classes 
+\CC1 to \CC7 of 
+subgroups, or it contains a classical group in its natural representation, 
+or it is an almost-simple group. IS THAT RIGHT?
+% FIXME
+
+All the classes \CC1 to \CC7 are somehow defined in a geometric way (see
+Sections~\ref{descC1} to \ref{descC7}) and thus promise some kind of
+reduction. The two other cases are covered by two further classes \CC8
+and \CC9, which are described in Sections~\ref{descC8} and \ref{descC9}.
+For members of the latter two classes one will have to solve the
+constructive recognition problem without further reduction.
+
+The idea is to provide efficient algorithms for all the classes \CC1 to
+\CC7 to recognise whether a given matrix group lies in the class, and if
+so, to find a reduction using this information. If none of these algorithms
+succeeded, Aschbacher's theorem shows that the group must be a member of
+\CC8 or \CC9. In that case the constructive recognition problem has to be
+solved by different means, usually by first finding out which classical
+or almost simple group it is and then using this information to do the
+constructive recognition in a special case, for example using standard
+generators (see Sections~\ref{solveC8} and \ref{solveC9}).
+
+The purpose of this chapter is to explain the statement of Aschbacher's 
+theorem for $\GL(n,q)$ in detail and to give an overview over the known
+methods to deal with the different classes together with references into
+the literature. An algorithm to recognise and handle classes \CC3 and \CC5
+provided that the group does not lie in class \CC1 is described in detail
+in Chapter~\ref{chap:subsemi}.
+
 \section{Aschbacher's theorem}
+\label{sect:aschbacher}
+
+\subsection{Description of Class \CC1}
+\label{descC1}
+
+\subsection{Description of Class \CC2}
+\label{descC2}
+
+\subsection{Description of Class \CC3}
+\label{descC3}
+
+\subsection{Description of Class \CC4}
+\label{descC4}
+
+\subsection{Description of Class \CC5}
+\label{descC5}
+
+\subsection{Description of Class \CC6}
+\label{descC6}
+
+\subsection{Description of Class \CC7}
+\label{descC7}
+
+\subsection{Description of Class \CC8}
+\label{descC8}
+
+\subsection{Description of Class \CC9}
+\label{descC9}
 
 \section{The reducible case: C1}
+\label{solveC1}
 
 \section{The imprimitive case: C2}
+\label{solveC2}
 
 \section{The semi-linear case: C3}
+\label{solveC3}
 
 \section{The tensor decomposable case: C4}
+\label{solveC4}
 
 \section{The subfield case: C5}
+\label{solveC5}
 
 \section{The extraspecial case: C6}
+\label{solveC6}
 
 \section{The tensor induced case: C7}
-
-\section{The classical case: C8}
-
-\section{The almost simple case: C9}
+\label{solveC7}
 
 
 
