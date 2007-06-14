@@ -55,8 +55,11 @@ the literature. An algorithm to recognise and handle classes \CC3 and \CC5
 provided that the group does not lie in class \CC1 is described in detail
 in Chapter~\ref{chap:subsemi}.
 
-\section{Aschbacher's theorem}
+\section{Aschbacher's Theorem}
 \label{sect:aschbacher}
+
+Note again that we restrict ourselves to the general linear group
+throughout, which is only a special case of Aschbacher's Theorem.
 
 \begin{Not}
 For this section we fix $n \in \N$ and $q=p^e$ for a prime $p$ and
@@ -65,10 +68,22 @@ talk about the group $\GG := \GL(n,q)$. We denote the vector space $\F_q^{1
 vector-matrix multiplication.
 \end{Not}
 
-\begin{Theo}[Aschbacher, specialised to $\GL(n,q)$]
+For the original formulation of his theorem in \cite{aschbacher}, Aschbacher 
+defines $8$ classes
+of subgroups of $\GG$ and proves that every subgroup $G \le \GG$ is either
+a subgroup of some member of one of these $8$ classes or has a certain
+amount of properties. We want to change this formulation in the following
+way: We say that a group $G \le \GG$ lies in ``Aschbacher class \CC i''
+for $1 \le i \le 8$ if and only if it is a subgroup of a member of
+the class with number $i$ in \cite{aschbacher}. Furthermore, we collect
+the subgroups $G \le \GG$ that fulfil the properties in the statement of 
+Aschbacher's Theorem in the class \CC9. Therefore, we can formulate
+Aschbacher's Theorem in the following way:
+
+\begin{Theo}[Aschbacher's Theorem, specialised to $\GL(n,q)$]
 \label{Asch}
 Let $G$ be a subgroup of\/ $\GG = \GL(n,q)$.
-Then $G$ is contained in a member of at least one of the
+Then $G$ is contained in at least one of the
 classes \CC1 to \CC9 of subgroups described in Sections~\ref{descC1}
 to \ref{descC9}.
 \end{Theo}
@@ -82,40 +97,133 @@ slightly in comparison to Aschbacher but argue that Theorem~\ref{Asch}
 remains true with their definitions (see \cite[Chapter~4]{kleilieb}).
 \end{Rem}
 
-\subsection{Description of Class \CC1: ``reducible''}
+We go on with the description of the Aschbacher classes. For each class, we
+also give the structure of the maximal members, this information is from
+\cite[Table 3.5.A]{kleilieb}.
+
+\subsection{Description of class \CC1: ``reducible''}
 \label{descC1}
 
-A subgroup $G < \GG$ is a member of $\CC1$ if there is a subspace
+\newcommand{\desc}{\textbf{Description:}\par}
+\newcommand{\stru}{\textbf{Structure of maximal members:}\par}
+
+\desc
+A subgroup $G \le \GG$ is a member of \CC1 if there is a subspace
 $W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
 
-\subsection{Description of Class \CC2: ``imprimitive''}
+\stru
+Every such group is conjugate in $\GG$ to a subgroup of a group
+\[ P_m := \left\{ \left[ \begin{array}{cc} A & 0 \\ C & D \end{array} \right]
+           \mid A \in \GL(m,q), D \in \GL(n-m,q) \mbox{ and }
+           C \in \F_q^{n-m \times m} \right\} \]
+for some $0 < m < n$. The group $P_m$ is called a \emph{maximal parabolic
+subgroup} and is a semidirect product
+of the normal $p$-subgroup
+\[ U_m := \left\{ \left[ \begin{array}{cc} \one_m & 0 \\ C & \one_{n-m} 
+           \end{array} \right]
+           \mid 
+           C \in \F_q^{n-m \times m} \right\} \]
+and $\GL(m,q) \times \GL(n-m,q)$, the factors being embedded on the
+diagonal blocks. 
+Here, $\one_m$ is the $(m \times m)$-identity matrix and $\one_{n-m}$ is the
+$((n-m) \times (n-m))$-identity matrix.
+
+\subsection{Description of class \CC2: ``imprimitive''}
 \label{descC2}
 
-\subsection{Description of Class \CC3: ``semi-linear''}
+\desc
+A subgroup $G \le \GG$ is a member of \CC2 if there is a decomposition
+of $V$ as a direct sum of $m$-dimensional subspaces 
+$V = V_1 \oplus \cdots \oplus V_t$
+that is preserved by $G$, that is, for every $1 \le i \le t$ and every 
+$g \in G$ there is a $j$ with $V_i g = V_j$.
+
+\stru
+Every such group is conjugate in $\GG$ to a subgroup of $\GL(m,q) \wr S_t$.
+In this wreath product the $\GL(m,q)$ factors act on the direct summands
+$V_i$ and the symmetric group on top permutes the subspaces.
+
+Note that if $m = 1$ and $q \le 4$ or if $m=q=2$, then $\GL(m,q) \wr S_t$
+is not maximal in $\GL(n,q)$ but still a maximal element in our class
+\CC2.
+
+\subsection{Description of class \CC3: ``semilinear''}
 \label{descC3}
 
-\subsection{Description of Class \CC4: ``tensor-decomposable''}
+\desc
+A subgroup $G \le \GG$ lies in class \CC3 if there is a prime $s \mid n$,
+for which we can extend the $\F_q$-vector space structure of
+$V$ to an $\F_{q^s}$-vector space structure of dimension
+$n/s$, such that there exists for every generator 
+$g_i$ with $1 \le i \le k$ 
+an automorphism $\alpha_i$ of $\F_{q^s}$ with
+\[ (v+\lambda w)\cdot g_i = v \cdot g_i + \lambda^{\alpha_i} \cdot w \cdot
+g_i\]
+for all $v,w \in V$ and all $\lambda \in \F_{q^s}$. This means that we
+can interpret $V$ as an $\F_{q^s}$-vectorspace for which the natural action
+of $G$ is $\F_{q^s}$-semilinear, so $G$ is a subgroup of $\GGL(n/s,q^s)$.
+
+Note that the automorphisms of $\F_{q^s}$ occurring in the semilinear
+actions of group elements will automatically fix every element of $\F_q$, 
+since the original action is $\F_q$-linear. Therefore they are elements of
+the Galois group $\Gal(\F_{q^s}/\F_q)$.
+
+\stru
+Every such group is conjugate in $\GG$ to a subgroup of $\GGL(n/s,q^s)$
+for some prime $s \mid n$, 
+realised as $(n \times n)$-matrices over $\F_q$ by choosing an 
+$\F_q$-basis of $\F_{q^s}$.
+
+\subsection{Description of class \CC4: ``tensor-decomposable''}
 \label{descC4}
 
-\subsection{Description of Class \CC5: ``subfield''}
+\desc
+A subgroup $G \le \GG$ lies in class \CC4 if there is a decomposition
+of $V = V_1 \otimes V_2$ into a tensor product with $d_1 := \dim_{\F_q}(V_1)
+\neq d_2 := \dim_{\F_q}(V_2)$ and $1 < d_1 < n$ that is preserved by $G$, 
+that is, for every $g \in
+G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
+\End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
+for all $v_1 \in V_1$ and $v_2 \in V_2$.
+
+\stru
+Every such group is conjugate in $\GG$ to a subgroup of $\GL(d_1,q)
+\circ \GL(d_2,q)$, by which we mean the central product of $\GL(d_1,q)$ and
+$\GL(d_2,q)$. This central product is the set of Kronecker products of
+a matrix in $\GL(d_1,q)$ and one in $\GL(d_2,q)$.
+
+Note that for $d_1=2=q$ or $d_2 = 2 = q$ this central product is not 
+maximal in $\GL(n,q)$ but maximal in our class \CC4.
+
+\subsection{Description of class \CC5: ``subfield''}
 \label{descC5}
 
-\subsection{Description of Class \CC6: ``extraspecial''}
+\desc
+A subgroup $G < \GG$ lies in class \CC5 if there exists a subfield 
+$\F_{q_0}$ of $\F_q$ with prime index, a matrix $T \in \GL(n,q)$, and 
+scalars $\beta_1, \ldots, \beta_m
+\in \F_q^*$, such that $T \cdot g_i \cdot T^{-1} = \beta_i \cdot h_i$ with
+$h_i \in \GL(d,q_0)$.
+
+\stru
+Every such group is conjugate to a subgroup of $\GL(d,q_0) \cdot \F_q^*$.
+
+\subsection{Description of class \CC6: ``extraspecial''}
 \label{descC6}
 
-\subsection{Description of Class \CC7: ``tensor-induced''}
+\subsection{Description of class \CC7: ``tensor-induced''}
 \label{descC7}
 
-\subsection{Description of Class \CC8: ``classical''}
+\subsection{Description of class \CC8: ``classical''}
 \label{descC8}
 
-\subsection{Description of Class \CC9: ``almost-simple''}
+\subsection{Description of class \CC9: ``almost-simple''}
 \label{descC9}
 
 \section{Finding a reduction in the reducible case: \CC1}
 \label{solveC1}
 
-\section{Finding a reduction in the semi-linear or subfield case: \CC3/\CC5}
+\section{Finding a reduction in the semilinear or subfield case: \CC3/\CC5}
 \label{solveC3C5}
 
 \section{Finding a reduction in the extraspecial case: \CC6}
