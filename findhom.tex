@@ -58,52 +58,76 @@ in Chapter~\ref{chap:subsemi}.
 \section{Aschbacher's theorem}
 \label{sect:aschbacher}
 
-\subsection{Description of Class \CC1}
+\begin{Not}
+For this section we fix $n \in \N$ and $q=p^e$ for a prime $p$ and
+talk about the group $\GG := \GL(n,q)$. We denote the vector space $\F_q^{1
+\times n}$ by $V$ and note that $\GG$ acts from the right on $V$ by
+vector-matrix multiplication.
+\end{Not}
+
+\begin{Theo}[Aschbacher, specialised to $\GL(n,q)$]
+\label{Asch}
+Let $G$ be a subgroup of\/ $\GG = \GL(n,q)$.
+Then $G$ is contained in a member of at least one of the
+classes \CC1 to \CC9 of subgroups described in Sections~\ref{descC1}
+to \ref{descC9}.
+\end{Theo}
+\proofbeg See \cite{aschbacher} and \cite{kleilieb}.
+\proofend
+
+\begin{Rem}
+In our description of the classes \CC1 to \CC9 we follow
+\cite{kleilieb}. Kleidman and Liebeck change the definition 
+slightly in comparison to Aschbacher but argue that Theorem~\ref{Asch}
+remains true with their definitions (see \cite[Chapter~4]{kleilieb}).
+\end{Rem}
+
+\subsection{Description of Class \CC1: ``reducible''}
 \label{descC1}
 
-\subsection{Description of Class \CC2}
+A subgroup $G < \GG$ is a member of $\CC1$ if there is a subspace
+$W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
+
+\subsection{Description of Class \CC2: ``imprimitive''}
 \label{descC2}
 
-\subsection{Description of Class \CC3}
+\subsection{Description of Class \CC3: ``semi-linear''}
 \label{descC3}
 
-\subsection{Description of Class \CC4}
+\subsection{Description of Class \CC4: ``tensor-decomposable''}
 \label{descC4}
 
-\subsection{Description of Class \CC5}
+\subsection{Description of Class \CC5: ``subfield''}
 \label{descC5}
 
-\subsection{Description of Class \CC6}
+\subsection{Description of Class \CC6: ``extraspecial''}
 \label{descC6}
 
-\subsection{Description of Class \CC7}
+\subsection{Description of Class \CC7: ``tensor-induced''}
 \label{descC7}
 
-\subsection{Description of Class \CC8}
+\subsection{Description of Class \CC8: ``classical''}
 \label{descC8}
 
-\subsection{Description of Class \CC9}
+\subsection{Description of Class \CC9: ``almost-simple''}
 \label{descC9}
 
-\section{The reducible case: C1}
+\section{Finding a reduction in the reducible case: \CC1}
 \label{solveC1}
 
-\section{The imprimitive case: C2}
-\label{solveC2}
+\section{Finding a reduction in the semi-linear or subfield case: \CC3/\CC5}
+\label{solveC3C5}
 
-\section{The semi-linear case: C3}
-\label{solveC3}
-
-\section{The tensor decomposable case: C4}
-\label{solveC4}
-
-\section{The subfield case: C5}
-\label{solveC5}
-
-\section{The extraspecial case: C6}
+\section{Finding a reduction in the extraspecial case: \CC6}
 \label{solveC6}
 
-\section{The tensor induced case: C7}
+\section{Finding a reduction in the imprimitive case: \CC2}
+\label{solveC2}
+
+\section{Finding a reduction in the tensor-decomposable case: \CC4}
+\label{solveC4}
+
+\section{Finding a reduction in the tensor-induced case: \CC7}
 \label{solveC7}
 
 
