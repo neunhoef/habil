@@ -80,21 +80,24 @@ the subgroups $G \le \GG$ that fulfil the properties in the statement of
 Aschbacher's Theorem in the class \CC9. Therefore, we can formulate
 Aschbacher's Theorem in the following way:
 
-\begin{Theo}[Aschbacher's Theorem, specialised to $\GL(n,q)$]
+\begin{Theo}[Aschbacher's Theorem, specialised to\/ $\GL(n,q)$]
 \label{Asch}
 Let $G$ be a subgroup of\/ $\GG = \GL(n,q)$.
 Then $G$ is contained in at least one of the
 classes \CC1 to \CC9 of subgroups described in Sections~\ref{descC1}
 to \ref{descC9}.
 \end{Theo}
-\proofbeg See \cite{aschbacher} and \cite{kleilieb}.
+\proofbeg See \cite{aschbacher}, \cite{kleilieb} and
+\cite[Theorem~1]{smash}. Note that \cite[Section~2]{smash}
+contains a proof for the special case of $G < \GL(n,q)$.
 \proofend
 
 \begin{Rem}
-In our description of the classes \CC1 to \CC9 we follow
-\cite{kleilieb}. Kleidman and Liebeck change the definition 
-slightly in comparison to Aschbacher but argue that Theorem~\ref{Asch}
-remains true with their definitions (see \cite[Chapter~4]{kleilieb}).
+%In our description of the classes \CC1 to \CC9 we follow
+%\cite{kleilieb}. Kleidman and Liebeck change the definition 
+%slightly in comparison to Aschbacher but argue that Theorem~\ref{Asch}
+%remains true with their definitions (see \cite[Chapter~4]{kleilieb}).
+% FIXME
 \end{Rem}
 
 We go on with the description of the Aschbacher classes. For each class, we
@@ -104,12 +107,13 @@ also give the structure of the maximal members, this information is from
 \subsection{Description of class \CC1: ``reducible''}
 \label{descC1}
 
-\newcommand{\desc}{\textbf{Description:}\par}
+\newcommand{\desc}[1]{\begin{center}\fbox{\parbox{5in}{#1}}\end{center}}
 \newcommand{\stru}{\textbf{Structure of maximal members:}\par}
 
-\desc
+\desc{
 A subgroup $G \le \GG$ is a member of \CC1 if there is a subspace
 $W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
+}
 
 \stru
 Every such group is conjugate in $\GG$ to a subgroup of a group
@@ -131,12 +135,13 @@ $((n-m) \times (n-m))$-identity matrix.
 \subsection{Description of class \CC2: ``imprimitive''}
 \label{descC2}
 
-\desc
+\desc{
 A subgroup $G \le \GG$ is a member of \CC2 if there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
 that is preserved by $G$, that is, for every $1 \le i \le t$ and every 
 $g \in G$ there is a $j$ with $V_i g = V_j$.
+}
 
 \stru
 Every such group is conjugate in $\GG$ to a subgroup of $\GL(m,q) \wr S_t$.
@@ -150,7 +155,7 @@ is not maximal in $\GL(n,q)$ but still a maximal element in our class
 \subsection{Description of class \CC3: ``semilinear''}
 \label{descC3}
 
-\desc
+\desc{
 A subgroup $G \le \GG$ lies in class \CC3 if there is a prime $s \mid n$,
 for which we can extend the $\F_q$-vector space structure of
 $V$ to an $\F_{q^s}$-vector space structure of dimension
@@ -162,12 +167,14 @@ g_i\]
 for all $v,w \in V$ and all $\lambda \in \F_{q^s}$. This means that we
 can interpret $V$ as an $\F_{q^s}$-vectorspace for which the natural action
 of $G$ is $\F_{q^s}$-semilinear, so $G$ is a subgroup of $\GGL(n/s,q^s)$.
+}
 
 Note that the automorphisms of $\F_{q^s}$ occurring in the semilinear
 actions of group elements will automatically fix every element of $\F_q$, 
 since the original action is $\F_q$-linear. Therefore they are elements of
 the Galois group $\Gal(\F_{q^s}/\F_q)$.
 
+\medskip
 \stru
 Every such group is conjugate in $\GG$ to a subgroup of $\GGL(n/s,q^s)$
 for some prime $s \mid n$, 
@@ -177,7 +184,7 @@ $\F_q$-basis of $\F_{q^s}$.
 \subsection{Description of class \CC4: ``tensor-decomposable''}
 \label{descC4}
 
-\desc
+\desc{
 A subgroup $G \le \GG$ lies in class \CC4 if there is a decomposition
 of $V = V_1 \otimes V_2$ into a tensor product with $d_1 := \dim_{\F_q}(V_1)
 \neq d_2 := \dim_{\F_q}(V_2)$ and $1 < d_1 < n$ that is preserved by $G$, 
@@ -185,6 +192,7 @@ that is, for every $g \in
 G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
 \End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
 for all $v_1 \in V_1$ and $v_2 \in V_2$.
+}
 
 \stru
 Every such group is conjugate in $\GG$ to a subgroup of $\GL(d_1,q)
@@ -198,12 +206,12 @@ maximal in $\GL(n,q)$ but maximal in our class \CC4.
 \subsection{Description of class \CC5: ``subfield''}
 \label{descC5}
 
-\desc
+\desc{
 A subgroup $G < \GG$ lies in class \CC5 if there exists a subfield 
 $\F_{q_0}$ of $\F_q$ with prime index, a matrix $T \in \GL(n,q)$, and 
 scalars $\beta_1, \ldots, \beta_m
 \in \F_q^*$, such that $T \cdot g_i \cdot T^{-1} = \beta_i \cdot h_i$ with
-$h_i \in \GL(d,q_0)$.
+$h_i \in \GL(d,q_0)$.}
 
 \stru
 Every such group is conjugate to a subgroup of $\GL(d,q_0) \cdot \F_q^*$.
