@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 from pyx import *
 g = graph.graphxy(width = 14,x=graph.axis.linear(min=0,max=2000),
                              y=graph.axis.linear(min=0,max=5000))
