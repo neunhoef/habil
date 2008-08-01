@@ -442,7 +442,7 @@ that $v \cdot p(M) \in W$.
 %\smallskip
 We now turn to the question of how one computes the order polynomial of
 a vector $v \in V$. The basic idea is to apply the matrix
-$M$ to the vector repeatedly computing a sequence $v, vM, vM^2, \ldots, vM^d$
+$M$ to the vector repeatedly computing a sequence \[ v, vM, vM^2, \ldots, vM^d \]
 until $vM^d$ is a linear combination
 \[ 
 vM^d = \sum_{i=0}^{d-1} a_i vM^i, 
@@ -479,6 +479,7 @@ $j_1 < j_2 < \cdots < j_r$ which is the usual condition for an echelon
 form.
 
 \begin{Def}[Semi echelon data sequence]
+    \label{semiecheseq}
 {\rm    Let $Y \in \F^{m \times n}$ be a matrix with $m \le n$ and of rank $m$. A 
     \emph{semi echelon data sequence for $Y$} is a tuple $\calY=
 (Y,S,T,l)$, where
@@ -755,7 +756,7 @@ compute absolute order polynomials using relative ones. We again
 view $V$ as an $\F[x]$-module by letting $x$ act like $M$. For
 $\{v^{(1)},\dots,v^{(m)}\} \subseteq V$, we denote by $\la
 v^{(1)},\dots,v^{(m)}\ra_M$ the submodule of $V$ generated
-by $\{v^{(1)},\dots,v^{(m)}\}$, that is, the smallest $M$-invariant
+by the vectors $\{v^{(1)},\dots,v^{(m)}\}$, that is, the smallest $M$-invariant
 subspace containing $\{v^{(1)},\dots,v^{(m)}\}$. If $m=1$ then $\la
 v^{(1)}\ra_M$ is the $\F$-span of the set $\{v^{(1)},v^{(1)}M,\dots,
 v^{(1)}M^{n-1}\}$. We call $\la v^{(1)}\ra_M$ a \emph{cyclic
@@ -831,7 +832,7 @@ It differs from the standard version in its use of randomisation.
 \subsection{Random vectors}\label{random}
 
 Our characteristic polynomial algorithm, and later ones, 
-make use of the algorithms {\sc RandomVector} and 
+make use of the algorithms {\sc Ran\-dom\-Vec\-tor} and 
 {\sc RandomVector*} that produce independent uniformly 
 dis\-tri\-bu\-ted random vectors, and independent uniformly distributed
 random non-zero vectors,             
@@ -849,7 +850,6 @@ V(l)=\{ v\,|\, v_{l_i}=0\quad\mbox{for}\quad  1\leq i\leq m\}
 If $l$ is the empty sequence then $V(l)=V$.
 For a semi echelon data sequence $\calY = (Y,S,T,l)$, the 
 vector space $V$ is the sum $V=V(l) \oplus \rsp(S)$. 
-
 If $b=\mbox{\sc RandomVector}(\F^{\len(\calY)})$, then $bS$ is a
 uniformly distributed random vector of $\rsp(S)$. 
 Moreover we assume that for the disjoint spaces 
@@ -1225,7 +1225,7 @@ $\ord_M(v^{(j)})$ is strictly smaller than $f_{i,1}$.
 
 Note that
 the $F_j$ are not stochastically independent since we choose
-$v^{(j)}$ outside of $\left< v^{(1)}, \ldots, v^{(j-1)}\right>_M$.
+$v^{(j)}$ outside of the space $\left< v^{(1)}, \ldots, v^{(j-1)}\right>_M$.
 However, $E_i = F_1 \cap F_2 \cap \cdots \cap F_u$ because $f$ is the
 least common multiple of the order polynomials of the $v^{(j)}$.
 By Proposition~\ref{ProbOneMult} applied with $U=\{0\}$, 
@@ -1905,7 +1905,7 @@ We were unable to confirm that Magma \cite{Magma}
 uses an algorithm  based on the canonical forms algorithm of Alan
 Steel presented in~\cite{Steel} for computing minimal 
 polynomials, although this is indicated in~\cite[Abstract]{Steel} and on the
-web %
+web\\ %
 (see \texttt{http://magma.maths.usyd.edu.au/magma/htmlhelp/text347.htm}).
 
 Our colleague Colva Roney-Dougal kindly
@@ -2026,7 +2026,7 @@ $f^3$.
 
 (d)\quad The matrices $M_8$ and $M_9$ were standard generators of 
 ${\rm GL}(400,17)$, 
-conjugated by the pseudo-random element $M_{10}$ of the same group.
+conjugated by the pseu\-do-ran\-dom element $M_{10}$ of the same group.
 Note that $M_8$ had
 order 16 while $M_9$ and $M_{10}$ had very high order and were cyclic 
 matrices. We chose these examples because they may be typical of 
