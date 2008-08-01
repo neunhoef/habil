@@ -102,6 +102,9 @@
 \newcommand{\PGL}{\maop{PGL}}
 \newcommand{\SL}{\maop{SL}}
 \newcommand{\PSL}{\maop{PSL}}
+\newcommand{\Sp}{\maop{Sp}}
+\newcommand{\PSp}{\maop{PSp}}
+\newcommand{\GSp}{\maop{GSp}}
 \newcommand{\tens}[1][]{\ifthenelse{\equal{#1}{}}{\maopl{\otimes}}%
 {\mathop{\raisebox{0.4mm}{$\scriptstyle\maopl{\otimes}_{#1}$}}}}
 \newcommand{\smtens}[1][]{\ifthenelse{\equal{#1}{}}{\maopl{\otimes}}%
@@ -129,6 +132,11 @@
 \newcommand{\one}{\mathbf{1}}
 \newcommand{\fail}{\textsc{Fail}}
 \newcommand{\Gal}{\maop{Gal}}
+\newcommand{\Aut}{\maop{Aut}}
+\newcommand{\Out}{\maop{Out}}
+\newcommand{\Inn}{\maop{Inn}}
+\newcommand{\Syl}{\maop{Syl}}
+\newcommand{\Pro}{\maop{Prob}}
 
 \newcommand{\proofbeg}{\noindent\textbf{Proof:}\ }
 \newcommand{\proofof}[1]{\noindent\textbf{Proof of #1:}}
@@ -145,8 +153,8 @@
 \newcommand{\Q}{\ensuremath{\mathbb{Q}}}
 \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
-\newcommand{\CC}{\ensuremath{\mathcal{C}}}
-
+\newcommand{\CC}[1]{\ensuremath{\mathcal{C}_{#1}}}
+\newcommand{\T}{\ensuremath{\mathrm{T}}}
 % Ich will spaeter noch umkonfigurieren:
 \newcommand{\Emph}[1]{{\boldmath\textbf{#1}}}
 \newcommand{\ba}[1]{\overline{\rule{0mm}{1.2ex}#1}}
@@ -155,6 +163,7 @@
 \newcommand{\Proof}{\noindent\textbf{Proof:} }
 \newcommand{\ProofEnd}{\hfill$\square$\par}
 \newcommand{\GAP}{\textsf{GAP}}
+\newcommand{\MAGMA}{\textsc{MAGMA}}
 \newcommand{\cvec}{\textsf{cvec}}
 
 \newenvironment{compactlist}{\begin{list}{}{\setlength{\itemsep}{0pt}%
@@ -189,6 +198,14 @@
 \newtheorem{Problem}[Prop]{Problem}
 
 \newcommand{\ruecke}{\mbox{\phantom{\rm\bf\thesubsection\ }}}
+
+% Some things for the subfield paper:
+\newcommand{\by}{\times}
+\newcommand{\tp}{\otimes}
+\newcommand{\idiv}{\ {\textrm{div}\ }}
+
+\newenvironment{proof}{\normalsize {\noindent\sc Proof}:}%
+{{\hfill $\Box$\par\medskip}}
 
 %\includeonly{}
 

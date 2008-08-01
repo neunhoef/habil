@@ -1,6 +1,2321 @@
 % this is a part of the habilitation thesis of Max Neunhoeffer
 
-\chapter{Recognising subfield and semilinear}
+\chapter{Finding reductions for subfield and semilinear groups}
 \label{chap:subsemi}
 
-to be written
+This chapter is about a polynomial-time reduction algorithm 
+for groups of semilinear or subfield class
+The contents of this
+chapter are joint work with Jon F.~Carlson and Colva M.~Roney-Dougal and 
+are already published as \cite{subfieldpaper}.
+
+% Rest is copied from the subfield paper.
+% Changes:
+%  \  after \GAP:
+%  {theorem} --> {Theo}
+%  {proposition} --> {Prop}
+%  {lemma} --> {Lemm}
+%  {corollary} --> {Cor}
+%  {definition} --> {Def}
+%  {hyp} --> {Hyp}
+%  \BBF --> \F
+%  \bF --> \F
+%  \boldmath --> \mathbf
+%  label main --> label subsemi:main
+%  label sec:complexity --> label subsemi:sec:complexity
+%  label timings --> label subsemi:timings
+%  cite Asch --> cite aschbacher
+%  cite CurtisReiner --> cite CR0
+%  cite GAP --> cite GAP4
+%  cite SMASH --> cite smashnormal
+%  cite Primitive --> cite smashprim
+%  cite MeatAxeHR --> MeatAxeHoltRees
+%  cite MeatAxe --> MeatAxeRP
+%  cite issac --> AkosMaxISSAC
+%  cite AkosPermGrp --> Ser
+
+
+\section{Introduction}\label{sec:intro}
+
+The matrix group recognition project was begun some years ago 
+by Neumann and Praeger in a groundbreaking paper
+\cite{neumann-praeger}. Their results answered the question of how 
+one can determine computationally whether a given set 
+of invertible matrices with entries in a finite 
+field $\F_q$ generates the group $\SL(d,q)$. 
+Since then many algorithms for computing with matrix groups 
+over finite fields have been developed. Given a collection 
+$g_1, \ldots, g_m$ of  matrices in $\GL(d, q)$, the 
+basic problem is to find a composition series for the 
+group $G$ that they generate and to be able to express arbitrary 
+group elements as straight line programs in the generators.  
+An overview of the  aims of the recognition 
+project  is given in \cite{crlg}.
+
+The overall approach of  the project relies on a fundamental 
+theorem of Aschbacher \cite{aschbacher} on the maximal
+subgroups of classical groups. The theorem says that every subgroup of
+$\GL(d,q)$ lies in at least one of nine classes $\CC1, \ldots, \CC9$.
+Classes $\CC1, \ldots, \CC8$ are treated by reducing to 
+some sort of easier setting, and there are algorithms  
+for these cases. However, the
+complexity of some of them has not been analysed and many
+do not run in polynomial time. The overall project is currently in a 
+second phase, producing provably polynomial-time algorithms for
+each class. 
+
+The basic approach (see \cite{crlg, AkosMaxISSAC}) 
+is first to reduce 
+the problem by either finding a proper nontrivial homomorphism 
+from $G$ or finding an isomorphism to a representation 
+with a smaller ambient group (for example to $\GL(d, q_0)$ 
+for  $q_0 < q$).  
+If a homomorphism is found then the kernel and image are treated
+separately, eventually producing a
+\emph{composition tree}, whose leaves are either simple groups or
+groups that can be constructively  recognised by other means.
+
+ Let 
+$\overline{G} \leq \PGL(d, q)$ be the corresponding projective group. 
+In this paper we present a fully analysed, polynomial-time Las
+Vegas algorithm to find a reduction for the case that  $G$ or $\overline{G}$
+ is not in $\CC1$, but is in $\CC3$ or $\CC5$, 
+or has non-absolutely-irreducible derived group. 
+Class $\CC1$ (reducible groups)
+ is completely under control using MeatAxe methods
+\cite{MeatAxeHoltRees, IL, MeatAxeRP}.
+In the case that $G$ or $\overline{G}$ is in \CC3 or \CC5 
+we either find a proper nontrivial homomorphism from $G$ to a permutation, matrix or projective group, or an isomorphism writing $G$ or $\overline{G}$ over a smaller field, or in a smaller dimension. 
+  In addition, for some groups in classes \CC2, \CC4 or \CC6,
+ we find a nontrivial reduction homomorphism: 
+this is important as there is as yet no fully 
+polynomial-time analysis for these classes. 
+
+Our algorithms are efficient in the sense that they use a 
+number of field operations that is bounded by a low-degree polynomial 
+in $m$ (the number of generators), $d$ and $\log q$: 
+the input size is  $O(m d^2 \log q)$. We analyse 
+the complexity of all algorithms during the course 
+of the paper, and have implemented our work in \GAP\ \cite{GAP4}. 
+We avoid the use of a discrete logarithm oracle. We use $3$ for
+ the exponent of matrix multiplication, as although the theoretical 
+exponent is lower than this, for practical implementations this is 
+more realistic. 
+
+In addition to developing reduction algorithms, we characterise 
+the groups which have a faithful absolutely irreducible module
+on which the derived group acts by scalar matrices. 
+We also develop efficient Monte Carlo 
+methods for generating subgroups of matrix groups that behave 
+like normal subgroups. The use of Clifford's Theorem 
+upgrades these algorithms to Las Vegas. 
+
+One of the motivations for this work is a 
+recent article by Glasby, Leedham-Green and 
+O'Brien \cite{GLGOB}, who develop an algorithm 
+to recognise  groups $G$ in class \CC5,  
+generalising   
+\cite{GlasbyHowlett}. The algorithm in \cite{GLGOB} 
+is polynomial time provided that the commutator 
+subgroup acts absolutely 
+irreducibly. Here we address the case where $G'$ 
+is not absolutely irreducible by providing fully 
+analysed algorithms for all 
+actions of $G'$, including the case where $G'$ 
+consists only of scalars.  In the paper \cite{GLGOB} 
+the authors appear to misstate the complexity of 
+generating $G'$. To the best of our knowledge,
+the best published complexity for this is 
+$O(d^7 \log^2 q)$. In this paper, we develop Las Vegas methods to generate 
+a normal subgroup of $G$ that is contained in $G'$ in $O(d^4 \log q)$ field 
+operations. 
+
+Our approach in Sections~\ref{subsec:semilin} 
+to \ref{subsec:tensor} is heavily influenced 
+by {\sc Smash} \cite{smashnormal} and we have reused 
+many subroutines. There are two main differences between 
+these sections and the original treatment in 
+{\sc Smash}. Firstly, we have analysed the probability of having
+generators for a subgroup 
+that has the same submodule lattice as a normal 
+subgroup of $G$. Secondly, we have improved algorithms and 
+complexity estimates for finding an irreducible 
+submodule of a normal subgroup. Hence we are able to derive 
+tighter upper bounds on the complexity
+of our algorithm.
+
+The layout of this paper is as follows. In Section~\ref{sec:defns}
+ we present basic definitions and our main result. In 
+Section~\ref{sec:describe_scalars} we characterise the groups with 
+faithful absolutely irreducible representations over arbitrary fields
+ whose derived group 
+is mapped into the scalar matrices. In 
+Section~\ref{sec:generation} we prove probabilistic results 
+about the number of random elements required to generate  a matrix group. 
+In Section~\ref{realisesubfield} we present an 
+algorithm for writing irreducible matrix groups over a smaller field. 
+In Section~\ref{subsemi:main} we present the main body of our algorithm,
+followed by Section~\ref{subsemi:sec:complexity} which summarises the complexity 
+results and Section~\ref{implcomplexity} which reports on our implementation 
+of these algorithms. 
+
+The first author is grateful to the RWTH in Aachen for their kind 
+hospitality and to the Humboldt Foundation for support while parts of
+this paper were being written. 
+
+\section{Definitions and main result}\label{sec:defns}
+
+Throughout the paper (except for Sections~\ref{sec:describe_scalars} and~\ref{realisesubfield}), 
+we assume that 
+$g_1, \ldots, g_m \in \GL(d,q)$ 
+and let $G = \left< g_1, \ldots,
+g_m\right> \le \GL(d,q)$ be the corresponding matrix 
+group. By considering each of $g_1, \ldots, g_m$ to be 
+defined only up to scalar multiplication, we also 
+define a group $\overline G = 
+\left< \overline{g_1}, \ldots, \overline{g_m} \right> \leq
+\PGL(d,q)$, which is the projective group generated by 
+the given matrices. Two matrices represent the same elements of $\overline{G}$ 
+if one is a scalar multiple of the other, 
+so replacing any of the $g_i$ by scalar multiples will 
+alter the matrix group but not the projective group.
+We assume throughout that $G$ acts irreducibly on the natural
+module $V = \F_q^d$ and that $\overline{G}$ acts irreducibly
+on the corresponding projective space $\overline{V}$.
+
+%The class \CC3 is defined as follows. 
+
+\begin{Def} \label{def:semilin}
+The group $G$ lies in \CC3 (the class of semilinear groups) 
+if there is an $\F_q$-vector space identification between
+$\F_q^d$ and $\F_{q^e}^{d/e}$ such that
+for $1 \le i \le m$ 
+there exist automorphisms $\alpha_i \in \Gal(\F_{q^e}/\F_q)$ 
+with \[(v+\lambda
+w)g_i = v  g_i + \lambda^{\alpha_i}  w  g_i\] for
+all $v,w \in \F_{q^e}^{d/e}$ and all $\lambda \in \F_{q^e}$.
+ The 
+group $\overline{G}$ lies in \CC3 if and only if $G$ lies in \CC3: 
+note that multiplying $g_1, \ldots, g_m$ by scalars from $\F_q$ 
+does not affect the semilinearity of $G$. 
+\end{Def}
+
+If the $\alpha_i$ generate a proper subgroup
+of $\Gal(\F_{q^e}/\F_q)$ then
+multiplication by elements of the corresponding invariant 
+subfield produces $\F_qG$-endomorphisms that are not $\F_q$-scalar, so $V$ 
+is not absolutely irreducible.
+Conversely, if $V$ is not absolutely irreducible, then
+there is a divisor $e'$ of $d$ 
+such that we can view $V$ as a $d/e'$-dimensional vector space
+over $\F_{q^{e'}}$ on which the action of $G$
+is $\F_{q^{e'}}$-linear. That is, $G$ lies in class \CC3 with
+trivial automorphisms.
+
+\begin{Def}
+The group $G$ lies in \CC5 if there exists a subfield $\F_{q_0} \subsetneq
+\F_q$, a $t \in \GL(d,q)$, and $\beta_1, \ldots, \beta_m
+\in \F_q^\times$ such that $t^{-1}g_it = \beta_i  h_i$ with
+$h_i \in \GL(d,q_0)$. The group $\overline{G}$ lies in \CC5 if and only if 
+$G$ lies in \CC5: note 
+that multiplying $g_1, \ldots, g_m$ 
+ by scalars from $\F_q$ does not change the membership of $G$ in \CC5. 
+\end{Def}
+If $\beta_i = 1$ for all $i$ then $G$ can be
+written over  $\F_{q_0}$. In general, $G$ lies in
+\CC5 if $G$ can be written over $\F_{q_0}$ modulo
+scalars.
+Note
+that $\overline{G}$ being in \CC5 implies that 
+$\overline{G} \cong \langle \overline{h_1}, 
+\ldots, \overline{h_m} \rangle$ embeds naturally in $\PGL(d,q_0)$.
+
+We assume that the input to our algorithm is an irreducible group
+$G$: see Lemma~\ref{MeatAxe} 
+for the complexity of proving this. The MeatAxe run which shows $G$ 
+to be irreducible also computes the endomorphism ring $E = \End_{\F_q G}(V)$.
+  If $G$ is irreducible  but not
+absolutely irreducible, the ring $E$ is an
+extension field of $\F_q$. This provides an explicit $E$-vector 
+space structure on $V$ and an $E$-linear action of the
+group generators.
+
+\vspace{3mm}
+\noindent We now summarise our algorithm, see the relevant sections for
+more details. 
+
+
+\begin{enumerate}
+\item Let $G$ be irreducible with endomorphism ring $E$ of degree $e
+\geq 1$ over $\F_q$. If $e > 1$ find an explicit base change to express
+the generators over $\F_{q^e}$.
+\item Check whether $G$ can be written over 
+a subfield $\F_{q_0}$ with $\beta_i = 1$ for $1 \leq i \leq m$, 
+using the standard basis 
+technique described in Section~\ref{realisesubfield}, and find the
+degree $f$ of $\F_q$ over  $\F_{q_0}$.
+\item If $e > f^2$ then  return a homomorphism into $\GL(d/e, q^e)$. 
+Otherwise, if $f > 1$ then return a monomorphism into $\GL(d, q_0)$.
+\item Compute 10 commutators of random elements of $G$. If they are all 
+scalar, choose any nonscalar generator $g_i$  and check whether 
+$[g_i, g_j]$ is scalar for all $j$. If so, 
+jump to step 10. 
+\item Compute a normal subgroup $N$ of the derived 
+subgroup $G'$ of $G$ as in Section~\ref{subsec:derived}. 
+\item If $N$ is absolutely irreducible, check 
+whether $N$ can be written over a smaller field, as in
+ Section~\ref{subsec:subfield_scalars}. If $G$ is not contained in
+\CC5, return {\tt false} as $G$ is not in \CC3 or \CC5.
+\item If $N$ is irreducible but not absolutely 
+irreducible find a semilinear decomposition 
+of $G$, as in Section~\ref{subsec:semilin}.
+\item If $N$ is reducible with more than one 
+homogeneous component, find an imprimitive 
+decomposition of $G$ as in  
+Section~\ref{subsec:imprim}.
+\item If $N$ is reducible with a single 
+homogeneous component with irreducible $N$-submodules of
+dimension greater than $1$, find a tensor
+decomposition of $G$ as in
+Section~\ref{subsec:tensor}. 
+\item If $[g_i, g_j]$ is scalar for some nonscalar $g_i$ and all $j$, find 
+a nontrivial homomorphism from $G$ to $\F_q^\times$ as in
+ Sections~\ref{sec:describe_scalars} and~\ref{subsec:scalars}. 
+\end{enumerate}
+
+
+We will show that all of our methods
+can be applied to both matrix and projective groups, 
+because the success or failure of each step is unaffected 
+by multiplying generating matrices by scalars. 
+The following theorem summarises the main 
+algorithmic results of this article.
+
+\begin{Theo} [Main Theorem]
+Let $G \leq \GL(d, q)$ or $\overline{G} \leq \PGL(d, q)$ be an absolutely 
+irreducible group that lies in \CC3, \CC5 or 
+whose derived group is not absolutely irreducible. 
+There exists an $O(d^4 \log (\log d) \log q + md^3)$ Las Vegas 
+algorithm, where $m$ is the number of generators,  to find a nontrivial reduction of $G$ or $\overline{G}$, respectively.
+\end{Theo}
+
+The complete procedure is Las Vegas in that we can prescribe an upper
+bound $\delta$ for the failure probability. The algorithm can succeed by
+returning a homomorphism or reporting {\tt false}; or it can report {\tt
+fail} with a prescribed probability bound
+ $\delta$. If success is reported, the result is
+guaranteed to be correct. If the algorithm reports {\tt false} then some
+additional information may be deduced: for example, that if $G$ lies in
+\CC2 then $G'$ is transitive on all possible sets of blocks.
+
+
+
+\section{Characterisation of groups with scalar derived group }
+\label{sec:describe_scalars}
+
+In this section we do not require the global hypothesis that 
+$G$ is given by matrices or projective matrices.
+Instead, we assume only that  $G$ is a finite group with a faithful 
+representation $\rho$. We investigate groups $G$ which
+satisfy the following hypothesis.
+
+\begin{Hyp} \label{group-info}
+The group $G$ is a finite group, given by  
+$G = \langle g_1, \ldots, g_m\rangle$. 
+Assume that $G$ has a faithful absolutely irreducible representation
+$\rho: G \longrightarrow \GL(d,k)$ for some $d > 1$ and field $k$ such that 
+for all $g \in G^\prime$, the matrix $\rho(g)$ is scalar. 
+\end{Hyp} 
+
+Equivalently, the group $G$ has a faithful 
+nonlinear absolutely irreducible representation
+$\rho$ such that $\rho(G)$ is projectively abelian. 
+
+Let $V$ be the module afforded by  $\rho$.
+The hypothesis implies the following facts.
+
+\begin{Lemm} \label{lem:facts}
+Suppose that $G$, $\rho$ and $V$ are as above. The following all hold. 
+\begin{enumerate}
+\item The derived group $G'$ is contained in the centre $Z(G)$. 
+\item The group $G$ is nilpotent of class 2 and hence is a direct 
+product of its Sylow subgroups. 
+\item The centre and the derived group of $G$ are cyclic.
+\item If the characteristic of $k$ is $p > 0$ then 
+the order of $G$ is not divisible by $p$.
+\item Let $[g,h] = g^{-1}h^{-1}gh$ be the commutator of elements 
+$g$ and $h$ in $G$. Then 
+\[ 
+[g,h_1h_2] = [g,h_1][g,h_2], \qquad [h_1h_2,g] = [h_1,g][h_2,g]
+\] 
+for all $g,h_1,h_2$ in $G$. 
+\item Let $k^\times$ denote the multiplicative group of $k$. For any $g \in 
+G$ there is a homomorphism 
+$\psi_g:G \longrightarrow k^\times$ given by $\psi_g(h) = \rho([h,g])$. These
+homomorphisms satisfy 
+$\psi_{g_1g_2}(x) =
+\psi_{g_1}(x)\psi_{g_2}(x)$ for all $x, g_1, g_2 \in G$.
+Moreover, $\psi_g$ is a constant function if and only if $g \in Z(G)$.
+\end{enumerate}
+\end{Lemm}
+
+\begin{proof}
+Part $(1)$ is true because $\rho$ is faithful. 
+Part $(2)$ follows from $(1)$.  It is
+well known that finite nilpotent groups are the direct product of 
+their Sylow subgroups. 
+
+Part $(3)$ is true because $\rho(G)$ is 
+absolutely irreducible and $\rho$ is faithful, 
+so $Z(\rho(G))$ is a group of scalar matrices, 
+which must be cyclic. 
+Part $(4)$ then follows from the fact that a Sylow $p$-subgroup of $G$
+would contribute a factor of $p$ to the centre of $\rho(G)$, and hence
+to the centre of $G$.
+
+$(5)$ is a straightforward calculation. That is,
+\[
+h_1 h_2 g [g, h_1 h_2] = g h_1 h_2 = h_1 g [g, h_1] h_2 = h_1 g h_2 [g, h_1] 
+= h_1 h_2 g [g, h_1] [g, h_2]
+\]
+since $[g, h_1], [g,h_2] \in Z(G)$ by $(1)$. 
+The second equation follows by inverting the first. 
+Part $(6)$  is a direct
+consequence of $(5)$.
+\end{proof}
+
+The lemma allows us to prove the following. 
+
+\begin{Prop} \label{exponents}
+Let $z$ be the order of $Z(G)$, and let $c$ be the 
+order of $G'$. Then 
+\begin{enumerate}
+\item The exponent of $G/Z(G)$ is at most $c$, 
+\item The exponent of $G$ is at most $cz$, and 
+\item The order of $G$ is a divisor of $c^{l}z$ where $l$ is the number of 
+noncentral generators of $G$.
+\end{enumerate}
+\end{Prop}
+
+\begin{proof} 
+The group $G$ is generated by 
+elements $g_1, \ldots, g_m$. Let $\psi_i:G \rightarrow
+\rho(G')$ be given by $\psi_i(h) = \rho([h,g_i])$. 
+Then $\psi_i$ is a homomorphism by Lemma~\ref{lem:facts}.6, 
+and the  kernel $K_i$ of $\psi_i$ has index in $G$ 
+at most $c$, since $\mathrm{Im}(\psi_i)$ has order dividing $c$. 
+Let $\psi_i^c$ be defined by  $\psi_i^c(x):= \psi_i(x)^c$, 
+then $\psi_i^c$ 
+is the constant homomorphism from $G$ to $\{1\}$. From this and         
+Lemma~\ref{lem:facts}.5 it follows that $g_i^c$ is in the centre of $G$ 
+for all $i$. This proves $(1)$.                                         
+
+Part $(2)$
+is a direct consequence of $(1)$ since the exponent of $Z(G)$ is $z$.
+Finally, $(3)$ is a simple count based on the fact that
+$\cap_i K_i \leq  Z(G)$. 
+\end{proof}
+
+
+We know by hypothesis that $V$ is absolutely 
+irreducible and by Lemma~\ref{lem:facts}.2 that 
+$G$ is a direct product $G =  S_1 \times S_2 \times \cdots 
+\times S_t$ of its Sylow subgroups. From this we get the next lemma.
+
+\begin{Lemm} \label{lem:tensor}
+The module $V$ is a tensor product 
+\[
+V \ \  \cong \ \ V_1 \otimes \cdots \otimes V_t
+\]
+where each $V_i$ is an absolutely irreducible module for $S_i$ on 
+which $S_j$ acts trivially for $i \neq j$. 
+\end{Lemm}
+
+\begin{proof}
+It is well known that irreducible 
+modules of direct products are tensor 
+products (see for instance \cite[51.13]{CR0}).  
+Since $V$ is absolutely irreducible, so is each factor.
+\end{proof}
+
+\begin{Prop} [Eigenspace decomposition] \label{prop:eigenspace} 
+Let
+$g \in G$ have all eigenvalues in  $k$.
+Then $V$ is a vector space direct sum 
+\[
+V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \cdots \oplus V_{\lambda_s}
+\]
+where $\lambda_1, \ldots, \lambda_s$ are the eigenvalues of $\rho(g)$ and
+$V_{\lambda_i}$ is the $\lambda_i$-eigenspace. 
+Moreover, if $h \in G$, then $V_{\lambda_i}\rho(h) = V_{\lambda_j}$ 
+where $\lambda_j = \psi_g(h)\lambda_i$.
+\end{Prop}
+
+\begin{proof}
+The space  $V$ is a direct sum of eigenspaces of $\rho(g)$
+since $k \langle g \rangle$ is 
+semi-simple and split by $k$. For the 
+next statement, let $v \in V_{\lambda_i}$. Then as asserted
+\[ 
+(v \rho(h))\rho(g) = v \rho( gh [h, g])= 
+\lambda_i v \rho([h, g])\rho(h) = \lambda_i \psi_g(h) v \rho(h).
+\]
+\end{proof}
+
+If $g \in Z(G)$, then in Proposition~\ref{prop:eigenspace}, $V$ is only a single eigenspace for the action of $g$. 
+%We know that
+%the order of $Z(G)$ divides $|k^\ast|$ since the representation
+%$\rho$ is faithful. 
+
+%We show that there is an element $g$ with $g \notin 
+%Z(G)$ such that $g$ satisfies the hypothesis of  
+%Proposition~\ref{prop:eigenspace}.
+
+\begin{Theo} [Noncentral element of prime order] \label{thm:exists_g}
+Let $G$ be an  $r$-group %such that $G' \leq Z(G)$
+satisfying Hypothesis~\ref{group-info}. Then either 
+$G$ is the quaternion group of order $8$ or $G$ 
+has an element $g$ of order $r$ such that 
+$g \not \in Z(G)$. %Hence if $G$ is not a 
+%quaternion group of order $8$ then $G$ is imprimitive.
+\end{Theo}
+
+\begin{proof}
+Since $Z(G)$ is cyclic, it suffices to prove 
+that either $G$ is quaternion of order $8$ or 
+$G$ contains more than one cyclic subgroup of order $r$. 
+
+It is well-known (see for instance \cite[3.15]{Zassenhaus}) 
+that the only $r$-groups which contain a single 
+subgroup of order $r$ are the cyclic groups and 
+the generalised quaternion groups. Since $\rho(G)$ 
+is absolutely irreducible and $d > 1$, the group 
+$G$ is not cyclic and so either $G$ has a noncentral 
+element of order $r$ or $G$ is generalised quaternion.
+
+The generalised quaternion group of order $2^i$ 
+for $i \geq 3$ has presentation 
+$\langle a, b \ | a^{2^{i-1}} = b^4 = 
+a^{2^{n-2}}b^{-2} =  b^{-1} a ba = 1 \rangle$. 
+A short calculation shows that the derived group 
+contains noncentral elements for $i > 3$, 
+and hence if $G$ is a generalised quaternion 
+group then $|G| = 8$.
+\end{proof}
+
+We finish this section with our characterisation 
+of the groups satisfying Hypothesis~\ref{group-info}.
+
+\begin{Theo} [Characterisation Theorem] \label{thm:classify_scalars}
+Let $G$ have a faithful absolutely irreducible 
+representation $\rho$ of dimension $d > 1$ over an arbitrary field $k$ 
+such that the derived group of $G$ is mapped
+into the set of scalar matrices. 
+Then either $d = 2$ and $\rho(G)$ 
+is an extension by scalars of the quaternion 
+group of order $8$ acting semilinearly, 
+or $\rho(G)$ is imprimitive.
+\end{Theo}
+
+\begin{proof}
+By Lemma~\ref{lem:tensor} we may consider $V$ 
+as a tensor product, with a distinct Sylow 
+subgroup of $G$ acting on each tensor factor. 
+Let $V_i$ be one such factor. 
+
+The first possibility is that $V_i$ is $1$-dimensional, and $S_i$ is cyclic. 
+Secondly, if the action on $V_i$  is $Q_8$ then the 
+dimension of $V_i$ is $2$ (see for instance \cite[\S 47]{CR0}).
+
+Otherwise, by Theorem~\ref{thm:exists_g} 
+the  action has a
+ noncentral element  $\rho(g)$ of order $r$.
+The group $G$ also contains a central element of order $r$, which is mapped to a scalar.  
+ Hence all of the eigenvalues 
+of $\rho(g)$ lie in $k$. Since $\rho(g)$ is 
+not central, it has more than one eigenvalue.  
+It follows from Proposition~\ref{prop:eigenspace} 
+that all elements of $G$ permute the eigenspaces. 
+Since $G$ acts irreducibly, this action on 
+the eigenspaces is transitive and hence $\rho(G)$ is imprimitive.
+
+If at least one of the induced actions is imprimitive 
+then the action of $\rho(G)$ is imprimitive. Not 
+all of the Sylow subgroups can be cyclic since $d > 1$.
+\end{proof}
+
+Extraspecial $r$-groups over finite fields $\F_q$
+with $d = r^n$ and $r$ dividing $(q-1)$ lie in this class, but so do other $r$-groups. For example, the subgroup $G$ of $\GL(3, 19)$ of order $3^4$ generated by
+$$\left[ \begin{array}{ccc}
+0 & 0 & 1 \\
+17 & 0 & 0 \\
+0 & 11 & 0 \end{array}\right], 
+\left[ \begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 7 & 0 \\
+0 & 0 & 11 \end{array} \right]$$
+satisfies $G' \leq Z(\GL(3, 19))$ but does not contain an 
+extraspecial group of order $3^{1+2}$.
+
+%{\bf Note from CMRD:} I've now redone this 
+%section to only talk about the field $k$ rather 
+%than mixing $k$ and $\F_q$. Jon, could 
+%you check I've done this right? Thanks!
+
+\section{Generation of matrix groups by random elements} \label{sec:generation}
+
+In this section we analyse the generation 
+of a subgroup $H = \langle g_1, \ldots, g_n \rangle$ 
+of a normal subgroup $N$ of a matrix group 
+$G$, and in particular provide bounds on $n$ 
+for $H$ to have the same submodule structure and endomorphism ring as $N$, with probability at least $1 - \delta$.
+Perhaps surprisingly, we do this via results for permutation groups. 
+
+%We shall need the following lemma.
+
+\begin{Lemm} %[{See \cite[Corollary 2.2]{babai95}}]
+    \label{babailemma}
+    Let $X_1, X_2, \ldots$ be a sequence of\/ $0$-$1$ valued random
+    variables such that $\Pro(X_i = 1) \ge p$ for any values of the
+    previous $X_j$ (but $X_i$ may depend on these $X_j$). 
+    
+    Then, for
+    all integers $t$ and all\/ $0 < \epsilon < 1$,
+    \[ \Pro\left( \sum_{i=1}^t X_i \le (1-\epsilon)pt\right) \le
+       e^{-\epsilon^2pt/2}. \]
+   \end{Lemm}
+
+\begin{proof} See \cite[Corollary 2.2]{babai95} or \cite[Lemma
+    2.3.3]{Ser}.
+\end{proof}
+
+The following proposition is based on \cite[2.3.7]{Ser}, where it is    
+proved for the case $G$ transitive. Note that the assumptions are       
+slightly more general than for $G$ given as a group of permutations, as 
+(for example) this can be applied to any finite group equipped with a   
+permutation action.                                                     
+
+\begin{Prop} [Correct orbits of subgroup] \label{prop:orbits}
+Suppose that a finite group $G = \langle S \rangle$ 
+acts on a finite set $\Omega$, with $\alpha$ 
+orbits. Let $1 > \delta > 0$ be arbitrary. 
+Then with probability at least $1 - \delta$, a sequence
+of $O(\log \delta^{-1} + \log |\Omega|)$ 
+uniformly distributed random elements of $G$ 
+generates a subgroup of $G$ that has the same 
+orbits on $\Omega$ as $G$.
+\end{Prop}
+
+\begin{proof}
+Let $t = c \log |\Omega|$ where 
+$c \geq \max\{24 \log \delta^{-1}/\log |\Omega|, 45\}$.
+Let $g_1, \ldots, g_t$ be uniformly distributed random elements 
+of $G$. For $1 \leq i \leq t$ let 
+$G_i = \langle g_1, \ldots, g_i \rangle$, 
+let $N_i$ be the number of $G_i$-orbits on $\Omega$, 
+and let $M_i$ be the 
+number of $G_i$-orbits that coincide with $G$-orbits. 
+Let $k_i = N_i - M_i$.
+Note that $N_i \geq \alpha$ for $1 \leq i \leq t$, 
+that $M_i \leq \alpha$ for $1 \leq i \leq t$, and
+that $N_i = \alpha$ if and only if $M_i = \alpha$. 
+Hence $k_i$ is either $0$ or at least $2$.
+
+We claim that if $N_{i-1} > \alpha$, then 
+\[
+\Pro\left(k_i \leq \frac{7}{8}k_{i-1}\right) \geq \frac{1}{3}.
+\]
+To see this,  let $k = k_{i-1}$ and 
+let $\Delta_1, \ldots, \Delta_k$ be 
+the $G_{i-1}$ orbits on $\Omega$ that are 
+\emph{not} $G$-orbits. For  $1 \leq j \leq k$, 
+let $X_j = 1$ if $\Delta_j^{g_i} \neq \Delta_j$ 
+and let $X_j = 0$ otherwise. 
+Now,  $\Delta_j$ lies 
+in an orbit of length at least two in the action 
+of $G$ on subsets of $\Omega$. Therefore at most half of the 
+elements of $G$ fix $\Delta_j$, and 
+so $E(X_j) \geq 1/2$ for $1 \leq j \leq k$. Let $X = \sum_{j = 1}^{k} X_j$, then
+$E(X)  \geq k/2$. 
+
+Let $p$ be the probability that $X \leq k/4$. Then with probability $p$
+the 
+variable $X$ takes value at most $k/4$ whilst $X$
+takes value greater than $k/4$ and less than or equal to $k$ with 
+probability $1-p$. Therefore
+\[
+\frac{pk}{4} + (1-p) k \geq E(X) \geq k/2,
+\]
+so $p \leq 2/3$.
+Hence, with probability at least $1/3$, at 
+least $k/4$ of the $G_{i-1}$-orbits that are not $G$-orbits 
+are proper subsets of orbits of $G_{i}$. Thus
+ the number of orbits of $G_{i}$ which are 
+not orbits of $G$ is at most $7k/8$, and the claim follows. 
+
+Define $Y_1, \ldots, Y_t$ by 
+\[\begin{array}{ll}
+Y_i = 0 & \mbox{ if $k_i > 0$ and }k_i > \frac{7}{8}k_{i-1} \\
+Y_i = 1 & \mbox{ if $k_i = 0$ or }k_i  \leq \frac{7}{8}k_{i-1}. \end{array}\]
+By the previous claim, $\Pro(Y_i = 1) \geq 1/3$. 
+
+Now, $N_0 = |\Omega|$, so $k_0 \leq |\Omega|$. 
+Clearly,  $k_t \leq k_0 \left(\frac{7}{8}\right)^{\sum_{i = 1}^t Y_i}$. 
+The group $G_t$ has the same orbits as $G$ if 
+and only if $k_t \leq 1$, which will follow if 
+$|\Omega| \left( \frac{7}{8} \right)^{\sum_{i = 1}^t Y_i} \leq 1$. 
+In turn this simplifies to 
+$|\Omega| \leq \left( \frac{8}{7} \right)^{\sum Y_i}$, which gives
+\[
+\sum_{i = 1}^t Y_i \geq \frac{ \log |\Omega|}{ \log \frac{8}{7}}.
+\]
+Then by Lemma~\ref{babailemma}, with $p = 1/3$, $t = c \log |\Omega|$ and $\epsilon = 1 - 3/(c \log (8/7))$ we get % \cite[Corollary 2.2]{babai95},   
+$$\Pro(\sum_{i = 1}^t Y_i \leq \frac{\log 
+|\Omega|}{\log \frac{8}{7}}) \leq e^{-\frac{1}{6}(1- \frac{3}{c \log (8/7)})^2 c \log |\Omega|} \leq e^{- 
+c \log |\Omega|/24}$$ for $c \geq 45$. 
+In turn this is less than or equal to $\delta$.  
+%Thus we choose $t$ large enough that $e^{-t/24} 
+%\leq \delta$, and the result follows. 
+\end{proof}
+ 
+We now apply the previous theorem to matrix groups, by considering their action on vectors. 
+
+\begin{Theo} [Correct action of subgroup]
+Let $G \leq \GL(d, q)$, and let $1 > \delta > 0$ 
+be arbitrary. With probability at least 
+$1 - \delta$,
+a sequence of $O(\log \delta^{-1} + d \log q)$ 
+uniformly distributed random elements of $G$ 
+generate a subgroup $H$ of $G$ with the same 
+submodule lattice as $G$ on $V = \F_q^d$.
+Furthermore, if $G$ is irreducible then  $\End_{\F_qG}(V) = \End_{\F_qH}(V)$
+with probability $1 - \delta$.
+\end{Theo}
+
+\begin{proof}
+First consider $G$ as a permutation group 
+on $|\Omega| = q^d$ points. By 
+Proposition~\ref{prop:orbits}, any group 
+$H$ generated by $O(\log \delta^{-1} + d \log q)$ 
+uniformly distributed random elements of $G$ 
+has the same orbits as $G$ with probability $1-\delta$. 
+
+A submodule for $G$ is a union of orbits of 
+$G$ in its action on vectors that is closed 
+under addition and scalar multiplication, 
+and a submodule is irreducible if and only 
+if it contains no smaller unions of orbits 
+that are closed under addition and scalar 
+multiplication, except for $\{0\}$, so the first claim follows. 
+
+For the second claim, let $G$ be irreducible and $\End_{\F_qG} = \F_{q^f}$.
+Let $H_0$ be generated 
+by $O(\log \delta^{-1} + d \log q)$ random 
+elements of $G$, so that $H_0$ is irreducible 
+with probability $1-\delta/2$. Let $t = c \log d$ 
+for $c \geq \max\{22,  16\log (2\delta^{-1}) /(3 \log d)\}$
+and let $h_1, \ldots, h_t$ be further random 
+elements of $G$. For $1 \leq i \leq t$ let 
+$H_i = \langle H_0, h_1, \ldots, h_i \rangle$. 
+Notice that $H = H_t$ is generated by 
+$O(\log \delta^{-1} + d \log q)$ elements of $G$. 
+
+
+Since $H_0$ is irreducible,  $\End_{\F_qH_0}(V) = \F_{q^s}$ for some 
+$s$ that is a multiple of $f$ and divides $d$. 
+For $1 \leq i \leq t$ let $N_i$ be the
+ degree of $\End_{\F_q H_i}(V)$ over $\F_{q^f}$. 
+
+We claim first that if $N_{i-1} > 1$ then 
+$\Pro(N_i \leq N_{i-1}/2) \geq 1/2$.  To 
+see this let $x$ generate
+ $\End_{\F_q H_{i-1}}(V)$. Then since 
+$x$ is not centralised by  $G$, at 
+most half of the elements of $G$ commute 
+with $x$. If $[h_i, x] \neq 1$ 
+then $N_i$ is a divisor of $N_{i-1}$ so the claim follows. 
+
+Now for $1 \leq i \leq t$ define $Y_i = 0$ 
+if $N_{i-1} > 1$ and $N_i = N_{i-1}$ and 
+$Y_i = 1$ otherwise. If 
+$\sum_{i = 1}^t Y_i \geq \log_2 d \geq \log_2 (d/f)$ 
+then $\End_{\F_q H}(V) = \End_{\F_q G}(V)$. Now, 
+$\Pro(Y_i = 1) \geq 1/2$ by the claim, so 
+by Lemma~\ref{babailemma} with $p = 1/2$, $t = c \log d$ and $\epsilon = 1 - 2/(c \log 2)$ % \cite[Corollary 2.2]{babai95} 
+ $$\Pro(\sum_{i = 1}^t Y_i \leq \log d) \leq e^{-\frac{1}{4}(1- \frac{2}{c \log 2})^2 c \log d} \leq e^{-\frac{3}{16}c \log d}$$ since $c \geq 22$. 
+This is at most $\delta/2$ so the result follows. 
+\end{proof}
+
+
+\begin{Cor} [Correct action of normal subgroup] \label{cor:right_action}
+For $G \leq \GL(d, q)$, let $N \unlhd G$ and let $1 > \delta > 0$ 
+be arbitrary. With probability $1-\delta$ 
+any group $H$ generated by $O(\log \delta^{-1} + d \log q)$ 
+uniformly distributed elements of $N$ 
+has the same submodule lattice as $N$, the same homogeneous components as $N$
+and, if $N$ is irreducible, then $\End_{\F_q H}(V) = \End_{\F_q N}(V)$.
+\end{Cor}
+
+We will apply this result to commutators from $G$. A \emph{normal} generating set for $N \unlhd G$ is a set of elements of $N$
+which generate a group whose normal closure is $N$. 
+ Any set of elements of $G'$ form a normal 
+generating set for a normal subgroup of $G$ which is contained in $G'$. 
+
+
+\section{Writing $\mathbf{G}$ over a smaller field}
+\label{realisesubfield}
+
+In this section unless indicated otherwise we let $K$ be a finite field, let
+ $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, K)$, 
+and let $V = K^{1 \times d}$ be the natural right
+$KG$-module. We assume that $V$ is irreducible but not necessarily
+absolutely irreducible. We want to determine whether there exists
+ a $t \in \GL(d,K)$ such that for
+$1 \le i \le m$ the matrices
+$t^{-1}g_it$  have entries over some proper subfield of $K$. 
+If such a $t$ exists, we want to construct it for 
+the smallest possible subfield $F$ of $K$. 
+We first
+analyse when such a $t$ exists.
+
+%Let $q = q_0^f$ and denote $\F_q$ by $K$ and $\F_{q_0}$ by $F$.
+
+
+The $K$-algebra $K \otimes_F FG$ is isomorphic  as a $K$-algebra to
+the group algebra $KG$ by the $F$-linear map given by $x \otimes g \mapsto xg$ 
+for $x \in K$ and $g \in G$. This isomorphism makes the tensor
+product $K \otimes_F \tilde V$ into
+a $KG$-module,  for any $FG$-module $\tilde V$. 
+%Using these concepts we get:
+
+\begin{Lemm}
+\label{extsca}
+There exists a $t \in \GL(d,K)$ such that $t^{-1}Gt \in \GL(d,F)$
+if and only if there exists an irreducible $F G$-module 
+$\tilde{V}$
+such that $V \cong K \otimes_{F} \tilde{V}$ as $KG$-modules.
+\end{Lemm}
+
+\begin{proof}
+If there exists a $\tilde{V}$ such that $V \cong K \otimes_{F} \tilde{V}$ as
+$KG$-modules then there is an irreducible representation of
+$G$ over $F$ which is $K$-equivalent to the natural representation of $G$ on $V$,
+ hence there is a $t$ as required.
+
+On the other hand, such a $t$ 
+gives rise to a representation of $G$ over $F$ and thus to an $FG$-module
+$\tilde{V}$. The extension of scalars $K \otimes_F \tilde V$ of 
+$\tilde{V}$ to $K$ is isomorphic
+to $V$. If $\tilde{V}$ had a non-trivial $FG$-invariant subspace then
+$V$ would have a non-trivial $KG$-invariant subspace, thus $\tilde{V}$
+is irreducible.
+\end{proof}
+
+For a subfield $F$ of $K$ we denote by $F[G]$ the set of $F$-linear
+combinations of the elements of $G$ as an $F$-subalgebra of $K^{d \times d}$.
+This is also called the \emph{$F$-enveloping algebra of $G$}. For any finite field $K$ we denote the prime field by $K_0$. 
+
+
+\begin{Prop}[Prime field enveloping algebra I] 
+\label{pfenvalgI}
+Let $G \leq \GL(d,F)$ for $F$ finite, 
+and let $V := F^{1 \times d}$ be irreducible.
+Let $E := \End_{F[G]}(V)$ with  $e = [E:F]$ and $d' = d/e$. Identify $V$ with 
+with $E^{1 \times d'}$ %and $G \le GL(d',E) \le GL(d,F)$, 
+so that $F[G] = E^{d' \times d'}$. Set $L := F_0[G] \cap (E \cdot
+\mathbf{1})$.
+ Then $F_0[G] \cong L^{d' \times d'}$ as an
+$F_0$-algebra.
+\end{Prop}
+\begin{proof}
+Clearly $e = 1$ and  $E=F$ if and only $V$ is absolutely irreducible.
+
+Choosing an $F$-basis $(c_1,\ldots,c_e)$ of $E$ we can express each element 
+of $E$ as an $(e\times e)$-matrix over $F$.
+The set $V$ is an $E$-vector space and if $(b_1, \ldots, b_{d'})$ is an
+$E$-basis of $V$, then $(c_ib_j)_{i,j}$ is
+an $F$-basis of $V$. Since the action of $G$ on $V$ is
+$E$-linear, this choice of basis fixes an embedding
+$E^{d' \times d'} \subseteq F^{d \times d}$. Therefore we may assume that
+$G \le \GL(d',E) \le \GL(d,F)$.
+By the Density Theorem (see \cite[(3.27)]{CRI}), since $V$ is an
+irreducible $F[G]$-module, $F[G] = E^{d' \times d'}$.
+
+Now consider $B := F_0[G]$, which is an $F_0$-subalgebra of 
+$F[G]$ such that $FB = E^{d'\times d'} = F[G]$. We first show
+that $B$ is a simple algebra. If $J$ is a nilpotent 
+two-sided ideal of $B$, then $FJ$ is a nilpotent two-sided ideal in 
+$FB = E^{d' \times d'}$, contradicting its simplicity. So $B$ has no 
+nilpotent two-sided 
+ideals and hence is semi-simple. It follows that $B$ is a direct sum of
+simple algebras. The identity elements in these simple summands form an
+orthogonal set of central idempotents in $B$. A central
+idempotent in $B$ is also central in $FB = E^{d' \times d'}$, and hence is 
+the identity.
+Consequently, $B$ is a simple algebra.
+
+By the usual Wedderburn Theorems there exists an isomorphism
+ $\psi: L^{s \times s} \rightarrow B$
+for some $s$,  and some extension $L$ of $F_0$. 
+The field $L$ need not contain $F$. However,  the elements of $B$ corresponding
+to scalar matrices in $L^{s \times s}$ are central in $B$ and hence also
+central in $FB = E^{d' \times d'}$. Therefore we can identify
+$L$ with the centre of $B$ and thus with some subfield of $E$.
+That is, $L = F_0[G] \cap (E \cdot \mathbf{1}) 
+\subseteq E^{d' \times d'}$.
+
+This produces a homomorphism of rings
+\[ \varphi: E^{s \times s} \cong E \otimes_L L^{s \times s} \cong
+   E \otimes_L F_0[G] \to E^{d' \times d'} = F[G] \]
+given by $\varphi(x \otimes b) = xb$. Since $\varphi$ is surjective and
+$E^{s \times s}$ is simple, $\varphi$ is an isomorphism and thus
+$s = d'$.
+\end{proof}
+
+\begin{Prop}[Prime field enveloping algebra II]
+\label{pfenvalgII}
+Let $G$ be as in Proposition~\ref{pfenvalgI}, and suppose
+additionally  that 
+there is no subfield $D$ of $F$ such that there exists $t \in \GL(d,F)$
+with $G^t \leq \GL(d,D)$. Then $F_0[G] = F[G]$.
+\end{Prop}
+\begin{proof}
+Let $\psi : L^{d' \times d'} \to F_0[G]$ be the isomorphism given
+by Proposition~\ref{pfenvalgI}. 
+Let $e_{i,j} \in F_0[G] $ for $1 \le i,j \le d'$ 
+be the image under $\psi$ of a set of matrix units in  $L^{d' \times d'}$. 
+Then $e_{i,j} e_{k,l} = \delta_{j,k} e_{i,l}$ %for all $i, j, k, l$
+%in $\{1,\ldots, d'\}$ 
+and the $e_{i,j}$ are an $L$-basis of $F_0[G]$.
+
+We claim that the $e_{i,j}$ are an $E$-basis of $E^{d \times d}$.
+ To see linear independence, let
+\[ \sum_{i,j=1}^{d'} \lambda_{i,j} e_{i,j} = 0, \]
+then multiplying on the left by $e_{k,k}$ and
+on the right by $e_{l,l}$ shows that $\lambda_{k,l} e_{k,l} = 0$ and thus
+$\lambda_{k,l} = 0$ for all $k,l$.
+On the other hand, since $F_0[G]$ is the $F_0$-span of the elements
+of $G$, the $e_{i,j}$ span $E[G] = E^{d' \times d'}$ as an
+$E$-vector space. Thus they are an $E$-basis of $E^{d' \times d'}$.
+
+Since $\mathbf{1_{d' \times d'}} = \sum_{i=1}^{d'} e_{i,i}$ gives rise to a
+decomposition of $E^{1 \times d'}$ as an $E$-vector space in which the
+direct summands are the row spaces of the $e_{i,i}$, it follows that
+these row-spaces are all one-dimensional.
+
+Let $b'_1 \in E^{1 \times d'}$ such that $\left<b'_1\right>_E$ is the 
+row space of $e_{1,1}$ and set $b'_i := b'_1 e_{1,i}$. Then 
+$b'_i e_{j,k} = \delta_{i,j} b'_k$. If $t^{-1} \in E^{d' \times d'}$ has
+rows $b'_1, b'_2, \ldots, b'_{d'}$, then $t^{-1} e_{i,j} t$ has
+ $1_E$ in position $(i,j)$ and zeroes elsewhere.
+Thus $F_0[G^t] = L^{d' \times d'}$.
+
+If $V$ is absolutely irreducible then $E=F$ and so $L \le F$.
+By assumption $F$ is the
+smallest possible field over which $G$ can be written, so
+$L = F$ as required.
+
+Now consider the case $F < E$,  and assume by way of contradiction that
+$l := [E:L] > 1$. Since $F[G^t] = F[G] = E^{d'
+\times d'}$ it follows that $F \cdot L^{d' \times d'} = E^{d' \times d'}$.
+Therefore, $E$ is the smallest field containing both $F$ and $L$
+implying that  $l$ and $e = [E:F]$ are coprime.
+Let $D := F \cap L$. Then $D$ is a field with $[F:D] = l$ and $[L:D] = e$.
+We claim that $G$ can be written over $D$, contradicting our
+assumption that $F$ is the minimal field over which $G$ can be written. 
+This contradiction will give $L = E$ and hence prove the proposition. 
+
+Let $(c'_1, \ldots, c'_e)$ be a $D$-basis of $L$. Then it is also
+an $F$-basis of $E$, since every element of $E$ is an $F$-linear
+combination of elements of $L$. Now  change basis in $V=F^{1 \times d}$
+from the $F$-basis $(c_i b'_j)_{i,j}$ to $(c'_i b'_j)_{i,j}$ 
+using a base change $s \in \GL(d,F)$, to get $G^{ts} \leq D^{d
+\times d}$.
+\end{proof}
+
+\begin{Theo}[Characterisation of smallest possible field]
+\label{charsmallest}
+Let $G \leq \GL(d, K)$ act
+irreducibly on its natural module. Then there is a
+unique smallest subfield $F$ of $K$ such that there exists $t \in
+\GL(d,K)$ with $G^t \le \GL(d,F)$. This $F$ is uniquely determined by 
+$K_0[G] \cap (K \cdot \mathbf{1}_{d \times d}) 
+= F \cdot \mathbf{1}_{d \times d}$. Furthermore,   $K_0[G] \cong E^{d/e
+\times d/e}$ where $E = \End_{F[G^t]}(F^{1 \times d})$ is an 
+extension field of $F$ of degree $e$.
+\end{Theo}
+\begin{proof}
+Since $K$ is finite there is a smallest subfield $F$ of
+$K$ such that there exists a $t \in \GL(d,K)$ with $G^t \le \GL(d,F)$.
+
+By Lemma~\ref{extsca} the natural $F[G^t]$-module $V := F^{1 \times d}$ is
+irreducible.
+Then Proposition~\ref{pfenvalgII},  applied to $G^t$,
+shows that $F_0[G^t] = F[G^t] = E^{d/e \times d/e}$.
+Since the
+$F$-scalar matrices are central in $F^{d \times d}$, the theorem
+follows immediately.
+\end{proof}
+
+
+{} From now on we assume that the equivalent statements in Lemma~\ref{extsca}
+hold. We now develop some theory which leads to 
+an algorithm that finds a $t$ and the smallest possible subfield $F$, or proves
+that none exists.
+
+Let $B = \{b_1, \ldots, b_f\}$ be an $F$-basis for $K$, such that $b_1 = 1$.
+We start by noting that if the natural $KG$-module
+$V \cong K \otimes_F \tilde{V}$ as $KG$-modules, then
+$V \cong \bigoplus_{i = 1}^f b_i \otimes_F \tilde{V}$ as $FG$-modules.
+We therefore identify $V$ 
+with $K \otimes_F \tilde{V}$ and $\tilde{V}$
+with $1 \otimes_F \tilde{V}$ respectively via this second
+isomorphism and thus write $b_i v$ instead of $b_i \otimes_F v$ and $v$ for
+$1 \otimes_F v \in \tilde{V}$. 
+
+\begin{Lemm} 
+\label{degsplittingfield}
+The $F$-dimension of\/ $\End_{FG}(\tilde{V})$ is  $e$.
+\end{Lemm}
+
+\begin{proof}
+This result is a special case of the fact that
+\[\End_K(K \otimes_F \tilde{V}) \cong K \otimes_F
+\End_F(\tilde{V}),\] see for
+example \cite[(2.38)]{CRI}.
+To assist the reader and set up some notation, we
+ first prove that $\End_{K}(V) \cong K\otimes_{F} \End_{F}(\tilde{V})$. 
+If $(m_1,\ldots,m_d)$ is an $F$-basis of $\tilde V$, then 
+$(b_i m_j)_{1 \le i \le f, 1 \le j \le d}$ is an $F$-basis of $V$ and
+$(m_j)_{1 \le j \le d} = (1 \otimes_F m_j)_{1 \le j \le d}$ is a
+$K$-basis of $V$. Hence 
+every $\varphi \in \End_K(V)$ can be written in a unique way as
+\[ \varphi = \sum_{i=1}^f b_i \varphi_i \]
+with $\varphi_i \in \End_F(\tilde V)$. Therefore
+$\End_K(V) \cong K \otimes_F \End_F(\tilde V)$.
+
+Next we show that $\End_{KG}(V) \cong K \otimes_F \End_{FG}(\tilde V)$. 
+If $\psi \in \End_K(V)$ then $\psi \in \End_{KG}(V)$ if and only if
+$\psi(vg) - \psi(v)g = 0$ for all $g \in G$ and  $v \in V$. By $K$-linearity, 
+it suffices to check this for $v \in (m_j)_{1 \le j \le d}$. Writing
+$\psi = \sum_{i=1}^f b_i \psi_i$ with $\psi_i \in \End_F(\tilde V)$ shows that
+\[\psi \in \End_{KG}(V) \Leftrightarrow
+ \sum_{i=1}^f b_i (\psi_i(m_jg)-\psi_i(m_j)g) = 0\]
+for all $1 \le j \le d$ and all $g \in G$ and thus by the uniqueness 
+above to $\psi_i(m_j g)-\psi_i(m_j)g=0$ for all $i$, $j$, and $g$. This
+proves that $\End_{KG}(V) \cong K \otimes_{F} \End_{FG}(\tilde{V})$.
+
+Now the $F$-dimension of $K\otimes_{F} \End_{FG}(\tilde{V}) = f
+\dim_F(\End_{FG}(\tilde{V}))$ and the $F$-dimension of $\End_{KG}(V)$ is $e f$,
+so $e = \dim_F(\End_{FG}(\tilde{V}))$, as required.
+\end{proof}
+
+\begin{Lemm}
+\label{lindep}
+Let $w \in \tilde{V}$ and $x_1, \ldots, x_k \in FG$. A set of vectors of the 
+form $\{\sum_{i = 1}^f b_i w x_j \ | \ 1 \leq j \leq k\}$ are linearly
+independent over $K$ if and only if they are linearly independent over
+$F$.
+\end{Lemm}
+
+\begin{proof}
+For $1 \leq j \leq k$ let $c_j = \sum_{i = 1}^f b_i w x_j$. Let $a =
+\sum_{i = 1}^f b_i$ and for $1 \leq j \leq k$ let $d_j = a^{-1}c_j = w x_j
+\in \tilde{V}$. The $d_j$ are linearly independent over $K$ if and only
+if the $c_j$ are linearly independent over $K$. Since each $c_j$ has
+been multiplied by the \emph{same} element $a \in K$, the same statement
+is true over $F$.
+
+The set $\{d_j \ : \ 1 \leq j \leq k\}$ is linearly independent over $F$
+if and only if $\{1 \otimes d_j \ : \ 1 \leq j \leq k\}$ is linearly
+independent over $K$. The
+result follows from the identification of the two sets. 
+\end{proof}
+
+
+\bigskip
+We are now in a position to attack the original problem of this
+section. The method for finding the matrix $t$ as in Lemma~\ref{extsca}
+is an instance of the 
+``standard basis method'' which is usually used for finding
+homomorphisms from irreducible modules into arbitrary modules. In fact, we
+use the $FG$-module isomorphism $V \cong 
+\bigoplus_{i=1}^f b_i\tilde{V}$ 
+and then find an $FG$-homomorphism
+from $\tilde{V}$ to $V$. We will show that the $K$-span of the image is $V$
+and the representing matrices with respect to that basis
+are the same as those on $\tilde{V}$ and thus are over $F$.
+
+To describe this, we first define the term ``standard basis'', which
+is most easily done by means of an algorithm. Note that this concept was
+described by Parker in \cite[Section~6]{MeatAxeRP}.
+
+\begin{Def}[Standard basis] \label{spinup}
+Let $G = \langle g_1, \ldots, g_m \rangle$ be a group, 
+let $V$ be a right $FG$-module,
+and let $0 \neq v \in V$. The \textbf{standard basis} starting at $v$ with
+respect to $(g_1,\ldots,g_m)$  is a
+list of vectors.
+
+Starting with $(v)$, successively apply each of $g_1, \ldots, g_m$
+in this order to each vector in the list, 
+finding all $m$ images of one vector before progressing to the next.  
+ Whenever the result
+is not contained in the $F$-linear span of  the previous vectors, 
+add it to the end of the list. This produces
+ a basis $SB(V,v,(g_1, \ldots, g_m))$ for a 
+non-trivial $G$-invariant subspace, which 
+is $V$ itself  if $V$ is irreducible.
+
+%For the sake of completeness we present this algorithm in 
+%Figure~\ref{spinup} as pseudocode.
+\end{Def}
+
+%\begin{figure}[ht]
+%\rule{\textwidth}{1pt}
+%\begin{tabbing}
+%\textbf{Input:} $G = \left< g_1, \ldots, g_m 
+%\right>$, $V$ a right $FG$-module,
+%$0 \neq v \in V$. \\
+%$b := [v]$, $i := 1$ \\
+%whi\=le $i \le \mbox{Length}(b)$ do \\
+%\> for \=$j$ from $1$ to $m$ do \\
+%\>\>  $x := b[i] \cdot g_j$ \\
+%\>\>  if $x \notin F\mbox{-span}(b)$ then append $x$ to $b$ \\
+%\> $i := i + 1$ \\
+%\textbf{Output:} $SB(V,v,(g_1, \ldots, g_m)) := b$
+%\end{tabbing}
+%\caption{Spinup algorithm to compute/define standard basis}
+%\rule{\textwidth}{1pt}
+%\label{spinup}
+%\end{figure}
+
+We next present a theorem which is useful for isomorphism testing with
+an irreducible module. Although the ideas are described in
+\cite[Section 6]{MeatAxeRP}, we include the exact formulation and a proof,
+since these arguments are used in an intricate way later in the
+determination of the matrix $t$ from Lemma~\ref{extsca}.
+
+\begin{Theo}[Isomorphism test]
+\label{isotest}
+Let $G=\left< g_1, \ldots, g_m\right>$ be a group, $V$ a finite-dimensional,
+irreducible $FG$-module and 
+$E := \End_{FG}(V)$ its endomorphism ring. Furthermore let 
+$W$ be a finite-dimensional $FG$-module, 
+and
+$c \in FG$ an element such that $\dim_F(\ker_V(c)) = \dim_F(E)$. 
+Let $N := \ker_W(c) = \{w \in W \ : \ wc = 0\}$. There are two possibilities:
+
+\begin{itemize}
+\item If $N = \{0\}$, then $V \not\cong W$ as $FG$-modules. 
+
+\item If $N \neq \{0\}$,  let $0 \neq w \in N$. 
+Then $SB(W,w,(g_1, \ldots, g_m))$ spans $W$ if and only if 
+$V \cong W$. If $V \cong W$ as $FG$-modules, then the $F$-linear
+map $\varphi : V \to W$ mapping $SB(V,v,(g_1, \ldots, g_m))$ to
+$SB(W,w,(g_1, \ldots, g_m))$ is an $FG$-isomorphism.
+
+Hence, if $V \cong W$, then for any non-zero $w_1, w_2 \in N$ there is an 
+$FG$-automorphism of $W$ mapping $w_1$ to $w_2$.
+\end{itemize}
+\end{Theo}
+
+\noindent\textsc{Remark:} 
+This provides an efficient algorithm to test
+whether $V \cong W$ as $FG$-modules and if so to construct an explicit
+isomorphism, provided $V$ is known to be irreducible and $\dim_F(E)$ is known.
+ The algorithm finds $c$, 
+computes $SB(V,v,(g_1, \ldots, g_m))$, and then computes
+$N$, looking for $0 \neq w \in N$. 
+If an appropriate $c$ is found and $N \neq 0$ then the algorithm computes
+$SB(W,w,(g_1, \ldots, g_m))$. This computation verifies
+whether $\varphi$ is an $FG$-isomorphism. Thus the algorithm
+either computes an isomorphism $\varphi$ or proves that none exists.
+
+\smallskip
+\begin{proof}
+$\ker_V(c)$ is $E$-invariant and thus
+a vector space over $E$. By assumption its $E$-dimension is 1. 
+Every $FG$-module isomorphism between $V$ and $W$ maps
+$\ker_V(c)$ into $N$. If $W \cong V$, then
+$\dim_F(N) = \dim_F(\ker_V(c))$ and so $N$ is a $1$-dimensional
+vector space over $E' := \End_{FG}(W)$. Therefore, for all
+$(w,w') \in N \times N$ with $w \neq 0 \neq w'$ there is an
+automorphism $e' \in E'$ with $e'(w)=w'$. Thus, if we pick
+any $0 \neq v \in \ker_V(c)$ and any $0 \neq w \in N$, then there
+is an isomorphism $\varphi : V \to W$ that maps $v$ to $w$. This
+isomorphism necessarily maps $SB(V,v,(g_1, \ldots, g_m))$ to
+$SB(W,w,(g_1,\ldots,g_m))$ proving our claims.
+\end{proof}
+
+%\noindent We will need the following lemma:
+
+%\begin{Lemm}
+%\label{kerdec}
+%Let $c \in FG$. Then
+%\[ \ker_V(c) = \bigoplus_{i=1}^f b_i \ker_{\tilde{V}}(c). \]
+%\end{Lemm}
+
+%\begin{proof}
+%The direct sum is a decomposition as $FG$-modules. Thus taking kernels
+%of $c \in FG$ respects this decomposition.
+%\end{proof}
+
+
+\begin{Theo}[Writing $G$ over a smaller field]
+\label{writing}
+%Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, K)$, 
+%and let $V$ be the natural\/ $KG$-module. 
+%Assume that $V$ is irreducible,
+%$E := \End_{KG}(V)$ and $e := \dim_K(E)$ is the degree of the
+%splitting field. 
+Let the global assumptions for this section on $G$ apply. 
+There exists a $c \in K_0 G$ such that $\dim_K \ker_V(c) = e$.
+Let $w \in \ker_V(c)$ with $w \neq 0$,  let $B := SB(V,w,(g_1, \ldots, g_m))$
+and let $t^{-1} \in \GL(d,K)$ have the vectors in $B$ as rows.
+
+If $F$ is a subfield of $K$ for which there is an $r \in \GL(d,q)$
+such that $r^{-1}Gr \leq \GL(d,F)$, then $t^{-1}Gt \leq \GL(d,F)$ as well. 
+That is, $t^{-1}Gt$ writes $G$ over the smallest possible field.
+
+Let $1 > \delta > 0$ 
+be arbitrary. There is an algorithm to find $c$ and construct $t$ in 
+Las Vegas $O(md^3 \log \delta^{-1})$ field operations
+with failure probability at most
+$\delta$.
+If the algorithm is allowed to run indefinitely, then it
+finishes with probability $1$ and the expected number of attempts to find $c$
+ is bounded above by a constant which does not depend on $d$ or $|K|$.
+Each attempt needs $O(md^3)$ field operations.
+\end{Theo}
+
+\begin{proof}
+We apply the standard basic technique to 
+$V \cong \bigoplus_{i=1}^f b_i\tilde{V}$, 
+where $\{b_1, \ldots, b_f\}$ is an $F$-basis for $K$, as before.
+Note that we assume that  the isomorphism exists and do not yet
+have it explicitly! 
+We attempt to compute an $FG$-homomorphism
+$\varphi : \tilde{V} \to \bigoplus_{i=1}^f b_i\tilde{V}$, 
+and will either succeed or show that $f = 1$. 
+
+1. First we look for $c \in FG$ such that
+$\dim_F(\ker_{\tilde V}(c)) = \dim_F(\End_{FG}(\tilde V))$. 
+We do not know $F$ nor have $\tilde V$, 
+but by Lemma~\ref{degsplittingfield}, $\dim_K(E) = e = 
+\dim_F(\End_{FG}(\tilde V))$ and 
+\[f \cdot \dim_F(\ker_{\tilde V}(c)) = \dim_F(\ker_V(c)) =
+f \cdot \dim_K(\ker_V(c)).\] Given a possible $c$, 
+we can compute $\dim_K(\ker_V(c))$, and stop if this is equal to $e$.
+
+To find $c$ we produce random $K_0$-linear 
+(and hence $F$-linear) combinations $c$ of elements of $G$
+and stop if $\dim_K(\ker_V(c)) = e$. 
+ The results in \cite{MeatAxeHoltRees} and \cite{IL}
+    show that there is an upper bound $b$ not depending on $|K|$, $|F|$ and 
+    $d$ for
+    the probability that a random element 
+    $c \in K_0[G] = F_0[G] \cong F[G^t] \cong E^{d/e \times d/e}$ has
+    $\dim_{K}(\ker_V(c)) \neq e$. Thus $\log_b \delta^{-1}$ 
+    tries will succeed with probability at least $1 - \delta$.  
+
+
+2. Assume that we have found such a $c \in FG$, given in its action on $V$.
+We compute a non-zero $w \in \ker_V(c)$.
+This has the form $w = \sum_{i=1}^f b_i w_i$
+for some $w_i \in \tilde{V}$, and since $\ker_V(c) = \bigoplus_{i=1}^f b_i \ker_{\tilde{V}}(c)$
+ all of the $w_i$
+lie in $\ker_{\tilde{V}}(c)$.
+
+By Theorem~\ref{isotest} and the fact that
+all summands $b_i \tilde{V}$ are isomorphic to $\tilde{V}$
+as $FG$-modules, we conclude that for 
+all $w$ and all nonzero $v \in \ker_{\tilde{V}}(c)$, 
+there is a unique $FG$-monomorphism from $\tilde{V}$ into $V$,  mapping
+$SB(\tilde{V},v,(g_1,\ldots,g_m))$ to $SB(V,w,(g_1,\ldots,g_m))$.
+Note that the latter is a basis for the image of this $FG$-homomorphism, which is an $F$-subspace. 
+%which has $F$-dimension $d$. 
+
+We do yet know $F$, so we cannot yet
+ test for $F$-linear independence. 
+%Furthermore,  Lemma~\ref{lindep} is not yet applicable, 
+%as the vectors do not all use the same 
+%basis vector. 
+We now make some observations which allow us  to apply Lemma~\ref{lindep}. 
+By the last statement of
+Theorem~\ref{isotest}, for $1 \leq i \leq f$
+there is an automorphism $\alpha_i \in \End_{FG}(\tilde{V})$
+mapping $w_i$ to $w_1$. Thus, there is an automorphism $\alpha$
+of the $FG$-module $V \cong \oplus_{i = 1}^f b_i \tilde{V}$ 
+with $\alpha(b_i w_i) = b_i w_1$ for all $i$ and thus
+$\alpha(w) = \sum_{i=1}^f b_i w_1$.
+
+By Lemma~\ref{lindep}, with $x_1, x_2, \ldots, x_k \in FG$,
+the tuple $t := (\sum_{i=1}^f b_i w_1 x_j)_{1 \le j \le k}$ is $F$-linearly
+independent if and only if it is $K$-linearly independent. 
+This in turn holds if and only if the tuple 
+$(w x_j)_{1 \le j \le k}$ is $K$-linearly independent, since it is 
+mapped to $t$ by $\alpha$. We can now use the standard basis 
+algorithm from Definition~\ref{spinup}
+with $w$ in place of $v$, testing for 
+$K$-linear independence of the resulting vectors. In fact,
+this will test for $F$-linear independence as is required 
+--- note that this works without knowing $F$ explicitly, provided we
+only take linear combinations over $K_0$ to find
+$c \in FG$!
+
+3. The result $SB(V,w,(g_1, \ldots, g_m))$  is an $F$-basis of an $FG$-submodule
+of $V$ that is isomorphic to $\tilde{V}$. In particular, the representing
+matrices for the $g_i$ expressed with respect to this basis contain
+only coefficients from $F$. Since $SB(V,w,(g_1, \ldots, g_m))$ is 
+$K$-linearly independent
+it clearly is a $K$-basis of $V$ and we have found our base change
+matrix $t$ explicitly.
+
+Finally, we
+ determine the smallest subfield $F$ of $K$ containing all
+coefficients of $t^{-1}g_it$ for $1 \leq i \leq m$.
+
+    All individual steps are $O(md^3)$ proving our claims.
+If the search for $c$
+ is repeated indefinitely, the probability of success tends to $1$
+    and the expected number of tries is $1/(1-b)$.
+\end{proof}
+
+\noindent
+In summary, our Las Vegas 
+algorithm to write $G$ over a subfield proceeds as follows.
+We assume that we have already tested $V$ for absolute irreducibility, 
+and hence know the degree $e = \dim_K(\End_{KG}(V))$ of the splitting
+field.
+\begin{enumerate}
+\item Choose a uniformly distributed random element $c \in K_0 G$
+    in its action on $V$ and compute $\ker_V(c)$.
+%\item Produce a few random elements of $G$ and compute a $F_0$-linear
+%combination of them to get the action on $V$ of an element $c \in F_0G$.
+Repeat this until $\dim_K(\ker_V(c)) = e$ or 
+fail after $O(\log \delta^{-1})$ tries. 
+\item Take $0 \neq w \in \ker_V(c)$ and compute $B := SB(V,w,(g_1, \ldots,
+g_m))$ using $K$-linear independence.
+\item Let $t^{-1} \in \GL(d,K)$ have the vectors in $B$ as rows, and
+find the smallest subfield of $K$ containing all entries of all
+$t^{-1}g_it$.
+\end{enumerate}
+
+By Theorem~\ref{writing} this algorithm either fails in step 1 with
+bounded probability or finds the smallest possible subfield $F$ of $K$
+together with an explicit base change matrix $t$ to write $G$ over $F$.
+If $G$ cannot be written over a smaller field then $F = K$ in step $3$.
+
+
+\section{Restriction to a subgroup of the derived group}
+\label{subsemi:main}
+
+We now consider the case of a matrix group $G = \langle g_1, \ldots, g_m
+\rangle \leq \GL(d, q)$ acting absolutely
+irreducibly on the natural module $V = \F_q^d$, that cannot be 
+written over a smaller field with trivial scalars. Our algorithm
+finds a reduction provided that $G$ lies in \CC3 or \CC5, 
+or the derived group of $G$ is not absolutely irreducible. If none of these 
+is the case, it might still find a reduction 
+but might also report that $G$ does not lie in \CC3 or \CC5 and that $G'$ is absolutely irreducible.
+
+In Sections~\ref{subsec:caseanalysis} and following we refer to a
+normal subgroup $N$ of $G$ that is contained in the derived group
+$G'$. In Section~\ref{subsec:derived} we describe a method of computing a
+subgroup $H$ of such an $N$ which can be used instead. In each of the
+following sections, we analyse the complexity of the algorithms used
+in terms of number of field operations.
+
+Note that some of these complexity results involve a prescribed bound
+$\delta$ for the failure probability. If we do several such
+steps consecutively, we have to adjust the individual bounds because
+the complete procedure fails if any of the intermediate steps
+fails. We analyse the overall picture in
+Section~\ref{subsemi:sec:complexity}.
+
+\subsection{Computing a normal subgroup of the derived group} 
+\label{subsec:derived}
+
+%We compute the derived group using the Monte Carlo algorithm described
+%in \cite[2.3.4]{Ser}. Let $l_G$ be an upper bound for the
+%length of subgroup chains in $G$ --- note that since $|\GL(d, q)| =
+%O(q^{d^2})$ we may certainly take $l_G = d^2 \log q$. We start by
+%computing a set $T$ containing $\mathrm{min}\{m^2, cl_G\}$ random
+%commutators, where $c$ is a constant. Then $T$ is a normal generating
+%set for $G'$, with probability $1$ if $|T| = m^2$ and with probability
+%depending on $c$ otherwise.
+
+% We then apply fast normal closure to $T$ to construct a generating set
+% of size $O(l_G)$ in $O(l_G(|T| + m + l_G))$ matrix multiplications.
+
+We proceed differently depending on whether $G$ has at most $7$ 
+nonscalar generators. If this holds then we start by making all 
+commutators of generators. If these are all scalar then $G'$ is 
+scalar, and the methods of Section~\ref{subsec:scalars} apply with $G'$ known to be scalar. If any of them is found to be nonscalar we proceed to generate $H$ as described below.
+
+If there are more than $7$ nonscalar generators then we compute $10$
+commutators of random elements of $G$. If these are all scalar 
+then for the first nonscalar generator $g_i$ of $G$ we test 
+whether $[g_i, g_j]$ is scalar for $j > i$. If this holds for 
+all $j$ then Proposition~\ref{prop:scal_reduct} applies. 
+
+Otherwise, we now have a nonempty set $S$ of nonscalar commutators. We 
+compute a subgroup $H$ of a normal subgroup $N$ of $G$ 
+that is contained in $G'$ by 
+ the methods of Section~\ref{sec:generation}. 
+Namely,  we use a variant of Rattle \cite{LGMurray, LGO97} to 
+produce a set $T$ of $O(\log \delta^{-1} + d \log q)$ elements of 
+$N = \langle S \rangle^G$. Computing $T$ has complexity 
+$O(d^3 \log \delta^{-1} + d^4 \log q)$ 
+field operations, since one random element can be produced
+at cost $O(d^3)$ after initial setup.
+
+By Corollary~\ref{cor:right_action} 
+the group $H = \langle T \rangle \leq N$  has the 
+same submodule structure and (if $N$ is irreducible) centraliser algebra 
+as $N$ with probability at least $1 -
+\delta$. That is, we can use $H$ instead of
+$N$ in the methods described in subsequent sections.
+%We will generally refer to working with $N$ instead of $H$, 
+%with additional remarks as required. 
+
+
+\subsection{A case analysis for $\mathbf{N \unlhd G}$ with
+$\mathbf{N \leq G'}$}
+\label{subsec:caseanalysis}
+
+{} From now on we assume that $H$ is given by $s$ generators 
+and is a subgroup of a normal subgroup $N$ of $G$ that is
+contained in $G'$.  Note that
+$s = O(\log \delta^{-1} + d \log q)$ if we use the method from
+Section~\ref{subsec:derived}, but our algorithms in 
+Sections~\ref{subsec:subfield_scalars} to~\ref{subsec:tensor} can be applied 
+to any normal subgroup. The group $H$ might be smaller than $N$, but with 
+probability $1-\delta$ the structure of the natural module is the same for both
+groups. 
+
+Since $N \unlhd  G$ there are only five possibilities, 
+by Clifford's Theorem. 
+\begin{enumerate}
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\item $N$ is absolutely irreducible on $V$.
+\item $N$ is irreducible but not absolutely irreducible.
+\item $N$ is reducible, and $V$ is a direct sum of 
+more than one homogeneous component.
+\item $N$ is reducible, and $V$ splits into a direct 
+sum of isomorphic $N$-submodules of dimension greater than $1$, so that in particular $N$ is nonscalar.
+\item $N$ is reducible, and $V$ splits into a direct sum of isomorphic $1$-dimensional submodules, so that $N$ is scalar.
+\end{enumerate}
+
+We proceed differently in each of these five cases, but, assuming $G$
+is in \CC3 or \CC5 or $N$ is not absolutely irreducible, in each case
+we find a reduction with probability $\delta$ of failure. 
+By a reduction we mean a non-trivial homomorphism onto a
+smaller group or an isomorphism to a situation with smaller input
+size. To distinguish these cases, we first run the MeatAxe on $H$ 
+in place of $N$.
+This uses $O(d^3 s \log \delta^{-1})$ 
+field operations since $H$ is given by $s$ generators, where
+$\delta$ is the upper bound for the failure probability for this step.
+This MeatAxe run decides whether we run the algorithms for
+case~1, case~2, or one of
+cases~3 and 4. In case~2, it returns a field generator of the endomorphism
+algebra. In cases 3 and 4, it returns a proper $H$-submodule. Note
+that if we use the methods in Section~\ref{subsec:derived} to compute
+$H$, then case~5 is never found here because it is detected earlier on
+ (see Section~\ref{subsec:scalars}).
+
+
+\subsection{Absolutely irreducible normal subgroup}
+\label{subsec:subfield_scalars}
+
+We continue to assume that $N$ is a normal subgroup of $G$ that is
+contained in $G'$, and add the assumption that the MeatAxe has shown that
+$H$ and hence $N$ act absolutely irreducibly.
+
+We first note the following lemma, which rules out case~1 for \CC3.
+
+\begin{Lemm}
+\label{C3notabsirred}
+If $G$ lies in class \CC3 then $G'$, and 
+hence $H$ and $N$, are not absolutely irreducible.
+\end{Lemm}
+\begin{proof}
+Assume that there is  an $\F_{q^e}$-vector space
+structure on $V$, such that $G$ acts
+semilinearly. Then
+$G'$ acts $\F_{q^e}$-linearly and thus $\End_{\F_q
+G'}(V) \neq \F_q$. Thus $G'$ is not absolutely
+irreducible.
+\end{proof}
+
+
+We can therefore assume in this case that $G$
+lies in class \CC5, provided $G$ is in \CC3 or in \CC5 or 
+$G'$ is not absolutely irreducible.
+
+\begin{Lemm} [{Compare \cite[Lemma~4.1]{GLGOB}}]
+If\/ $G$ can be written over $\F_{q_0}$ modulo scalars in $\F_q$, 
+then $N \leq G'$ can be written over $\F_{q_0}$.
+\end{Lemm}
+
+\begin{proof}
+Multiplying each of $g, h \in G$ by
+a fixed scalar fixes  the value of $[g, h]$.
+\end{proof}
+
+
+
+
+\begin{Theo} [Recognition of \CC5]
+Consider $G = \langle g_1, \ldots, g_m \rangle 
+\leq \GL(d, q)$ or its projective version and let $1 > \delta > 0$ be given. 
+Let $N = \langle n_1, \ldots, n_s \rangle \unlhd G$ be a subgroup of the
+derived group known (by
+a MeatAxe run) to be absolutely irreducible. 
+Then in $O(sd^3 \log \delta^{-1} + md^3)$ field operations
+we construct a homomorphism to $\PGL(d, q_0)$ for minimal $q_0$
+ or prove that $G$ and
+$\overline{G}$ are not in \CC5. The algorithm returns {\tt fail} with
+probability at most $\delta$.
+\end{Theo}
+
+\begin{proof}
+Since $N$ is absolutely irreducible we use the methods of
+Section~\ref{realisesubfield} to find a matrix $t$ such that $t^{-1}Nt
+\leq \GL(d, q')$
+with $\delta$ as an upper bound on the failure probability.
+This automatically finds the smallest prime power $q'$ with this       
+property. Notice that the $\F_{q'}$-subspace chosen in the kernel 
+vector by the standard basis method is unique up to multiplication 
+by elements of $\End_{\F_q N}(V) = \F_q$.   From this point on 
+the algorithm is guaranteed to determine   
+whether $G$ lies in \CC5.                                               
+
+Now examine $h_i:= t^{-1}g_it$ and check whether it can be written as a
+product of a scalar $\lambda_i \in \F_{q}$ and an element of $\GL(d,
+q_0)$ for $q' < q_0 < q$. 
+To do so, notice that if $h_i \in \lambda_i \GL(d,q_0)$,
+then the quotient between any two
+nonzero entries in $h_i$ lies in $\F_{q_0}$. 
+Therefore we may take
+$\lambda_i$ to be any nonzero entry of $h_i$ and then find the
+minimal field $\F_{q_0}$ containing all entries of $h_i / \lambda_i$. 
+This enables us to set up a homomorphism from $G$ to $\PGL(d, q_0)$
+with kernel $G \cap Z(\GL(d, q))$, and so a reduction has been
+completed. 
+For the projective group $\overline{G}$,
+we get a homomorphism into $\PGL(d,q_0)$, which could be
+an isomorphism. Even if this is the case, we have reduced to a smaller field. 
+
+If no smaller field is found, the procedure reports that
+ $G$ does not lie in \CC3 or \CC5 and that $G'$ is absolutely irreducible.
+\end{proof}
+
+Note that although we work with $H$ instead of $N$, 
+since $H$ is absolutely irreducible so is $N$. 
+
+
+\subsection{Irreducible but not absolutely irreducible} \label{subsec:semilin}
+
+We continue to assume that $N$ is a normal subgroup of $G$ that is
+contained in $G'$. As described in
+Section~\ref{subsec:caseanalysis} we assume that the MeatAxe has proved
+that $H$ acts irreducibly but not absolutely
+irreducibly, and so $N$ is guaranteed to act irreducibly, but with 
+probability at most $\delta$ the endomorphism ring $\End_{\F_q N}(V)$ may 
+be smaller than $\End_{\F_q H}(V)$. 
+We will deal with this possibility at the end of this section, 
+and in general talk about $N$ rather than $H$.
+
+%The following proposition shows that $G$ is in \CC3 in the case of
+%the present section. We then demonstrate how this can be used to find
+%a reduction. 
+
+\begin{Prop}
+If $G$ is absolutely irreducible and $N \unlhd G$ is irreducible but not
+absolutely irreducible then $G$ is semilinear.
+\end{Prop}
+
+\begin{proof}
+Since $N$ is irreducible but not absolutely irreducible, $E = \End_{\F_qN}(V) = \F_{q^e}$ for some $e > 1$.
+ Let $C \in \GL(d, q)$ generate the multiplicative group of
+$E$.
+
+For all $h \in N$, $g \in G$, by definition $hC = Ch$, thus
+$h^g C^g = C^g h^g = h_1 C^g = C^g h_1$, for some $h_1 \in N$. As
+$h$ varies over $N$ the element $h_1$ takes every value in $N$, therefore
+$\langle C \rangle ^g = \langle C \rangle$, and so $C^g = C^k$ for some
+ $k$. Suppose that $C^i + C^j = C^l$, 
+then $(C^i)^g + (C^j)^g = (C^l)^g$
+so $g$ acts as field automorphisms on $\F_{q^e}$ and thus $G$ is
+semilinear.
+\end{proof}
+
+
+\begin{Theo} [Recognition of \CC3]
+Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
+projective version.
+Let $N = \langle n_1, \ldots, n_s \rangle \unlhd G$ be  known 
+to be irreducible but not absolutely irreducible. 
+In deterministic $O(d^4\log q + m d^3)$ field operations we construct
+ two homomorphisms, one to
+the cyclic group of order $e$ for some divisor $e$ of $d$ and a second
+from the kernel of the
+first to $\GL(d/e, q^e)$ or $\PGL(d/e, q^e)$.
+\end{Theo} 
+
+\begin{proof}
+%We can apply the method of Section~\ref{subsec:subfield_scalars} to
+%check whether $G$ is in \CC5, since the algorithms
+%in Section~\ref{realisesubfield} only need $N$ to act irreducibly.
+%This takes $O((m+s\log(\delta^{-1})) d^3)$ field operations.
+%We assume that this is done, and the index $f$ of $\F_{q_0}$ in
+%$\F_q$ is stored. At the end, if both methods succeed then the \CC3 or
+%the \CC5 method is chosen depending on whether $e > f^2$.
+When  $N$ is irreducible but not absolutely irreducible,
+the MeatAxe returns a generator $C$ of
+the field $\F_{q^e} = \End_{\F_q N}(V)$ realised as a matrix in
+$\GL(d,q)$ together with  $e$. Note that $e \le d$. 
+The matrix $C$ need not generate the
+multiplicative group of $\F_{q^e}$, but its powers $C^0, C^1, \ldots,
+C^{e-1}$ are $\F_q$-linearly independent. 
+
+If $G$ acts via field automorphisms on $\F_{q^e}$, then we can immediately
+read off this action using $O(md^3)$ field operations by computing
+the matrices $C, C^q, C^{q^2}, \ldots, C^{q^{e-1}}$, conjugating
+$C$ with the generators of $G$ and looking up the result. 
+Computing these matrices requires at most $O(d^4 \log q)$ field
+operations and space for $O(d)$ matrices, since $e \le d$.
+This provides a homomorphism from $G$ to the cyclic group of order
+$e$.
+
+In addition,  $C$ gives an
+explicit $\F_{q^e}$-vector space structure on  $V$.
+To get the $\F_{q^e}$-span of a vector $v \in V$ we  compute
+$v, vC, vC^2, \ldots, vC^{e-1}$. In this way we can 
+perform a spinning algorithm for $V$ as an $\F_{q^e}$-vector space. All
+computations are with vectors over $\F_q$ but whenever
+we produce a new vector $v$ that does not lie in the $\F_q$-span of what we
+already have, we not only add $v$ but also $vC, vC^2, \ldots,
+vC^{e-1}$ by repeatedly multiplying with $C$. 
+This spinning algorithm needs at most $O(md^3)$ field
+operations.
+
+%If we now apply the base change with the newly found $\F_{q^e}$-adapted
+%basis, we can read off the action of elements of $G$ on $\F_{q^e}$
+%by conjugating matrices. We get this action as a linear action on
+%the $e$-dimensional $\F_q$-vector space $\F_{q^e}$ thus providing
+%a homomorphism onto a smaller matrix group. If we can solve the
+%discrete logarithm problem in $\F_{q^e}$ more easily, directly a homomorphism
+%onto the automorphism group of the multiplicative group of $\F_{q^e}$.
+The kernel of the action as field automorphisms acts $\F_{q^e}$-linearly
+on the original space and we read off this action using
+the above base change to the $\F_{q^e}$-adapted basis. This therefore also
+ leads to a reduction for the kernel by reducing the input size to
+$(d/e \times d/e)$-matrices over $\F_{q^e}$. 
+
+Altogether, we have found a significant reduction 
+using $O(d^3(d\log q +m))$ field operations and memory for $O(d)$ matrices.
+
+%{\bf CMRD: Not quite sure what to say about complexity of this para,
+%in particular how do we produce an element of order $q^i-1$ given the
+%elements $C, \ldots, C^{e-1}$?}.
+
+Note that since scalars from $\F_q$ do not alter the
+action of elements of $G$ as field automorphisms on $\F_{q^e}$ the
+same procedure works for the projective case $\overline{G}$.
+The homomorphism is the same as in the matrix case, the kernel 
+is a subgroup of $\PGL(d,q)$ and we construct a map from the kernel into
+$\PGL(d/e,q^e)$ by writing the matrices over the bigger field. This
+map in turn has a kernel, since we divide out more scalars. However, this
+second kernel only contains $\F_{q^e}$-scalars modulo
+$\F_q$-scalars, which can be handled easily. Thus, this case can
+be handled in the projective situation.
+\end{proof}
+
+We finish with a discussion of the possibility that 
+$\F_{q^e} = \End_{\F_q H}(V) \neq \End_{\F_q N}(V)$, which happens 
+with probability bounded by $\delta$. 
+If  $\End_{\F_q H}(V) \neq \End_{\F_q N}(V)$ then the elements 
+of $G$ need not
+act as field automorphisms on $\F_{q^e}$. However, if $G$ is contained in 
+\CC3 then they
+\emph{will} act as field automorphisms on some subfield of $\F_{q^e}$
+that properly contains $\F_q$. Thus, if $e$ has not too many divisors,
+we test for each divisor $i$ of $e$ whether $G$ acts as field automorphisms
+on $\F_{q^i}$.
+In theory we could use the fact that $e$ has  $O(\log d)$ prime divisors 
+(by the Prime Number Theorem) to 
+find a subfield $\F_{q^r} \subseteq \End_{\F_q N}(V)$ and hence a reduction
+ in 
+$O(\log d)$ attempts, but in practice we always find the divisors of $e$.
+
+To find a generating element $C'$ for the field $\F_{q^i}$ we proceed
+as follows. First we find a polynomial $h \in \F_q[x]$ of degree less
+than $e$ such that $h(C)$ has order $q^e-1$. This involves only
+polynomial arithmetic using the minimal polynomial of $C$. Evaluating
+$h(C)$ can be done in at most $O(d^4)$ field operations. We then
+power up $h(C)$ to exponent $(q^e-1)/(q^i-1)$, which can be done
+using at most $O(d^4 \log q)$ field operations.
+
+If no divisor works
+then the algorithm reports {\tt fail}, that $G$ is not in \CC3 and 
+that $N$ and the derived group are absolutely irreducible. Note that if
+$N$ is not absolutely irreducible then the algorithm is guaranteed to
+find that $G$ is in \CC3 at this point, therefore if failure is reported
+the algorithm adds generators to $H$ until it is absolutely irreducible,
+and then returns to the test of Section~\ref{subsec:subfield_scalars}.
+However this can only happen with probability $\delta$.
+
+
+
+ If there
+are too many divisors, we simply report {\tt fail}. This happens
+with probability at most $\delta$ by Corollary~\ref{cor:right_action}, 
+and never in practice. 
+
+\subsection{More than one homogeneous component} \label{subsec:imprim}
+
+We continue to assume that $N$ is a normal subgroup of $G$ that is
+contained in $G'$. As described in
+Section~\ref{subsec:caseanalysis} we assume that the MeatAxe 
+has proved that $H$ acts reducibly by finding an explicit
+proper nontrivial submodule $V'$ of the natural module.
+
+First we prove a lemma which will eventually be used to find an 
+irreducible $H$-submodule that with probability $1 - \delta$ 
+is an $N$-submodule. 
+\begin{Lemm} [Finding an irreducible submodule] \label{lem:find_irred}
+Let $N = \langle n_1, \ldots, n_s \rangle \leq \GL(d, q)$ act reducibly
+on the natural module $V$ and let $1 > \delta > 0$ be given. 
+Given a submodule $V' < V$, an irreducible
+$N$-subfactor can be found in Las Vegas $O(s d^3 \log (\delta^{-1} \log
+d))$ field operations, with probability of failure at most
+$\delta$.
+\end{Lemm}
+
+\begin{proof}
+We repeatedly use the MeatAxe to find an irreducible subfactor
+of $V|_{\F_q N}$. Initially, we have a submodule $V' < V$.
+We run the MeatAxe either on  $V/V'$ or on $V'$, whichever has the
+smaller dimension. If we find a proper submodule, we repeat the same
+technique. Since we halve the dimension in each step, this terminates after
+ at most
+$\log_2 d$ runs of the MeatAxe using at most 
+$O(d^3s2^{-3i}\log\delta'^{-1})$ field operations in step $i$, where
+$\delta'$ is an upper bound for the failure probability in each step.
+To bound the overall failure probability of this whole
+procedure by  $\delta$, we define $\delta' :=
+\delta/\log_2 d$. Since $\sum_{i=1}^\infty 2^{-3i} < 1$, the overall
+cost for finding an irreducible subfactor is 
+$O(sd^3 \log(\delta^{-1} \log d))$.
+\end{proof}
+
+\begin{Theo} [Construction of block action] \label{thm:imp_reduct}
+Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
+projective version, and let $1 > \delta > 0$ be given. Let $N =
+\langle n_1, \ldots, n_s \rangle \unlhd G$ be known (by a MeatAxe
+run) to be reducible. 
+
+In Las Vegas $O(sd^3 \log (\delta^{-1} \log
+d))$ field operations  we can either construct a homomorphism from $G$ to a
+permutation group with kernel the pointwise stabiliser of a set of blocks 
+ or prove that $V|_{\F_q N}$ has a single homogeneous component.
+The probability of failure is bounded from above by $\delta$.
+\end{Theo}
+
+\begin{proof}
+By assumption  $V|_{\F_q N}$, as an $\F_q N$-module, is a
+direct sum of  homogeneous components $C_1, \ldots, C_k$ with $k > 1$.
+The $C_i$ form a block system exhibiting an imprimitive action
+of $G$ and $N$ is a normal subgroup of the kernel of the action on
+blocks. We only have to find the action on this block system to find a
+reduction.
+
+By Lemma~\ref{lem:find_irred} we can find an irreducible $N$-subfactor
+in $O(sd^3 \log (\delta^{-1} \log d))$ field operations with probability
+of failure $\delta$. One application of the isomorphism testing
+procedure described in Theorem~\ref{isotest} gives a homomorphism of the
+irreducible factor into $V|_{\F_q N}$ and thus an irreducible submodule
+$S$ with $O(sd^3)$ field operations. Note that when we
+proved the final subfactor to be irreducible  we constructed the algebra
+word $c$ that is needed for isomorphism testing, namely a word 
+describing an algebra element with nullity the dimension of
+the centraliser of $N$.
+
+Such an irreducible module $S$ is all we need to run the {\sc
+MinBlocks} procedure described in \cite{smashprim} which needs
+$O(sd^3)$ field operations to compute the block system or reports
+that there is none. If the latter occurs, then there is a single 
+homogeneous constituent and we apply the algorithms of 
+Section~\ref{subsec:tensor}. Otherwise
+this provides a non-trivial homomorphism onto a permutation
+group and thus a reduction. The overall complexity 
+is $O(sd^3\log(\delta^{-1} \log d))$.
+
+Since $\F_q$-scalars act trivially on the homogeneous
+components, the homomorphism onto the permutation group has all
+scalars in its kernel. Therefore we can use the same homomorphism
+for the projective situation with $\overline{G}$. Thus,  this case
+can be handled in the projective situation.
+\end{proof}
+
+Of course in practice we work with a subgroup $H$ of $N$. If $H$
+has a submodule that is \emph{not} an $N$-submodule then it is
+possible that we will not be able to find a homomorphism from the
+irreducible $H$-subfactor to $V$. In this case the algorithm will report
+{\tt fail}: note that this occurs with probability at most $\delta$. 
+However, it is possible to rerun the algorithm starting at
+Sections~\ref{subsec:caseanalysis} with a new version of $H$ that has
+submodule structure closer to that of $N$. To see this, note that
+the subfactor is described by two $H$-submodules of $V$, at least one
+of which is not preserved by $N$. Therefore a simple argument shows that at
+least half of the elements of $N$ must fail to fix at least one of the
+two $H$-submodules. Thus we add a new generator to $H$ and return to the
+MeatAxe run of Section~\ref{subsec:caseanalysis} to determine whether
+the new $H$ is (absolutely) irreducible.
+
+
+
+\subsection{Isomorphic irreducible submodules of dimension at least 2} 
+\label{subsec:tensor}
+
+We continue to assume that $N$ is a normal subgroup of $G$ that is
+contained in $G'$. As described in
+Section~\ref{subsec:caseanalysis} we assume that the
+MeatAxe has proved that $H$ acts reducibly by finding an explicit
+proper nontrivial submodule $V'$ of the natural module.
+
+As described in Theorem~\ref{thm:imp_reduct} we first find an
+irreducible $H$-submodule $S$ and run the {\sc MinBlocks} procedure. If
+this fails to find a block system, then (assuming $H$ has the same
+submodule structure as $N$) there is only one homogeneous component,
+corresponding to $S$.
+
+\begin{Theo} [Reduction for single homogeneous component]
+Let  $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
+projective version be absolutely irreducible, and let $1 > \delta > 0$ be given.
+Let $N = \langle n_1, \ldots, n_s \rangle  \unlhd G$ be reducible, with a single homogeneous component of dimension $n > 1$, and let an irreducible $N$-submodule $S$ be given.
+In deterministic $O((s+m)d^3)$ field operations we construct a proper nontrivial 
+homomorphism from $G$ into $\PGL(d/n, q^e)$ for $e$ the degree of 
+the centraliser of $N$ on $S$. 
+\end{Theo}
+
+\begin{proof}
+We first find an explicit decomposition of $V|_{\F_q N}$
+as a direct sum of copies of $S$. This can be done using a variant
+of the isomorphism testing procedure described in
+Theorem~\ref{isotest} to compute a basis of the space of all
+homomorphisms of $S$ into $V|_{\F_q N}$. Namely, we compute the action on
+$V$ of the algebra word $c \in \F_q N$ that proved that $S$ is simple
+and determine its kernel $K$. Since $V|_{\F_q N}$ is isomorphic to a direct
+sum of copies of $S$, we can choose an arbitrary nonzero vector from $K$,
+compute the standard basis with respect to the generators of $N$ starting
+at that vector and thereby find a summand $S_1$ of $V|_{\F_q N}$ together
+with an explicit isomorphism of $S$ to $S_1$. By choosing further vectors
+from $K$ that are not contained in the direct sum of previous
+copies of $S$ and repeating this procedure, we inductively get an explicit
+direct sum decomposition of $V|_{\F_q N}$ into summands that are all
+isomorphic to $S$. This automatically leads to a base change
+such that every element of $N$ is represented by a block
+diagonal matrix in which all diagonal blocks are identical of size $n :=
+\dim_{\F_q}(S)$ in $O(sd^3)$ field operations.
+
+As $N \unlhd G$, for all $h \in N$ and $g \in G$,
+ the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
+a block diagonal matrix in which all $n \times n$-blocks along the diagonal
+are identical. Fixing $g$, we conclude that $g\cdot (g^{-1}hg) = hg$ for all
+$h \in N$. If we now cut $g$ into $n \times n$-blocks, we get:
+
+\begin{eqnarray*}
+   &g \cdot (g^{-1}hg) & 
+ = \left[ \begin{array}{c|c|c|c}
+      g_{1,1} & g_{1,2} & \cdots & g_{1,d/n} \\ \hline
+      g_{2,1} & g_{2,2} & \cdots & g_{2,d/n} \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+      g_{d/n,1}&g_{d/n,2}& \cdots& g_{d/n,d/n} \end{array} \right]
+\cdot \left[ \begin{array}{c|c|c|c}
+      D^g(h) & 0   & \cdots &      0    \\ \hline
+         0   &D^g(h)&\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots& D^g(h) \end{array} \right] \\
+ &=& \left[ \begin{array}{c|c|c|c}
+      D(h)    & 0       & \cdots &     0    \\ \hline
+         0    &D(h)     &\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots& D(h)   \end{array} \right]
+\cdot \left[ \begin{array}{c|c|c|c}
+      g_{1,1} & g_{1,2} & \cdots & g_{1,d/n} \\ \hline
+      g_{2,1} & g_{2,2} & \cdots & g_{2,d/n} \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+      g_{d/n,1}&g_{d/n,2}& \cdots& g_{d/n,d/n} \end{array} \right]
+ = hg
+\end{eqnarray*}
+where the $g_{i,j}$ are $n \times n$-matrices, $D(h)$ is a matrix
+representing $h$ on the module $S$ and $D^g(h) = D(g^{-1}hg)$ is the
+same representation twisted by the element $g$. By the block diagonal
+structure of the matrices in $N$ we get 
+$g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
+all $h \in G'$.
+
+But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
+are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{n \times n}$ with
+$T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
+since the representation $D$ is irreducible,
+the matrix $T$ is invertible and unique 
+up to multiplication by an element of $C_{\GL(n,q)}(D(N))$, which
+is isomorphic  as a group to the group of units of the extension field 
+$\End_{\F_q N}(S) \cong \F_{q^e}$.
+
+This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
+\{ 1, \ldots, d/n \}$ there
+is a unique element $e_{i,j} \in \End_{\F_q N}(S)$ (possibly $0$) with 
+$g_{i,j} = T \cdot e_{i,j}$. Thus we have shown that with respect to
+the above choice of basis, every element $g$ is equal to a Kronecker 
+product of some matrix in $U \in \F_{q^e}^{d/n \times d/n}$ with a matrix
+$T \in \F_q^{n \times n}$. Since $g$ is invertible both 
+$U$ and $T$ are invertible. 
+
+This provides an explicit embedding of 
+$\F_q^d$ into a tensor product $\F_{q^e}^{d/n} \otimes_{\F_q} \F_q^n$, 
+where one factor can be over an extension field if the $\F_q N$-module
+$S$ is not absolutely irreducible. This embedding can be computed
+explicitly because the above base change is constructive.
+Using another $O(md^3)$ field operations we compute the generators
+of $G$ after the base change from which we can read off the tensor
+decomposition.
+
+Thus we get a non-trivial homomorphism of $G$ into $\PGL(d/n,q^e)$ with
+$N$ lying in the kernel which is a significant reduction. The kernel of
+this homomorphism can immediately be reduced further since its 
+elements are block
+diagonal matrices with identical $n \times n$-diagonal blocks.
+
+The projective situation can be handled identically,
+by viewing the kernel as a  projective group.
+\end{proof}
+
+If  $H$ is a proper subgroup of $N$, then
+our algorithm can fail in two ways. Firstly,
+$V|_{\F_q H}$ might not be isomorphic to a direct sum of
+copies of the irreducible $H$-module $S$. In this case
+there are not enough homomorphisms from $S$ into
+the socle of $V|_{\F_q H}$ to span the whole of $V$. Secondly,
+even if $V|_{\F_q H}$ is a direct sum of copies of $S$,  the
+generators of $G$ might not be not Kronecker products after a corresponding
+base change, which we detect during the setup of the homomorphism. In
+both cases, the error is detected and the algorithm reports {\tt fail}. However,
+by Corollary~\ref{cor:right_action} this happens with probability at most $\delta$.
+
+\subsection{Normal subgroup is scalar} \label{subsec:scalars}
+
+The remaining case is that the restriction of the natural module to $N$
+has only one homogeneous component and all irreducible $N$-constituents
+are one-dimensional, so that $N$ consists of scalars.  
+We may also use the algorithms in this section if we have found a 
+nonscalar generator $g_i$ of $G$ such that $[g_i, g_j]$ is scalar for all $j$. 
+
+
+
+We start with a proposition giving a homomorphism 
+into the multiplicative group of the field that need 
+not necessarily correspond to an imprimitive 
+decomposition of the natural module.
+
+\begin{Prop} [Scalar homomorphism] \label{prop:scal_reduct}
+Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or 
+its projective version
+be an absolutely irreducible group such that the commutator 
+of a nonscalar generator $g_i$ with all other generators 
+is known to be scalar. Then 
+we can construct a nontrivial homomorphism from $G$ 
+into the multiplicative group of\/ $\F_q$ at no further cost.
+%, and construct a presentation for the image.
+\end{Prop}
+
+\begin{proof}
+We are given a nonscalar generator $g_i$, 
+and we already have calculated the homomorphism $\psi_{g_i}(g_j) = [g_j, g_i]$ from Lemma~\ref{lem:facts} 
+for all  $g_j$. 
+This
+kernel of $\psi_{g_i}$ is $C_G(g_i)$. Since $g_i$ is noncentral, $\psi_{g_i}$ 
+is nontrivial.
+Multiplying generators by scalars does not 
+change commutators, 
+so these algorithms will also work in the projective case.  %
+\end{proof}
+
+
+%Since the image is cyclic the order $o$ of 
+%the image is simply the lowest common multiple of 
+%the orders $a_i$ of the finite field elements $\psi_g(g_i)$, 
+%each of which is calculated by a single discrete logarithm call. 
+
+%If $o_i$ is small then we can compute the kernel by 
+%finding Schreier generators for the identity in the image. 
+%If the order of the image is $O(q)$ then this would produce 
+%too many generators. Let $\psi_g(h)$ be a generator for the 
+%image. Then the set $\{g_i h^{o/a_i}, h^o : 1 \leq i \leq m\}$ 
+%is a normal generating set for the kernel. 
+Since $g_i \in C_G(g_i)$ the kernel will 
+be a non-absolutely irreducible group, and may not be irreducible. 
+If $G'$ is known to be scalar then
+ the derived group of the kernel $C_G(g_i)$ is also
+central, and hence a hint can be passed to the kernel to return 
+to the techniques of this section once an absolutely irreducible 
+representation has been found.
+
+
+
+Finally we give a deterministic decomposition algorithm 
+for groups with scalar derived group that are not $r$-groups. 
+We can apply this algorithm if $G$ has 
+at most $7$ nonscalar generators, so that all commutators of generators 
+have been calculated --- in this case the $m^2$ vanished
+from the complexity. 
+This algorithm can easily be modified to decompose any 
+black box group with order oracle that is known to be 
+nilpotent and not a $p$-group. 
+The assumption that the prime factors of $q^i-1$ 
+are known for $i \leq d$ is reasonable in practice, 
+and is relied upon for many other algorithms: see 
+\cite{brillart} for details of currently maintained lists of such factors.
+
+
+\begin{Lemm} 
+Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ 
+be an absolutely irreducible group whose derived group 
+consists only of scalars. Suppose that the order of $G$ 
+is divisible by $k$ primes for some $k > 1$, and that 
+the prime divisors of $q^i-1$ are known for $1 \leq i \leq d$. 
+Then $k < \log (q-1)$ and in  $O(m^2 d^3 \log q \log( d \log q))$ 
+field operations we can compute a homomorphism from $G$ 
+whose kernel and image have order divisible by $\lfloor k/2 \rfloor$ 
+and $\lceil (k+1)/2 \rceil$ primes respectively. Both 
+the kernel and image have at most $m$ generators. 
+\end{Lemm}
+
+\begin{proof}
+By Proposition~\ref{exponents}.3 the order of $G$ is a 
+divisor of $o:= (q-1)^{m+1}$, which is divisible by 
+less than $\log (q-1)$ distinct primes. 
+
+The group $G$ is a direct product of its Sylow subgroups 
+by Lemma~\ref{lem:facts}.2. We compute the order $o_i$ of 
+$g_i$ for $1 \leq i \leq m$ in $O(m d^3 \log q \log (d \log q))$ 
+field operations (see \cite{cellarlg}), and find a set of 
+primes $\{p_1, \ldots, p_k\}$ such that each $o_i$ is 
+a product of powers of these primes. 
+For $1 \leq i \leq k$ we find the highest exponent $\alpha_i$ 
+such that $p_i^{\alpha_i}$ divides $o$. %this step is 
+
+Let $a:= \lfloor k/2 \rfloor$ and define $r = p_1^{\alpha_1} \cdots
+p_a^{\alpha_a}$ and $r' = p_{a+1}^{\alpha_{a+1}} \cdots p_k^{\alpha_k}$.
+First run the extended Euclidean algorithm to find $s$ and $s'$ such
+that $1 = sr + s'r'$, then let $N = s'r'$ and $M = sr$. Clearly for all
+$g \in G$ the order of $g^N$ divides $r$ whilst $|g^M|$ divides $r'$.
+Therefore for all $g \in G$ the only way to write $g$ as a product of
+an element of order dividing $r$ and an element of order dividing $r'$
+is $g = g^N g^M$. Since $G$ is nilpotent, the map $x \mapsto x^N$ is a
+homomorphism from $G$ to $\Syl(G, p_{a+1}) \times \cdots \times \Syl(G,
+p_k)$ with kernel $\Syl(G, p_1) \times \cdots \times \Syl(G, p_{a})$.
+
+Notice that $p_i^{\alpha_i}$ divides $o$ for 
+all $i$  so  $N < o$, and hence we can raise each 
+generator to the power $N$ in $O(m^2 d^3 \log q)$ field 
+operations to get at most $m$ generators for the image. 
+Multiplying each generator by the inverse of its image 
+in $O(m d^3)$ field operations will produce at most $m$ 
+generators for the kernel.
+\end{proof}
+
+
+
+%We finish with a theorem which draws together the results of this section.
+%\begin{Theo}
+%Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d,q)$ be 
+%absolutely irreducible such that $G'$ consists only of scalars. 
+%Then in $O(m d^3 \log^2 q \log \log q^d)$ field operations, 
+%plus $O(m \log q)$ discrete logarithm calls, we can construct 
+%a homomorphism from $G$ with nontrivial image and kernel. 
+%\end{Theo}
+
+\section{Complexity summary}\label{subsemi:sec:complexity}
+
+In this section we summarise our complexity results, mainly for the
+sake of a good overview, but also to explicitly give our assumptions. 
+
+We begin by describing the complexity of a ``MeatAxe run''. Although
+this result is well-known we want to 
+say exactly what assumptions we make and what results underlie
+our complexity analysis.
+
+\begin{Hyp}
+\label{hypMtx}
+Assume that we can generate a sufficiently evenly distributed random
+element in the group generated by a set $X$ of matrices, and in its 
+normal closure  in
+ a  group $G \le \GL(d,q)$, in $O(d^3)$ elementary field
+operations.
+Assume further that we can generate a sufficiently evenly distributed
+random element in a matrix algebra $\mathcal{A} \le \F_q^{d \times d}$ generated by a set $X$ of matrices
+in $O(d^3)$ elementary field operations.
+\end{Hyp}
+
+Note that this assumption is valid in practice by using Product
+Replacement and Rattle
+ (see \cite{ProdRep, LGMurray, LGO97}) 
+ for groups and normal closure, and by taking random 
+linear combinations of random products of generators for algebras,
+at least after an initialisation phase.
+However, these assumptions are not proven to hold in general!
+
+\begin{Lemm}[MeatAxe]
+\label{MeatAxe}
+Let $F$ be a finite field, $\mathcal{A}$ a finite dimensional $F$-algebra,
+$V$ an $\mathcal{A}$-module of $F$-dimension $d$, given by the action
+of $m$ generators of $\mathcal{A}$ as matrices in $F^{d \times d}$,
+and let $0 < \delta < 1$ be given. 
+There is a Las Vegas algorithm with failure probability less than $\delta$ 
+that determines whether $V$ is irreducible
+in $O(md^3\log \delta^{-1})$ elementary field operations.
+In the case of success the result is either a proper nontrivial
+submodule or the answer ``irreducible'' together with a field generator
+of the endomorphism ring\/ $\End_{\mathcal{A}}(V)$. Running the algorithm
+until success gives a deterministic algorithm in which a step needs
+$O(md^3)$ field operations and the expected value of the number of such
+steps is bounded by a constant not depending on $|F|$, $d$ and $m$.
+\end{Lemm}
+
+\begin{proof}
+All of this is proved in \cite{MeatAxeHoltRees, IL}, since it is shown that
+a certain percentage (not depending on $|F|$ or $d$ or $m$) of all 
+matrix algebra elements are usable to
+reach a decision and all operations in one step are $O(md^3)$.
+Note that we assume that we are able to create sufficiently random elements
+as in Hypothesis~\ref{hypMtx}.
+\end{proof}
+
+We now summarise our complexity results, all assuming
+Hypothesis~\ref{hypMtx} and all given in terms of number of field
+operations. The whole procedure contains several subalgorithms of Las
+Vegas type, namely in steps 2, 5, 6, 7 and 8. However, at most 4 of
+them are possibly executed sequentially (namely in the execution path 
+with steps 1, 2, 3, 4, 5, 8, 9). Thus if we prescribe a failure probability
+of $\delta/4$ in each Las Vegas step, we get a Las Vegas algorithm with overall
+failure probability bounded from above by $\delta$. Notice that the factor of 4 does not affect the ``big O'' complexity. 
+We follow the numbering in our summary of the 
+complete procedure in Section~\ref{sec:defns}:
+
+\begin{enumerate}
+\item Assume $G = \left< g_1, \ldots, g_m \right> \le \GL(d,q)$ acting
+irreducibly, $E = \End_{\F_q G}(\F^d) = \F_{q^e}$ and
+field generator $C \in \GL(d,q)$ of $E^\ast$ are known. If $e > 1$ find an explicit
+base change in $O(md^3)$ field operations.
+\item Try to write $G$ over a subfield with $\beta_i = 1$ for $1 \leq i \leq m$ 
+in $O(md^3\log \delta^{-1})$ field operations
+(see Theorem~\ref{writing}).
+\item Immediately get a reduction in either the non-absolutely irreducible
+or the subfield case.
+\item Compute $10$ commutators of random elements of $G$. If all are scalar test in $O(md^3)$ whether all commutators of some nonscalar $g_i$ with other generators are scalar. If so, jump to step 10. 
+\item Compute $s = O(d\log q + \log \delta^{-1})$ generators for 
+    $H \le N \unlhd G$ with $N$ contained in $G'$ in 
+    $O(d^3\log \delta^{-1} + d^4 \log q)$ field operations
+    (see Section~\ref{subsec:derived}). 
+
+Run the MeatAxe to distinguish cases for $N$ in 
+$O(sd^3 \log \delta^{-1})$ field operations
+(see Section~\ref{subsec:caseanalysis}).
+\item If $N$ is absolutely irreducible, check whether $G$ is in \CC5
+in $O(sd^3\log \delta^{-1} + md^3)$ field operations
+(see Section~\ref{subsec:subfield_scalars}).
+\item If $N$ is irreducible but not absolutely irreducible, check
+whether $G$ is in \CC3 in $O(d^4\log q +m d^3)$ field operations
+    as in Section~\ref{subsec:semilin}.
+\item If $N$ is reducible, look for more than one 
+homogeneous component and if so find an imprimitive 
+decomposition of $G$ in $O(sd^3\log( \delta^{-1} \log d))$ field operations as in
+Section~\ref{subsec:imprim}.
+\item If $N$ is reducible with a single 
+homogeneous component with irreducible $N$-submodules 
+dimension greater than $1$, find a tensor
+decomposition of $G$ in $O((s+m)d^3)$ field operations as in 
+Section~\ref{subsec:tensor}.
+\item If one nonscalar 
+generator has only scalar commutators with other generators we have 
+already constructed
+a nontrivial homomorphism from $G$ to $\F_q^\times$
+ as in
+Section~\ref{subsec:scalars}.
+\end{enumerate}
+
+The above algorithm can stop after either of steps 3, 6, 7, 8, 9 or 10.
+We summarise the complexity statements for each of the possible paths
+through the above steps in Table~\ref{casescomplexity}.
+
+The worst cases are the last two, where the overall complexity is
+bounded from above by
+\[ O(md^3 \log \delta^{-1} +d^4\log q
+              + sd^3 \log( \delta^{-1} \log d)), \]
+where $s = O(\log \delta^{-1} + d\log q)$, that is by
+\[ O(d^3\log \delta^{-1}(m + \log( \delta^{-1} \log d))
+              + d^4 \log( \delta^{-1} \log d) \log q). \]
+Fixing $\delta > 0$ this simplifies to $O(d^4 \log (\log d) \log q + md^3)$. 
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Path & Cost \\
+\hline
+\hline
+1,2,3 & $O(md^3 \log \delta^{-1} )$ \\
+1,2,3,4,10 & $O(md^3 \log \delta^{-1} )$ \\
+1,2,3,4,5,6 & $O(md^3 \log \delta^{-1}  +d^4\log q
+              + sd^3\log \delta^{-1})$ \\
+1,2,3,4,5,7 & $O(md^3 \log \delta^{-1} +d^4\log q + sd^3 \log \delta^{-1})$ \\
+1,2,3,4,5,8 & $O(md^3 \log \delta^{-1} +d^4\log q
+              + sd^3\log(\delta^{-1} \log d))$ \\
+1,2,3,4,5,8,9 & $O(md^3 \log \delta^{-1}  +d^4\log q
+              + sd^3\log(\delta^{-1} \log d))$ \\
+\hline
+\end{tabular}
+\\[3mm]
+where $s = O(\log \delta^{-1} + d\log q)$.
+\end{center}
+\caption{Complexity of algorithm for different cases}
+\label{casescomplexity}
+\end{table}
+
+\section{Implementation and performance}
+\label{implcomplexity}
+
+All of our algorithms have been implemented in the
+forthcoming \textsf{GAP} package \textsf{recog} for constructive group 
+recognition. In general 
+we make $\lfloor (d\log q)/20 \rfloor$
+random elements when producing generators for $N$ (see
+Section~\ref{subsec:derived}), but always at least $5$ and 
+at most $40$, which seems
+to work well in practice. The division by $20$ 
+indicates that our analysis of the generation of a
+sufficiently large subgroup of $N$ underestimates the probability of success in
+most cases.
+
+In Table~\ref{subsemi:timings} we give timing results. 
+All experiments have been done on a machine with an Intel Core2 Quad 
+CPU Q6600 running at 2.40GHz with 8~GB of main memory using the
+development version of \textsf{GAP} and the \textsf{recog} package.  All times are in milliseconds and were
+averaged over several runs. Note that due to randomisation the runtimes
+can vary significantly between runs.
+
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|r|l|r|l|r|c|r|l|r|r|}
+\hline
+No & Group      &    $d$&  $q$     & $m$& Case     & $d'$& $q'$ & Time & Total\\
+\hline
+1  & $M_{11}$   &  $10$ & $3^5$    &  2 & Subfield & $10$& $3$  &    9 &    70\\
+2  & $S.M_{11}$ &  $10$ & $3^5$    &  2 & \CC5     & $10$& $3$  &   25 &   110\\
+3  & $J_2$      &  $13$ & $3^{10}$ &  2 & Subfield & $13$& $3^2$&   25 &  2791\\
+4  & $S.J_2$    &  $13$ & $3^{10}$ &  2 & \CC5     & $13$& $3^2$&  184 &  1687\\
+5  & $Co_3$     &  $22$ & $2^{16}$ &  2 & Subfield & $22$& $2$  &  103 &  3509\\
+6  & $S.Co_3$   &  $22$ & $2^{16}$ &  2 & \CC5     & $22$& $2$  &  788 &  4173\\
+7  & $2.\mathrm{A}_8$    &  $24$ & $5^6$    &  2 & Subfield & $24$& $5^2$&  119 &  1147\\
+8  & $S.(2.\mathrm{A}_8)$&  $24$ & $5^6$    &  2 & \CC5     & $24$& $5^2$&  954 &  1711\\
+9  & $\GL_{90}(7)$& $90$ & $7^5$    &  2 & Subfield & $90$& $7$  & 8849 &   ---\\
+10 & $S.\GL_{90}(7)$& $90$ & $7^5$  &  2 & \CC5     & $90$& $7$  &51133 &   ---\\
+11 & $J_2$      &  $28$ & $2$      &  2 & NotAbsIrr& $14$& $2^2$&   52 &  1255\\
+12 & $J_2.2$    &  $28$ & $2$      &  2 & \CC3     & $14$& $2^2$&   27 &   888\\
+13 & $M_{22}$   &  $90$ & $3$      &  2 & NotAbsIrr& $45$& $3^2$&  622 & 10262\\
+14 & $(S.M_{24}).A$&$69$& $5$      &  2 & \CC3     & $23$& $5^3$&  594 &  3096\\
+15 & $3.3^9$    &  $81$ &$19$      &256 & Scalar   & $81$&$19$  & 5140 & 50085\\
+16 & $\mathrm{S}_{14} \wr C_5$&$320$&$2$     & 3 & Components&$320$&  $2$& 2117 &106100\\
+17 & $3^{1+4} \otimes HS$&$189$&25 &  8 & Tensor   & $9$  & $25$&24053 &150226\\
+\hline
+    \end{tabular}
+\end{center}
+\caption{Timing results for a few example groups}
+\label{subsemi:timings}
+\end{table}
+
+Columns ``$d$'' and ``$q$'' give the matrix dimension
+and field size of the input matrix group. Column
+ ``$m$'' states the number of generators.
+Column ``Group'' contains a structural description of the input
+group. The notation ``$S.G$''  indicates
+that the input group is a central extension of a group $G$ by all scalars 
+of $\F_q$. The notation ``$G.A$'' 
+indicates that the input group is a group $G$ extended by
+ a group $A$ of field automorphisms on a centralising matrix.
+
+
+Column ``Case''
+describes the type of reduction found. Here,
+``Subfield'' means that an immediate base change to write the group
+over a smaller field was found. ``NotAbsIrr'' means that the input
+group did not act absolutely irreducibly and was
+written over a larger field with smaller dimension.
+``\CC5'' means that a subgroup $H < N$ was computed which acted
+irreducibly and then a base change was found to write the (projective)
+group over a smaller field. ``\CC3'' means that a subgroup $H < N$ was
+computed which acted irreducibly (but not absolutely irreducibly) and
+an action as field automorphisms was found. This automatically gives the information required to write the kernel in a smaller dimension over the appropriate extension field. 
+``Components'' means that an imprimitive action 
+ was found. ``Tensor'' means that a tensor
+decomposition was found. ``Scalar'' means that the group was
+reduced using commutators with a single non-central element.
+
+Columns ``$d'$'' and ``$q'$'' contain the dimension and
+field size after the reduction. The ``Time'' column
+indicates the time needed for the first reduction. The  ``Total''
+column contains the runtime to build a complete composition
+tree for the given group. This value is occasionally omitted, which 
+indicates that not enough leaf methods are implemented yet to
+recognise this group  fully.
+
+To produce the examples, we first changed the field by embedding
+or blowing up and then conjugated by a random element in the general
+linear group over the new field.
+
+To make example  $14$ we took the Mathieu group $M_{24}$ represented
+in $\GL_{23}(5)$, multiplied the generators by scalars in $\F_{5^3}$,
+blew everything up into $\GL_{69}(5)$ and added a new generator
+that acts as a field automorphism of $\F_{5^3}$ when conjugating the centralising matrix.
+In example $14$ the algorithm then
+writes the kernel as a subgroup of $\GL_{23}(5^3)$ and finally 
+recognises the $\CC5$ case and goes back to $\GL_{23}(5)$.
+
+Example  $15$ is an absolutely irreducible $3$-group in $\GL_{81}(19)$ such 
+that all commutators are scalar matrices. After several reductions by the 
+commutator action the kernel becomes reducible.
+
+Example  $16$ is a wreath product of the symmetric group $\mathrm{S}_{14}$
+with the cyclic group of order $5$. We started with an absolutely irreducible 
+$64$-dimensional representation of $\mathrm{S}_{14}$ over $\F_2$ and made
+ a $320$-dimensional absolutely irreducible representation for 
+$\mathrm{S}_{14} \wr C_5$ over $\F_2$. Our algorithm computes the action on 
+the five homogeneous components, then tells the kernel node that the 
+group is reducible and in block form so that a MeatAxe 
+call is not necessary. 
+
+
+Example $17$ is a central product of an extraspecial $3$-group of
+order $243$ in its irreducible representation of dimension $9$ over
+$\F_{25}$ with the sporadic finite simple group $HS$ in an irreducible
+representation of dimension $21$ over $\F_{25}$. The latter
+representation came from one over $\F_5$ where the representing
+matrices of the group generators were multiplied by elements from 
+$\F_{25}$. The extraspecial factor vanishes
+when computing a subgroup of the derived group, since it is 
+one example of our characterisation in 
+Section~\ref{sec:describe_scalars},
+ exhibiting the tensor
+decomposition. In subsequent nodes the extraspecial
+factor is taken apart using commutators as in
+Section~\ref{subsec:scalars}. %It seems that whenever our
+%procedure runs into this tensor product case at least one of the tensor
+%factors is one of the groups in Section~\ref{sec:describe_scalars}.
+
