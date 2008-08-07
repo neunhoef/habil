@@ -83,14 +83,13 @@ Aschbacher's Theorem in the following way:
 
 \begin{Theo}[Aschbacher's Theorem, specialised to\/ $\GL(n,q)$]
 \label{Asch}
-Let $G$ be a subgroup of\/ $\GG = \GL(n,q)$.
+Let $G$ be a subgroup of\/ $\GG = \GL(n,q)$ with $n \ge 2$.
 Then $G$ is contained in at least one of the
 classes \CC1 to \CC9 of subgroups described in Sections~\ref{descC1}
 to \ref{descC9}.
 \end{Theo}
 \proofbeg See \cite{aschbacher}, \cite{kleilieb} and
-\cite[Theorem~1]{smashprim}. Note that \cite[Section~2]{smashprim}
-contains a great part of a proof for the special case of $G < \GL(n,q)$.
+\cite[Theorem~1]{smashprim}. For a full proof see Section~\ref{AschProof}.
 \proofend
 
 \begin{Rem}
@@ -98,12 +97,13 @@ contains a great part of a proof for the special case of $G < \GL(n,q)$.
 %\cite{kleilieb}. Kleidman and Liebeck change the definition 
 %slightly in comparison to Aschbacher but argue that Theorem~\ref{Asch}
 %remains true with their definitions (see \cite[Chapter~4]{kleilieb}).
-% FIXME
+FIXME
 \end{Rem}
 
-We go on with the description of the Aschbacher classes. For each class, we
-also give the structure of the maximal members, this information is from
-\cite[Table 3.5.A]{kleilieb}.
+We go on with the description of the Aschbacher classes. Throughout, we denote for a
+subgroup $G < \GG$ its subgroup of scalar matrices by $Z$, that is,
+$Z := Z(\GL(n,q)) \cap G$. For each class, we also give the structure
+of the maximal members, this information is from \cite[Table~3.5.A]{kleilieb}.
 
 \subsection{Description of class \CC1: ``reducible''}
 \label{descC1}
@@ -113,7 +113,7 @@ also give the structure of the maximal members, this information is from
 
 \desc{
 A subgroup $G \le \GG$ is a member of \CC1 if there is a subspace
-$W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
+$0 < W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
 }
 
 \stru
@@ -160,11 +160,11 @@ is not maximal in $\GL(n,q)$ but still a maximal element in our class
 A subgroup $G \le \GG$ lies in class \CC3 if there is a prime $s \mid n$,
 for which we can extend the $\F_q$-vector space structure of
 $V$ to an $\F_{q^s}$-vector space structure of dimension
-$n/s$, such that there exists for every generator 
-$g_i$ with $1 \le i \le k$ 
-an automorphism $\alpha_i$ of $\F_{q^s}$ with
-\[ (v+\lambda w)\cdot g_i = v \cdot g_i + \lambda^{\alpha_i} \cdot w \cdot
-g_i\]
+$n/s$, such that there exists for every
+$g \in G$
+an automorphism $\alpha_g$ of $\F_{q^s}$ with
+\[ (v+\lambda w)\cdot g = v \cdot g + \lambda^{\alpha_g} \cdot w \cdot
+g\]
 for all $v,w \in V$ and all $\lambda \in \F_{q^s}$. This means that we
 can interpret $V$ as an $\F_{q^s}$-vectorspace for which the natural action
 of $G$ is $\F_{q^s}$-semilinear, so $G$ is a subgroup of $\GGL(n/s,q^s)$.
@@ -173,7 +173,10 @@ of $G$ is $\F_{q^s}$-semilinear, so $G$ is a subgroup of $\GGL(n/s,q^s)$.
 Note that the automorphisms of $\F_{q^s}$ occurring in the semilinear
 actions of group elements will automatically fix every element of $\F_q$, 
 since the original action is $\F_q$-linear. Therefore they are elements of
-the Galois group $\Gal(\F_{q^s}/\F_q)$.
+the Galois group $\Gal(\F_{q^s}/\F_q)$. Note further that for irreducible
+$V$, the group $G$ lies in \CC3 
+with trivial automorphisms $\alpha_g$ for all $G$ if and only if
+$V$ is not absolutely irreducible (see \cite[(29.13)]{CR0}).
 
 \medskip
 \stru
@@ -226,8 +229,127 @@ Every such group is conjugate to a subgroup of $\GL(d,q_0) \cdot \F_q^*$.
 \subsection{Description of class \CC8: ``classical''}
 \label{descC8}
 
+\desc{
+A subgroup $G < \GG$ lies in class \CC8 if $G/Z$ contains a classical simple
+group in one of the following ways:
+\begin{itemize}
+\item $G/Z$ contains $\PSL(n,q)$ and $(n,q) \notin \{(2,2),(2,3)\}$,
+\item $n$ is even, $G$ is contained in $\Sp(n,q)$ for some non-singular 
+symplectic form $G/Z$ contains $\PSp(n,q)$ and $(n,q) \notin           ,
+\{(2,2),(2,3),(4,2)\}$                                                 ,
+\item $q$ is a square, $G$ is contained in $U(n,q)$ for some non-singular 
+Hermitian form, $G/Z$ contains $\PSU(n,q)$ and $(n,q) \notin \{ (2,4),
+(2,9), (3,4) \}$,
+\item $G$ is contained in $O^+(n,q)$ or $O^-(n,q)$ (for $n$ even) or 
+$O(n,q)$ (for $n$ odd) respectively and $G/Z$ contains the corresponding 
+simple group $\POmega^{(\pm)}(n,q)$.
+\end{itemize}
+}
+
+\textbf{Note:} For the orthogonal groups certain restrictions on $(n,q)$
+apply for $\POmega^{(\pm)}(n,q)$ to be simple, for which the reader is kindly
+asked to consult \cite[Section~2.4]{ATLAS}.
+
+\stru
+The maximal members in \CC8 are $\GL(n,q)$, $Sp(n,q)$, $U(n,q)$ and the
+appropriate orthogonal groups.
+
 \subsection{Description of class \CC9: ``almost-simple''}
 \label{descC9}
+
+\desc{
+A subgroup $G < \GG$ lies in class \CC9, if there is a non-abelian simple
+group $S$ and a group $T$ with $S \subseteq T \subseteq \Aut(S)$ such that
+$G/Z$ is isomorphic to $T$ (in this case, $G/Z$ is called
+``almost-simple''). 
+Thus the $G$-module $V$ gives rise to an
+absolutely irreducible projective representation for $T$.}
+
+\textbf{Note:} The existence of the projective representation given by $V$
+limits the possibilities for $S$ and $T$ for given $(n,q)$ and thus
+provides an interesting application for the representation theory of finite
+simple groups, their Schur covers and automorphism groups.
+
+\stru
+The absolutely irreducible projective representations of the automorphism
+groups of the non-abelian finite simple groups provide the maximal members
+of class \CC9.
+
+
+\section{A proof of the $\mathbf{\GL}$-version of Aschbacher's Theorem}
+\label{AschProof}
+
+The contents of this section are a variation on ``The Theory behind
+\textsc{Smash}'' from \cite[Section~2]{smashnormal} and provide a proof for
+Theorem~\ref{Asch}.
+
+Let $G$ be any subgroup of $\GG = \GL(n,q)$ acting from the right on the
+natural module $V := \F_q^{1 \times n}$.
+
+If the natural module $V$ is reducible, then $G$ is contained in class \CC1
+as defined in Section~\ref{descC1}.
+
+From now on we assume that $V$ is irreducible.
+
+If $V$ is not absolutely irreducible, then by \cite[(29.13)]{CR0} and the 
+usual Wedderburn Theorems
+the endomorphism ring $E := \End_{\F_q G}(V)$ is a proper finite extension field
+of $\F_q$. This automatically extends the $F_q$-vector space structure of
+$V$ to an $\F_{q^s}$-vector space structure for any intermediate field 
+$\F_q \subsetneq \F_{q^s} \subseteq E$ such that the $G$-action is
+$\F_{q^s}$-linear. Thus $G$ lies in class \CC3 with trivial Galois
+automorphisms.
+
+From now on we assume that $V$ is absolutely irreducible. Let $Z$ be the
+subgroup of scalar matrices contained in $G$, i.e.~$Z := G \cap
+Z(\GL(n,q))$. Since $V$ is absolutely irreducible it follows that $Z$ is
+the center of $G$.
+
+Assume first that $G/Z$ is a simple group. Then either $G/Z$ is one of the
+classical simple groups and $G$ lies in \CC8 or $G$ lies in \CC9 with
+$S=T \cong G/Z$ since $V$ gives rise to an absolutely irreducible
+projective representation of the finite simple group $G/Z$.
+
+Assume from now on that $G/Z$ is not simple, let $\bar N$ be a non-trivial minimal 
+normal subgroup of $G/Z$ and $N$ be the corresponding non-scalar normal
+subgroup of $G$ with $Z < N \triangleleft G$.
+
+We now use Clifford theory applied to the natural module $V$. By Clifford's
+theorem (see \cite[(49.2) and (49.7)]{CR0}) the restricted $\F_q N$-module
+$V|_N$ is a direct sum of irreducible $\F_q N$-modules which are all
+$G$-conjugates of one irreducible $\F_q N$-submodule $W \le V|_N$. In
+particular, all these irreducible summands have the same dimension. We now
+distinguish several cases.
+
+If there is more than one homogeneous component (i.e.~not all conjugates of
+$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \CC2,
+since the homogeneous components provide a direct sum decomposition that is
+preserved by $G$.
+
+From now on we assume additionally that there is only one homogeneous
+component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
+
+Then $\dim W > 1$ because $N$ is non-scalar.
+
+$W < V$:
+
+if $W$ absolutely irreducible, then \CC4 tensor
+
+otherwise tensor dec. with one factor over extension field
+
+or: if $W$ not absolutely irreducible, then \CC3???
+
+$W = V$:
+
+if $W$ not absolutely irreducible, then \CC5???
+
+if $W$ absolutely irreducible:
+
+If $\bar N$ elementary abelian: \CC6 with $p=2$ separately.
+
+If $\bar N$ direct product of non-abelian simple groups: \CC7
+
+If $\bar N$ simple, then $G$ almost simple and \CC8 or \CC9
 
 \section{Finding a reduction in the reducible case: \CC1}
 \label{solveC1}
