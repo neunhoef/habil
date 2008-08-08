@@ -140,8 +140,10 @@ $((n-m) \times (n-m))$-identity matrix.
 A subgroup $G \le \GG$ is a member of \CC2 if there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
-that is preserved by $G$, that is, for every $1 \le i \le t$ and every 
-$g \in G$ there is a $j$ with $V_i g = V_j$.
+such that the summands are permuted transitively by $G$. That is, 
+for every $1 \le i \le t$ and every 
+$g \in G$ there is a $j$ with $V_i g = V_j$ and the action on the
+summands is transitive.
 }
 
 \stru
@@ -215,10 +217,11 @@ A subgroup $G < \GG$ lies in class \CC5 if there exists a subfield
 $\F_{q_0}$ of $\F_q$ with prime index, a matrix $T \in \GL(n,q)$, and 
 scalars $\beta_1, \ldots, \beta_m
 \in \F_q^*$, such that $T \cdot g_i \cdot T^{-1} = \beta_i \cdot h_i$ with
-$h_i \in \GL(d,q_0)$.}
+$h_i \in \GL(n,q_0)$.}
 
 \stru
-Every such group is conjugate to a subgroup of $\GL(d,q_0) \cdot \F_q^*$.
+Every such group is conjugate in $\GG$ to a subgroup of $\GL(n,q_0)
+\cdot \F_q^*$.
 
 \subsection{Description of class \CC6: ``extraspecial''}
 \label{descC6}
@@ -260,16 +263,18 @@ appropriate orthogonal groups.
 \desc{
 A subgroup $G < \GG$ lies in class \CC9, if there is a non-abelian simple
 group $S$ and a group $T$ with $S \subseteq T \subseteq \Aut(S)$ such that
-$G/Z$ is isomorphic to $T$ (in this case, $G/Z$ is called
-``almost-simple''). 
-Thus the $G$-module $V$ gives rise to an
-absolutely irreducible projective representation for $T$.}
+$G/Z$ is isomorphic to $T$ (in this case $G/Z$ is called
+``almost-simple'') and
+the $G$-module $V$ gives rise to an
+absolutely irreducible projective representation for $T$ which
+is not realisable over a proper subfield of $\F_q$.}
 
 \textbf{Note:} The existence of the projective representation given by $V$
 limits the possibilities for $S$ and $T$ for given $(n,q)$ and thus
 provides an interesting application for the representation theory of finite
 simple groups, their Schur covers and automorphism groups.
 
+\medskip
 \stru
 The absolutely irreducible projective representations of the automorphism
 groups of the non-abelian finite simple groups provide the maximal members
@@ -297,7 +302,8 @@ the endomorphism ring $E := \End_{\F_q G}(V)$ is a proper finite extension field
 of $\F_q$. This automatically extends the $F_q$-vector space structure of
 $V$ to an $\F_{q^s}$-vector space structure for any intermediate field 
 $\F_q \subsetneq \F_{q^s} \subseteq E$ such that the $G$-action is
-$\F_{q^s}$-linear. Thus $G$ lies in class \CC3 with trivial Galois
+$\F_{q^s}$-linear. Thus $G$ lies in class \CC3 (see \ref{descC3})
+with trivial Galois
 automorphisms.
 
 From now on we assume that $V$ is absolutely irreducible. Let $Z$ be the
@@ -305,14 +311,29 @@ subgroup of scalar matrices contained in $G$, i.e.~$Z := G \cap
 Z(\GL(n,q))$. Since $V$ is absolutely irreducible it follows that $Z$ is
 the center of $G$.
 
-Assume first that $G/Z$ is a simple group. Then either $G/Z$ is one of the
-classical simple groups and $G$ lies in \CC8 or $G$ lies in \CC9 with
-$S=T \cong G/Z$ since $V$ gives rise to an absolutely irreducible
-projective representation of the finite simple group $G/Z$.
+At this stage of the proof we mention that obviously $G$ can be
+realisable over a proper subfield and thus lie in \CC5 (see
+\ref{descC5}).
 
-Assume from now on that $G/Z$ is not simple, let $\bar N$ be a non-trivial minimal 
-normal subgroup of $G/Z$ and $N$ be the corresponding non-scalar normal
-subgroup of $G$ with $Z < N \triangleleft G$.
+From now on we assume that $G$ does not lie in \CC5. In the sequel this 
+assumption will be used to rule out classical groups defined over
+smaller fields and achieve the corresponding statement in class \CC9
+(see \ref{descC9}).
+
+We assume first that $G/Z$ is a simple group. Then there are two possibilities:
+The first is that $G/Z$ is one of the
+classical simple groups defined over $\F_q$ and $G$ lies in \CC8 (see
+\ref{descC8}), because by our assumption of $G$ not lying in \CC5 we can
+exclude classical simple groups defined over subfields. Otherwise
+$G$ lies in \CC9 (see \ref{descC9}) with
+$S=T \cong G/Z$ since $V$ gives rise to an absolutely irreducible
+projective representation of the finite simple group $G/Z$ that
+is by assumption not realisable over a proper subfield of $\F_q$.
+
+We assume from now on that $G/Z$ is not simple, let $\bar N$
+be a non-trivial minimal normal subgroup of $G/Z$ and $N$ be
+the corresponding non-scalar normal subgroup of $G$ with $Z < N
+\triangleleft G$.
 
 We now use Clifford theory applied to the natural module $V$. By Clifford's
 theorem (see \cite[(49.2) and (49.7)]{CR0}) the restricted $\F_q N$-module
@@ -322,28 +343,105 @@ particular, all these irreducible summands have the same dimension. We now
 distinguish several cases.
 
 If there is more than one homogeneous component (i.e.~not all conjugates of
-$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \CC2,
+$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \CC2
+(see \ref{descC2}),
 since the homogeneous components provide a direct sum decomposition that is
-preserved by $G$.
+preserved by $G$ and the summands are permuted transitively.
 
 From now on we assume additionally that there is only one homogeneous
 component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
-
 Then $\dim W > 1$ because $N$ is non-scalar.
 
-$W < V$:
+We first assume that $W$ is not absolutely irreducible including both
+cases $W = V$ and $W < V$. Then $\End_{\F_q N}(W)$ is a proper finite
+extension field of $\F_q$, say $\F_{q^s}$, and $W$ and $V|_N$
+both can be considered as $\F_{q^s}$-vector spaces such that the action of
+$N$ on them is $\F_{q^s}$-linear, because $V|_N$ is isomorphic to a direct
+sum of copies of $W$. We can embed $\F_{q^s} \le \End_{\F_q N}(V) \le \GL(n,q)$.
 
-if $W$ absolutely irreducible, then \CC4 tensor
+We claim that the action of $G$ is $\F_{q^s}$-semilinear proving that $G$ lies
+in \CC3 (see \ref{descC3}). Let $c \in \GL(n,q)$ generate the
+multiplicative group of $\F_{q^s}$. Then, for all $h \in N$ and $g
+\in G$, we have $hc=ch$ by definition and thus $h^g c^g = c^g h^g =
+h' c^g = c^g h'$, for some $h' \in N$. As $h$ varies over $N$, the
+element $h'$ takes every value in $N$, therefore $\left< c \right>
+= \left< c^g \right>$ and so $c^g = c^k$ for some $k$. Suppose that
+$c^i + c^j = c^l$, then $(c^i)^g + (c^j)^g = (c^l)^g$ so $g$ acts as
+field automorphism on $\F_{q^s}$. By using a subfield of $\F_{q^s}$ if
+necessary we can choose $s$ to be prime and thus have proved that $G$
+lies in \CC3 (see \ref{descC3}).
 
-otherwise tensor dec. with one factor over extension field
+From now on we assume that $W$ is absolutely irreducible.
 
-or: if $W$ not absolutely irreducible, then \CC3???
+We first assume that $W$ is a proper subspace of $V$. Let $d :=
+\dim_{\F_q}(W)$ such that we have $1 < d < n$. Since by assumption 
+all $G$-conjugates of $W$ are isomorphic to $W$ as $\F_q N$-modules,
+we can choose a basis of $V$ such that all elements of $N$ are block
+diagonal matrices in which all diagonal blocks are identical of size
+$d$.
 
-$W = V$:
+As $N \triangleleft G$, for all $h \in N$ and $g \in G$,
+ the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
+a block diagonal matrix in which all $d \times d$-blocks along the diagonal
+are identical. Fixing $g$, we conclude that $g\cdot (g^{-1}hg) = hg$ for all
+$h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
 
-if $W$ not absolutely irreducible, then \CC5???
+\begin{eqnarray*}
+   &g \cdot (g^{-1}hg) & 
+ = \left[ \begin{array}{c|c|c|c}
+      g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
+      g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,n/d} \end{array} \right]
+\cdot \left[ \begin{array}{c|c|c|c}
+      D^g(h) & 0   & \cdots &      0    \\ \hline
+         0   &D^g(h)&\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots& D^g(h) \end{array} \right] \\
+ &=& \left[ \begin{array}{c|c|c|c}
+      D(h)    & 0       & \cdots &     0    \\ \hline
+         0    &D(h)     &\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots& D(h)   \end{array} \right]
+\cdot \left[ \begin{array}{c|c|c|c}
+      g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
+      g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,d/n} \end{array} \right]
+ = hg
+\end{eqnarray*}
+where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
+representing $h$ on the module $W$ and $D^g(h) = D(g^{-1}hg)$ is the
+same representation twisted by the element $g$. By the block diagonal
+structure of the matrices in $N$ we get 
+$g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
+all $h \in N$.
 
-if $W$ absolutely irreducible:
+But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
+are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{d \times d}$ with
+$T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
+since the representation $D$ is absolutely irreducible,
+the matrix $T$ is invertible and unique 
+up to multiplication by an element in $C_{\GL(d,q)}(D(N))$, which
+consists only of the scalar matrices.
+
+This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
+\{ 1, \ldots, d/n \}$ there
+is a unique element $e_{i,j} \in \F_q$ (possibly $0$) with 
+$g_{i,j} = T \cdot e_{i,j}$. Thus we have shown that with respect to
+the above choice of basis, every element $g$ is equal to a Kronecker 
+product of some matrix in $U \in \F_q^{n/d \times n/d}$ with a matrix
+$T \in \F_q^{d \times d}$. Since $g$ is invertible both 
+$U$ and $T$ are invertible. 
+
+This provides an $\F_q$-linear isomorphism of 
+$\F_q^d$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
+such that all $g \in G$ act as a Kronecker product proving that
+$G$ lies in \CC4 (see \ref{descC4}).
+
+We now move on to the case that $W = V$, that is, the restriction
+$V|_N$ is irreducible. Recall that we are still assuming that $W$ is
+absolutely irreducible.
 
 If $\bar N$ elementary abelian: \CC6 with $p=2$ separately.
 
@@ -351,22 +449,25 @@ If $\bar N$ direct product of non-abelian simple groups: \CC7
 
 If $\bar N$ simple, then $G$ almost simple and \CC8 or \CC9
 
-\section{Finding a reduction in the reducible case: \CC1}
+\section{Finding reductions}
+\label{findred}
+
+\subsection{Finding a reduction in the reducible case: \CC1}
 \label{solveC1}
 
-\section{Finding a reduction in the semilinear or subfield case: \CC3/\CC5}
+\subsection{Finding a reduction in the semilinear or subfield case: \CC3/\CC5}
 \label{solveC3C5}
 
-\section{Finding a reduction in the extraspecial case: \CC6}
+\subsection{Finding a reduction in the extraspecial case: \CC6}
 \label{solveC6}
 
-\section{Finding a reduction in the imprimitive case: \CC2}
+\subsection{Finding a reduction in the imprimitive case: \CC2}
 \label{solveC2}
 
-\section{Finding a reduction in the tensor-decomposable case: \CC4}
+\subsection{Finding a reduction in the tensor-decomposable case: \CC4}
 \label{solveC4}
 
-\section{Finding a reduction in the tensor-induced case: \CC7}
+\subsection{Finding a reduction in the tensor-induced case: \CC7}
 \label{solveC7}
 
 
