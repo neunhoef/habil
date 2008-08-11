@@ -88,8 +88,9 @@ Then $G$ is contained in at least one of the
 classes \CC1 to \CC9 of subgroups described in Sections~\ref{descC1}
 to \ref{descC9}.
 \end{Theo}
-\proofbeg See \cite{aschbacher}, \cite{kleilieb} and
-\cite[Theorem~1]{smashprim}. For a full proof see Section~\ref{AschProof}.
+\proofbeg See \cite[Appendix 2, Theorem 1]{RobPhd}, \cite{aschbacher}, 
+\cite{kleilieb} or
+\cite[Theorem~1]{smashprim}. For a proof see Section~\ref{AschProof}.
 \proofend
 
 \begin{Rem}
@@ -168,7 +169,7 @@ an automorphism $\alpha_g$ of $\F_{q^s}$ with
 \[ (v+\lambda w)\cdot g = v \cdot g + \lambda^{\alpha_g} \cdot w \cdot
 g\]
 for all $v,w \in V$ and all $\lambda \in \F_{q^s}$. This means that we
-can interpret $V$ as an $\F_{q^s}$-vectorspace for which the natural action
+can interpret $V$ as an $\F_{q^s}$-vector space for which the natural action
 of $G$ is $\F_{q^s}$-semilinear, so $G$ is a subgroup of $\GGL(n/s,q^s)$.
 }
 
@@ -192,8 +193,9 @@ $\F_q$-basis of $\F_{q^s}$.
 
 \desc{
 A subgroup $G \le \GG$ lies in class \CC4 if there is a decomposition
-of $V = V_1 \otimes V_2$ into a tensor product with $d_1 := \dim_{\F_q}(V_1)
-\neq d_2 := \dim_{\F_q}(V_2)$ and $1 < d_1 < n$ that is preserved by $G$, 
+of $V = V_1 \otimes V_2$ into a tensor product with 
+$1 < d_1 := \dim_{\F_q}(V_1) < n$
+and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
 that is, for every $g \in
 G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
 \End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
@@ -443,11 +445,48 @@ We now move on to the case that $W = V$, that is, the restriction
 $V|_N$ is irreducible. Recall that we are still assuming that $W$ is
 absolutely irreducible.
 
-If $\bar N$ elementary abelian: \CC6 with $p=2$ separately.
+Recall that by assumption $\bar N$ is a minimal normal subgroup of $G/Z$.
+As such, by \cite[Theorem 4.3A.(iii)]{DixonMort}, it is
+a direct product $\bar T_1 \times \cdots \times \bar T_k$ of copies of a 
+simple group $\bar T$ which are all conjugate under $G/Z$. Thus $N$ is
+a central product of the corresponding preimages $T_1, \ldots, T_k$
+under the natural map $G \to G/Z$. We now distinguish three cases:
+\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\item[(i)] $\bar T$ is cyclic of prime order $r$, 
+\item[(ii)] $\bar T$ is non-abelian simple with $k > 1$ and
+\item[(iii)] $N/Z$ is non-abelian simple.
+\end{itemize}
+We now consider case (i) that $\bar T$ is cyclic of prime oder $r$, then
+$\bar N = N/Z$ is an elementary-abelian $r$-group of order $r^k$.
+Therefore the commutator subgroup $N'$ of $N$ is contained in $Z$ and
+we recall that $Z$ is the center of $N$ since $W = V|_N$ is absolutely
+irreducible. So $N$ is nilpotent and thus the direct product of its
+Sylow subgroups. Let $R$ be the $r$-Sylow subgroup of $N$, all other
+Sylow subgroups of $N$ are scalar since $N/Z$ is elementary abelian.
+Thus the module $V|_R$ is absolutely irreducible and $R$ is not
+abelian. Since $R$ is characteristic in $N$ it is normal in $G$. 
+For $x,y \in R$, we have $1 = [x^r,y] = [x,y]^r$ since $x^r \in Z(R)$.
+Therefore $R'=N'$ has exponent $r$ and because it is contained in the
+cyclic group $Z(R) \le Z$ we have $|R'| = r = |N'|$.
+
+Assume first that $r$ is odd. We then claim that $R$ is an extraspecial group
+with exponent $r$. For $x,y \in R$ we have $(xy)^r =
+x^ry^r[y,x]^{r(r-1)/2} = x^ry^r$ since $R'$ has exponent $r$, thus the
+elements of $N$ whose order is not divisible by $r^2$ form a characteristic 
+subgroup of $N$ and thus a normal subgroup of $G$.
+
+and thus $k$ is even and $n=r^{k/2}$. 
+
+Consider now $r=2$. We then claim that $R$ is the central product of
+an extraspecial $2$-group with a cyclic group of order $4$ and thus
+...
+
 
 If $\bar N$ direct product of non-abelian simple groups: \CC7
 
 If $\bar N$ simple, then $G$ almost simple and \CC8 or \CC9
+
+\newpage
 
 \section{Finding reductions}
 \label{findred}
