@@ -458,29 +458,53 @@ under the natural map $G \to G/Z$. We now distinguish three cases:
 \end{itemize}
 We now consider case (i) that $\bar T$ is cyclic of prime oder $r$, then
 $\bar N = N/Z$ is an elementary-abelian $r$-group of order $r^k$.
-Therefore the commutator subgroup $N'$ of $N$ is contained in $Z$ and
-we recall that $Z$ is the center of $N$ since $W = V|_N$ is absolutely
+Since $N$ is not abelian, we have $k > 1$.
+The commutator subgroup $N'$ of $N$ is contained in $Z$ and
+we recall that $Z$ is the center of $N$ since $V|_N$ is absolutely
 irreducible. So $N$ is nilpotent and thus the direct product of its
 Sylow subgroups. Let $R$ be the $r$-Sylow subgroup of $N$, all other
-Sylow subgroups of $N$ are scalar since $N/Z$ is elementary abelian.
-Thus the module $V|_R$ is absolutely irreducible and $R$ is not
-abelian. Since $R$ is characteristic in $N$ it is normal in $G$. 
-For $x,y \in R$, we have $1 = [x^r,y] = [x,y]^r$ since $x^r \in Z(R)$.
-Therefore $R'=N'$ has exponent $r$ and because it is contained in the
-cyclic group $Z(R) \le Z$ we have $|R'| = r = |N'|$.
+Sylow subgroups of $N$ consist of scalar matrices since $N/Z$ is
+elementary abelian. Thus the module $V|_R$ is absolutely irreducible
+and $R$ is not abelian.
+For $x,y \in R$, we have $1 = [x^r,y] = [x,y]^r$ since $x^r$ and 
+$[x,y]$ lie in $Z(R) = R \cap Z$. Therefore $R'=N'$ has exponent $r$ and
+because it is contained in the cyclic group $Z(R) \le Z$ we have $|R'| =
+r = |N'|$.
 
-Assume first that $r$ is odd. We then claim that $R$ is an extraspecial group
-with exponent $r$. For $x,y \in R$ we have $(xy)^r =
-x^ry^r[y,x]^{r(r-1)/2} = x^ry^r$ since $R'$ has exponent $r$, thus the
-elements of $N$ whose order is not divisible by $r^2$ form a characteristic 
-subgroup of $N$ and thus a normal subgroup of $G$.
+Assume first that $r$ is odd. For $x,y \in R$ we have $(xy)^r =
+x^ry^r[y,x]^{r(r-1)/2} = x^ry^r$ since $R'$ has order $r$, thus the
+elements of $R$ whose order divides $r$ form a characteristic 
+subgroup of $N$ and thus a normal subgroup $E$ of $G$. Since for
+$r$ odd, an $r$-group containing a unique subgroup of order $r$ is
+cyclic, $E$ is not contained in $Z$ and thus by the minimality
+of $N/Z$ we have $Z E = N$. It immediately follows that $V|_E$
+is absolutely irreducible, $E$ is not abelian, 
+$E \cap Z = Z(E) = E' = R' = N'$ has $r$ elements and 
+$N/Z = ZE/Z \cong E/(E \cap Z) = E/Z(E)$. Thus the Frattini subgroup
+$\Phi(E)$ of $E$ is equal to $Z(E)$ and $E$ is shown to be extraspecial
+of order $r^{1+k}$ and exponent $r$. It follows that $k$ is even and
+$n=r^{k/2}$. Since $G$ normalises $E$ it lies in \CC6 with odd $r$.
 
-and thus $k$ is even and $n=r^{k/2}$. 
-
-Consider now $r=2$. We then claim that $R$ is the central product of
-an extraspecial $2$-group with a cyclic group of order $4$ and thus
-...
-
+Consider now $r=2$. Recall $R' \le Z$ with $|R'| = 2$ and
+let $E$ be the set of elements $x \in R$ with $x^2 \in R'$. 
+For $x,y \in E$ we have $(xy)^2 = x^2y^2[y,x] \in R'$ proving that
+$E$ is a characteristic subgroup of $R$ and thus a normal subgroup of
+$G$. We claim that $E$ is not contained in $Z$: If $4$ does not divide
+$|Z(R)|$ then this is trivial. If $4 \mid |Z(R)|$ and $xZ(R)$ and $yZ(R)$
+are different elements of $R/Z(R)$, then at least one of
+$x^2$, $y^2$ and $(xy)^2$ is a square in the cyclic group $Z(R)$ and
+thus $R$ and thus $E$ contains a non-central element whose square
+is contained in $R'$.
+By the minimality of $N/Z$ we have $Z E = N$ as above. We immediately
+get that $V|_E$ is absolutely irreducible, $E$ is not abelian,
+$E \cap Z = Z(E)$ is cyclic with either $2$ or $4$ elements and
+$E' = R' = N'$ has $2$ elements and is contained in $Z(E)$.
+Furthermore, $N/Z = ZE/Z \cong E/(E \cap Z) = E/Z(E)$. Thus the
+Frattini subgroup $\Phi(E)$ of $E$ is equal to $E'$ and $E$ is either
+extraspecial of order $2^{1+k}$ or a central product of a cyclic group
+of order $4$ consisting of scalar matrices and an extraspecial group 
+of order $2^{1+k}$. In both cases it follows that $k$ is even and
+$n = 2^{k/2}$. Since $G$ normalises $E$ it lies in \CC6 with $r=2$.
 
 If $\bar N$ direct product of non-abelian simple groups: \CC7
 
