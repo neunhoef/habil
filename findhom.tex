@@ -228,6 +228,22 @@ Every such group is conjugate in $\GG$ to a subgroup of $\GL(n,q_0)
 \subsection{Description of class \CC6: ``extraspecial''}
 \label{descC6}
 
+\desc{
+A subgroup $G < \GG$ lies in class \CC6 if $n=r^m$ for a prime $r$ and
+one of the two following holds:
+\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\item $r$ is odd and $G$ has a normal subgroup $E$ that 
+is an extraspecial $r$-group of order $r^{1+2m}$ and exponent $r$.
+\item $r=2$ and $G$ has a normal subgroup $E$ that is either
+    extraspecial of order $2^{1+2m}$ or a central product of a cyclic
+    group of order $4$ with an extraspecial group of order $2^{1+2m}$.
+\end{itemize}}
+In all cases $G$ acts ...
+% FIXME
+
+\stru
+Every such group is conjugate in $\GG$ to ...
+
 \subsection{Description of class \CC7: ``tensor-induced''}
 \label{descC7}
 
@@ -237,7 +253,8 @@ Every such group is conjugate in $\GG$ to a subgroup of $\GL(n,q_0)
 \desc{
 A subgroup $G < \GG$ lies in class \CC8 if $G/Z$ contains a classical simple
 group in one of the following ways:
-\begin{itemize}
+%\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item $G/Z$ contains $\PSL(n,q)$ and $(n,q) \notin \{(2,2),(2,3)\}$,
 \item $n$ is even, $G$ is contained in $\Sp(n,q)$ for some non-singular 
 symplectic form $G/Z$ contains $\PSp(n,q)$ and $(n,q) \notin           ,
@@ -490,11 +507,12 @@ let $E$ be the set of elements $x \in R$ with $x^2 \in R'$.
 For $x,y \in E$ we have $(xy)^2 = x^2y^2[y,x] \in R'$ proving that
 $E$ is a characteristic subgroup of $R$ and thus a normal subgroup of
 $G$. We claim that $E$ is not contained in $Z$: If $4$ does not divide
-$|Z(R)|$ then this is trivial. If $4 \mid |Z(R)|$ and $xZ(R)$ and $yZ(R)$
+$|Z(R)|$ then this is trivial. If $4$ divides $|Z(R)|$ and $xZ(R)$ and $yZ(R)$
 are different elements of $R/Z(R)$, then at least one of
 $x^2$, $y^2$ and $(xy)^2$ is a square in the cyclic group $Z(R)$ and
-thus $R$ and thus $E$ contains a non-central element whose square
-is contained in $R'$.
+thus one of $x$, $y$ and $xy$ can be multiplied by an element of
+$Z(R)$ to get an involution. Therefore $R$ and thus $E$ both contain a 
+non-central element whose square is contained in $R'$.
 By the minimality of $N/Z$ we have $Z E = N$ as above. We immediately
 get that $V|_E$ is absolutely irreducible, $E$ is not abelian,
 $E \cap Z = Z(E)$ is cyclic with either $2$ or $4$ elements and
