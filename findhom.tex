@@ -21,15 +21,14 @@ in detail for the case of $\GL(n,q)$ in Section~\ref{sect:aschbacher},
 and the second is the classification of finite simple groups. We are
 content with the statements in Aschbacher's theorem about the general
 linear group since they suffice for the purposes of constructive
-recognition and the statements are quite a bit simpler than for the
-other classical groups. For details see \cite{aschbacher}.
+recognition and the statements and arguments are quite a bit simpler
+than for the other classical groups. For details see \cite{aschbacher}.
 
-Aschbacher's theorem states that every subgroup of $\GL(n,q)$
+Roughly speaking, Aschbacher's theorem states that every subgroup of $\GL(n,q)$
 is either a member of at least one of $7$ concretely given classes 
 \CC1 to \CC7 of 
 subgroups, or it contains a classical group in its natural representation, 
-or it is an almost-simple group. IS THAT RIGHT?
-% FIXME
+or it is an almost-simple group modulo scalars.
 
 All the classes \CC1 to \CC7 are somehow defined in a geometric way (see
 Sections~\ref{descC1} to \ref{descC7}) and thus promise some kind of
@@ -50,11 +49,11 @@ constructive recognition in a special case, for example using standard
 generators (see Sections~\ref{solveC8} and \ref{solveC9}).
 
 The purpose of this chapter is to explain the statement of Aschbacher's 
-theorem for $\GL(n,q)$ in detail and to give an overview over the known
-methods to deal with the different classes together with references into
-the literature. An algorithm to recognise and handle classes \CC3 and \CC5
-provided that the group does not lie in class \CC1 is described in detail
-in Chapter~\ref{chap:subsemi}.
+theorem for $\GL(n,q)$ in detail, to give a proof and to give an
+overview over the known methods to deal with the different classes
+together with references into the literature. An algorithm to recognise
+and handle classes \CC3 and \CC5 provided that the group does not lie in
+class \CC1 is described in detail in Chapter~\ref{chap:subsemi}.
 
 \section{Aschbacher's Theorem}
 \label{sect:aschbacher}
@@ -73,10 +72,13 @@ For the original formulation of his theorem in \cite{aschbacher}, Aschbacher
 defines $8$ classes
 of subgroups of $\GG$ and proves that every subgroup $G \le \GG$ is either
 a subgroup of some member of one of these $8$ classes or has a certain
-amount of properties. We want to change this formulation in the following
-way: We say that a group $G \le \GG$ lies in ``Aschbacher class \CC i''
-for $1 \le i \le 8$ if and only if it is a subgroup of a member of
-the class with number $i$ in \cite{aschbacher}. Furthermore, we collect
+list of properties. We want to change this formulation in the following
+way: We change the definition of the ``Aschbacher class \CC i''
+for $1 \le i \le 8$ by adding a carefully chosen selection of
+subgroups of the members of the class with number $i$ in \cite{aschbacher}
+(for details see the descriptions in Sections \ref{descC1} to
+\ref{descC8}).
+Furthermore, we collect
 the subgroups $G \le \GG$ that fulfil the properties in the statement of 
 Aschbacher's Theorem in the class \CC9. Therefore, we can formulate
 Aschbacher's Theorem in the following way:
@@ -88,32 +90,34 @@ Then $G$ is contained in at least one of the
 classes \CC1 to \CC9 of subgroups described in Sections~\ref{descC1}
 to \ref{descC9}.
 \end{Theo}
-\proofbeg See \cite[Appendix 2, Theorem 1]{RobPhd}, \cite{aschbacher}, 
-\cite{kleilieb} or
+\proofbeg Compare \cite[Appendix 2, Theorem 1]{RobPhd}, \cite{aschbacher}, 
+\cite{kleilieb} and 
 \cite[Theorem~1]{smashprim}. For a proof see Section~\ref{AschProof}.
 \proofend
 
-\begin{Rem}
+%\begin{Rem}
 %In our description of the classes \CC1 to \CC9 we follow
 %\cite{kleilieb}. Kleidman and Liebeck change the definition 
 %slightly in comparison to Aschbacher but argue that Theorem~\ref{Asch}
 %remains true with their definitions (see \cite[Chapter~4]{kleilieb}).
-FIXME
-\end{Rem}
+%FIXME
+%\end{Rem}
 
-We go on with the description of the Aschbacher classes. Throughout, we denote for a
-subgroup $G < \GG$ its subgroup of scalar matrices by $Z$, that is,
-$Z := Z(\GL(n,q)) \cap G$. For each class, we also give the structure
-of the maximal members, this information is from \cite[Table~3.5.A]{kleilieb}.
+\medskip
+We proceed with the description of the Aschbacher classes. Throughout,
+we denote for a subgroup $G < \GG$ its subgroup of scalar matrices
+by $Z$, that is, $Z := Z(\GL(n,q)) \cap G$. For each class, we also
+give the structure of the maximal members, this information is from
+\cite[Table~3.5.A]{kleilieb}.
 
 \subsection{Description of class \CC1: ``reducible''}
 \label{descC1}
 
-\newcommand{\desc}[1]{\begin{center}\fbox{\parbox{5in}{#1}}\end{center}}
+\newcommand{\desc}[1]{\begin{center}\fbox{\parbox{5.3in}{#1}}\end{center}}
 \newcommand{\stru}{\textbf{Structure of maximal members:}\par}
 
 \desc{
-A subgroup $G \le \GG$ is a member of \CC1 if there is a subspace
+A group $G \le \GG$ is a member of \CC1 if there is a subspace
 $0 < W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
 }
 
@@ -132,13 +136,13 @@ of the normal $p$-subgroup
 and $\GL(m,q) \times \GL(n-m,q)$, the factors being embedded on the
 diagonal blocks. 
 Here, $\one_m$ is the $(m \times m)$-identity matrix and $\one_{n-m}$ is the
-$((n-m) \times (n-m))$-identity matrix.
+$(n-m) \times (n-m)$-identity matrix.
 
 \subsection{Description of class \CC2: ``imprimitive''}
 \label{descC2}
 
 \desc{
-A subgroup $G \le \GG$ is a member of \CC2 if there is a decomposition
+A group $G \le \GG$ is a member of \CC2 if there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
 such that the summands are permuted transitively by $G$. That is, 
@@ -160,7 +164,8 @@ is not maximal in $\GL(n,q)$ but still a maximal element in our class
 \label{descC3}
 
 \desc{
-A subgroup $G \le \GG$ lies in class \CC3 if there is a prime $s \mid n$,
+A group $G \le \GG$ lies in class \CC3 if there is a finite field
+extension $\F_{q^s}$ of $\F_q$,
 for which we can extend the $\F_q$-vector space structure of
 $V$ to an $\F_{q^s}$-vector space structure of dimension
 $n/s$, such that there exists for every
@@ -192,7 +197,7 @@ $\F_q$-basis of $\F_{q^s}$.
 \label{descC4}
 
 \desc{
-A subgroup $G \le \GG$ lies in class \CC4 if there is a decomposition
+A group $G \le \GG$ lies in class \CC4 if there is a decomposition
 of $V = V_1 \otimes V_2$ into a tensor product with 
 $1 < d_1 := \dim_{\F_q}(V_1) < n$
 and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
@@ -215,81 +220,114 @@ maximal in $\GL(n,q)$ but maximal in our class \CC4.
 \label{descC5}
 
 \desc{
-A subgroup $G < \GG$ lies in class \CC5 if there exists a subfield 
-$\F_{q_0}$ of $\F_q$ with prime index, a matrix $T \in \GL(n,q)$, and 
-scalars $\beta_1, \ldots, \beta_m
-\in \F_q^*$, such that $T \cdot g_i \cdot T^{-1} = \beta_i \cdot h_i$ with
-$h_i \in \GL(n,q_0)$.}
+A group $G \le \GG$ lies in class \CC5 if there exists a proper subfield 
+$\F_{q_0}$ of $\F_q$, a matrix $T \in \GL(n,q)$, and 
+scalars $(\beta_g)_{g \in G}$ with $\beta_g \in \F_q$
+such that $\beta_g \cdot T^{-1} g T \in \GL(n,q_0)$ for
+all $g \in G$.}
 
 \stru
 Every such group is conjugate in $\GG$ to a subgroup of $\GL(n,q_0)
-\cdot \F_q^*$.
+\cdot \F_q^*$ where $[\F_q:\F_{q_0}]$ is a prime.
 
 \subsection{Description of class \CC6: ``extraspecial''}
 \label{descC6}
 
 \desc{
-A subgroup $G < \GG$ lies in class \CC6 if $n=r^m$ for a prime $r$ and
-one of the two following holds:
+A group $G \le \GG$ lies in class \CC6 if $n=r^m$ for a prime $r$ and
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-\item $r$ is odd and $G$ has a normal subgroup $E$ that 
-is an extraspecial $r$-group of order $r^{1+2m}$ and exponent $r$.
-\item $r=2$ and $G$ has a normal subgroup $E$ that is either
+    \item \textbf{either} $r$ is odd and $G$ has a normal subgroup $E$ that 
+is an extraspecial $r$-group of order $r^{1+2m}$ and exponent $r$,
+\item \textbf{or} $r=2$ and $G$ has a normal subgroup $E$ that is either
     extraspecial of order $2^{1+2m}$ or a central product of a cyclic
-    group of order $4$ with an extraspecial group of order $2^{1+2m}$.
-\end{itemize}}
-In all cases $G$ acts ...
-% FIXME
+    group of order $4$ with an extraspecial group of order $2^{1+2m}$,
+\end{itemize}
+\textbf{and} in both cases the linear action of $G$ on the
+$\F_r$-vectorspace $E/Z(E)$ of dimension $2m$ is irreducible. }
 
 \stru
-Every such group is conjugate in $\GG$ to ...
+Every such group is conjugate in $\GG$ to a subgroup of one of the following
+groups: $r^{1+2m}.\Sp(2m,r)$ or $2_+^{1+2m}.O^+(2m,2)$ or
+$2_-^{1+2m}.O^-(2m,2)$ or $(4 \circ 2^{1+2m}).\Sp(2m,2)$ 
+(see \cite[Formula (4.6.1)]{kleilieb}).
 
 \subsection{Description of class \CC7: ``tensor-induced''}
 \label{descC7}
+
+\desc{
+A group $G \le \GG$ lies in class \CC7 if for some $k$ it has a normal 
+subgroup $N$ containing $Z$ that is isomorphic to a central product 
+$T \circ \cdots \circ T$ of
+$k$ copies of a group $T$ which is a central extension of a non-abelian
+finite simple group $\bar T$ by $Z$, such that: 
+
+The restricted natural
+module $V|_N$ is isomorphic to a tensor product $W \otimes_{\F_q}
+\cdots \otimes_{\F_q} W$ of $k$ copies
+of an absolutely irreducible $\F_q N$-module $W$ in which $Z$ acts as
+scalars and $G/N$ acts on $N$ by permuting the tensor factors
+transitively.}
+
+\stru
+Every such group is conjugate in $\GG$ to a subgroup of
+$\GL(r,q)^{\otimes m}.S_r$ where $n=r^m$ and $\GL(r,q)^{\otimes m}$ 
+denotes the central product of $m$ copies of $\GL(r,q)$.
 
 \subsection{Description of class \CC8: ``classical''}
 \label{descC8}
 
 \desc{
-A subgroup $G < \GG$ lies in class \CC8 if $G/Z$ contains a classical simple
+A group $G \le \GG$ lies in class \CC8 if $G/Z$ contains a classical simple
 group in one of the following ways:
 %\begin{itemize}
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item $G/Z$ contains $\PSL(n,q)$ and $(n,q) \notin \{(2,2),(2,3)\}$,
 \item $n$ is even, $G$ is contained in $\Sp(n,q)$ for some non-singular 
-symplectic form $G/Z$ contains $\PSp(n,q)$ and $(n,q) \notin           ,
-\{(2,2),(2,3),(4,2)\}$                                                 ,
+symplectic form, $G/Z$ contains $\PSp(n,q)$ and $(n,q) \notin           
+\{(2,2),(2,3),(4,2)\}$,
 \item $q$ is a square, $G$ is contained in $U(n,q)$ for some non-singular 
 Hermitian form, $G/Z$ contains $\PSU(n,q)$ and $(n,q) \notin \{ (2,4),
 (2,9), (3,4) \}$,
-\item $G$ is contained in $O^+(n,q)$ or $O^-(n,q)$ (for $n$ even) or 
-$O(n,q)$ (for $n$ odd) respectively and $G/Z$ contains the corresponding 
-simple group $\POmega^{(\pm)}(n,q)$.
+\item $G$ is contained in $O^\epsilon(n,q)$, the corresponding
+    $\POmega^\epsilon(n,q)$ is simple and contained in $G/Z$.
+    $\POmega^\epsilon(n,q)$ is simple if and only if
+    \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+        \item[*] $n\ge 3$, and
+        \item[*] $q$ is odd if $n$ is odd, and
+        \item[*] $\epsilon$ is -- if $n=4$, and
+        \item[*] $(n,q) \notin \{ (3,3), (4,2) \}$.
+    \end{itemize}
+%\[ n\ge 3, \mbox{ and }
+%q \mbox{ is odd if } n \mbox{ is, and }
+%\epsilon \mbox{ is --}  \mbox{ for } n=4, \mbox{ and }
+%(n,q) \notin \{ (3,3), (4,2) \}.\]
 \end{itemize}
 }
 
-\textbf{Note:} For the orthogonal groups certain restrictions on $(n,q)$
-apply for $\POmega^{(\pm)}(n,q)$ to be simple, for which the reader is kindly
-asked to consult \cite[Section~2.4]{ATLAS}.
+\textbf{Note:} For the orthogonal groups the given restrictions on $(n,q)$
+are necessary for $\POmega^{(\pm)}(n,q)$ to be simple, see
+\cite[Section~2.4]{ATLAS} for details.
 
 \stru
-The maximal members in \CC8 are $\GL(n,q)$, $Sp(n,q)$, $U(n,q)$ and the
-appropriate orthogonal groups.
+The maximal members in \CC8 are $\GL(n,q)$, $Sp(n,q)$, $U(n,q)$ and
+$O^\epsilon(n,q)$ for the pairs $(n,q)$ for which these groups contain
+a classical simple group.
 
 \subsection{Description of class \CC9: ``almost-simple''}
 \label{descC9}
 
 \desc{
-A subgroup $G < \GG$ lies in class \CC9, if there is a non-abelian simple
-group $S$ and a group $T$ with $S \subseteq T \subseteq \Aut(S)$ such that
-$G/Z$ is isomorphic to $T$ (in this case $G/Z$ is called
+A group $G \le \GG$ lies in class \CC9, if there is a non-abelian, non-classical 
+simple
+group $\bar N$ and a group $T$ with $\bar N \subseteq T \subseteq \Aut(\bar N)$ 
+such that $G/Z$ is isomorphic to $T$ (in this case $G/Z$ is called
 ``almost-simple'') and
-the $G$-module $V$ gives rise to an
+the module $V$ gives rise to an
 absolutely irreducible projective representation for $T$ which
 is not realisable over a proper subfield of $\F_q$.}
 
 \textbf{Note:} The existence of the projective representation given by $V$
-limits the possibilities for $S$ and $T$ for given $(n,q)$ and thus
+limits the possibilities for $\bar N$ and $T$ for given $(n,q)$ and thus
 provides an interesting application for the representation theory of finite
 simple groups, their Schur covers and automorphism groups.
 
@@ -305,7 +343,9 @@ of class \CC9.
 
 The contents of this section are a variation on ``The Theory behind
 \textsc{Smash}'' from \cite[Section~2]{smashnormal} and provide a proof for
-Theorem~\ref{Asch}.
+Theorem~\ref{Asch}. The part about the tensor decomposition is copied
+from Section~\ref{subsec:tensor} and thus from 
+\cite[Section~6.6]{subfieldpaper}.
 
 Let $G$ be any subgroup of $\GG = \GL(n,q)$ acting from the right on the
 natural module $V := \F_q^{1 \times n}$.
@@ -317,13 +357,11 @@ From now on we assume that $V$ is irreducible.
 
 If $V$ is not absolutely irreducible, then by \cite[(29.13)]{CR0} and the 
 usual Wedderburn Theorems
-the endomorphism ring $E := \End_{\F_q G}(V)$ is a proper finite extension field
-of $\F_q$. This automatically extends the $F_q$-vector space structure of
-$V$ to an $\F_{q^s}$-vector space structure for any intermediate field 
-$\F_q \subsetneq \F_{q^s} \subseteq E$ such that the $G$-action is
-$\F_{q^s}$-linear. Thus $G$ lies in class \CC3 (see \ref{descC3})
-with trivial Galois
-automorphisms.
+the endomorphism ring $\End_{\F_q G}(V)$ is a proper finite extension field
+$\F_{q^s}$ of $\F_q$. This automatically extends the $F_q$-vector
+space structure of $V$ to an $\F_{q^s}$-vector space structure
+such that the $G$-action is $\F_{q^s}$-linear. Thus $G$ lies in class
+\CC3 (see \ref{descC3}) with trivial Galois automorphisms.
 
 From now on we assume that $V$ is absolutely irreducible. Let $Z$ be the
 subgroup of scalar matrices contained in $G$, i.e.~$Z := G \cap
@@ -345,9 +383,10 @@ classical simple groups defined over $\F_q$ and $G$ lies in \CC8 (see
 \ref{descC8}), because by our assumption of $G$ not lying in \CC5 we can
 exclude classical simple groups defined over subfields. Otherwise
 $G$ lies in \CC9 (see \ref{descC9}) with
-$S=T \cong G/Z$ since $V$ gives rise to an absolutely irreducible
+$\bar N =T \cong G/Z$ since $V$ gives rise to an absolutely irreducible
 projective representation of the finite simple group $G/Z$ that
-is by assumption not realisable over a proper subfield of $\F_q$.
+is by assumption not realisable over a proper subfield of $\F_q$ and
+is not classical.
 
 We assume from now on that $G/Z$ is not simple, let $\bar N$
 be a non-trivial minimal normal subgroup of $G/Z$ and $N$ be
@@ -386,8 +425,7 @@ h' c^g = c^g h'$, for some $h' \in N$. As $h$ varies over $N$, the
 element $h'$ takes every value in $N$, therefore $\left< c \right>
 = \left< c^g \right>$ and so $c^g = c^k$ for some $k$. Suppose that
 $c^i + c^j = c^l$, then $(c^i)^g + (c^j)^g = (c^l)^g$ so $g$ acts as
-field automorphism on $\F_{q^s}$. By using a subfield of $\F_{q^s}$ if
-necessary we can choose $s$ to be prime and thus have proved that $G$
+field automorphism on $\F_{q^s}$. We have thus proved that $G$ 
 lies in \CC3 (see \ref{descC3}).
 
 From now on we assume that $W$ is absolutely irreducible.
@@ -454,7 +492,7 @@ $T \in \F_q^{d \times d}$. Since $g$ is invertible both
 $U$ and $T$ are invertible. 
 
 This provides an $\F_q$-linear isomorphism of 
-$\F_q^d$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
+$\F_q^n$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
 such that all $g \in G$ act as a Kronecker product proving that
 $G$ lies in \CC4 (see \ref{descC4}).
 
@@ -500,7 +538,10 @@ $E \cap Z = Z(E) = E' = R' = N'$ has $r$ elements and
 $N/Z = ZE/Z \cong E/(E \cap Z) = E/Z(E)$. Thus the Frattini subgroup
 $\Phi(E)$ of $E$ is equal to $Z(E)$ and $E$ is shown to be extraspecial
 of order $r^{1+k}$ and exponent $r$. It follows that $k$ is even and
-$n=r^{k/2}$. Since $G$ normalises $E$ it lies in \CC6 with odd $r$.
+$n=r^{k/2}$. The linear action of $G$ on
+the $\F_r$-vector space $E/Z(E)$ is irreducible because every minimal
+normal subgroup of $N/Z \cong E/Z(E)$ is conjugated to a full basis by
+$G$. Hence $G$ lies in \CC6 with odd $r$.
 
 Consider now $r=2$. Recall $R' \le Z$ with $|R'| = 2$ and
 let $E$ be the set of elements $x \in R$ with $x^2 \in R'$. 
@@ -522,13 +563,37 @@ Frattini subgroup $\Phi(E)$ of $E$ is equal to $E'$ and $E$ is either
 extraspecial of order $2^{1+k}$ or a central product of a cyclic group
 of order $4$ consisting of scalar matrices and an extraspecial group 
 of order $2^{1+k}$. In both cases it follows that $k$ is even and
-$n = 2^{k/2}$. Since $G$ normalises $E$ it lies in \CC6 with $r=2$.
+$n = 2^{k/2}$. As above the linear action of $G$ on the $\F_2$-vector space
+$E/Z(E)$ is irreducible and thus $G$ lies in \CC6 with $r=2$.
 
-If $\bar N$ direct product of non-abelian simple groups: \CC7
+This concludes case (i) that $\bar T$ is cyclic of prime order $r$.
 
-If $\bar N$ simple, then $G$ almost simple and \CC8 or \CC9
+We now consider case (ii) that $\bar N$ is a direct product of more than
+one copies of a non-abelian simple group $\bar T$. Thus $N$ is a
+central product of the groups $T_1, \ldots, T_k$, each of which is
+isomorphic to a single group $T$, which is a central extension of
+$\bar T$ by $Z$. The absolutely irreducible representations
+of $N$ in which $Z$ acts as scalars are just tensor products of 
+absolutely irreducible representations of $T$ in which $Z \le T$ acts as
+scalars. Furthermore, since $T_1, \ldots, T_k$ are all conjugate under
+$G$, the natural module $V|_N$ must be isomorphic to an outer tensor product
+$W \otimes_{\F_q} \cdots \otimes_{\F_q} W$ 
+of $k$ copies of an absolutely irreducible module $W$ of $T$ in which $Z$
+acts as scalars, and $G/N$ acts on this tensor product by permuting
+the tensor factors transitively. So $G$ lies in \CC7 
+concluding case~(ii).
 
-\newpage
+We finally consider case (iii) that $\bar N = N/Z$ is a non-abelian finite 
+simple group. Since in this case the centraliser $C_{\bar N}(\bar N)$ is 
+trivial, $G/Z$ is contained in the automorphism group of $\bar N$. 
+Thus either $N$ is a classical simple group defined over $\F_q$ (it
+cannot be classical defined over a subfield because it is not in \CC5) and
+$G$ lies in \CC8, or $G$ lies in \CC9. Note that the assumptions we
+picked up along the way of this proof now allow to conclude that $V$
+gives rise to an absolutely irreducible projective representation for
+$G$ which is not realisable over a subfield (since $G$ is not \CC5). In
+particular we can leave out finite classical groups in class \CC9.
+\proofend
 
 \section{Finding reductions}
 \label{findred}
