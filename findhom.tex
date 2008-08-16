@@ -74,7 +74,7 @@ of subgroups of $\GG$ and proves that every subgroup $G \le \GG$ is either
 a subgroup of some member of one of these $8$ classes or has a certain
 list of properties. We change this formulation in the following
 way: Instead of the original 8 Aschbacher class \CC 1 to \CC 8
-we define slightly different classes \DD 1 to \DD 8
+we define different classes \DD 1 to \DD 8
 (for details see the descriptions in Sections \ref{descC1} to
 \ref{descC8}).
 Furthermore, we collect
@@ -131,7 +131,8 @@ $0 < W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
 }
 
 \diffasch1
-This is exactly the same definition as for \CC1.
+Our class \DD1 consists of all members of \CC1 and all their
+subgroups.
 
 \smallskip
 \stru
@@ -155,7 +156,8 @@ $(n-m) \times (n-m)$-identity matrix.
 \label{descC2}
 
 \desc{
-A group $G \le \GG$ is a member of \DD2 if there is a decomposition
+A group $G \le \GG$ is a member of \DD2 if the natural module $V$ is
+irreducible and there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
 such that the summands are permuted transitively by $G$. That is, 
@@ -165,26 +167,28 @@ summands is transitive.
 }
 
 \diffasch2
-This is exactly the same definition as for \CC2.
+We include in \DD2 the subgroups of the members of \CC2 that permute
+the direct summands transitively, but we exclude all groups acting
+reducibly.
 
 \smallskip
-\stru
-A group lies in \DD2 if and only if it is
-conjugate in $\GG$ to a subgroup of $\GL(m,q) \wr S_t$.
-In this wreath product the $\GL(m,q)$ factors act on the direct summands
-$V_i$ and the symmetric group on top permutes the subspaces.
+\exmemb
+The groups $\GL(m,q) \wr S_t$, where the $\GL(m,q)$ factors act on
+the direct summands $V_i$ and the symmetric group on top permutes the
+subspaces, all lie in \DD2. Subgroups of these groups belong to \DD2
+if they act irreducibly.
 
 
 \subsection{Description of class \DD3: ``semilinear''}
 \label{descC3}
 
 \desc{
-A group $G \le \GG$ lies in class \DD3 if there is a finite field
+A group $G \le \GG$ lies in class \DD3 if the natural module $V$ is
+irreducible and there is a finite field
 extension $\F_{q^s}$ of $\F_q$,
 for which we can extend the $\F_q$-vector space structure of
 $V$ to an $\F_{q^s}$-vector space structure of dimension
-$n/s$, such that there exists for every
-$g \in G$
+$n/s$, such that for every $g \in G$ there exists 
 an automorphism $\alpha_g$ of $\F_{q^s}$ with
 \[ (v+\lambda w)\cdot g = v \cdot g + \lambda^{\alpha_g} \cdot w \cdot
 g\]
@@ -203,42 +207,55 @@ $V$ is not absolutely irreducible (see \cite[(29.13)]{CR0}).
 
 \medskip
 \diffasch3
-This is exactly the same definition as for \CC3.
+We include in \DD3 all subgroups of the members of \CC3, but we exclude all
+groups acting reducibly.
 
 \smallskip
 \stru
-A group lies in \DD3 if and only if it is conjugate in $\GG$ to a 
-subgroup of $\GGL(n/s,q^s)$
-for some prime $s \mid n$, 
-realised as $(n \times n)$-matrices over $\F_q$ by choosing an 
+A group lies in \DD3 if and only if it acts irreducibly and is conjugate
+in $\GG$ to a subgroup of $\GGL(n/s,q^s)$ for some prime $s \mid
+n$, realised as $(n \times n)$-matrices over $\F_q$ by choosing an
 $\F_q$-basis of $\F_{q^s}$.
+
 
 \subsection{Description of class \DD4: ``tensor-decomposable''}
 \label{descC4}
 
+%%% % Old version:
+%%% \desc{
+%%% A group $G \le \GG$ lies in class \DD4 if there is a decomposition
+%%% of $V = V_1 \otimes V_2$ into a tensor product with 
+%%% $1 < d_1 := \dim_{\F_q}(V_1) < n$
+%%% and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
+%%% that is, for every $g \in
+%%% G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
+%%% \End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
+%%% for all $v_1 \in V_1$ and $v_2 \in V_2$.
+%%% }
 \desc{
-A group $G \le \GG$ lies in class \DD4 if there is a decomposition
-of $V = V_1 \otimes V_2$ into a tensor product with 
-$1 < d_1 := \dim_{\F_q}(V_1) < n$
-and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
-that is, for every $g \in
-G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
-\End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
-for all $v_1 \in V_1$ and $v_2 \in V_2$.
+A group $G \le \GG$ lies in class \DD4 if the natural module $V$ is
+absolutely irreducible and $G$ has a normal subgroup $N$ containing $Z$
+such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
+$k \ge 2$ modules which are all isomorphic to a single absolutely irreducible 
+$\F_q N$-module $W$.
+
+In this case, there is an absolutely irreducible projective
+representation of $G/N$ on an $\F_q$-vector space $U$ of dimension $k$ and $V$ is
+isomorphic as an $\F_q$-vector space to the tensor product $W
+\otimes_{\F_q} U$.
 }
 
 \diffasch4
-For the definition of \CC4 one usually restricts to $d_1 < d_2$ but our
-proof needs the case $d_1 = d_2$ because we define \DD7 more restrictively
-than \CC7.
+The class \DD4 is quite different from \CC4.
 
 \smallskip
-\stru
-A group lies in \DD4 if and only if it is conjugate in $\GG$ to a
-subgroup of $\GL(d_1,q) \circ \GL(d_2,q)$, by which we mean the central
-product of $\GL(d_1,q)$ and $\GL(d_2,q)$. This central product is
+\exmemb
+The group $\GL(d_1,q) \circ \GL(d_2,q)$ is the central
+product of $\GL(d_1,q)$ and $\GL(d_2,q)$ for $d_1 \cdot d_2 = n$ and
+thus is contained in $\GL(n,q)$. It is
 the set of Kronecker products of a matrix in $\GL(d_1,q)$ and one in
-$\GL(d_2,q)$.
+$\GL(d_2,q)$. Those groups are members in \DD4.
+
 
 \subsection{Description of class \DD5: ``subfield''}
 \label{descC5}
