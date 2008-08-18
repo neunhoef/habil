@@ -55,7 +55,7 @@ together with references into the literature. An algorithm to recognise
 and handle classes \CC3 and \CC5 provided that the group does not lie in
 class \CC1 is described in detail in Chapter~\ref{chap:subsemi}.
 
-\section{Aschbacher's Theorem}
+\section{A variant of Aschbacher's Theorem}
 \label{sect:aschbacher}
 
 Note again that we restrict ourselves to the general linear group
@@ -63,14 +63,14 @@ throughout, which is only a special case of Aschbacher's Theorem.
 
 \begin{Not}
 For this section we fix $n \in \N$ and $q=p^e$ for a prime $p$ and
-talk about the group $\GG := \GL(n,q)$. We denote the vector space $\F_q^{1
-\times n}$ by $V$ and note that $\GG$ acts from the right on $V$ by
+talk about the group $\GL(n,q)$. We denote the vector space $\F_q^{1
+\times n}$ by $V$ and note that $\GL(n,q)$ acts from the right on $V$ by
 vector-matrix multiplication.
 \end{Not}
 
 For the original formulation of his theorem in \cite{aschbacher}, Aschbacher 
 defines $8$ classes
-of subgroups of $\GG$ and proves that every subgroup $G \le \GG$ is either
+of subgroups of $\GL(n,q)$ and proves that every subgroup $G$ is either
 a subgroup of some member of one of these $8$ classes or has a certain
 list of properties. We change this formulation in the following
 way: Instead of the original 8 Aschbacher class \CC 1 to \CC 8
@@ -78,7 +78,7 @@ we define different classes \DD 1 to \DD 8
 (for details see the descriptions in Sections \ref{descC1} to
 \ref{descC8}).
 Furthermore, we collect
-the subgroups $G \le \GG$ that fulfil the properties in the statement of 
+the subgroups $G \le \GL(n,q)$ that fulfil the properties in the statement of 
 Aschbacher's Theorem in the class \DD9. The slight modifications 
 to the class definitions on the one hand stem from our proof of the
 theorem, on the other hand they are motivated in the following way: We try
@@ -92,7 +92,7 @@ We formulate a variant of Aschbacher's Theorem in the following way:
 
 \begin{Theo}[Variant of Aschbacher's Theorem, specialised to\/ $\GL(n,q)$]
 \label{Asch}
-Let $G$ be a subgroup of\/ $\GG = \GL(n,q)$ with $n \ge 2$.
+Let $G$ be a subgroup of\/ $\GL(n,q)$ with $n \ge 2$.
 Then $G$ is contained in at least one of the
 classes \DD1 to \DD9 of subgroups described in Sections~\ref{descC1}
 to \ref{descC9}.
@@ -112,7 +112,7 @@ to \ref{descC9}.
 
 \medskip
 We proceed with our definition of the subgroup classes \DD1 to \DD9. Throughout,
-we denote for a subgroup $G < \GG$ its subgroup of scalar matrices
+we denote for a subgroup $G < \GL(n,q)$ its subgroup of scalar matrices
 by $Z$, that is, $Z := Z(\GL(n,q)) \cap G$. For each class we either
 give an alternate structural description or at least give the structure 
 of some ``typical'' example groups in that class.
@@ -126,7 +126,7 @@ of some ``typical'' example groups in that class.
 \newcommand{\exmemb}{\textbf{Example members:}\par}
 
 \desc{
-A group $G \le \GG$ is a member of \DD1 if there is a subspace
+A group $G \le \GL(n,q)$ is a member of \DD1 if there is a subspace
 $0 < W < V$ that is stabilised by $G$, that is, $Wg = W$ for all $g \in G$.
 }
 
@@ -136,7 +136,8 @@ subgroups.
 
 \smallskip
 \stru
-A group lies in \DD1 if and only if it is conjugate in $\GG$ to a subgroup of a group
+A group lies in \DD1 if and only if it is conjugate in $\GL(n,q)$ 
+to a subgroup of a group
 \[ P_m := \left\{ \left[ \begin{array}{cc} A & 0 \\ C & D \end{array} \right]
            \mid A \in \GL(m,q), D \in \GL(n-m,q) \mbox{ and }
            C \in \F_q^{n-m \times m} \right\} \]
@@ -156,8 +157,8 @@ $(n-m) \times (n-m)$-identity matrix.
 \label{descC2}
 
 \desc{
-A group $G \le \GG$ is a member of \DD2 if the natural module $V$ is
-irreducible and there is a decomposition
+A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
+absolutely irreducible and there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
 such that the summands are permuted transitively by $G$. That is, 
@@ -167,9 +168,9 @@ summands is transitive.
 }
 
 \diffasch2
-We include in \DD2 the subgroups of the members of \CC2 that permute
-the direct summands transitively, but we exclude all groups acting
-reducibly.
+We include in \DD2 the subgroups of the members of \CC2 that
+permute the direct summands transitively, but we exclude all groups
+acting not absolutely irreducibly.
 
 \smallskip
 \exmemb
@@ -183,7 +184,7 @@ if they act irreducibly.
 \label{descC3}
 
 \desc{
-A group $G \le \GG$ lies in class \DD3 if the natural module $V$ is
+A group $G \le \GL(n,q)$ lies in \DD3 if the natural module $V$ is
 irreducible and there is a finite field
 extension $\F_{q^s}$ of $\F_q$,
 for which we can extend the $\F_q$-vector space structure of
@@ -200,10 +201,10 @@ of $G$ is $\F_{q^s}$-semilinear, so $G$ is a subgroup of $\GGL(n/s,q^s)$.
 Note that the automorphisms of $\F_{q^s}$ occurring in the semilinear
 actions of group elements will automatically fix every element of $\F_q$, 
 since the original action is $\F_q$-linear. Therefore they are elements of
-the Galois group $\Gal(\F_{q^s}/\F_q)$. Note further that for irreducible
-$V$, the group $G$ lies in \DD3 
+the Galois group $\Gal(\F_{q^s}/\F_q)$. Note further that
+the group $G$ lies in \DD3 
 with trivial automorphisms $\alpha_g$ for all $G$ if and only if
-$V$ is not absolutely irreducible (see \cite[(29.13)]{CR0}).
+$V$ is irreducible but not absolutely irreducible (see \cite[(29.13)]{CR0}).
 
 \medskip
 \diffasch3
@@ -212,10 +213,10 @@ groups acting reducibly.
 
 \smallskip
 \stru
-A group lies in \DD3 if and only if it acts irreducibly and is conjugate
-in $\GG$ to a subgroup of $\GGL(n/s,q^s)$ for some prime $s \mid
-n$, realised as $(n \times n)$-matrices over $\F_q$ by choosing an
-$\F_q$-basis of $\F_{q^s}$.
+A group lies in \DD3 if and only if it acts irreducibly on the natural
+module and is conjugate in $\GL(n,q)$ to a subgroup of $\GGL(n/s,q^s)$ for
+some prime $s \mid n$, realised as $(n \times n)$-matrices over $\F_q$
+by choosing an $\F_q$-basis of $\F_{q^s}$.
 
 
 \subsection{Description of class \DD4: ``tensor-decomposable''}
@@ -223,7 +224,7 @@ $\F_q$-basis of $\F_{q^s}$.
 
 %%% % Old version:
 %%% \desc{
-%%% A group $G \le \GG$ lies in class \DD4 if there is a decomposition
+%%% A group $G \le \GL(n,q)$ lies in class \DD4 if there is a decomposition
 %%% of $V = V_1 \otimes V_2$ into a tensor product with 
 %%% $1 < d_1 := \dim_{\F_q}(V_1) < n$
 %%% and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
@@ -233,20 +234,19 @@ $\F_q$-basis of $\F_{q^s}$.
 %%% for all $v_1 \in V_1$ and $v_2 \in V_2$.
 %%% }
 \desc{
-A group $G \le \GG$ lies in class \DD4 if the natural module $V$ is
-absolutely irreducible and $G$ has a normal subgroup $N$ containing $Z$
+A group $G \le \GL(n,q)$ lies in class \DD4 if the natural module $V$ is
+absolutely irreducible and $G$ has a normal subgroup $N$
 such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
 $k \ge 2$ modules which are all isomorphic to a single absolutely irreducible 
 $\F_q N$-module $W$.
-
-In this case, there is an absolutely irreducible projective
-representation of $G/N$ on an $\F_q$-vector space $U$ of dimension $k$ and $V$ is
-isomorphic as an $\F_q$-vector space to the tensor product $W
-\otimes_{\F_q} U$.
 }
 
 \diffasch4
-The class \DD4 is quite different from \CC4.
+We define \DD4 including more conditions on the structure of the
+group and its natural representation than Aschbacher. The tensor
+product decomposition in the definition of \CC4 follows from our
+conditions, see Proposition~\ref{tensorprop}. On the other
+hand we allow the dimensions of the tensor factors to be equal.
 
 \smallskip
 \exmemb
@@ -261,18 +261,19 @@ $\GL(d_2,q)$. Those groups are members in \DD4.
 \label{descC5}
 
 \desc{
-A group $G \le \GG$ lies in class \DD5 if there exists a proper subfield 
-$\F_{q_0}$ of $\F_q$, a matrix $T \in \GL(n,q)$, and 
-scalars $(\beta_g)_{g \in G}$ with $\beta_g \in \F_q$
-such that $\beta_g \cdot T^{-1} g T \in \GL(n,q_0)$ for
-all $g \in G$.}
+A group $G \le \GL(n,q)$ lies in \DD5 if the natural module $V$ is
+absolutely irreducible and there exists a proper subfield $\F_{q_0}$
+of $\F_q$, a matrix $T \in \GL(n,q)$, and scalars $(\beta_g)_{g \in
+G}$ with $\beta_g \in \F_q$ such that $\beta_g \cdot T^{-1} g T \in
+\GL(n,q_0)$ for all $g \in G$.}
 
 \diffasch5
-This is exactly the same definition as for \CC5.
+We include in \DD5 subgroups of the members of \CC5 but we exclude
+all groups acting not absolutely irreducibly.
 
 \smallskip
 \stru
-A group lies in \DD5 if and only if it is conjugate in $\GG$ to a
+A group lies in \DD5 if and only if it is conjugate in $\GL(n,q)$ to a
 subgroup of $\GL(n,q_0) \cdot \F_q^*$ where $\F_{q_0}$ is a 
 proper subfield of $\F_q$.
 
@@ -280,7 +281,8 @@ proper subfield of $\F_q$.
 \label{descC6}
 
 \desc{
-A group $G \le \GG$ lies in class \DD6 if $n=r^m$ for a prime $r$ and
+A group $G \le \GL(n,q)$ lies in \DD6 if the natural module $V$ is absolutely
+irreducible, $n=r^m$ for a prime $r$ and
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
     \item \textbf{either} $r$ is odd and $G$ has a normal subgroup $E$ that 
 is an extraspecial $r$-group of order $r^{1+2m}$ and exponent $r$,
@@ -294,11 +296,13 @@ $\F_r$-vector space $E/Z(E)$ of dimension $2m$ is irreducible. }
 \diffasch6
 We have added the condition about the irreducible $\F_r$-linear action of $G$ on
 $E/Z(E)$ because it comes out of our proof easily and might help to
-find reductions algorithmically for groups in this class.
+devise algorithms to find a reduction for groups in this class. On the
+other hand we include subgroups of members of \CC6 if they fulfil this
+condition.
 
 \smallskip
 \exmemb
-The following are subgroups of $\GG$ for suitable $(n,q)$ in class \DD6:
+The following subgroups of $\GL(n,q)$ for suitable $(n,q)$ lie in \DD6:
 
 $r^{1+2m}.\Sp(2m,r)$ and $2_+^{1+2m}.O^+(2m,2)$ and 
 $2_-^{1+2m}.O^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
@@ -308,21 +312,33 @@ $2_-^{1+2m}.O^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
 \label{descC7}
 
 \desc{
-A group $G \le \GG$ lies in class \DD7 if for some $k$ it has a normal 
-subgroup $N$ containing $Z$ that is isomorphic to a central product 
+A group $G \le \GL(n,q)$ lies in \DD7 if it acts absolutely irreducibly on the 
+natural module $V$ and, for some $k$, it has a normal 
+subgroup $N$ containing $Z = Z(G)$ that is isomorphic to a central product 
 $T \circ \cdots \circ T$ of
 $k$ copies of a group $T$ which is a central extension of a non-abelian
-finite simple group $\bar T$ by $Z$, such that: 
+simple group $\bar T$ by $Z$, such that: 
 
-The restricted natural
-module $V|_N$ is isomorphic to a tensor product $W \otimes_{\F_q}
+The restricted
+module $V|_N$ is isomorphic to an outer tensor product $W \otimes_{\F_q}
 \cdots \otimes_{\F_q} W$ of $k$ copies
-of an absolutely irreducible $\F_q N$-module $W$ in which $Z$ acts as
+of an absolutely irreducible $\F_q T$-module $W$ on which $Z$ acts as
 scalars and $G/N$ acts on $N$ by permuting the tensor factors
 transitively.}
 
-\stru
-Every such group is conjugate in $\GG$ to a subgroup of
+By the term ``outer tensor product'' we mean that every central factor
+$T$ of $N$ acts on exactly one of the tensor factors $W$.
+
+\medskip
+\diffasch7 
+We define \DD7 including more conditions on the structure of the
+group and its natural representation than Aschbacher. Groups in
+\DD7 are tensor induced,
+see Proposition~\ref{tensorindprop}. On the other hand we have added
+some subgroups of the members of \CC7.
+
+\exmemb
+The following subgroups of $\GL(n,q)$ lie in \DD7:
 $\GL(r,q)^{\otimes m}.S_r$ where $n=r^m$ and $\GL(r,q)^{\otimes m}$ 
 denotes the central product of $m$ copies of $\GL(r,q)$.
 
@@ -330,7 +346,7 @@ denotes the central product of $m$ copies of $\GL(r,q)$.
 \label{descC8}
 
 \desc{
-A group $G \le \GG$ lies in class \DD8 if $G/Z$ contains a classical simple
+A group $G \le \GL(n,q)$ lies in \DD8 if $G/Z$ contains a classical simple
 group in one of the following ways:
 %\begin{itemize}
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
@@ -370,7 +386,7 @@ a classical simple group.
 \label{descC9}
 
 \desc{
-A group $G \le \GG$ lies in class \DD9, if there is a non-abelian, non-classical 
+A group $G \le \GL(n,q)$ lies in \DD9, if there is a non-abelian, non-classical 
 simple
 group $\bar N$ and a group $T$ with $\bar N \subseteq T \subseteq \Aut(\bar N)$ 
 such that $G/Z$ is isomorphic to $T$ (in this case $G/Z$ is called
@@ -388,7 +404,7 @@ simple groups, their Schur covers and automorphism groups.
 \stru
 The absolutely irreducible projective representations of the automorphism
 groups of the non-abelian finite simple groups provide the maximal members
-of class \DD9.
+of \DD9.
 
 
 \section{A proof of the $\mathbf{\GL}$-version of Aschbacher's Theorem}
@@ -396,11 +412,11 @@ of class \DD9.
 
 The contents of this section are a variation on ``The Theory behind
 \textsc{Smash}'' from \cite[Section~2]{smashnormal} and provide a proof for
-Theorem~\ref{Asch}. The part about the tensor decomposition is copied
-from Section~\ref{subsec:tensor} and thus from 
-\cite[Section~6.6]{subfieldpaper}.
+Theorem~\ref{Asch}. The part about the semilinear action is copied
+from Section~\ref{subsec:semilin} and thus from 
+\cite[Section~6.4]{subfieldpaper}.
 
-Let $G$ be any subgroup of $\GG = \GL(n,q)$ acting from the right on the
+Let $G$ be any subgroup of $\GL(n,q)$ acting from the right on the
 natural module $V := \F_q^{1 \times n}$.
 
 If the natural module $V$ is reducible, then $G$ is contained in class \DD1
@@ -421,9 +437,8 @@ subgroup of scalar matrices contained in $G$, i.e.~$Z := G \cap
 Z(\GL(n,q))$. Since $V$ is absolutely irreducible it follows that $Z$ is
 the centre of $G$.
 
-At this stage of the proof we mention that obviously $G$ can be
-realisable over a proper subfield and thus lie in \DD5 (see
-\ref{descC5}).
+At this stage of the proof we mention that obviously $G$ can lie
+in \DD5 (see \ref{descC5}).
 
 From now on we assume that $G$ does not lie in \DD5. In the sequel this 
 assumption will be used to rule out classical groups defined over
@@ -486,68 +501,7 @@ From now on we assume that $W$ is absolutely irreducible.
 We first assume that $W$ is a proper subspace of $V$. Let $d :=
 \dim_{\F_q}(W)$ such that we have $1 < d < n$. Since by assumption 
 all $G$-conjugates of $W$ are isomorphic to $W$ as $\F_q N$-modules,
-we can choose a basis of $V$ such that all elements of $N$ are block
-diagonal matrices in which all diagonal blocks are identical of size
-$d$.
-
-As $N \triangleleft G$, for all $h \in N$ and $g \in G$,
- the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
-a block diagonal matrix in which all $d \times d$-blocks along the diagonal
-are identical. Fixing $g$, we conclude that $g\cdot (g^{-1}hg) = hg$ for all
-$h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
-
-\begin{eqnarray*}
-   &g \cdot (g^{-1}hg) & 
- = \left[ \begin{array}{c|c|c|c}
-      g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
-      g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
-      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,n/d} \end{array} \right]
-\cdot \left[ \begin{array}{c|c|c|c}
-      D^g(h) & 0   & \cdots &      0    \\ \hline
-         0   &D^g(h)&\cdots &      0    \\ \hline
-      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-         0    &    0    & \cdots& D^g(h) \end{array} \right] \\
- &=& \left[ \begin{array}{c|c|c|c}
-      D(h)    & 0       & \cdots &     0    \\ \hline
-         0    &D(h)     &\cdots &      0    \\ \hline
-      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-         0    &    0    & \cdots& D(h)   \end{array} \right]
-\cdot \left[ \begin{array}{c|c|c|c}
-      g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
-      g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
-      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,d/n} \end{array} \right]
- = hg
-\end{eqnarray*}
-where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
-representing $h$ on the module $W$ and $D^g(h) = D(g^{-1}hg)$ is the
-same representation twisted by the element $g$. By the block diagonal
-structure of the matrices in $N$ we get 
-$g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
-all $h \in N$.
-
-But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
-are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{d \times d}$ with
-$T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
-since the representation $D$ is absolutely irreducible,
-the matrix $T$ is invertible and unique 
-up to multiplication by an element in $C_{\GL(d,q)}(D(N))$, which
-consists only of the scalar matrices.
-
-This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
-\{ 1, \ldots, d/n \}$ there
-is a unique element $e_{i,j} \in \F_q$ (possibly $0$) with 
-$g_{i,j} = T \cdot e_{i,j}$. Thus we have shown that with respect to
-the above choice of basis, every element $g$ is equal to a Kronecker 
-product of some matrix in $U \in \F_q^{n/d \times n/d}$ with a matrix
-$T \in \F_q^{d \times d}$. Since $g$ is invertible both 
-$U$ and $T$ are invertible. 
-
-This provides an $\F_q$-linear isomorphism of 
-$\F_q^n$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
-such that all $g \in G$ act as a Kronecker product proving that
-$G$ lies in \DD4 (see \ref{descC4}).
+we have shown that $G$ lies in \DD4 (see \ref{descC4}).
 
 We now move on to the case that $W = V$, that is, the restriction
 $V|_N$ is irreducible. Recall that we are still assuming that $W$ is
@@ -646,6 +600,102 @@ picked up along the way of this proof now allow to conclude that $V$
 gives rise to an absolutely irreducible projective representation for
 $G$ which is not realisable over a subfield (since $G$ is not \DD5). In
 particular we can leave out finite classical groups in class \DD9.
+\proofend
+
+In the rest of this section we present results relating our class
+definitions to those of Aschbacher.
+
+\begin{Prop}[\DD4 implies tensor decomposability]
+    \label{tensorprop}
+If a group $G \le \GL(n,q)$ lies in \DD4, then it is tensor decomposable,
+by which we mean the following:
+there is a decomposition
+of\/ $V = V_1 \otimes V_2$ into a tensor product with 
+$1 < d_1 := \dim_{\F_q}(V_1) < n$
+and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
+that is, for every $g \in
+G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
+\End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
+for all $v_1 \in V_1$ and $v_2 \in V_2$.
+\end{Prop}
+\proofbeg
+This proof is copied from Section~\ref{subsec:tensor} and thus from 
+\cite[Section~6.6]{subfieldpaper}.
+
+We assume that $G$ lies in \DD4, so the natural module $V$ is
+absolutely irreducible and $G$ has a normal subgroup $N$ such that
+$V|_N$ is isomorphic to a direct sum of $k>2$ modules which are all
+isomorphic to a single absolutely irreducible $\F_q N$-module $W$
+of dimension $d < n$.
+
+It immediately follows that we can choose a basis of $V$ such that all
+elements of $N$ are block diagonal matrices in which all diagonal blocks
+are identical of size $d$.
+
+As $N \triangleleft G$, for all $h \in N$ and $g \in G$,
+ the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
+a block diagonal matrix in which all $d \times d$-blocks along the diagonal
+are identical. Fixing $g$, we conclude that $g\cdot (g^{-1}hg) = hg$ for all
+$h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
+
+\begin{eqnarray*}
+   &g \cdot (g^{-1}hg) & 
+ = \left[ \begin{array}{c|c|c|c}
+      g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
+      g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,n/d} \end{array} \right]
+\cdot \left[ \begin{array}{c|c|c|c}
+      D^g(h) & 0   & \cdots &      0    \\ \hline
+         0   &D^g(h)&\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots& D^g(h) \end{array} \right] \\
+ &=& \left[ \begin{array}{c|c|c|c}
+      D(h)    & 0       & \cdots &     0    \\ \hline
+         0    &D(h)     &\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots& D(h)   \end{array} \right]
+\cdot \left[ \begin{array}{c|c|c|c}
+      g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
+      g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,d/n} \end{array} \right]
+ = hg
+\end{eqnarray*}
+where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
+representing $h$ on the module $W$ and $D^g(h) = D(g^{-1}hg)$ is the
+same representation twisted by the element $g$. By the block diagonal
+structure of the matrices in $N$ we get 
+$g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
+all $h \in N$.
+
+But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
+are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{d \times d}$ with
+$T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
+since the representation $D$ is absolutely irreducible,
+the matrix $T$ is invertible and unique 
+up to multiplication by an element in $C_{\GL(d,q)}(D(N))$, which
+consists only of the scalar matrices.
+
+This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
+\{ 1, \ldots, d/n \}$ there
+is a unique element $e_{i,j} \in \F_q$ (possibly $0$) with 
+$g_{i,j} = T \cdot e_{i,j}$. Thus we have shown that with respect to
+the above choice of basis, every element $g$ is equal to a Kronecker 
+product of some matrix in $U \in \F_q^{n/d \times n/d}$ with a matrix
+$T \in \F_q^{d \times d}$. Since $g$ is invertible both 
+$U$ and $T$ are invertible. 
+
+This provides an $\F_q$-linear isomorphism of 
+$\F_q^n$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
+such that all $g \in G$ act as a Kronecker product proving the
+proposition.
+\proofend
+
+\begin{Prop}[\DD7 implies tensor induced]
+    \label{tensorindprop}
+\end{Prop}
+\proofbeg
 \proofend
 
 \section{Finding reductions}
