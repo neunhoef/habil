@@ -320,28 +320,37 @@ $k$ copies of a group $T$ which is a central extension of a non-abelian
 simple group $\bar T$ by $Z$, such that: 
 
 The restricted
-module $V|_N$ is isomorphic to an outer tensor product $W \otimes_{\F_q}
-\cdots \otimes_{\F_q} W$ of $k$ copies
-of an absolutely irreducible $\F_q T$-module $W$ on which $Z$ acts as
-scalars and $G/N$ acts on $N$ by permuting the tensor factors
+module $V|_N$ is isomorphic to an outer tensor product $W_1 \otimes_{\F_q}
+\cdots \otimes_{\F_q} W_k$ of $k$
+absolutely irreducible $\F_q T$-modules of the same dimension on which 
+$Z$ acts as scalars, and $G/N$ acts on $N$ by permuting the tensor factors
 transitively.}
 
-By the term ``outer tensor product'' we mean that every central factor
-$T$ of $N$ acts on exactly one of the tensor factors $W$.
+By the term ``outer tensor product'' we mean that every factor
+$T$ in the central product $N$ acts on exactly one of the tensor factors $W_i$.
+Note that the $\F_q T$-modules $W_i$ need not necessarily be
+isomorphic to each other.
 
 \medskip
 \diffasch7 
-We define \DD7 including more conditions on the structure of the
-group and its natural representation than Aschbacher. Groups in
-\DD7 are tensor induced,
-see Proposition~\ref{tensorindprop}. On the other hand we have added
-some subgroups of the members of \CC7.
+We define \DD7 including more conditions on the structure of the group
+and its natural representation than Aschbacher. On the other hand we
+have added some subgroups of the members of \CC7.
+
+\smallskip
+\textbf{Note:} 
+If $G$ is a
+group in \DD7, then its natural projective representation
+is tensor-induced,
+see Proposition~\ref{tensorindprop}. However, the natural
+representation of $G$ needs not be tensor-induced as is shown in
+Remark~\ref{nottensorind} by an example.
 
 \smallskip
 \exmemb
 The following subgroups of $\GL(n,q)$ lie in \DD7:
-$\GL(r,q)^{\otimes m}.S_r$ where $n=r^m$ and $\GL(r,q)^{\otimes m}$ 
-denotes the central product of $m$ copies of $\GL(r,q)$.
+$\GL(r,q)^{\otimes k}.S_k$ where $n=r^k$ and $\GL(r,q)^{\otimes k}$ 
+denotes the central product of $k$ copies of $\GL(r,q)$.
 
 \subsection{Description of class \DD8: ``classical''}
 \label{descC8}
@@ -592,11 +601,11 @@ of $N$ in which $Z$ acts as scalars are just tensor products of
 absolutely irreducible representations of $T$ in which $Z \le T$ acts as
 scalars. Furthermore, since $T_1, \ldots, T_k$ are all conjugate under
 $G$, the natural module $V|_N$ must be isomorphic to an outer tensor product
-$W \otimes_{\F_q} \cdots \otimes_{\F_q} W$ 
-of $k$ copies of an absolutely irreducible module $W$ of $T$ in which $Z$
-acts as scalars, and $G/N$ acts on this tensor product by permuting
-the tensor factors transitively. So $G$ lies in \DD7 
-concluding case~(ii).
+$W_1 \otimes_{\F_q} \cdots \otimes_{\F_q} W_k$ 
+of $k$ absolutely irreducible $\F_q T$-modules $W_i$ on which $Z$
+acts as scalars. Since $G/N$ acts on $N$ by permuting the factors
+transitively, all modules $W_i$ have the same dimension. So $G$ lies in
+\DD7 concluding case~(ii).
 
 We finally consider case (iii) that $\bar N = N/Z$ is a non-abelian finite 
 simple group. Since in this case the centraliser $C_{\bar N}(\bar N)$ is 
@@ -609,8 +618,10 @@ gives rise to an absolutely irreducible projective representation for
 $G$ which is not realisable over a subfield (since $G$ is not \DD5).
 \proofend
 
+\medskip
 In the rest of this section we present results relating our class
-definitions to those of Aschbacher.
+definitions to those of Aschbacher and to other concepts of group
+representations.
 
 \begin{Prop}[\DD4 implies tensor decomposability]
     \label{tensorprop}
@@ -699,17 +710,82 @@ such that all $g \in G$ act as a Kronecker product proving the
 proposition.
 \proofend
 
-\begin{Prop}[\DD7 implies tensor induced]
-    \label{tensorindprop}
-If a group $G \le \GL(n,q)$ lies in \DD7, then it is tensor induced,
-by which we mean the following:
+\begin{DefProp}[{Tensor induction of (projective) representations}]
+    For details and proofs see \cite[13A]{CRI} and \cite[Section~2]{kovacs}.
 
-There is a subgroup $H$ of $G$ with $[G:H] = k$ and $n=d^k$, and an
-$\F_q H$-module $W$ such that the natural $\F_q G$-module $V$ is
-isomorphic to $W \otimes_{\F_q} \cdots \otimes_{\F_q} W$
+    Let $G$ be a group, $K$ an arbitrary field, $H<G$ a subgroup of
+    index $k$ and $G=\bigcup_{i=1}^k g_i H$ with $g_1,\ldots,g_k \in
+    G$ and $g_1=1$. Let $\varphi : G \to H \wr S_k$ be the group
+    monomorphism defined by $\varphi(x) = \pi \cdot (h_1,\ldots,h_k)$
+    for $x \in G$, where $xg_i = g_{\pi(i)}h_i$ with $\pi \in S_k$
+    and $h_i \in H$ for $1 \le i \le k$.
+    Let $\kappa$ be the group homomorphism $\kappa: \GL(d,K)
+    \wr S_k \to \GL(d^k,K)$ where the direct factors of the base group
+    act on the tensor factors of $(K^d)^{\otimes k} \cong K^{d^k}$ and
+    the top group permutes them. Let $\bar\kappa : \PGL(d,K) \wr S_k
+    \to \PGL(d^k,K)$ be the corresponding map for the projective linear
+    group.
+
+    For a representation $\rho: H \to \GL(d,K)$ of $H$
+    there is a corresponding map $(\rho \wr S_k) : H \wr S_k \to
+    \GL(d,K) \wr S_k$ mapping the base group component-wise by $\rho$. 
+    The \emph{tensor-induced representation}
+    $\rho\!\uparrow^{\otimes G} : G \to \GL(d^k,K)$ is then the
+    composite map $\kappa \circ (\rho \wr S_k) \circ \varphi$. The
+    equivalence class of this representation does not depend on the
+    choices in this construction.
+
+    Similarly,
+    for a projective representation $\bar\rho : H \to \PGL(d,K)$ of
+    $H$ there is a corresponding map $(\bar\rho \wr
+    S_k) : H \wr S_k \to \PGL(d,K)$ mapping the base group
+    component-wise by $\bar\rho$.
+    The \emph{tensor-induced projective representation}
+    $\bar\rho\!\uparrow^{\otimes G} : G \to \PGL(d^k,K)$ is then the
+    composite map $\bar\kappa \circ (\bar\rho \wr S_k) \circ \varphi$.
+    The equivalence class of this projective representation does not
+    depend on the choices in this construction.
+\end{DefProp}
+
+\begin{Prop}[\DD7 implies ``projective tensor-induced'']
+    \label{tensorindprop}
+If a group $G \le \GL(n,q)$ lies in \DD7, then the projective
+representation afforded by its natural module is tensor-induced.
 \end{Prop}
 \proofbeg
+Let $G$ be in \DD7 and let $N$, $T$, $Z$ and $V$ be as in
+Section~\ref{descC7}.
+We can use the proof of \cite[Tensor Induction Theorem]{kovacs}. 
+Although the hypotheses of
+the theorem contain that the natural module is not induced from a any
+proper subgroup, this is only used in the proof to ensure that the
+constituents of the restricted natural module $V|_N$ are all
+equivalent and absolutely irreducible. However, we have this by
+assumption and the proof goes through.
 \proofend
+
+\begin{Rem}[{\DD7 does \emph{not} imply tensor-induced}]
+    \label{nottensorind}
+    Let $G$ be the semidirect product 
+    $(\SL(2,7) \otimes_{\F_7} \SL(2,7)).S_2 < \GL(4,7)$ where the
+    $S_2$ permutes the tensor factors. The natural module $V := \F_7^4$ is
+    absolutely irreducible also when restricted to the normal subgroup
+    $N := \SL(2,7) \otimes_{\F_7} \SL(2,7)$ of index $2$. The center 
+    $Z := \left< -\id \right>$ of $G$ has $2$ elements and $N/Z$ is a
+    minimal normal subgroup of $G/Z$ which is a direct product of two
+    copies of the non-abelian simple group $\PSL(2,7)$. Thus $G$ lies
+    in \DD7 by construction.
+
+    However, $G$ does not have a subgroup of index $4$, the only 
+    subgroup of $G$ of index $2$ is $N$ and $N$ does
+    not have an irreducible representation of dimension $2$ over
+    $\F_7$. Thus the natural module is not tensor-induced.
+
+    Of course, using Proposition~\ref{tensorindprop} we conclude that
+    the projective representation afforded by the natural module is in
+    fact tensor-induced from the two-dimensional projective
+    absolutely irreducible representation of $N$ over $\F_7$.
+\end{Rem}
 
 \section{Finding reductions}
 \label{findred}
