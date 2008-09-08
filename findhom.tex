@@ -737,8 +737,9 @@ proposition.
 
     Similarly,
     for a projective representation $\bar\rho : H \to \PGL(d,K)$ of
-    $H$ there is a corresponding map $(\bar\rho \wr
-    S_k) : H \wr S_k \to \PGL(d,K)$ mapping the base group
+    $H$ there is a corresponding map 
+    $(\bar\rho \wr S_k) : H \wr S_k \to \PGL(d,K) \wr S_k$ 
+    mapping the base group
     component-wise by $\bar\rho$.
     The \emph{tensor-induced projective representation}
     $\bar\rho\!\uparrow^{\otimes G} : G \to \PGL(d^k,K)$ is then the
@@ -757,7 +758,7 @@ Let $G$ be in \DD7 and let $N$, $T$, $Z$ and $V$ be as in
 Section~\ref{descC7}.
 We can use the proof of \cite[Tensor Induction Theorem]{kovacs}. 
 Although the hypotheses of
-the theorem contain that the natural module is not induced from a any
+the theorem contain that the natural module is not induced from any
 proper subgroup, this is only used in the proof to ensure that the
 constituents of the restricted natural module $V|_N$ are all
 equivalent and absolutely irreducible. However, we have this by
@@ -825,7 +826,30 @@ bound for the failure probability (see Lemma~\ref{MeatAxe}).
 \label{solveC3C5}
 
 Chapter~\ref{chap:subsemi} deals with the case that $G$ does not lie
-in \DD1.
+in \DD1 but is contained in \DD3 or in \DD5. The algorithms described
+there sometimes even find a reduction if $G$ lies neither in \DD3 nor
+in \DD5. Note that as it is standard in the literature we say in that
+chapter that a group ``lies in \CC i'' if it is a subgroup of one of
+the groups in Aschbacher class \CC i. For \CC1, \CC3 and \CC5 this then 
+amounts to the same as talking about \DD1, \DD3 and \DD5 respectively.
+
+The algorithm presented in Chapter~\ref{chap:subsemi} is Las Vegas and is
+guaranteed to terminate in 
+\[ O(n^3\log(\delta^{-1})(m+\log(\delta^{-1} \log n))
+   + n^4\log(\delta^{-1} \log n) \log q) \]
+if $0 < \delta < 1/2$ is the prescribed upper bound for the failure
+probability (see Section~\ref{subsemi:sec:complexity}).
+
+We conclude this section by pointing to some earlier work regarding
+reductions for groups in these classes. In \cite{MeatAxeHoltRees} it
+is described how to test whether a matrix group acts absolutely
+irreducibly and in \cite{smashnormal} the general case of a group
+in \CC3 is considered.
+
+For the class \CC5 there is an algorithm described in
+\cite{GlasbyHowlett} which decides whether a matrix group can be
+conjugated to one over a subfield. In \cite{GLGOB} the general case
+of a group lying in \CC5 is considered.
 
 
 \subsection{Finding a reduction in the extraspecial case: \DD6}
