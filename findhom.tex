@@ -790,12 +790,43 @@ assumption and the proof goes through.
 \section{Finding reductions}
 \label{findred}
 
+The purpose of this section is to give an overview how reductions can
+be found algorithmically provided that a matrix group
+lies in one of the classes \DD1 to \DD7. We do not give full details
+here but rather sketch the methods used and collect references into the
+literature.
+
+We continue to use the notation for a group $G < \GL(n,q)$ that
+$Z := Z(\GL(n,q)) \cap G$ is the subgroup of scalar matrices and that
+$V := \F_q^{1 \times n}$ is the natural right module. For the
+complexity statements we assume that $G$ is given by $m$ generators
+$g_1, \ldots, g_m \in \GL(n,q)$.
+
 \subsection{Finding a reduction in the reducible case: \DD1}
 \label{solveC1}
+
+Using the MeatAxe (see \cite{MeatAxeHoltRees, IL, MeatAxeRP}) we can
+decide efficiently whether the natural module $V$ is
+irreducible. If not, we find a proper invariant subspace $0<W<V$
+thereby finding a reduction as described in Section~\ref{descC1}. 
+If $V$ is irreducible, we either prove
+that it is absolutely irreducible or find an element that generates
+the endomorphism ring as a field.
+
+Under the assumptions in Section~\ref{hypMtx} the MeatAxe provides a
+Las Vegas algorithm which terminates
+after at most $O(mn^3\log \delta^{-1})$ elementary field operations where $m$
+is the number of generators of $G$ and $0 < \delta < 1/2$ is an upper
+bound for the failure probability (see Lemma~\ref{MeatAxe}).
+
 
 \subsection{Finding a reduction in the semilinear or subfield case:
 \DD3/\DD5}
 \label{solveC3C5}
+
+Chapter~\ref{chap:subsemi} deals with the case that $G$ does not lie
+in \DD1.
+
 
 \subsection{Finding a reduction in the extraspecial case: \DD6}
 \label{solveC6}
