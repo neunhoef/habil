@@ -158,13 +158,17 @@ $(n-m) \times (n-m)$-identity matrix.
 
 \desc{
 A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
-absolutely irreducible and there is a decomposition
+absolutely irreducible and $G$ has a normal subgroup $N$ containing $Z$ 
+such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
+modules that are not all isomorphic.
+
+By Clifford theory this immediately implies that there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
 such that the summands are permuted transitively by $G$. That is, 
 for every $1 \le i \le t$ and every 
 $g \in G$ there is a $j$ with $V_i g = V_j$ and the action on the
-summands is transitive.
+summands is transitive. The $V_i$ are the homogeneous components.
 }
 
 \diffasch2
@@ -177,7 +181,7 @@ acting not absolutely irreducibly.
 The groups $\GL(m,q) \wr S_t$, where the $\GL(m,q)$ factors act on
 the direct summands $V_i$ and the symmetric group on top permutes the
 subspaces, all lie in \DD2. Subgroups of these groups belong to \DD2
-if they act irreducibly.
+if they act absolutely irreducibly.
 
 
 \subsection{Description of class \DD3: ``semilinear''}
@@ -852,17 +856,235 @@ conjugated to one over a subfield. In \cite{GLGOB} the general case
 of a group lying in \CC5 is considered.
 
 
-\subsection{Finding a reduction in the extraspecial case: \DD6}
-\label{solveC6}
+\subsection{Finding a reduction in the imprimitive and tensor
+cases: \DD2 and \DD4}
+\label{solveD24}
 
-\subsection{Finding a reduction in the imprimitive case: \DD2}
-\label{solveC2}
+The content of this section is a bit experimental and speculative. We
+mainly describe a new idea to find reductions for the classes \DD2 and
+\DD4. At the end of this section we give references into the literature
+to describe the current state of the art.
 
-\subsection{Finding a reduction in the tensor-decomposable case: \DD4}
-\label{solveC4}
+The descriptions of the classes \DD2 and \DD4 (and indeed \DD7 as we will
+see in the next Section~\ref{solveD7}) have one property in common: they
+involve a normal subgroup $N$ of $G$ such that the restriction of the
+natural module to $N$ is reducible. That is, the MeatAxe can detect $N$ in
+the sense that if we have a list of elements of $G$ that happen to generate $N$, 
+the MeatAxe applied to these elements will return a proper $\F_q N$-submodule. 
+Since we can compute normal closures (see \cite[Theorem~2.3.9]{Ser}) it is
+in fact enough to produce one non-central element of $N$ to find a
+reduction for these cases.
+
+However, simply producing random elements in $G$ and hoping to hit elements
+in $N$ does not work efficiently. Therefore we propose a new method to
+produce non-central elements of a normal subgroup which is put together
+from different well-known techniques and seems to work extremely well in
+practice. We give a few heuristic reasons why this works so well below, but
+a complete analysis of this method still has to be done as of this writing.
+In the following description of Algorithm~\ref{alginvjump}
+``\textsc{InvolutionJumper}'' we include a
+slight variation which will be used in Section~\ref{solveD7} to resolve
+the \DD7 case as well. We need a definition first.
+
+\begin{Def}[Projective involution]
+\index{Involution!projective|textbf}\index{projective Involution|textbf}
+Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
+matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
+called \emph{projective involution in $G$}.
+\end{Def}
+
+\begin{algorithm}
+\caption{$\quad$ \sc InvolutionJumper}
+\index{Involution Jumper|textbf}
+\label{alginvjump}
+\begin{algorithmic}
+\STATE \textbf{Input:} A group $G \le \GL(n,q)$, a projective involution
+$x \in G$, an integer $t$, and a boolean $b$.
+\STATE \textbf{Output:} A projective involution in $G$ or \textsc{Fail}.
+
+\smallskip
+\STATE $i := 0$
+\REPEAT
+    \STATE $i := i + 1$
+    \STATE $y := \textsc{Random}(G)$ \hspace*{10mm} \COMMENT{produce a random
+element of $G$}
+    \STATE $c := [x,y]$, and
+    $o := \textsc{ProjectiveOrder}(c)$
+    \IF {$o > 1$}
+        \IF {$o$ is even}
+            \STATE \textbf{Return} $c^{o/2}$
+        \ELSIF {$b$}
+            \STATE $z := y \cdot c^{(o-1)/2}$, and
+            $o := \textsc{ProjectiveOrder}(z)$
+            \IF {$o$ is even}
+                \STATE \textbf{Return} $z^{o/2}$
+            \ENDIF
+        \ENDIF
+    \ENDIF
+\UNTIL $i \ge t$
+\STATE \textbf{Return} \textsc{Fail}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Prop}[The Involution Jumper]
+Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
+matrices. If Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' 
+is called with $G$ and a projective
+involution $x$, the return value $u$ is either a projective involution in $G$ with
+$[x,u] \in Z$ or \textsc{Fail}. If the boolean argument $b$ is
+\textsc{False}, then $u$ is contained in the group $[H,G]$ for
+every subgroup $H \le G$ containing $x$.
+\end{Prop}
+\proofbeg
+This method is heavily inspired by the ``dihedral trick'' to compute
+elements for involution centralisers (see \cite[2.2]{BrayInv}). We briefly
+repeat some arguments from there: Thinking in $G/Z$ (indicated by bars), 
+the element $\bar x$ is an
+involution and for $\bar c := \bar x^{-1} \bar y^{-1} \bar x \bar y$ we have 
+$\bar x \bar c = \bar c^{-1}\bar x$ and thus
+$\bar x\bar c^k = \bar c^{-k}\bar x$ for all $k$. Thus, if $\bar c$ has even 
+order $2k$, then
+$\bar c^k$ is an involution commuting with $\bar x$ and $c^k$ lies in $[H,G]$ 
+for every subgroup $H \le G$ with $x \in H$ by construction.
+
+Now assume that $\bar c$ has odd order $2k+1$,
+then $\bar x\bar y\bar c^k = \bar y\bar x\bar c\bar c^k = \bar y\bar
+c^{-k-1}\bar x=\bar y\bar c^k\bar x$ and $\bar z := \bar y\bar c^k$ is an 
+element in the 
+involution
+centraliser $C_{\bar G}(\bar x)$. In fact, Richard Parker has observed that
+if $\bar y$ is
+uniformly distributed in $\bar G$, then $\bar z$ is uniformly distributed in
+$C_{\bar G}(\bar x)$ in this case. Thus, if the projective order of $z$ is even,
+then Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' 
+returns a projective involution as well.
+
+If the boolean argument $b$ is \textsc{False}, the odd order case is
+ignored and therefore the statement of the proposition holds.
+\proofend
+
+Obviously, the Involution Jumper (Algorithm~\ref{alginvjump}) needs a
+projective involution to start with. To this end we use a very simple minded
+algorithm to find one, which is given as Algorithm~\ref{alginvmaker}
+``\textsc{InvolutionMaker}''.
+
+\begin{algorithm}
+\caption{$\quad$ \sc InvolutionMaker}
+\index{Involution Maker|textbf}
+\label{alginvmaker}
+\begin{algorithmic}
+\STATE \textbf{Input:} A group $G \le \GL(n,q)$ and an integer $t$.
+\STATE \textbf{Output:} A projective involution in $G$ or \textsc{Fail}.
+
+\smallskip
+\STATE $i := 0$
+\REPEAT
+    \STATE $i := i + 1$
+    \STATE $x := \textsc{Random}(G)$ \hspace*{10mm} \COMMENT{produce a random
+element of $G$}
+    \STATE $o := \textsc{ProjectiveOrder}(x)$
+    \IF {$o$ is even}
+        \STATE \textbf{Return} $x^{o/2}$
+    \ENDIF
+\UNTIL $i \ge t$
+\STATE \textbf{Return} \textsc{Fail}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Prop}[Involution Maker]
+Let $G \le \GL(n,q)$ be a group and $Z := G \cap Z(\GL(n,q))$ be the
+subgroup of scalar matrices. Then the return value $u$ of 
+Algorithm~\ref{alginvmaker} ``\textsc{InvolutionMaker}'' 
+called with the group $G$ is either
+a projective involution or \textsc{Fail}. The latter result occurs only if
+only a small percentage of elements in $G$ has even order.
+\end{Prop}
+\proofbeg Omitted.
+\proofend
+
+We summarise the method to find a reduction in the case that $G$ lies in
+\DD2 or \DD4 in Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}''. 
+This algorithm actually
+contains already a line to check for \DD7 which we will explain in
+Section~\ref{solveD7}. We do not analyse this algorithm here but only
+describe some observations and give a few heuristic arguments to try to
+explain why it works so well. The reader is kindly referred to future
+publications of the author for a more detailed analysis.
+
+\begin{algorithm}
+\caption{$\quad$ \textsc{FindHomD247}}
+\index{FindHomD247|textbf}
+\label{algreductionD24}
+\begin{algorithmic}
+\STATE \textbf{Input:} A group $G \le \GL(n,q)$ known to act absolutely
+irreducibly.
+\STATE \textbf{Output:} A reduction homomorphism or \textsc{Fail}.
+
+\smallskip
+\STATE $x := \textsc{InvolutionMaker}(G)$
+\IF {$x = \textsc{Fail}$}
+    \STATE \textbf{Return} \textsc{Fail}
+\ENDIF
+\STATE $i := 0$
+\REPEAT
+    \STATE $i := i + 1$
+    \STATE Compute the normal closure $N := \left< x \right>^G$ in $G$
+    \STATE Run the MeatAxe on $V|_N$
+    \IF {$V|_N$ is reducible}
+        \IF {$V|_N$ is semisimple and has more than one homogeneous component}
+            \STATE \textbf{Return} action on homogeneous components (\DD2)
+        \ELSIF {$V|_N$ is semisimple but has only one homogeneous component}
+            \STATE \textbf{Return} tensor product decomposition (\DD4)
+        \ENDIF
+    \ELSE 
+        \STATE Perform check for \DD7 (see Section~\ref{solveD7})
+    \ENDIF
+\UNTIL {$i \ge 9$}
+\STATE \textbf{Return} \textsc{Fail}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Obs}[Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' works 
+well in practice]
+We have implemented Algorithm~\ref{algreductionD24}
+``\textsc{FindHomD247}'' in {\GAP} and have
+performed many experiments. To generate random elements we use the
+\textsc{Rattle} algorithm (a variant of product replacement, see
+\cite{LGMurray, LGO97}). In all cases of groups $G$ in \DD2 or \DD4 we
+looked at, only very few steps of Algorithm~\ref{alginvjump}
+``\textsc{InvolutionJumper}'' were needed to produce an element of the
+normal subgroup $N$ and thus to find a reduction. In typical examples
+like $(\GL(3,3)^{\times 6}).S_6 \le \GL(18,3)$ (imprimitive \DD2) or $Sp(6,3)
+\otimes O(7,3) \le \GL(48,3)$ (tensor decomposable \DD4) 
+in average only slightly more than one
+step was needed to produce an element of the normal subgroup. Thus trying
+$9$ times seems to be enough to rule out \DD2 and \DD4.
+\end{Obs}
+
+\begin{Expl}[Heuristic explanation for Algorithm~\ref{algreductionD24} 
+``\textsc{FindHomD247}'']
+For being contained in a normal subgroup $N \triangleleft G$ only the
+conjugacy class of an element $x \in G$ is relevant since $N$ is a union of
+conjugacy classes of $G$. The Involution Jumper (see Algorithm~\ref{alginvjump}) 
+basically performs a random walk through the involution classes of $G/Z$. 
+The corresponding Markov chain seems to have very good properties with
+respect to visiting each vertex. Even better, the vertices representing
+involution classes in normal subgroups seem to attract the Involution
+Jumper. The fact that we are computing commutators seems to add to this
+effect because we can hope to go down along the derived series of $G$.
+
+The experimental evidence suggests that it is feasible to analyse this
+procedure and to come up with a proof that it is in fact a Las Vegas
+algorithm that works with high probability for all or at least most groups
+in \DD2 and \DD4. It certainly has a good complexity in terms of $n$, the
+number of generators of $G$, and $\log q$.
+\end{Expl}
 
 \subsection{Finding a reduction in the tensor-induced case: \DD7}
-\label{solveC7}
+\label{solveD7}
+
+\subsection{Finding a reduction in the extraspecial case: \DD6}
+\label{solveC6}
 
 
 
