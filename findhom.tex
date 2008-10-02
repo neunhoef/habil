@@ -223,7 +223,7 @@ some prime $s \mid n$, realised as $(n \times n)$-matrices over $\F_q$
 by choosing an $\F_q$-basis of $\F_{q^s}$.
 
 
-\subsection{Description of class \DD4: ``tensor-decomposable''}
+\subsection{Description of class \DD4: ``tensor decomposable''}
 \label{descC4}
 
 %%% % Old version:
@@ -312,7 +312,7 @@ $r^{1+2m}.\Sp(2m,r)$ and $2_+^{1+2m}.O^+(2m,2)$ and
 $2_-^{1+2m}.O^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
 
 
-\subsection{Description of class \DD7: ``tensor-induced''}
+\subsection{Description of class \DD7: ``tensor induced''}
 \label{descC7}
 
 \desc{
@@ -345,9 +345,9 @@ have added some subgroups of the members of \CC7.
 \textbf{Note:} 
 If $G$ is a
 group in \DD7, then its natural projective representation
-is tensor-induced,
+is tensor induced,
 see Proposition~\ref{tensorindprop}. However, the natural
-representation of $G$ needs not be tensor-induced as is shown in
+representation of $G$ needs not be tensor induced as is shown in
 Remark~\ref{nottensorind} by an example.
 
 \smallskip
@@ -733,7 +733,7 @@ proposition.
     For a representation $\rho: H \to \GL(d,K)$ of $H$
     there is a corresponding map $(\rho \wr S_k) : H \wr S_k \to
     \GL(d,K) \wr S_k$ mapping the base group component-wise by $\rho$. 
-    The \emph{tensor-induced representation}
+    The \emph{tensor induced representation}
     $\rho\!\uparrow^{\otimes G} : G \to \GL(d^k,K)$ is then the
     composite map $\kappa \circ (\rho \wr S_k) \circ \varphi$. The
     equivalence class of this representation does not depend on the
@@ -745,17 +745,17 @@ proposition.
     $(\bar\rho \wr S_k) : H \wr S_k \to \PGL(d,K) \wr S_k$ 
     mapping the base group
     component-wise by $\bar\rho$.
-    The \emph{tensor-induced projective representation}
+    The \emph{tensor induced projective representation}
     $\bar\rho\!\uparrow^{\otimes G} : G \to \PGL(d^k,K)$ is then the
     composite map $\bar\kappa \circ (\bar\rho \wr S_k) \circ \varphi$.
     The equivalence class of this projective representation does not
     depend on the choices in this construction.
 \end{DefProp}
 
-\begin{Prop}[\DD7 implies ``projective tensor-induced'']
+\begin{Prop}[\DD7 implies ``projective tensor induced'']
     \label{tensorindprop}
 If a group $G \le \GL(n,q)$ lies in \DD7, then the projective
-representation afforded by its natural module is tensor-induced.
+representation afforded by its natural module is tensor induced.
 \end{Prop}
 \proofbeg
 Let $G$ be in \DD7 and let $N$, $T$, $Z$ and $V$ be as in
@@ -769,7 +769,7 @@ equivalent and absolutely irreducible. However, we have this by
 assumption and the proof goes through.
 \proofend
 
-\begin{Rem}[{\DD7 does \emph{not} imply tensor-induced}]
+\begin{Rem}[{\DD7 does \emph{not} imply tensor induced}]
     \label{nottensorind}
     Let $G$ be the semidirect product 
     $(\SL(2,7) \otimes_{\F_7} \SL(2,7)).S_2 < \GL(4,7)$ where the
@@ -784,11 +784,11 @@ assumption and the proof goes through.
     However, $G$ does not have a subgroup of index $4$, the only 
     subgroup of $G$ of index $2$ is $N$ and $N$ does
     not have an irreducible representation of dimension $2$ over
-    $\F_7$. Thus the natural module is not tensor-induced.
+    $\F_7$. Thus the natural module is not tensor induced.
 
     Of course, using Proposition~\ref{tensorindprop} we conclude that
     the projective representation afforded by the natural module is in
-    fact tensor-induced from the two-dimensional projective
+    fact tensor induced from the two-dimensional projective
     absolutely irreducible representation of $N$ over $\F_7$.
 \end{Rem}
 
@@ -865,8 +865,7 @@ mainly describe a new idea to find reductions for the classes \DD2 and
 \DD4. At the end of this section we give references into the literature
 to describe the current state of the art.
 
-The descriptions of the classes \DD2 and \DD4 (and indeed \DD7 as we will
-see in the next Section~\ref{solveD7}) have one property in common: they
+The descriptions of the classes \DD2 and \DD4 have one property in common: they
 involve a normal subgroup $N$ of $G$ such that the restriction of the
 natural module to $N$ is reducible. That is, the MeatAxe can detect $N$ in
 the sense that if we have a list of elements of $G$ that happen to generate $N$, 
@@ -884,23 +883,16 @@ a complete analysis of this method still has to be done as of this writing.
 In the following description of Algorithm~\ref{alginvjump}
 ``\textsc{InvolutionJumper}'' we include a
 slight variation which will be used in Section~\ref{solveD7} to resolve
-the \DD7 case as well. We need a definition first.
-
-\begin{Def}[Projective involution]
-\index{Involution!projective|textbf}\index{projective Involution|textbf}
-Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
-matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
-called \emph{projective involution in $G$}.
-\end{Def}
+the \DD7 case as well.
 
 \begin{algorithm}
 \caption{$\quad$ \sc InvolutionJumper}
 \index{Involution Jumper|textbf}
 \label{alginvjump}
 \begin{algorithmic}
-\STATE \textbf{Input:} A group $G \le \GL(n,q)$, a projective involution
+\STATE \textbf{Input:} A group $G \le \GL(n,q)$, an involution
 $x \in G$, an integer $t$, and a boolean $b$.
-\STATE \textbf{Output:} A projective involution in $G$ or \textsc{Fail}.
+\STATE \textbf{Output:} An involution in $G$ or \textsc{Fail}.
 
 \smallskip
 \STATE $i := 0$
@@ -908,17 +900,22 @@ $x \in G$, an integer $t$, and a boolean $b$.
     \STATE $i := i + 1$
     \STATE $y := \textsc{Random}(G)$ \hspace*{10mm} \COMMENT{produce a random
 element of $G$}
-    \STATE $c := [x,y]$, and
-    $o := \textsc{ProjectiveOrder}(c)$
+    \STATE $c := [x,y]$ and
+    $o := \textsc{Order}(c)$
     \IF {$o > 1$}
         \IF {$o$ is even}
             \STATE \textbf{Return} $c^{o/2}$
-        \ELSIF {$b$}
-            \STATE $z := y \cdot c^{(o-1)/2}$, and
-            $o := \textsc{ProjectiveOrder}(z)$
+        \ELSIF {$b = \textsc{True}$}
+            \STATE $z := y \cdot c^{(o-1)/2}$ and
+            $o := \textsc{Order}(z)$
             \IF {$o$ is even}
                 \STATE \textbf{Return} $z^{o/2}$
             \ENDIF
+        \ENDIF
+    \ELSE
+        \STATE $o := \textsc{Order}(y)$
+        \IF {$o$ is even}
+            \STATE \textbf{Return} $y^{o/2}$
         \ENDIF
     \ENDIF
 \UNTIL $i \ge t$
@@ -927,44 +924,137 @@ element of $G$}
 \end{algorithm}
 
 \begin{Prop}[The Involution Jumper]
-Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
-matrices. If Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' 
-is called with $G$ and a projective
-involution $x$, the return value $u$ is either a projective involution in $G$ with
-$[x,u] \in Z$ or \textsc{Fail}. If the boolean argument $b$ is
-\textsc{False}, then $u$ is contained in the group $[H,G]$ for
-every subgroup $H \le G$ containing $x$.
+Let $G$ be a finite group If Algorithm~\ref{alginvjump}
+``\textsc{InvolutionJumper}'' is called with $G$ and an
+involution $x$, the return value $u$ is either an involution in $G$ with
+$xu=ux$ or \textsc{Fail}. 
 \end{Prop}
 \proofbeg
 This method is heavily inspired by the ``dihedral trick'' to compute
 elements for involution centralisers (see \cite[2.2]{BrayInv}). We briefly
-repeat some arguments from there: Thinking in $G/Z$ (indicated by bars), 
-the element $\bar x$ is an
-involution and for $\bar c := \bar x^{-1} \bar y^{-1} \bar x \bar y$ we have 
-$\bar x \bar c = \bar c^{-1}\bar x$ and thus
-$\bar x\bar c^k = \bar c^{-k}\bar x$ for all $k$. Thus, if $\bar c$ has even 
+repeat some arguments from there:
+The element $x$ is an
+involution and for $c := x^{-1} y^{-1} x y$ we have 
+$x c = c^{-1}x$ and thus
+$xc^k = c^{-k}x$ for all $k$. Thus, if $c$ has even 
 order $2k$, then
-$\bar c^k$ is an involution commuting with $\bar x$ and $c^k$ lies in $[H,G]$ 
+$c^k$ is an involution commuting with $x$ and $c^k$ lies in $[H,G]$ 
 for every subgroup $H \le G$ with $x \in H$ by construction.
 
-Now assume that $\bar c$ has odd order $2k+1$,
-then $\bar x\bar y\bar c^k = \bar y\bar x\bar c\bar c^k = \bar y\bar
-c^{-k-1}\bar x=\bar y\bar c^k\bar x$ and $\bar z := \bar y\bar c^k$ is an 
+Now assume that $c$ has odd order $2k+1 > 1$,
+then $xyc^k = yxcc^k = y c^{-k-1}x=yc^kx$ and $z := yc^k$ is an 
 element in the 
 involution
-centraliser $C_{\bar G}(\bar x)$. In fact, Richard Parker has observed that
-if $\bar y$ is
-uniformly distributed in $\bar G$, then $\bar z$ is uniformly distributed in
-$C_{\bar G}(\bar x)$ in this case. Thus, if the projective order of $z$ is even,
+centraliser $C_{G}(x)$. In fact, Richard Parker has observed that
+if $y$ is
+uniformly distributed in $G$, then $z$ is uniformly distributed in
+$C_{G}(x)$ in this case. Thus, if the order of $z$ is even,
 then Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' 
-returns a projective involution as well.
+returns an involution as well.
 
-If the boolean argument $b$ is \textsc{False}, the odd order case is
-ignored and therefore the statement of the proposition holds.
+If $c=1$ and thus has order $1$, then $y$ lies in
+$C_G(x)$ by chance. If $y$ has even order $2k$, then $y^k$ is an
+involution commuting with $x$.
+
+The whole algorithm fails, if it fails to produce enough elements of
+even order in $C_G(x)$. Note however that if $v \neq x$ is any
+involution in $G$, then $\left< x,v \right>$ is a
+dihedral subgroup of $G$ which contains at least one
+involution commuting with and different from $x$.
 \proofend
 
-Obviously, the Involution Jumper (Algorithm~\ref{alginvjump}) needs a
-projective involution to start with. To this end we use a very simple minded
+\begin{Rem}[The boolean argument $b$]
+The boolean argument $b$ will usually
+be \textsc{True}, however, it can be set to
+\textsc{False}, in which case the algorithm will in most cases return a $u$ 
+that is contained in the group $[H,G]$ for
+every subgroup $H \le G$ containing $x$. More precisely, with
+probability $1-|C_G(x)|/|G|$ (note that if $G$ acts absolutely
+irreducibly then $x$ is not central), the order of $c$ will
+not be equal to $1$. Then, for $b = \textsc{False}$ the resulting $u$
+in fact lies in $[H,G]$ for every subgroup $H < G$ that contains $x$.
+This option will be used in Section~\ref{solveD7} to handle the case
+of a group in \DD7.
+\end{Rem}
+
+\begin{DefProp}[A Markov chain on involution classes]
+\index{Markov chain!on involution classes}
+\label{markovinvclasses}
+Let $G$ be a finite group of even order and $\mathcal{M}$ be the set of
+conjugacy classes of involutions in $G$. Then
+Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' defines a Markov
+chain with vertex set $\mathcal{M}$ in the following way: a step in
+the Markov chain starting at an involution class $C \in \mathcal{M}$
+involves choosing an arbitrary involution in $C$ and running
+Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' on it in the group $G$
+until a value not equal to \textsc{Fail} is returned. The resulting
+involution class is the conjugacy class of the result. The
+probability to reach a certain involution class does not depend on the
+choice of the involution in the starting class.
+\end{DefProp}
+\proofbeg
+Only the last statement needs to be proved. The result of
+\[ \textsc{InvolutionJumper}(G,x,\infty,\textsc{True}) \] can
+be summarised in the following formula, which is evaluated for the
+first random element $y$ generated in the algorithm for which it is
+defined:
+\[ f(x,y)
+    := \left\{ 
+    \begin{array}{l@{\mbox{ if }}l}
+        [x,y]^k & \textsc{Order}([x,y]) = 2k \\
+        (y[x,y]^k)^l & \textsc{Order}([x,y]=2k+1 \mbox{ for } k \ge 1
+                       \mbox{ and } \textsc{Order}(y[x,y]^k) = 2l \\
+        y^k          & xy=yx \mbox{ and } \textsc{Order}(y) = 2k 
+    \end{array}
+    \right.
+\]
+Since we have $f(x^g,y^g) = f(x,y)^g$ whenever $f(x,y)$ is defined and
+$y$ is supposed to be uniformly distributed in $G$ and thus in each
+conjugacy class of $G$, this reasoning proves that the probability to
+reach involution class $B \in \mathcal{M}$ from class $A \in
+\mathcal{M}$ does in fact not depend on the choice of the
+representative for $A$.
+\proofend
+
+\begin{Prop}[The Markov chain in Definition~\ref{markovinvclasses} is 
+    irreducible and aperiodic]
+\label{markovinvlimit}
+Let $G$ be a finite group of even order.
+The Markov chain on the involution classes $\mathcal{M}$ of $G$ defined in
+Definition~\ref{markovinvclasses} is irreducible and
+aperiodic and thus has a stationary distribution in which every vertex
+has a non-zero probability.
+\end{Prop}
+\proofbeg
+If $G$ has only one class of involutions there is nothing to show.
+
+Let $x,v \in G$ be involutions in different classes. With non-zero 
+probability the random element $y$ is equal to $v$. Assume that this
+happens. If $x$ and $v$
+commute then Algorithm~\ref{alginvjump} returns $v$ itself. 
+If $x$ and $v$ do not commute, the subgroup
+$\left< x,v \right>$ of $G$ is a dihedral group. In this case, the
+order of $[x,v]$ is even, because if it were odd, all involutions
+in $\left< x,v \right>$ were conjugate contradicting our assumption
+that $x$ and $v$ are not conjugate in $G$. Thus the
+central involution of $\left< x,v \right>$ is returned which commutes
+with both $x$ and $v$, and in the next step $v$ could be returned with
+non-zero probability. This proves that the Markov chain is
+irreducible.
+
+As to aperiodicity, this immediately follows from the fact that the
+random element $y$ in the algorithm could be $x$ itself in which case
+$x$ is returned.
+
+Therefore, by \cite[Theorem 2.2.1]{Ser} the Markov chain has a
+stationary distribution in which every vertex has a non-zero
+probability, because every vertex can be reached from every vertex in
+at most two steps with non-zero probability.
+\proofend
+
+\smallskip
+Obviously, the Involution Jumper needs an
+involution to start with. To this end we use a very simple minded
 algorithm to find one, which is given as Algorithm~\ref{alginvmaker}
 ``\textsc{InvolutionMaker}''.
 
@@ -973,8 +1063,8 @@ algorithm to find one, which is given as Algorithm~\ref{alginvmaker}
 \index{Involution Maker|textbf}
 \label{alginvmaker}
 \begin{algorithmic}
-\STATE \textbf{Input:} A group $G \le \GL(n,q)$ and an integer $t$.
-\STATE \textbf{Output:} A projective involution in $G$ or \textsc{Fail}.
+\STATE \textbf{Input:} A finite group $G$ and an integer $t$.
+\STATE \textbf{Output:} An involution in $G$ or \textsc{Fail}.
 
 \smallskip
 \STATE $i := 0$
@@ -982,7 +1072,7 @@ algorithm to find one, which is given as Algorithm~\ref{alginvmaker}
     \STATE $i := i + 1$
     \STATE $x := \textsc{Random}(G)$ \hspace*{10mm} \COMMENT{produce a random
 element of $G$}
-    \STATE $o := \textsc{ProjectiveOrder}(x)$
+    \STATE $o := \textsc{Order}(x)$
     \IF {$o$ is even}
         \STATE \textbf{Return} $x^{o/2}$
     \ENDIF
@@ -992,20 +1082,42 @@ element of $G$}
 \end{algorithm}
 
 \begin{Prop}[Involution Maker]
-Let $G \le \GL(n,q)$ be a group and $Z := G \cap Z(\GL(n,q))$ be the
-subgroup of scalar matrices. Then the return value $u$ of 
+Let $G$ be a finite group. Then the return value $u$ of 
 Algorithm~\ref{alginvmaker} ``\textsc{InvolutionMaker}'' 
 called with the group $G$ is either
-a projective involution or \textsc{Fail}. The latter result occurs only if
+an involution or \textsc{Fail}. The latter result occurs only if
 only a small percentage of elements in $G$ has even order.
 \end{Prop}
 \proofbeg Omitted.
 \proofend
 
+\begin{Rem}
+    Obviously, this algorithm can fail horribly if $G$ contains only
+    very few elements of even order. This happens for example in
+    groups like $\PSL(2,2^k)$ for large $k$.
+\end{Rem}
+
+To apply all this to our situation with $G \le \GL(n,q)$ and
+$Z = G \cap Z(\GL(n,q))$ we simply compute in $G/Z$ using
+comparison modulo scalars and 
+the projective order of an element instead of the order.
+To indicate this trick we call Algorithms~\ref{alginvjump} and
+\ref{alginvmaker} with the group $G/Z$ but then consider the result as
+an element of $G$ in the sequel.
+
+The following definition helps in formulations.
+
+\begin{Def}[Projective involution]
+\index{Involution!projective|textbf}\index{projective Involution|textbf}
+Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
+matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
+called \emph{projective involution in $G$}.
+\end{Def}
+
 We summarise the method to find a reduction in the case that $G$ lies in
 \DD2 or \DD4 in Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}''. 
-This algorithm actually
-contains already a line to check for \DD7 which we will explain in
+This algorithm
+already contains a line to check for \DD7 which we will explain in
 Section~\ref{solveD7}. We do not analyse this algorithm here but only
 describe some observations and give a few heuristic arguments to try to
 explain why it works so well. The reader is kindly referred to future
@@ -1021,12 +1133,12 @@ irreducibly.
 \STATE \textbf{Output:} A reduction homomorphism or \textsc{Fail}.
 
 \smallskip
-\STATE $x := \textsc{InvolutionMaker}(G)$
+\STATE $x := \textsc{InvolutionMaker}(G/Z,100)$
 \IF {$x = \textsc{Fail}$}
     \STATE \textbf{Return} \textsc{Fail}
 \ENDIF
 \STATE $i := 0$
-\REPEAT
+\WHILE {\textsc{True}} 
     \STATE $i := i + 1$
     \STATE Compute the normal closure $N := \left< x \right>^G$ in $G$
     \STATE Run the MeatAxe on $V|_N$
@@ -1039,8 +1151,14 @@ irreducibly.
     \ELSE 
         \STATE Perform check for \DD7 (see Section~\ref{solveD7})
     \ENDIF
-\UNTIL {$i \ge 9$}
-\STATE \textbf{Return} \textsc{Fail}
+    \IF {$i \ge 9$}
+        \STATE \textbf{Return} \textsc{Fail}
+    \ENDIF
+    \STATE $y := \textsc{InvolutionJumper}(G/Z,x,100,\textsc{True})$
+    \IF {$y = \textsc{Fail}$}
+        \STATE \textbf{Return} \textsc{Fail}
+    \ENDIF
+\ENDWHILE
 \end{algorithmic}
 \end{algorithm}
 
@@ -1066,21 +1184,40 @@ $9$ times seems to be enough to rule out \DD2 and \DD4.
 For being contained in a normal subgroup $N \triangleleft G$ only the
 conjugacy class of an element $x \in G$ is relevant since $N$ is a union of
 conjugacy classes of $G$. The Involution Jumper (see Algorithm~\ref{alginvjump}) 
-basically performs a random walk through the involution classes of $G/Z$. 
+basically performs a random walk through the involution classes of $G/Z$,
+as is explained in Definition~\ref{markovinvclasses}. 
 The corresponding Markov chain seems to have very good properties with
-respect to visiting each vertex. Even better, the vertices representing
+respect to visiting each vertex . 
+To begin with, Proposition~\ref{markovinvlimit} shows that it is irreducible
+and has a stationary distribution in which every class has a non-zero 
+probability. Even better, the vertices representing
 involution classes in normal subgroups seem to attract the Involution
 Jumper. The fact that we are computing commutators seems to add to this
 effect because we can hope to go down along the derived series of $G$.
+For example in all cases where the commutator $[x,y]$ of the previous
+involution with a random element has even order but has odd order in
+$G/N$, the Involution Jumper immediately jumps into $N$!
 
 The experimental evidence suggests that it is feasible to analyse this
 procedure and to come up with a proof that it is in fact a Las Vegas
 algorithm that works with high probability for all or at least most groups
 in \DD2 and \DD4. It certainly has a good complexity in terms of $n$, the
-number of generators of $G$, and $\log q$.
+number $m$ of generators of $G$ and $\log q$. The major question to be
+resolved is whether there are groups in \DD2 or \DD4, for which it
+does not work well or not at all.
 \end{Expl}
 
-\subsection{Finding a reduction in the tensor-induced case: \DD7}
+\smallskip
+We conclude this section with a few references into the existing
+literature. In \cite{smashnormal} an algorithm is described to decide
+whether or not a group is acting imprimitively. The ideas in that
+paper have actually inspired lots of the methods presented in this
+chapter. An algorithm to decide whether a matrix group preserves a
+tensor decomposition of the natural module is presented in
+\cite{tensprodproj} and \cite{recogtensprod}.
+
+
+\subsection{Finding a reduction in the tensor induced case: \DD7}
 \label{solveD7}
 
 \subsection{Finding a reduction in the extraspecial case: \DD6}
