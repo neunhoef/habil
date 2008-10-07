@@ -77,7 +77,7 @@ groups that can be constructively  recognised by other means.
 
  Let 
 $\overline{G} \leq \PGL(d, q)$ be the corresponding projective group. 
-In this paper we present a fully analysed, polynomial-time Las
+In this chapter we present a fully analysed, polynomial-time Las
 Vegas algorithm to find a reduction for the case that  $G$ or $\overline{G}$
  is not in $\CC1$, but is in $\CC3$ or $\CC5$, 
 or has non-absolutely-irreducible derived group. 
@@ -96,7 +96,7 @@ number of field operations that is bounded by a low-degree polynomial
 in $m$ (the number of generators), $d$ and $\log q$: 
 the input size is  $O(m d^2 \log q)$. We analyse 
 the complexity of all algorithms during the course 
-of the paper, and have implemented our work in \GAP\ \cite{GAP4}. 
+of the chapter, and have implemented our work in \GAP\ \cite{GAP4}. 
 We avoid the use of a discrete logarithm oracle. We use $3$ for
  the exponent of matrix multiplication, as although the theoretical 
 exponent is lower than this, for practical implementations this is 
@@ -126,7 +126,7 @@ consists only of scalars.  In the paper \cite{GLGOB}
 the authors appear to misstate the complexity of 
 generating $G'$. To the best of our knowledge,
 the best published complexity for this is 
-$O(d^7 \log^2 q)$. In this paper, we develop Las Vegas methods to generate 
+$O(d^7 \log^2 q)$. In this chapter, we develop Las Vegas methods to generate 
 a normal subgroup of $G$ that is contained in $G'$ in $O(d^4 \log q)$ field 
 operations. 
 
@@ -144,7 +144,7 @@ submodule of a normal subgroup. Hence we are able to derive
 tighter upper bounds on the complexity
 of our algorithm.
 
-The layout of this paper is as follows. In Section~\ref{sec:defns}
+The layout of this chapter is as follows. In Section~\ref{sec:defns}
  we present basic definitions and our main result. In 
 Section~\ref{sec:describe_scalars} we characterise the groups with 
 faithful absolutely irreducible representations over arbitrary fields
@@ -161,12 +161,12 @@ of these algorithms.
 
 The first author is grateful to the RWTH in Aachen for their kind 
 hospitality and to the Humboldt Foundation for support while parts of
-this paper were being written. 
+this chapter were being written. 
 
 \section{Definitions and main result}\label{sec:defns}
 
-Throughout the paper (except for Sections~\ref{sec:describe_scalars} and~\ref{realisesubfield}), 
-we assume that 
+Throughout this chapter (except for Sections~\ref{sec:describe_scalars}    
+and~\ref{realisesubfield}), we assume that                              
 $g_1, \ldots, g_m \in \GL(d,q)$ 
 and let $G = \left< g_1, \ldots,
 g_m\right> \le \GL(d,q)$ be the corresponding matrix 

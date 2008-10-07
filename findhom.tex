@@ -10,56 +10,94 @@ reductions for matrix groups and projective groups and how to prove
 that a certain collection of methods will for any given
 matrix group or projective group either find a reduction
 or show that the constructive 
-recognition problem can be solved efficiently by other means. By the 
+recognition problem can be solved efficiently by other means. Together
+with the methods described in the next Chapter~\ref{chap:leaves}
+and using the 
 arguments in Chapter~\ref{chap:comptree} this solves
 Problem~\ref{ProbCR3} whenever the ambient group is $\GL(n,q)$ or
 $\PGL(n,q)$.
 
-We use two fundamental theoretical tools. The first is Aschbacher's theorem
+We use two fundamental theoretical tools. The first is a variant of
+Aschbacher's theorem
 about the subgroup structure of the classical groups, which we describe
 in detail for the case of $\GL(n,q)$ in Section~\ref{sect:aschbacher},
-and the second is the classification of finite simple groups. We are
+and the second is the classification of finite simple groups together
+with the classification of their absolutely irreducible modular matrix
+representations. We are
 content with the statements in Aschbacher's theorem about the general
 linear group since they suffice for the purposes of constructive
 recognition and the statements and arguments are quite a bit simpler
 than for the other classical groups. For details see \cite{aschbacher}.
 
 Roughly speaking, Aschbacher's theorem states that every subgroup of $\GL(n,q)$
-is either a member of at least one of $7$ concretely given classes 
-\CC1 to \CC7 of 
-subgroups, or it contains a classical group in its natural representation, 
-or it is an almost-simple group modulo scalars.
+is either a subgroup of a member of at least one of $7$ concretely given
+classes \CC1 to \CC7 of subgroups, or it contains a classical group
+in its natural representation, or it is an almost-simple group modulo
+scalars.
 
-All the classes \CC1 to \CC7 are somehow defined in a geometric way (see
-Sections~\ref{descC1} to \ref{descC7}) and thus promise some kind of
+All the classes \CC1 to \CC7 are somehow defined in a geometric way
+(compare
+Sections~\ref{descD1} to \ref{descD7}) and thus promise some kind of
 reduction. The two other cases are covered by two further classes \CC8
-and \CC9, which are described in Sections~\ref{descC8} and \ref{descC9}.
+and \CC9, which are described in Sections~\ref{descD8} and \ref{descD9}.
 For members of the latter two classes one will usually have to solve the
 constructive recognition problem without further reduction.
 % FIXME
 
-The idea is to provide efficient algorithms for all the classes \CC1 to
-\CC7 to recognise whether a given matrix group lies in the class, and if
+Rather than presenting the original version of Aschbacher's theorem
+for $\GL(n,q)$, we present a variant, for which we define slightly
+different classes \DD1 to \DD9 of subgroups of $\GL(n,q)$ (see 
+Sections~\ref{descD1} to \ref{descD9}). The statement
+then says that every subgroup of $\GL(n,q)$ is contained in at least one
+of the classes \DD1 to \DD9. 
+
+The general idea is to provide efficient algorithms for all the classes \DD1 to
+\DD7 to recognise whether a given matrix group lies in the class, and if
 so, to find a reduction using this information. If none of these algorithms
-succeeds, Aschbacher's theorem shows that the group must be a member of
-\CC8 or \CC9. In that case the constructive recognition problem has to be
+succeeds, our variant of Aschbacher's theorem shows that the group must
+be a member of \DD8 or \DD9. In that case the constructive recognition problem
+has to be
 solved by different means, usually by first finding out which classical
 or almost simple group it is and then using this information to do the
 constructive recognition in a special case, for example using standard
-generators (see Sections~\ref{solveC8} and \ref{solveC9}).
+generators (see Sections~\ref{solveD8} and \ref{solveD9}).
 
-The purpose of this chapter is to explain the statement of Aschbacher's 
+Our classes \DD1 to \DD9 are similar to the classes \CC1 to \CC9 but
+different. First of all we include many but not all subgroups of
+class \CC i into \DD i such that we can replace the formulation ``$G$ is a
+subgroup of a member of \CC i'' by ``$G$ is contained in \DD i''. Many
+authors have used this formulation for the Aschbacher classes \CC1 to
+\CC9 anyway, thereby more or less implicitly changing the definition. 
+But we have also added further conditions on the groups
+in our classes \DD1 to \DD9 for three reasons. The first is that we
+wanted those classes that were difficult to handle algorithmically
+to be smaller, in order to make it easier to devise algorithms for
+the new classes. The second is that we wanted that the classes are
+``more disjoint'', that is, fewer groups lie in more than one
+class. The third reason is that some more conditions on the groups in
+the classes immediately come out of the proof in the $\GL(n,q)$ case.
+
+The purpose of this chapter is to explain the statement of our variant 
+of Aschbacher's 
 theorem for $\GL(n,q)$ in detail, to give a proof and to give an
 overview over the known methods to deal with the different classes
-together with references into the literature. An algorithm to recognise
-and handle classes \CC3 and \CC5 provided that the group does not lie in
-class \CC1 is described in detail in Chapter~\ref{chap:subsemi}.
+together with references into the literature. Furthermore, we present new 
+ideas to handle classes \DD2, \DD4 and \DD7, which seem to work very
+well in practice, but are not yet fully analysed with respect to their
+applicability and complexity. It seems that our changed definition of
+these classes helped to derive better algorithms than was previously
+possible for the more general classes \CC2, \CC4 and \CC7.
+An algorithm to recognise
+and handle classes \DD3 and \DD5 provided that the group does not lie in
+class \DD1 is described in detail in Chapter~\ref{chap:subsemi}.
+An overview over the handling of groups in classes \DD8 and \DD9 is
+given in the next Chapter~\ref{chap:leaves}.
 
-\section{A variant of Aschbacher's Theorem}
+\section{A variant of Aschbacher's theorem}
 \label{sect:aschbacher}
 
 Note again that we restrict ourselves to the general linear group
-throughout, which is only a special case of Aschbacher's Theorem.
+throughout, which is only a special case of Aschbacher's theorem.
 
 \begin{Not}
 For this section we fix $n \in \N$ and $q=p^e$ for a prime $p$ and
@@ -72,14 +110,15 @@ For the original formulation of his theorem in \cite{aschbacher}, Aschbacher
 defines $8$ classes
 of subgroups of $\GL(n,q)$ and proves that every subgroup $G$ is either
 a subgroup of some member of one of these $8$ classes or has a certain
-list of properties. We change this formulation in the following
+list of properties, the latter groups are usually denoted to lie in
+a class \CC9. We change this formulation in the following
 way: Instead of the original 8 Aschbacher class \CC 1 to \CC 8
 we define different classes \DD 1 to \DD 8
-(for details see the descriptions in Sections \ref{descC1} to
-\ref{descC8}).
+(for details see the descriptions in Sections \ref{descD1} to
+\ref{descD8}).
 Furthermore, we collect
 the subgroups $G \le \GL(n,q)$ that fulfil the properties in the statement of 
-Aschbacher's Theorem in the class \DD9. The slight modifications 
+Aschbacher's theorem in the class \DD9. The slight modifications 
 to the class definitions on the one hand stem from our proof of the
 theorem, on the other hand they are motivated in the following way: We try
 to increase the number of subgroups contained in classes that can be
@@ -88,14 +127,14 @@ contained in classes for which the known algorithms are not yet completely
 satisfying, mostly with respect to their complexity analysis.
 In addition we try to reduce the overlap between the classes.
 
-We formulate a variant of Aschbacher's Theorem in the following way:
+We formulate a variant of Aschbacher's theorem in the following way:
 
-\begin{Theo}[Variant of Aschbacher's Theorem, specialised to\/ $\GL(n,q)$]
+\begin{Theo}[Variant of Aschbacher's theorem, specialised to\/ $\GL(n,q)$]
 \label{Asch}
 Let $G$ be a subgroup of\/ $\GL(n,q)$ with $n \ge 2$.
 Then $G$ is contained in at least one of the
-classes \DD1 to \DD9 of subgroups described in Sections~\ref{descC1}
-to \ref{descC9}.
+classes \DD1 to \DD9 of subgroups described in Sections~\ref{descD1}
+to \ref{descD9}.
 \end{Theo}
 \proofbeg Compare \cite[Appendix 2, Theorem 1]{RobPhd}, \cite{aschbacher}, 
 \cite{kleilieb} and 
@@ -118,7 +157,7 @@ give an alternate structural description or at least give the structure
 of some ``typical'' example groups in that class.
 
 \subsection{Description of class \DD1: ``reducible''}
-\label{descC1}
+\label{descD1}
 
 \newcommand{\desc}[1]{\begin{center}\fbox{\parbox{5.3in}{#1}}\end{center}}
 \newcommand{\diffasch}[1]{\textbf{Differences to Aschbacher's class \CC#1:}}
@@ -154,7 +193,7 @@ Here, $\one_m$ is the $(m \times m)$-identity matrix and $\one_{n-m}$ is the
 $(n-m) \times (n-m)$-identity matrix.
 
 \subsection{Description of class \DD2: ``imprimitive''}
-\label{descC2}
+\label{descD2}
 
 \desc{
 A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
@@ -185,7 +224,7 @@ if they act absolutely irreducibly.
 
 
 \subsection{Description of class \DD3: ``semilinear''}
-\label{descC3}
+\label{descD3}
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD3 if the natural module $V$ is
@@ -224,7 +263,7 @@ by choosing an $\F_q$-basis of $\F_{q^s}$.
 
 
 \subsection{Description of class \DD4: ``tensor decomposable''}
-\label{descC4}
+\label{descD4}
 
 %%% % Old version:
 %%% \desc{
@@ -262,7 +301,7 @@ $\GL(d_2,q)$. Those groups are members in \DD4.
 
 
 \subsection{Description of class \DD5: ``subfield''}
-\label{descC5}
+\label{descD5}
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD5 if the natural module $V$ is
@@ -282,7 +321,7 @@ subgroup of $\GL(n,q_0) \cdot \F_q^*$ where $\F_{q_0}$ is a
 proper subfield of $\F_q$.
 
 \subsection{Description of class \DD6: ``extraspecial''}
-\label{descC6}
+\label{descD6}
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD6 if the natural module $V$ is absolutely
@@ -313,7 +352,7 @@ $2_-^{1+2m}.O^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
 
 
 \subsection{Description of class \DD7: ``tensor induced''}
-\label{descC7}
+\label{descD7}
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD7 if it acts absolutely irreducibly on the 
@@ -357,7 +396,7 @@ $\GL(r,q)^{\otimes k}.S_k$ where $n=r^k$ and $\GL(r,q)^{\otimes k}$
 denotes the central product of $k$ copies of $\GL(r,q)$.
 
 \subsection{Description of class \DD8: ``classical''}
-\label{descC8}
+\label{descD8}
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD8 if $G/Z$ contains a classical simple
@@ -393,7 +432,7 @@ classical group in its natural representation defined over $\F_q$.
 
 
 \subsection{Description of class \DD9: ``almost-simple''}
-\label{descC9}
+\label{descD9}
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD9, if it is not in \DD8 and
@@ -421,7 +460,7 @@ The absolutely irreducible projective representations of the
 quasi-simple groups provide examples of groups in \DD9.
 
 
-\section{A proof of the $\mathbf{\GL}$-version of Aschbacher's Theorem}
+\section{A proof of the $\mathbf{\GL}$-version of Aschbacher's theorem}
 \label{AschProof}
 
 The contents of this section are a variation on ``The Theory behind
@@ -434,17 +473,17 @@ Let $G$ be any subgroup of $\GL(n,q)$ acting from the right on the
 natural module $V := \F_q^{1 \times n}$.
 
 If the natural module $V$ is reducible, then $G$ is contained in class \DD1
-as defined in Section~\ref{descC1}.
+as defined in Section~\ref{descD1}.
 
 From now on we assume that $V$ is irreducible.
 
 If $V$ is not absolutely irreducible, then by \cite[(29.13)]{CR0} and the 
-usual Wedderburn Theorems
+usual Wedderburn theorems
 the endomorphism ring $\End_{\F_q G}(V)$ is a proper finite extension field
 $\F_{q^s}$ of $\F_q$. This automatically extends the $\F_q$-vector
 space structure of $V$ to an $\F_{q^s}$-vector space structure
 such that the $G$-action is $\F_{q^s}$-linear. Thus $G$ lies in class
-\DD3 (see \ref{descC3}) with trivial Galois automorphisms.
+\DD3 (see \ref{descD3}) with trivial Galois automorphisms.
 
 From now on we assume that $V$ is absolutely irreducible. Let $Z$ be the
 subgroup of scalar matrices contained in $G$, i.e.~$Z := G \cap
@@ -452,12 +491,12 @@ Z(\GL(n,q))$. Since $V$ is absolutely irreducible it follows that $Z$ is
 the centre of $G$.
 
 At this stage of the proof we mention that obviously $G$ can lie
-in \DD5 (see \ref{descC5}).
+in \DD5 (see \ref{descD5}).
 
 From now on we assume that $G$ does not lie in \DD5. In the sequel this 
 assumption will be used to rule out classical groups defined over
 smaller fields and achieve the corresponding statement in class \DD9
-(see \ref{descC9}).
+(see \ref{descD9}).
 
 We assume first that $G/Z$ is a simple group. If $G/Z$ were cyclic of prime 
 order, then $G$ would be abelian and $V$ could not be absolutely
@@ -467,9 +506,9 @@ There are two possibilities:
 The first is that $G/Z$ is one of the
 classical simple groups in its natural representation defined over $\F_q$
 and $G$ lies in \DD8 (see
-\ref{descC8}). Note that by our assumption of $G$ not lying in \DD5 we can
+\ref{descD8}). Note that by our assumption of $G$ not lying in \DD5 we can
 exclude classical simple groups defined over a proper subfield. Otherwise
-$G$ lies in \DD9 (see \ref{descC9}) with
+$G$ lies in \DD9 (see \ref{descD9}) with
 $\bar N =T \cong G/Z$ since $V$ gives rise to an absolutely irreducible
 projective representation of the finite simple group $G/Z$ that
 is by assumption not realisable over a proper subfield of $\F_q$.
@@ -488,7 +527,7 @@ distinguish several cases.
 
 If there is more than one homogeneous component (i.e.~not all conjugates of
 $W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \DD2
-(see \ref{descC2}),
+(see \ref{descD2}),
 since the homogeneous components provide a direct sum decomposition that is
 preserved by $G$ and the summands are permuted transitively.
 
@@ -504,7 +543,7 @@ $N$ on them is $\F_{q^s}$-linear, because $V|_N$ is isomorphic to a direct
 sum of copies of $W$. We can embed $\F_{q^s} \le \End_{\F_q N}(V) \le \GL(n,q)$.
 
 We claim that the action of $G$ is $\F_{q^s}$-semilinear proving that $G$ lies
-in \DD3 (see \ref{descC3}). Let $c \in \GL(n,q)$ generate the
+in \DD3 (see \ref{descD3}). Let $c \in \GL(n,q)$ generate the
 multiplicative group of $\F_{q^s}$. Then, for all $h \in N$ and $g
 \in G$, we have $hc=ch$ by definition and thus $h^g c^g = c^g h^g =
 h' c^g = c^g h'$, for some $h' \in N$. As $h$ varies over $N$, the
@@ -512,14 +551,14 @@ element $h'$ takes every value in $N$, therefore $\left< c \right>
 = \left< c^g \right>$ and so $c^g = c^k$ for some $k$. Suppose that
 $c^i + c^j = c^l$, then $(c^i)^g + (c^j)^g = (c^l)^g$ so $g$ acts as
 field automorphism on $\F_{q^s}$. We have thus proved that $G$ 
-lies in \DD3 (see \ref{descC3}).
+lies in \DD3 (see \ref{descD3}).
 
 From now on we assume that $W$ is absolutely irreducible.
 
 We first assume that $W$ is a proper subspace of $V$. Let $d :=
 \dim_{\F_q}(W)$ such that $1 < d < n$. Since by assumption 
 all $G$-conjugates of $W$ are isomorphic to $W$ as $\F_q N$-modules,
-we have shown that $G$ lies in \DD4 (see \ref{descC4}).
+we have shown that $G$ lies in \DD4 (see \ref{descD4}).
 
 We now move on to the case that $W = V|_N$, that is, the restriction
 $V|_N$ is irreducible. We are still assuming that $W$ is
@@ -759,7 +798,7 @@ representation afforded by its natural module is tensor induced.
 \end{Prop}
 \proofbeg
 Let $G$ be in \DD7 and let $N$, $T$, $Z$ and $V$ be as in
-Section~\ref{descC7}.
+Section~\ref{descD7}.
 We can use the proof of \cite[Tensor Induction Theorem]{kovacs}. 
 Although the hypotheses of
 the theorem contain that the natural module is not induced from any
@@ -813,7 +852,7 @@ $g_1, \ldots, g_m \in \GL(n,q)$.
 Using the MeatAxe (see \cite{MeatAxeHoltRees, IL, MeatAxeRP}) we can
 decide efficiently whether the natural module $V$ is
 irreducible. If not, we find a proper invariant subspace $0<W<V$
-thereby finding a reduction as described in Section~\ref{descC1}. 
+thereby finding a reduction as described in Section~\ref{descD1}. 
 If $V$ is irreducible, we either prove
 that it is absolutely irreducible or find an element that generates
 the endomorphism ring as a field.
