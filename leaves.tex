@@ -9,34 +9,150 @@ composition tree (see Section~\ref{recapproach}. By the arguments in
 Chapter~\ref{chap:findhom} this basically means that we have to be
 able to solve Problem~\ref{ProbCR3} for the subgroups $G \le \GL(n,q)$
 that lie in classes \DD8 and \DD9 (see Sections~\ref{descD8} and
-\ref{descD9}. Because of the obvious homomorphism from $\GL(n,q) \to
+\ref{descD9}). Because of the obvious homomorphism from $\GL(n,q) \to
 \PGL(n,q)$ and our setup of the composition tree we basically have
 to work with the projective version $\bar G \le \PGL(n,q)$.
 
 We do not want to describe the details of the methods used here but
 rather give an overview and refer the reader to the literature.
 One reason for this is that the current state of the art does not seem
-to be final, another is, that the author has not contributed to the
+to be final, another is that the author has not contributed to the
 development of algorithms in this area up to know.
 
-This chapter is structured as follows. We begin by describing methods
-based on permutation groups, which we call ``direct methods for
-constructive recognition'' in Section~\ref{solvedirect}. The next
-Section~\ref{nonconstructive} then explains the concept of
+This chapter is structured as follows. We begin by describing
+methods based on permutation groups, which we call ``direct methods
+for constructive recognition'' in Section~\ref{solvedirect}. The
+next Section~\ref{nonconstructive} then explains the concept of
 ``non-constructive recognition'' which basically means to determine
-the name of a given group. This in turn is needed to apply more
-specialised methods for constructive recognition which are explained
-in Section~\ref{solveD8} for classical groups and
-in Section~\ref{solveD9} for quasi-simple groups.
+the isomorphism type of a given group. Once this is known the
+concept of standard generators applies, which is introduced in
+Section~\ref{standardgens}. These concetps in turn are needed to apply
+more specialised methods for constructive recognition over which an
+overview is given in Section~\ref{solveD8} for classical groups and in
+Section~\ref{solveD9} for quasi-simple groups.
 
 \section{Direct methods for constructive recognition}
 \label{solvedirect}
 
-For ``small groups'' one can use direct methods to solve
-Problem~\ref{ProbCR3} for a group $G \le \GL(n,q)$. By
+For ``small groups'' one can use permutation group methods to solve
+Problem~\ref{ProbCR3} for a group $G \le \GL(n,q)$. The basic idea is
+to find a permutation action. This immediately gives a homomorphism
+into a permutation group which will be an isomorphism if the group is
+simple. Even if there is a non-trivial kernel the composition tree setup
+will take care of this.
+
+Matrix groups and projective groups of course act on their natural
+module and in there on vectors and subspaces. So finding any other
+action is not difficult. To get good performance however can be
+tricky. To this end, we want to find short orbits. Heuristic methods
+for this for matrix groups can be found in \cite{shortorbits}.
+
+Another possibility are low index methods.
+Here one would guess the point stabiliser of a point with a short
+orbit, restrict the natural module to it and use the MeatAxe to find a
+proper invariant subspace. The orbit of this subspace would then be
+relatively short. However, although this approach looks promising and
+occasionally works, it is not clear how to find generators of such a
+point stabiliser, even with random methods.
+
+Once we have an action and thus a homomorphism into a permutation 
+group we can either use the methods described in Section~\ref{permgrps}
+or immediately compute a stabiliser chain for the projective or matrix
+group using the Schreier-Sims method (see \cite{nearlylin} or
+\cite{Ser}).
 
 \section{Non-constructive recognition}
 \label{nonconstructive}
+
+\section{Standard generators}
+\label{standardgens}
+
+In this section we give a rather vague definition of the term
+``standard generators''. As in this whole chapter we do not want to go
+into detail too much but rather give the reader an idea of the
+concept.
+
+Once the isomorphism type of a group $G = \left< g_1, \ldots,
+g_k\right>$ is known (after successful non-con\-struc\-tive recognition as in
+Section~\ref{nonconstructive}), one wants to find an explicit
+isomorphism of $G$ to a ``standard copy $\hat G$''. With
+``computable'' we mean, that we want to be able to map group elements
+back and forth, such that for example a previously determined and
+stored solution to the constructive recognition problem (see
+\ref{ProbCR3}) in $\hat G$ can be transferred to a solution for $G$.
+%FIXME
+
+The concept of standard generators serves exactly this purpose.
+
+\begin{Def}[Standard generators]
+    Let $G$ be a finite group and $\Aut(G)$ its automorphism group. Then
+    $\Aut(G)$ acts on tuples of elements of $G$ componentwise. We choose
+    one orbit of this action that contains tuples, whose entries
+    generate $G$ as a group, and call exactly those tuples in this
+    orbit \emph{standard generators} for $G$. This choice is done once
+    and forever for every isomorphism type of finite group and the
+    chosen orbit is described by giving a set of properties of the
+    tuples that uniquely determines the orbit.
+\end{Def}
+
+\begin{Rem}
+Note that indeed this choice has to be done individually for every
+isomorphism type of finite groups and the properties have to be
+determined intelligently such that finding a tuple of standard
+generators is possible efficiently (see Section~\ref{goodstandgens}).
+\end{Rem}
+
+This rather vague definition can best be filled with life by an
+example:
+
+\begin{Exa}[Standard generators for the sporadic simple Mathieu group
+    $M_{11}$]
+    This description is taken from \cite[$M_{11}$ page]{WWWAtlas} and
+    is derived in \cite[Example~11]{standgens}.
+
+    Standard generators of $M_{11}$ are $(a,b)$ where $a$ has order $2$, 
+$b$ has order $4$, $ab$ has order $11$ and $ababababbababbabb$ has 
+order $4$. Note that it is a theorem that these properties uniquely
+determine an orbit of $\Aut(M_{11})$ on pairs of elements of $M_{11}$.
+
+\smallskip
+To find standard generators for $M_{11}$:
+\begin{enumerate}
+    \item Find an element of order $4$ or $8$. This powers up to $x$ of order 
+        $2$ and $y$ of order $4$.
+
+      [The probability of success at each attempt is $3$ in $8$.]
+\item Find a conjugate $a$ of $x$ and a conjugate $b$ of $y$ such that $ab$ 
+    has order $11$.
+
+      [The probability of success at each attempt is $16$ in $165$.]
+  \item If $ababbabbb$ has order $3$, then replace $b$ by its inverse.
+  \item Now $ababbabbb$ has order $5$, and standard generators of $M_{11}$ 
+      have been obtained.
+\end{enumerate}
+Note that choosing random conjugates of $x$ that are uniformly distributed in the
+conjugacy class of $x$ can be achieved by conjugating $x$ with a random element
+that is uniformly distributed in the group.
+\end{Exa}
+
+\begin{Prop}[The virtue of standard generators]
+If $(s_1, \ldots, s_m) \in G^m$ and $(t_1, \ldots, t_m) \in G^m$ are 
+both standard generators for a group $G$, then the equations
+\[ \varphi (s_i) = t_i \qquad\mbox{for all } 1 \le i \le m \]
+uniquely define an automorphism $\varphi$ of $G$.
+
+That is, if $\hat G$ is a standard isomorphic copy of $G$ for which we know
+a tuple of standard generators $(u_1, \ldots, u_m)$ and have 
+\end{Prop}
+\proofbeg
+Since by definition both tuples lie in the same orbit under $\Aut(G)$
+and both tuples generate $G$, there is exactly one automorphism
+$\varphi \in \Aut(G)$ mapping $s_i$ to $t_i$ for all $1 \le i \le m$.
+\proofend
+
+\begin{Rem}[Good standard generators]
+    \label{goodstandgens}
+\end{Rem}
 
 \section{The classical case: \DD8}
 \label{solveD8}

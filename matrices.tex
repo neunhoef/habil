@@ -172,7 +172,7 @@ The basic addition formula for finite field elements is rather simple:
 For prime field elements we only have to add two numbers in the range 
 from $0$ to $p-1$, and
 subtract $p$, if the sum is greater or equal to $p$. The extension
-field elements are done component-wise. However, we have to solve
+field elements are done componentwise. However, we have to solve
 the problem of doing this simple operation using word operations and 
 thus doing this for $w$ prime field elements at the same time.
 This is easy for $p=2$, since we can use the standard XOR (exclusive or)
@@ -203,7 +203,7 @@ First $s := a+b$ and $t := a+b+o$ are computed. We then use an AND
 operation for words to extract exactly the most significant bits of
 those components, in which the sum was greater or equal to $p$.
 This is done by computing $r := t \ \&\  m$ (we use the \& symbol to
-indicate bit-wise AND operations). Bit-shifting
+indicate bitwise AND operations). Bit-shifting
 the word $r$ by $e-1$ bits to the right (we use the notation
 $r \gg (e-1)$ for this) and subtracting the
 result from $r$ now results in a word $u := r - (r \gg (e-1))$
