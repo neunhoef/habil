@@ -26,9 +26,10 @@ next Section~\ref{nonconstructive} then explains the concept of
 ``non-constructive recognition'' which basically means to determine
 the isomorphism type of a given group. Once this is known the
 concept of standard generators applies, which is introduced in
-Section~\ref{standardgens}. These concetps in turn are needed to apply
+Section~\ref{standardgens}. These concepts in turn are needed to apply
 more specialised methods for constructive recognition over which an
-overview is given in Section~\ref{solveD8} for classical groups and in
+overview is given in Section~\ref{solveD8} for classical groups in
+their natural representation and in
 Section~\ref{solveD9} for quasi-simple groups.
 
 \section{Direct methods for constructive recognition}
@@ -64,10 +65,33 @@ group using the Schreier-Sims method (see \cite{nearlylin} or
 \section{Non-constructive recognition}
 \label{nonconstructive}
 
+The term ``non-constructive recognition'' for a group means finding
+the isomorphism type. In situations where direct methods for constructive 
+recognition (see the previous Section~\ref{solvedirect}) fail, the usual
+approach is to first determine the isomorphism type of the group and
+then use additional knowledge about the group in question to do the
+constructive part of the recognition. In particular to use the
+technique of standard generators (see the next
+Section~\ref{standardgens}), the isomorphism type has to be known in
+advance.
+
+For the non-constructive recognition problem we can for example use
+element order statistics. We produce uniformly distributed elements in
+the group and compute their orders. If we see an element order that
+does not occur in a group of a certain isomorphism type, we can
+immediately rule out this type. If we fail to see an element order that
+occurs very frequently in a certain isomorphism type after some tries,
+we can rule out this type with a known error probability.
+
+See Sections~\ref{solveD8} and \ref{solveD9} for an overview over the
+current state of art of non-constructive recognition for classical
+groups in their natural representation and for groups in class \DD9
+respectively.
+
 \section{Standard generators}
 \label{standardgens}
 
-In this section we give a rather vague definition of the term
+In this section we give a definition of the term
 ``standard generators''. As in this whole chapter we do not want to go
 into detail too much but rather give the reader an idea of the
 concept.
@@ -75,14 +99,15 @@ concept.
 Once the isomorphism type of a group $G = \left< g_1, \ldots,
 g_k\right>$ is known (after successful non-con\-struc\-tive recognition as in
 Section~\ref{nonconstructive}), one wants to find an explicit
-isomorphism of $G$ to a ``standard copy $\hat G$''. With
-``computable'' we mean, that we want to be able to map group elements
-back and forth, such that for example a previously determined and
-stored solution to the constructive recognition problem (see
-\ref{ProbCR3}) in $\hat G$ can be transferred to a solution for $G$.
-%FIXME
+isomorphism of $G$ to a ``standard copy $\hat G$''. Note that such an
+automorphism is not automatically ``computable'' in the sense that 
+we can map group elements back and forth, as we will see below.
+However, in the end we strive to use previously acquired and stored
+knowledge about $\hat G$ and transfer it over to $G$ via that
+isomorphism to eventually solve the constructive recognition problem (see
+\ref{ProbCR3}) for $G$.
 
-The concept of standard generators serves exactly this purpose.
+The concept of standard generators serves this purpose.
 
 \begin{Def}[Standard generators]
     Let $G$ be a finite group and $\Aut(G)$ its automorphism group. Then
@@ -107,6 +132,7 @@ example:
 
 \begin{Exa}[Standard generators for the sporadic simple Mathieu group
     $M_{11}$]
+    \label{ExaM11}
     This description is taken from \cite[$M_{11}$ page]{WWWAtlas} and
     is derived in \cite[Example~11]{standgens}.
 
@@ -118,6 +144,7 @@ determine an orbit of $\Aut(M_{11})$ on pairs of elements of $M_{11}$.
 \smallskip
 To find standard generators for $M_{11}$:
 \begin{enumerate}
+        \setlength{\parskip}{0pt}
     \item Find an element of order $4$ or $8$. This powers up to $x$ of order 
         $2$ and $y$ of order $4$.
 
@@ -130,6 +157,9 @@ To find standard generators for $M_{11}$:
   \item Now $ababbabbb$ has order $5$, and standard generators of $M_{11}$ 
       have been obtained.
 \end{enumerate}
+It is a theorem that this procedure produces standard generators, the
+probabilities can be read off the character table of $M_{11}$ and assume
+that we produce uniformly distributed random elements.
 Note that choosing random conjugates of $x$ that are uniformly distributed in the
 conjugacy class of $x$ can be achieved by conjugating $x$ with a random element
 that is uniformly distributed in the group.
@@ -141,22 +171,114 @@ both standard generators for a group $G$, then the equations
 \[ \varphi (s_i) = t_i \qquad\mbox{for all } 1 \le i \le m \]
 uniquely define an automorphism $\varphi$ of $G$.
 
-That is, if $\hat G$ is a standard isomorphic copy of $G$ for which we know
-a tuple of standard generators $(u_1, \ldots, u_m)$ and have 
+That is, if we have a tuple of standard generators $(s_1, \ldots, s_m)$ for $G$
+and $\hat G$ is a standard isomorphic copy of $G$ for which we know
+a tuple of standard generators $(u_1, \ldots, u_m)$, then the
+equations
+\[ \psi (s_i) = u_i \qquad\mbox{for all } 1 \le i \le m \]
+uniquely define an explicit isomorphism $\psi$ from $G$ to $\hat G$.
 \end{Prop}
 \proofbeg
 Since by definition both tuples lie in the same orbit under $\Aut(G)$
 and both tuples generate $G$, there is exactly one automorphism
 $\varphi \in \Aut(G)$ mapping $s_i$ to $t_i$ for all $1 \le i \le m$.
+The hypothesis that $\hat G$ is isomorphic to $G$ takes care of the
+second statement.
 \proofend
+
+\begin{Rem}[The problem of mapping elements]
+Note that even if we have found standard generators in $G$, the above
+definition of the explicit isomorphism $\psi$ to $\smash{\hat G}$ does in fact 
+\emph{not}
+enable us to map arbitrary elements of $G$ via $\psi$, because for
+this we would have to express an arbitrary element of $G$ as a
+straight line program in $(s_1, \ldots, s_m)$, which is exactly the
+constructive recognition problem we want to solve!
+
+However, if we want to store certain elements or subgroups of $\hat
+G$ beforehand, we can store them as straight line programs in $(u_1,
+\ldots, u_m)$ and can then evaluate these straight line programs
+in $(s_1, \ldots, s_m)$ to actually get their images under $\psi^{-1}$
+in $G$. This fact helps to transfer previously acquired knowledge from
+$\hat G$ to $G$.
+\end{Rem}
 
 \begin{Rem}[Good standard generators]
     \label{goodstandgens}
+
+We want to comment only briefly on this topic. Basically, the choice
+of the standard generators for an isomorphism type of group, that is 
+the choice of the $\Aut(G)$-orbit 
+in the tuples of elements of $G$, is ``good'', if it is relatively
+easy to find a tuple of standard generators by random methods. The
+example in Section~\ref{ExaM11} exhibits this. The probabilities to find
+the right elements in the algorithm presented there are quite good,
+such that very few random elements will usually lead to success.
+
+A large collection of such good choices of standard generators together 
+with algorithms to find them can be found on the WWW-Atlas of Group
+Representations, see \cite{WWWAtlas}.
 \end{Rem}
 
-\section{The classical case: \DD8}
+\begin{App}[Storing hints for stabiliser chains]
+One immediate application of standard generators is the following. If
+a group has a subgroup $U$ with a relatively low index, then we can store
+generators for this subgroup as a straight line program in standard
+generators. Once we have recognised the isomorphism type of $G$
+using non-constructive recognition and have found standard generators
+in $G$, we can evaluate this straight line program, get a
+generating set of a subgroup $U$ of $G$ with this low index, restrict
+the natural module to $U$ and find a proper invariant subspace. The
+$G$-orbit of this subspace in the natural action on subspaces then
+gives a permutation action of $G$ which is isomorphic to the one on
+cosets of $U$. Thus, using standard generators in this way, we can collect hints
+to find ``good'' actions for the different absolutely irreducible
+matrix representations of a group.
+
+Eamonn O'Brien and Robert Wilson have for example done exactly this
+for the sporadic simple groups. Their hints data is available in the
+{\MAGMA} system and will be used in the composition tree
+implementation in the {\GAP} system as well.
+\end{App}
+
+\section{The classical case in natural representation: \DD8}
 \label{solveD8}
+
+The seminal paper by Neumann and Praeger \cite{neumann-praeger} which
+presents an algorithm to decide whether a given group $G \le \GL(n,q)$
+contains the special linear group was the starting point of a whole
+industry of papers concerned with non-constructive and constructive
+recognition of groups.
+
+An algorithm to recognise classical
+groups in their natural representation non-constructively is given 
+in \cite{classicalnonconstructive}. Once this is done, the results in
+\cite{peteconstructiveclassical} give algorithms to solve the
+constructive recognition problem.
+The basic idea of these constructive recognition algorithms is to find
+a certain tuple of standard generators and then perform a base change
+such that linear algebra methods can be used to express arbitrary
+elements as straight line programs in the standard generators.
+
+ADD REFERENCE to recent preprint Leedham-Green O'Brien.
+
 
 \section{The almost simple case: \DD9}
 \label{solveD9}
+
+If a group $G \le \GL(n,q)$ with $Z := G \cap Z(\GL(n,q))$ 
+is contained in class \DD9, there is a
+non-abelian simple group $\bar N$ and a group $T$ with $\bar N
+\leq T \leq \Aut(\bar N)$ and $G/Z \cong T$. The first problem for
+non-constructive recognition is that $G/Z$ is itself not necessarily 
+simple. However, the Schreier conjecture, which follows from the
+classification of finite simple groups, says that $\Aut(\bar N) / \bar
+N$ is solvable for all finite simple groups $\bar N$. In fact, this
+outer automorphism group is rather small in most cases occurring in
+practice.
+
+Explain about going to simple group
+
+References:
+
 
