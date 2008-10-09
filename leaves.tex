@@ -5,7 +5,7 @@
 
 This chapter is about constructive recognition (see
 Problem~\ref{ProbCR3}) of the leaves of a
-composition tree (see Section~\ref{recapproach}. By the arguments in
+composition tree (see Section~\ref{recapproach}). By the arguments in
 Chapter~\ref{chap:findhom} this basically means that we have to be
 able to solve Problem~\ref{ProbCR3} for the subgroups $G \le \GL(n,q)$
 that lie in classes \DD8 and \DD9 (see Sections~\ref{descD8} and
@@ -17,20 +17,20 @@ We do not want to describe the details of the methods used here but
 rather give an overview and refer the reader to the literature.
 One reason for this is that the current state of the art does not seem
 to be final, another is that the author has not contributed to the
-development of algorithms in this area up to know.
+development of algorithms in this area up to now.
 
 This chapter is structured as follows. We begin by describing
 methods based on permutation groups, which we call ``direct methods
 for constructive recognition'' in Section~\ref{solvedirect}. The
-next Section~\ref{nonconstructive} then explains the concept of
+next Section~\ref{nonconstructive} explains the concept of
 ``non-constructive recognition'' which basically means to determine
 the isomorphism type of a given group. Once this is known the
 concept of standard generators applies, which is introduced in
-Section~\ref{standardgens}. These concepts in turn are needed to apply
+Section~\ref{standardgens}. These concepts in turn are usually needed to apply
 more specialised methods for constructive recognition over which an
 overview is given in Section~\ref{solveD8} for classical groups in
 their natural representation and in
-Section~\ref{solveD9} for quasi-simple groups.
+Section~\ref{solveD9} for almost simple groups.
 
 \section{Direct methods for constructive recognition}
 \label{solvedirect}
@@ -44,7 +44,7 @@ will take care of this.
 
 Matrix groups and projective groups of course act on their natural
 module and in there on vectors and subspaces. So finding any other
-action is not difficult. To get good performance however can be
+action is not difficult. To achieve good performance however can be
 tricky. To this end, we want to find short orbits. Heuristic methods
 for this for matrix groups can be found in \cite{shortorbits}.
 
@@ -60,7 +60,13 @@ Once we have an action and thus a homomorphism into a permutation
 group we can either use the methods described in Section~\ref{permgrps}
 or immediately compute a stabiliser chain for the projective or matrix
 group using the Schreier-Sims method (see \cite{nearlylin} or
-\cite{Ser}).
+\cite{Ser}). Both approaches solve the constructive recognition
+problem \ref{ProbCR3} even if the group is not a simple group.
+
+Note that for larger dimensions and in particular for classical groups
+we do not even want to try these direct methods because any orbit we
+can possible find would be prohibitively large.
+
 
 \section{Non-constructive recognition}
 \label{nonconstructive}
@@ -112,7 +118,7 @@ The concept of standard generators serves this purpose.
 \begin{Def}[Standard generators]
     Let $G$ be a finite group and $\Aut(G)$ its automorphism group. Then
     $\Aut(G)$ acts on tuples of elements of $G$ componentwise. We choose
-    one orbit of this action that contains tuples, whose entries
+    one orbit of this action that contains tuples whose entries
     generate $G$ as a group, and call exactly those tuples in this
     orbit \emph{standard generators} for $G$. This choice is done once
     and forever for every isomorphism type of finite group and the
@@ -231,7 +237,10 @@ generating set of a subgroup $U$ of $G$ with this low index, restrict
 the natural module to $U$ and find a proper invariant subspace. The
 $G$-orbit of this subspace in the natural action on subspaces then
 gives a permutation action of $G$ which is isomorphic to the one on
-cosets of $U$. Thus, using standard generators in this way, we can collect hints
+cosets of $U$. Note that the existence of such a proper invariant subspace 
+of course depends not only on the isomorphism type of $G$ but rather
+also on the actual representation $G$ comes in.
+Thus, using standard generators in this way, we can collect hints
 to find ``good'' actions for the different absolutely irreducible
 matrix representations of a group.
 
@@ -250,35 +259,89 @@ contains the special linear group was the starting point of a whole
 industry of papers concerned with non-constructive and constructive
 recognition of groups.
 
-An algorithm to recognise classical
-groups in their natural representation non-constructively is given 
-in \cite{classicalnonconstructive}. Once this is done, the results in
-\cite{peteconstructiveclassical} give algorithms to solve the
-constructive recognition problem.
-The basic idea of these constructive recognition algorithms is to find
-a certain tuple of standard generators and then perform a base change
+An algorithm to recognise classical groups in their
+natural representation non-constructively is given in
+\cite{classicalnonconstructive}. Once this is done, other algorithms
+apply: In \cite{slrecogconstr} an algorithm to recognise $\SL(n,q)$
+in its natural representation constructively is presented with
+effective cost $O(n^4q)$. For arbitrary classical groups in their
+natural representation the results in \cite{peteconstructiveclassical}
+give algorithms to solve the constructive recognition problem with
+effective cost $O(n^5 \log^2 q)$, however these algorithms need an
+$\SL(2,q)$ oracle, that is, they rely on a solution to the constructive
+recognition problem for $\SL(2,q)$. Recently a new preprint (see
+\cite{recogclassicalodd}) has appeared which handles the case of odd
+characteristic.
+
+The basic idea of all these constructive recognition algorithms is to find
+a tuple of standard generators and then perform a base change
 such that linear algebra methods can be used to express arbitrary
 elements as straight line programs in the standard generators.
-
-ADD REFERENCE to recent preprint Leedham-Green O'Brien.
 
 
 \section{The almost simple case: \DD9}
 \label{solveD9}
 
+This part of the whole group recognition project is probably the one
+for which the currently known methods are least satisfying. In particular
+because many isomorphism types of groups have to be dealt with in a case by
+case fashion a lot of work still needs to be done.
+In this section we try to give an overview over the known methods by
+means of references into the literature. A more detailed account of
+the state of the art can be found in \cite{towards}.
+
+We begin with a discussion of the problem with the ``almost'' in
+``almost simple''.
+
 If a group $G \le \GL(n,q)$ with $Z := G \cap Z(\GL(n,q))$ 
 is contained in class \DD9, there is a
 non-abelian simple group $\bar N$ and a group $T$ with $\bar N
 \leq T \leq \Aut(\bar N)$ and $G/Z \cong T$. The first problem for
-non-constructive recognition is that $G/Z$ is itself not necessarily 
-simple. However, the Schreier conjecture, which follows from the
-classification of finite simple groups, says that $\Aut(\bar N) / \bar
-N$ is solvable for all finite simple groups $\bar N$. In fact, this
-outer automorphism group is rather small in most cases occurring in
-practice.
+both constructive and non-constructive recognition is that $G/Z$ is
+itself not necessarily simple, after all $G$ is only ``almost simple''.
+However, the Schreier conjecture, which follows from the classification
+of finite simple groups, says that $\Aut(\bar N) / \bar N$ is solvable
+for all finite simple groups $\bar N$. In fact, this outer automorphism
+group is rather small in most cases occurring in practice.
 
-Explain about going to simple group
+So the first step for recognition is to find the simple subgroup
+isomorphic to $\bar N$ of $G/Z$, we denote this by $N/Z$ in the following. 
+One approach is to go down the derived series
+until a group is reached which is ``probably perfect''. To test for
+the latter, one uses the algorithm by Leedham-Green and O'Brien in
+\cite[5.3]{RecogTensInd} to estimate the order of an element in a
+factor group if the group and the normal subgroup are given.
+This technique usually produces generators for $N$ efficiently.
 
-References:
+Most publications in this area seem to concentrate on the
+non-constructive and constructive recognition of simple groups.
+However, to completely solve Problem~\ref{ProbCR3} for all groups in
+\DD9 one would have to be able to do constructive recognition for all
+almost simple groups. There seems to be no method known to get hold of
+the factor group $G/N$ in general since in most cases
+the restriction of the natural module to $N$ is absolutely
+irreducible.  We will ignore this problem here.
+
+We next try to give an overview over the known techniques for
+non-constructive recognition of simple groups. Alternating groups and
+sporadic groups can be recognised non-constructively by looking at
+element orders of random elements. For Lie type groups there is an
+algorithm for non-constructive recognition in \cite{blackboxlienonconstr}.
+One outstanding case in this paper is covered by methods in
+\cite{altseimer}. However, both algorithms need to know the defining
+characteristic of the Lie type group in advance. To determine this,
+there are three concurrent methods, one is described in
+\cite{primpowgraphs}, a newer one in \cite{findingcharlie} and there
+is unpublished work by Seress which uses statistics about the two largest 
+element orders occurring.
+
+In 2001 Malle and O'Brien developed a practical implementation of all 
+the algorithms for non-constructive recognition known at the time,
+which is distributed with the {\MAGMA} system.
 
 
+%In \cite{bratuspak} an
+%algorithm to 
+
+
+% REFERENCE: Kantor, Seress: Black box classical groups???
