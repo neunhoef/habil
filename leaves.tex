@@ -227,6 +227,7 @@ Representations, see \cite{WWWAtlas}.
 \end{Rem}
 
 \begin{App}[Storing hints for stabiliser chains]
+\label{hintsstabchains}
 One immediate application of standard generators is the following. If
 a group has a subgroup $U$ with a relatively low index, then we can store
 generators for this subgroup as a straight line program in standard
@@ -287,7 +288,9 @@ for which the currently known methods are least satisfying. In particular
 because many isomorphism types of groups have to be dealt with in a case by
 case fashion a lot of work still needs to be done.
 In this section we try to give an overview over the known methods by
-means of references into the literature. A more detailed account of
+means of references into the literature. We intentionally leave out
+complexity results for the sake of brevity and because the last word on
+this does not yet seem to be spoken. A more detailed account of
 the state of the art can be found in \cite{towards}.
 
 We begin with a discussion of the problem with the ``almost'' in
@@ -298,7 +301,7 @@ is contained in class \DD9, there is a
 non-abelian simple group $\bar N$ and a group $T$ with $\bar N
 \leq T \leq \Aut(\bar N)$ and $G/Z \cong T$. The first problem for
 both constructive and non-constructive recognition is that $G/Z$ is
-itself not necessarily simple, after all $G$ is only ``almost simple''.
+itself not necessarily simple, after all, $G/Z$ is only ``almost simple''.
 However, the Schreier conjecture, which follows from the classification
 of finite simple groups, says that $\Aut(\bar N) / \bar N$ is solvable
 for all finite simple groups $\bar N$. In fact, this outer automorphism
@@ -309,20 +312,23 @@ isomorphic to $\bar N$ of $G/Z$, we denote this by $N/Z$ in the following.
 One approach is to go down the derived series
 until a group is reached which is ``probably perfect''. To test for
 the latter, one uses the algorithm by Leedham-Green and O'Brien in
-\cite[5.3]{RecogTensInd} to estimate the order of an element in a
+\cite[5.3]{RecogTensInd}. This algorithm estimates the order of an element in a
 factor group if the group and the normal subgroup are given.
-This technique usually produces generators for $N$ efficiently.
+This technique produces generators for $N$ efficiently.
 
 Most publications in this area seem to concentrate on the
 non-constructive and constructive recognition of simple groups.
 However, to completely solve Problem~\ref{ProbCR3} for all groups in
-\DD9 one would have to be able to do constructive recognition for all
+\DD9 one has to be able to do constructive recognition for all
 almost simple groups. There seems to be no method known to get hold of
 the factor group $G/N$ in general since in most cases
 the restriction of the natural module to $N$ is absolutely
-irreducible.  We will ignore this problem here.
+irreducible.  We will ignore this problem here, in particular since $G/N$
+is very small in most cases, such that solving the constructive recognition
+problem for $N$ together with a few coset case distinctions can solve the
+problem in $G$ satisfactorily.
 
-We next try to give an overview over the known techniques for
+Next we try to give an overview over the known techniques for
 non-constructive recognition of simple groups. Alternating groups and
 sporadic groups can be recognised non-constructively by looking at
 element orders of random elements. For Lie type groups there is an
@@ -331,7 +337,7 @@ One outstanding case in this paper is covered by methods in
 \cite{altseimer}. However, both algorithms need to know the defining
 characteristic of the Lie type group in advance. To determine this,
 there are three concurrent methods, one is described in
-\cite{primpowgraphs}, a newer one in \cite{findingcharlie} and there
+\cite{primpowgraphs}, a newer one in \cite{findingcharlie} and thirdly there
 is unpublished work by Seress which uses statistics about the two largest 
 element orders occurring.
 
@@ -339,9 +345,57 @@ In 2001 Malle and O'Brien developed a practical implementation of all
 the algorithms for non-constructive recognition known at the time,
 which is distributed with the {\MAGMA} system.
 
+Assuming from now on that the non-constructive recognition is achieved we
+conclude this section with a list of references to work that has been done
+to solve the constructive recognition problem for classes of simple groups.
+Note that many of these solutions include the corresponding almost simple
+groups thereby solving specific cases of \DD9 groups completely.
 
-%In \cite{bratuspak} an
-%algorithm to 
+An algorithm to recognise the alternating group $A_k$ and the symmetric
+group $S_k$ constructively in an arbitrary 
+representation is described in \cite{bbsymaltconstr}. An alternative
+algorithm was developed in \cite{bratuspak}.
 
+For classical groups in another than their natural representation (see
+Section~\ref{solveD8} for the \DD8 case) there is an algorithm in
+\cite{bbclassical}. The particularly important case of the special linear
+group $\SL(2,q)$ of rank $2$ in non-natural but defining characteristic
+representation is dealt with in \cite{classicallargefield}
+and \cite{psl2qconstr} in the sense that an algorithm is described to find
+an explicit computable epimorphism to $\PSL(2,q)$ in its natural
+representation. Further work to improve the algorithms for simple classical 
+groups in arbitrary representations can be found in \cite{bbomega},
+\cite{bbunitary}, \cite{bbpsldq}, \cite{computingmatrix} and
+\cite{bbortho}. Recently the preprint \cite{smalldegreegl} appeared which
+deals with recognising small degree representations of general linear
+groups specifically.
+
+For Lie type groups work on constructive recognition has appeared in
+\cite{recogSL3}, \cite{rybaid} and \cite{suzukiconstr}. An article about 
+constructive recognition of exceptional groups of Lie type by Kantor and Magaard is
+in preparation. However, this area is still work in progress.
+
+For the sporadic simple groups the data collected by O'Brien and Wilson
+about subgroup chains (see Section~\ref{hintsstabchains}) can be used to
+solve the constructive recognition problem after non-con\-struc\-tive
+recognition using the direct methods mentioned in
+Section~\ref{solvedirect}. 
+
+We finish this section by mentioning two other approaches to the
+constructive part of the recognition problem.
+
+One is published
+in the preprint \cite{bbconstrmember}. It uses involution centralisers
+and the fact that generators for them can be computed efficiently (see
+\cite{BrayInv}). One instance of the constructive membership test problem
+for a group $G$ is translated into three instances of the corresponding
+problem in the centralisers of certain involutions which come up during the
+run of the algorithm.
+
+Finally we want to mention the paper \cite{gensift}, which introduces a
+generic framework for constructive membership testing in a group whose
+isomorphism type is known. It relies on standard generators (see
+Section~\ref{standardgens}) and prepared subgroup chains stored as straight
+line programs in the standard generators.
 
 % REFERENCE: Kantor, Seress: Black box classical groups???
