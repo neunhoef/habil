@@ -6,10 +6,10 @@
 This chapter is about constructive recognition (see
 Problem~\ref{ProbCR3}) of the leaves of a
 composition tree (see Section~\ref{recapproach}). By the arguments in
-Chapter~\ref{chap:findhom} this basically means that we have to be
+Chapter~\ref{chap:findhom} this means that we have to be
 able to solve Problem~\ref{ProbCR3} for the subgroups $G \le \GL(n,q)$
 that lie in classes \DD8 and \DD9 (see Sections~\ref{descD8} and
-\ref{descD9}). Because of the obvious homomorphism from $\GL(n,q) \to
+\ref{descD9}). Because of the homomorphism from $\GL(n,q) \to
 \PGL(n,q)$ and our setup of the composition tree we basically have
 to work with the projective version $\bar G \le \PGL(n,q)$.
 
@@ -23,7 +23,7 @@ This chapter is structured as follows. We begin by describing
 methods based on permutation groups, which we call ``direct methods
 for constructive recognition'' in Section~\ref{solvedirect}. The
 next Section~\ref{nonconstructive} explains the concept of
-``non-constructive recognition'' which basically means to determine
+``non-constructive recognition'' which means to determine
 the isomorphism type of a given group. Once this is known the
 concept of standard generators applies, which is introduced in
 Section~\ref{standardgens}. These concepts in turn are usually needed to apply
@@ -36,7 +36,7 @@ Section~\ref{solveD9} for almost simple groups.
 \label{solvedirect}
 
 For ``small groups'' one can use permutation group methods to solve
-Problem~\ref{ProbCR3} for a group $G \le \GL(n,q)$. The basic idea is
+Problem~\ref{ProbCR3} for a group $\bar G \le \PGL(n,q)$. The basic idea is
 to find a permutation action. This immediately gives a homomorphism
 into a permutation group which will be an isomorphism if the group is
 simple. Even if there is a non-trivial kernel the composition tree setup
@@ -44,8 +44,8 @@ will take care of this.
 
 Matrix groups and projective groups of course act on their natural
 module and in there on vectors and subspaces. So finding any other
-action is not difficult. To achieve good performance however can be
-tricky. To this end, we want to find short orbits. Heuristic methods
+action is not difficult. Achieving good performance however can be
+tricky. To this end we want to find short orbits. Heuristic methods
 for this for matrix groups can be found in \cite{shortorbits}.
 
 Another possibility are low index methods.
@@ -91,7 +91,7 @@ we can rule out this type with a known error probability.
 
 See Sections~\ref{solveD8} and \ref{solveD9} for an overview over the
 current state of art of non-constructive recognition for classical
-groups in their natural representation and for groups in class \DD9
+groups in their natural representation (class \DD8) and for groups in class \DD9
 respectively.
 
 \section{Standard generators}
@@ -106,7 +106,7 @@ Once the isomorphism type of a group $G = \left< g_1, \ldots,
 g_k\right>$ is known (after successful non-con\-struc\-tive recognition as in
 Section~\ref{nonconstructive}), one wants to find an explicit
 isomorphism of $G$ to a ``standard copy $\hat G$''. Note that such an
-automorphism is not automatically ``computable'' in the sense that 
+isomorphism is not automatically ``computable'' in the sense that 
 we can map group elements back and forth, as we will see below.
 However, in the end we strive to use previously acquired and stored
 knowledge about $\hat G$ and transfer it over to $G$ via that
@@ -269,7 +269,7 @@ effective cost $O(n^4q)$. For arbitrary classical groups in their
 natural representation the results in \cite{peteconstructiveclassical}
 give algorithms to solve the constructive recognition problem with
 effective cost $O(n^5 \log^2 q)$, however these algorithms need an
-$\SL(2,q)$ oracle, that is, they rely on a solution to the constructive
+$\SL(2,q)$ oracle, that is, they rely on a solution of the constructive
 recognition problem for $\SL(2,q)$. Recently a new preprint (see
 \cite{recogclassicalodd}) has appeared which handles the case of odd
 characteristic.
@@ -290,7 +290,7 @@ case fashion a lot of work still needs to be done.
 In this section we try to give an overview over the known methods by
 means of references into the literature. We intentionally leave out
 complexity results for the sake of brevity and because the last word on
-this does not yet seem to be spoken. A more detailed account of
+these does not yet seem to be spoken. A more detailed account of
 the state of the art can be found in \cite{towards}.
 
 We begin with a discussion of the problem with the ``almost'' in
