@@ -55,7 +55,7 @@ The general idea is to provide efficient algorithms for all the classes \DD1 to
 \DD7 to recognise whether a given matrix group lies in the class, and if
 so, to find a reduction using this information. If none of these algorithms
 succeeds, our variant of Aschbacher's theorem shows that the group must
-be a member of \DD8 or \DD9. In that case the constructive recognition problem
+be a member of \DD8 or \DD9. In this case the constructive recognition problem
 has to be
 solved by different means, usually by first finding out which classical
 or almost simple group it is and then using this information to do the
@@ -81,7 +81,7 @@ The purpose of this chapter is to explain the statement of our variant
 of Aschbacher's 
 theorem for $\GL(n,q)$ in detail, to give a proof and to give an
 overview over the known methods to deal with the different classes
-together with references into the literature. Furthermore, we present new 
+together with references to the literature. Furthermore we present new 
 ideas to handle classes \DD2, \DD4 and \DD7, which seem to work very
 well in practice, but are not yet fully analysed with respect to their
 applicability and complexity. It seems that our changed definition of
@@ -106,7 +106,7 @@ talk about the group $\GL(n,q)$. We denote the vector space $\F_q^{1
 vector-matrix multiplication.
 \end{Not}
 
-For the original formulation of his theorem in \cite{aschbacher}, Aschbacher 
+For the original formulation of his theorem in \cite{aschbacher} Aschbacher 
 defines $8$ classes
 of subgroups of $\GL(n,q)$ and proves that every subgroup $G$ is either
 a subgroup of some member of one of these $8$ classes or has a certain
@@ -116,7 +116,7 @@ way: Instead of the original 8 Aschbacher class \CC 1 to \CC 8
 we define different classes \DD 1 to \DD 8
 (for details see the descriptions in Sections \ref{descD1} to
 \ref{descD8}).
-Furthermore, we collect
+Furthermore we collect
 the subgroups $G \le \GL(n,q)$ that fulfil the properties in the statement of 
 Aschbacher's theorem in the class \DD9. The slight modifications 
 to the class definitions on the one hand stem from our proof of the
@@ -150,8 +150,8 @@ to \ref{descD9}.
 %\end{Rem}
 
 \medskip
-We proceed with our definition of the subgroup classes \DD1 to \DD9. Throughout,
-we denote for a subgroup $G < \GL(n,q)$ its subgroup of scalar matrices
+We proceed with our definition of the subgroup classes \DD1 to \DD9. Throughout
+we denote for a subgroup $G \le \GL(n,q)$ its subgroup of scalar matrices
 by $Z$, that is, $Z := Z(\GL(n,q)) \cap G$. For each class we either
 give an alternate structural description or at least give the structure 
 of some ``typical'' example groups in that class.
@@ -189,7 +189,7 @@ of the normal $p$-subgroup
            C \in \F_q^{n-m \times m} \right\} \]
 and $\GL(m,q) \times \GL(n-m,q)$, the factors being embedded on the
 diagonal blocks. 
-Here, $\one_m$ is the $(m \times m)$-identity matrix and $\one_{n-m}$ is the
+Here $\one_m$ is the $(m \times m)$-identity matrix and $\one_{n-m}$ is the
 $(n-m) \times (n-m)$-identity matrix.
 
 \subsection{Description of class \DD2: ``imprimitive''}
@@ -199,7 +199,7 @@ $(n-m) \times (n-m)$-identity matrix.
 A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
 absolutely irreducible and $G$ has a normal subgroup $N$ containing $Z$ 
 such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
-modules that are not all isomorphic.
+absolutely irreducible modules that are not all isomorphic.
 
 By Clifford theory this immediately implies that there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
@@ -213,7 +213,8 @@ summands is transitive. The $V_i$ are the homogeneous components.
 \diffasch2
 We include in \DD2 the subgroups of the members of \CC2 that
 permute the direct summands transitively, but we exclude all groups
-acting not absolutely irreducibly.
+acting not absolutely irreducibly and we add the condition that the
+irreducible $\F_q N$-summands of $V|_{N}$ are absolutely irreducible.
 
 \smallskip
 \exmemb
@@ -251,7 +252,7 @@ $V$ is irreducible but not absolutely irreducible (see \cite[(29.13)]{CR0}).
 
 \medskip
 \diffasch3
-We include in \DD3 all subgroups of the members of \CC3, but we exclude all
+We include in \DD3 subgroups of the members of \CC3, but we exclude all
 groups acting reducibly.
 
 \smallskip
@@ -297,7 +298,7 @@ The group $\GL(d_1,q) \circ \GL(d_2,q)$ is the central
 product of $\GL(d_1,q)$ and $\GL(d_2,q)$ for $d_1 \cdot d_2 = n$ and
 thus is contained in $\GL(n,q)$. It is
 the set of Kronecker products of a matrix in $\GL(d_1,q)$ and one in
-$\GL(d_2,q)$. Those groups are members in \DD4.
+$\GL(d_2,q)$. These groups are members in \DD4.
 
 
 \subsection{Description of class \DD5: ``subfield''}
@@ -338,7 +339,7 @@ $\F_r$-vector space $E/Z(E)$ of dimension $2m$ is irreducible. }
 
 \diffasch6
 We have added the condition about the irreducible $\F_r$-linear action of $G$ on
-$E/Z(E)$ because it comes out of our proof easily and might help to
+$E/Z(E)$ because it is an easy by-product of our proof and might help to
 devise algorithms to find a reduction for groups in this class. On the
 other hand we include subgroups of members of \CC6 if they fulfil this
 condition.
@@ -518,29 +519,22 @@ be a non-trivial minimal normal subgroup of $G/Z$ and $N$ be
 the corresponding non-scalar normal subgroup of $G$ with $Z < N
 \triangleleft G$.
 
-We now use Clifford theory applied to the natural module $V$. By Clifford's
+Now we use Clifford theory applied to the natural module $V$. By Clifford's
 theorem (see \cite[(49.2) and (49.7)]{CR0}) the restricted $\F_q N$-module
 $V|_N$ is a direct sum of irreducible $\F_q N$-modules which are all
 $G$-conjugates of one irreducible $\F_q N$-submodule $W \le V|_N$. In
-particular, all these irreducible summands have the same dimension. We now
-distinguish several cases.
+particular all these irreducible summands have the same dimension. 
 
-If there is more than one homogeneous component (i.e.~not all conjugates of
-$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \DD2
-(see \ref{descD2}),
-since the homogeneous components provide a direct sum decomposition that is
-preserved by $G$ and the summands are permuted transitively.
-
-From now on we assume additionally that there is only one homogeneous
-component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
-Then $\dim W > 1$ because $N$ is non-scalar.
-
-We first assume that $W$ is not absolutely irreducible including both
+First we assume that $W$ is not absolutely irreducible including both
 cases $W = V$ and $W < V$. Then $\End_{\F_q N}(W)$ is a proper finite
 extension field of $\F_q$, say $\F_{q^s}$, and $W$ and $V|_N$
 both can be considered as $\F_{q^s}$-vector spaces such that the action of
 $N$ on them is $\F_{q^s}$-linear, because $V|_N$ is isomorphic to a direct
-sum of copies of $W$. We can embed $\F_{q^s} \le \End_{\F_q N}(V) \le \GL(n,q)$.
+sum of $G$-conjugates of $W$. Note that the action of $c \in \End_{\F_q
+N}(W)$ on $W$ can be transferred to a conjugate $Wg$ by setting
+$(wg)c := (wc)g$ for all $w \in W$ and $g \in G$ showing that $Wg$ is
+not absolutely irreducible as well.  
+We can embed $\F_{q^s} \le \End_{\F_q N}(V) \le \GL(n,q)$.
 
 We claim that the action of $G$ is $\F_{q^s}$-semilinear proving that $G$ lies
 in \DD3 (see \ref{descD3}). Let $c \in \GL(n,q)$ generate the
@@ -553,14 +547,27 @@ $c^i + c^j = c^l$, then $(c^i)^g + (c^j)^g = (c^l)^g$ so $g$ acts as
 field automorphism on $\F_{q^s}$. We have thus proved that $G$ 
 lies in \DD3 (see \ref{descD3}).
 
-From now on we assume that $W$ is absolutely irreducible.
+From now on we assume that $W$ is absolutely irreducible and
+distinguish several cases.
 
-We first assume that $W$ is a proper subspace of $V$. Let $d :=
+If there is more than one homogeneous component (i.e.~not all conjugates of
+$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \DD2
+(see \ref{descD2}),
+since the homogeneous components provide a direct sum decomposition that is
+preserved by $G$ and the summands are permuted transitively. The above
+argument shows that all $G$-conjugates of $W$ are absolutely
+irreducible because $W$ is.
+
+From now on we assume additionally that there is only one homogeneous
+component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
+Then $\dim W > 1$ because $N$ is non-scalar.
+
+First we assume that $W$ is a proper subspace of $V$. Let $d :=
 \dim_{\F_q}(W)$ such that $1 < d < n$. Since by assumption 
 all $G$-conjugates of $W$ are isomorphic to $W$ as $\F_q N$-modules,
 we have shown that $G$ lies in \DD4 (see \ref{descD4}).
 
-We now move on to the case that $W = V|_N$, that is, the restriction
+Now we move on to the case that $W = V|_N$, that is, the restriction
 $V|_N$ is irreducible. We are still assuming that $W$ is
 absolutely irreducible.
 
@@ -573,13 +580,13 @@ under the natural map $G \to G/Z$. We now distinguish three cases:
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item[(i)] $\bar T$ is cyclic of prime order $r$, 
 \item[(ii)] $\bar T$ is non-abelian simple with $k > 1$ and
-\item[(iii)] $N/Z$ is non-abelian simple.
+\item[(iii)] $\bar T \cong N/Z$ is non-abelian simple.
 \end{itemize}
 We now consider case (i) that $\bar T$ is cyclic of prime order $r$, then
 $\bar N = N/Z$ is an elementary-abelian $r$-group of order $r^k$.
 Since $N$ is not abelian, we have $k > 1$.
-The commutator subgroup $N'$ of $N$ is contained in $Z$ and
-we recall that $Z$ is the centre of $N$ since $V|_N$ is absolutely
+The derived subgroup $N'$ of $N$ is contained in $Z$ and
+we recall that $Z$ is the centre of $N$ since $V|_N = W$ is absolutely
 irreducible. So $N$ is nilpotent and thus the direct product of its
 Sylow subgroups. Let $R$ be the $r$-Sylow subgroup of $N$, all other
 Sylow subgroups of $N$ consist of scalar matrices since $N/Z$ is
@@ -628,8 +635,8 @@ Furthermore, $N/Z = ZE/Z \cong E/(E \cap Z) = E/Z(E)$. Thus the
 Frattini subgroup $\Phi(E)$ of $E$ is equal to $E'$ and $E$ is either
 extraspecial of order $2^{1+k}$ or a central product of a cyclic group
 of order $4$ consisting of scalar matrices and an extraspecial group 
-of order $2^{1+k}$. In both cases it follows again using
-\cite[V.16.14]{Hup} that $k$ is even and
+of order $2^{1+k}$. In both cases it follows using
+\cite[V.16.14]{Hup} again that $k$ is even and
 $n = 2^{k/2}$. As above the linear action of $G$ on the $\F_2$-vector space
 $E/Z(E)$ is irreducible and thus $G$ lies in \DD6 with $r=2$.
 
@@ -670,7 +677,7 @@ representations.
     \label{tensorprop}
 If a group $G \le \GL(n,q)$ lies in \DD4, then it is tensor decomposable,
 by which we mean the following:
-there is a decomposition
+There is a decomposition
 of\/ $V = V_1 \otimes V_2$ into a tensor product with 
 $1 < d_1 := \dim_{\F_q}(V_1) < n$
 and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
@@ -740,8 +747,8 @@ consists only of the scalar matrices.
 
 This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
 \{ 1, \ldots, d/n \}$ there
-is a unique element $e_{i,j} \in \F_q$ (possibly $0$) with 
-$g_{i,j} = T \cdot e_{i,j}$. Thus we have shown that with respect to
+is a unique element $u_{i,j} \in \F_q$ (possibly $0$) with 
+$g_{i,j} = T \cdot u_{i,j}$. Thus we have shown that with respect to
 the above choice of basis, every element $g$ is equal to a Kronecker 
 product of some matrix in $U \in \F_q^{n/d \times n/d}$ with a matrix
 $T \in \F_q^{d \times d}$. Since $g$ is invertible both 
@@ -814,7 +821,7 @@ assumption and the proof goes through.
     $(\SL(2,7) \otimes_{\F_7} \SL(2,7)).S_2 < \GL(4,7)$ where the
     $S_2$ permutes the tensor factors. The natural module $V := \F_7^4$ is
     absolutely irreducible also when restricted to the normal subgroup
-    $N := \SL(2,7) \otimes_{\F_7} \SL(2,7)$ of index $2$. The center 
+    $N := \SL(2,7) \otimes_{\F_7} \SL(2,7)$ of index $2$. The centre 
     $Z := \left< -\id \right>$ of $G$ has $2$ elements and $N/Z$ is a
     minimal normal subgroup of $G/Z$ which is a direct product of two
     copies of the non-abelian simple group $\PSL(2,7)$. Thus $G$ lies
@@ -837,10 +844,10 @@ assumption and the proof goes through.
 The purpose of this section is to give an overview how reductions can
 be found algorithmically provided that a matrix group
 lies in one of the classes \DD1 to \DD7. We do not give full details
-here but rather sketch the methods used and collect references into the
+here but rather sketch the methods used and collect references to the
 literature.
 
-We continue to use the notation for a group $G < \GL(n,q)$ that
+We continue to use the notation for a group $G \le \GL(n,q)$ that
 $Z := Z(\GL(n,q)) \cap G$ is the subgroup of scalar matrices and that
 $V := \F_q^{1 \times n}$ is the natural right module. For the
 complexity statements we assume that $G$ is given by $m$ generators
@@ -880,6 +887,7 @@ The algorithm presented in Chapter~\ref{chap:subsemi} is Las Vegas and is
 guaranteed to terminate in 
 \[ O(n^3\log(\delta^{-1})(m+\log(\delta^{-1} \log n))
    + n^4\log(\delta^{-1} \log n) \log q) \]
+elementary field operations,
 if $0 < \delta < 1/2$ is the prescribed upper bound for the failure
 probability (see Section~\ref{subsemi:sec:complexity}).
 
@@ -901,10 +909,10 @@ cases: \DD2 and \DD4}
 
 The content of this section is a bit experimental and speculative. We
 mainly describe a new idea to find reductions for the classes \DD2 and
-\DD4. At the end of this section we give references into the literature
+\DD4. At the end of this section we give references to the literature
 to describe the current state of the art.
 
-The descriptions of the classes \DD2 and \DD4 have one property in common: they
+The descriptions of the classes \DD2 and \DD4 have one property in common: They
 involve a normal subgroup $N$ of $G$ such that the restriction of the
 natural module to $N$ is reducible. That is, the MeatAxe can detect $N$ in
 the sense that if we have a list of elements of $G$ that happen to generate $N$, 
@@ -929,7 +937,7 @@ the \DD7 case as well.
 \index{Involution Jumper|textbf}
 \label{alginvjump}
 \begin{algorithmic}
-\STATE \textbf{Input:} A group $G \le \GL(n,q)$, an involution
+\STATE \textbf{Input:} A group $G$, an involution
 $x \in G$, an integer $t$, and a boolean $b$.
 \STATE \textbf{Output:} An involution in $G$ or \textsc{Fail}.
 
@@ -963,7 +971,7 @@ element of $G$}
 \end{algorithm}
 
 \begin{Prop}[The Involution Jumper]
-Let $G$ be a finite group If Algorithm~\ref{alginvjump}
+Let $G$ be a finite group. If Algorithm~\ref{alginvjump}
 ``\textsc{InvolutionJumper}'' is called with $G$ and an
 involution $x$, the return value $u$ is either an involution in $G$ with
 $xu=ux$ or \textsc{Fail}. 
@@ -1024,7 +1032,7 @@ of a group in \DD7.
 Let $G$ be a finite group of even order and $\mathcal{M}$ be the set of
 conjugacy classes of involutions in $G$. Then
 Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' defines a Markov
-chain with vertex set $\mathcal{M}$ in the following way: a step in
+chain with vertex set $\mathcal{M}$ in the following way: A step in
 the Markov chain starting at an involution class $C \in \mathcal{M}$
 involves choosing an arbitrary involution in $C$ and running
 Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' on it in the group $G$
@@ -1245,13 +1253,15 @@ The experimental evidence suggests that it is feasible to analyse this
 procedure and to come up with a proof that it is in fact a Las Vegas
 algorithm that works with high probability for all or at least most groups
 in \DD2 and \DD4. It certainly has a good complexity in terms of $n$, the
-number $m$ of generators of $G$ and $\log q$. The major question to be
+number $m$ of generators of $G$ and $\log q$ (ignoring as usual the
+discrete logarithm and integer factorisation problem in order computations). 
+The major question to be
 resolved is whether there are groups in \DD2 or \DD4, for which it
 does not work well or not at all.
 \end{Expl}
 
 \smallskip
-We conclude this section with a few references into the existing
+We conclude this section with a few references to the existing
 literature. In \cite{smashnormal} an algorithm is described to decide
 whether or not a group is acting imprimitively. The ideas in that
 paper have actually inspired lots of the methods presented in this
@@ -1271,23 +1281,23 @@ reducible in the \DD7 case. Thus the approach described in
 Section~\ref{solveD24} does not work immediately. However, the observation
 that Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' produces an
 element of $N$ with relatively high probability also holds for the \DD7
-case. To some extend it seems to work even better in this case, since the 
+case. To some extent it seems to work even better in this case, since the 
 factor group $G/N$ has an action on $k$ points where $n=r^k$ for some $r$
 and $k$, which makes $k$ relatively small in real world situations.
 
 There are basically two problems. The first is that we cannot easily detect 
 that the normal closure of our involution produced by the Involution
 Jumper is equal to $N$, because $V|_N$ is absolutely irreducible. The
-second is that even if we assume this, we have find the action of $G/N$ on
+second is that even if we assume this, we have to find the action of $G/N$ on
 the direct factors of $N/Z$ (recall that in the \DD7 case the group $N/Z$
 is isomorphic to a direct product of pairwise isomorphic non-abelian simple
 groups that are permuted transitively by the conjugation action of $G/N$ on
-$N$). In this section we present a new idea to solve these two problems,
+$N$). In this section we present a new idea to solve these two problems
 which works very well in practice. As for the \DD2 and \DD4 cases, the reader is
 kindly referred to future publications by the author for a complete analysis.
 
 Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' already contains a 
-statement ``Perform check for \DD7'' in a situation where we have produced
+statement ``Perform check for \DD7'' in a situation in which we have produced
 a candidate for the normal subgroup $N$. We now describe how to perform
 this check, which is summarised in Algorithm~\ref{algreductionD7}
 ``\textsc{FindHomD7}''.
@@ -1375,7 +1385,7 @@ and thus are not equal. Otherwise, we assume that the two conjugates are
 equal. Since in the \DD7 case, $T/Z$ is non-abelian simple, this test is
 good enough and can be done very quickly.
 
-This whole prodecure finds the action of $G$ on the direct factors of $N/Z$
+This whole procedure finds the action of $G$ on the direct factors of $N/Z$
 with high probability and thus returns a reduction provided $G$ is in \DD7
 and $N$ is the normal subgroup from the definition of the class \DD7.
 
@@ -1385,7 +1395,7 @@ method seems to work extremely well and quickly fails if $G$ is not a \DD7 group
 Further work to analyse these ideas is required.
 
 \smallskip
-We conclude this section with a few references into the existing
+We conclude this section with a few references to the existing
 literature. In \cite{RecogTensInd} an algorithm is described to
 determine algorithmically whether or not a group is projectively
 tensor induced. This paper uses the methods in \cite{tensprodproj} and
