@@ -10,7 +10,7 @@ Chapter~\ref{chap:findhom} this means that we have to be
 able to solve Problem~\ref{ProbCR3} for the subgroups $G \le \GL(n,q)$
 that lie in classes \DD8 and \DD9 (see Sections~\ref{descD8} and
 \ref{descD9}). Because of the homomorphism from $\GL(n,q) \to
-\PGL(n,q)$ and our setup of the composition tree we basically have
+\PGL(n,q)$ and our setup of the composition tree we have
 to work with the projective version $\bar G \le \PGL(n,q)$.
 
 We do not want to describe the details of the methods used here but
@@ -74,7 +74,7 @@ can possible find would be prohibitively large.
 The term ``non-constructive recognition'' for a group means finding
 the isomorphism type. In situations where direct methods for constructive 
 recognition (see the previous Section~\ref{solvedirect}) fail, the usual
-approach is to first determine the isomorphism type of the group and
+approach is to determine the isomorphism type of the group first and
 then use additional knowledge about the group in question to do the
 constructive part of the recognition. In particular to use the
 technique of standard generators (see the next
@@ -90,7 +90,7 @@ occurs very frequently in a certain isomorphism type after some tries,
 we can rule out this type with a known error probability.
 
 See Sections~\ref{solveD8} and \ref{solveD9} for an overview over the
-current state of art of non-constructive recognition for classical
+current state of the art of non-constructive recognition for classical
 groups in their natural representation (class \DD8) and for groups in class \DD9
 respectively.
 
@@ -235,7 +235,8 @@ generators. Once we have recognised the isomorphism type of $G$
 using non-constructive recognition and have found standard generators
 in $G$, we can evaluate this straight line program, get a
 generating set of a subgroup $U$ of $G$ with this low index, restrict
-the natural module to $U$ and find a proper invariant subspace. The
+the natural module to $U$ and find a proper invariant subspace. Provided
+that $G$ acts irreducibly on its natural module, the
 $G$-orbit of this subspace in the natural action on subspaces then
 gives a permutation action of $G$ which is isomorphic to the one on
 cosets of $U$. Note that the existence of such a proper invariant subspace 
@@ -339,7 +340,7 @@ characteristic of the Lie type group in advance. To determine this,
 there are three concurrent methods, one is described in
 \cite{primpowgraphs}, a newer one in \cite{findingcharlie} and thirdly there
 is unpublished work by Seress which uses statistics about the two largest 
-element orders occurring.
+projective element orders occurring.
 
 In 2001 Malle and O'Brien developed a practical implementation of all 
 the algorithms for non-constructive recognition known at the time,
