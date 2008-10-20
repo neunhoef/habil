@@ -17,7 +17,7 @@ ideas of the method in \cite{CellLeedOrder} in particular to show
 two things: Firstly that computing the minimal polynomial of a matrix
 is a crucial step in the computation of its order, and secondly that
 integer factorisations of some of the numbers $q^i-1$ for $1 \le i \le n$ 
-can be needed in the process.
+can be needed in the process (see Section~\ref{intfact}).
 
 \begin{DefProp}[Order and projective order]
 Let $\F$ be a field and $M \in \F^{n \times
@@ -124,7 +124,8 @@ In practice one takes $q^d-1$ (resp.~$\frac{q^d-1}{q-1}$) as an upper bound
 for the (projective) order of $X+g\F[X]$ and then uses the ``bounded order
 algorithm'' described in \cite[Section 2]{CellLeedOrder} to get the
 actual (projective) order. However, this algorithm depends on the
-integer factorisation of $q^d-1$ since it uses a divide-and-conquer
+integer factorisation (see Section~\ref{intfact}) 
+of $q^d-1$ since it uses a divide-and-conquer
 approach using this factorisation.
 
 Altogether, we can conclude the following result:
@@ -133,7 +134,7 @@ Altogether, we can conclude the following result:
 Let $M$ be a matrix in $\F_q^{n \times n}$. Assume that the 
 minimal polynomial of $M$ is known and completely factorised into
 irreducible factors, and that all integer factorisations of $q^i-1$
-for $1 \le i \le n$ are known. 
+for $1 \le i \le n$ are known (see Section~\ref{intfact}). 
 
 Then the (projective) order of $M$ can be
 computed in $O(n^3 \cdot \log_2(q) \cdot \log_2(n\log_2(q)))$
@@ -285,6 +286,86 @@ elementary field operations. Summing up gives the claim.
 \section{The discrete logarithm problem}
 \label{thedlp}
 
-State problem, cite currently best possible solution, give overview
-over where it can be solved efficiently.
+\begin{Problem}[The discrete logarithm problem in finite fields]
+    Let $q = p^k$ be a power of a prime $p$. Then the multiplicative
+    group of the finite field $\F_q$ is cyclic, say $\F_q^\times =
+    \left< \zeta \right>$ for a fixed element $\zeta$ of order $q-1$.
+
+    The discrete logarithm problem (DLP) in the finite field $\F_q$ is
+    the following:
+
+    \begin{center}\fbox{\parbox{3.5in}{\hfill
+    Given $y \in \F_q^\times$, find $a \in \Z$ such that $y =
+    \zeta^a$.\hfill\mbox{}}}
+\end{center}
+\end{Problem}
+
+\medskip
+Obviously, this problem can be solved easily using an algorithm that
+simply tries all powers of $\zeta$. However, this simplistic approach
+obviously has complexity $O(q)$ in the worst case, which very quickly
+becomes impractical as $q$ grows.
+
+Better methods are the Shanks and Pollard methods (see 
+\cite[Section~3]{odlyzkodlp}) with complexity $O(q^{1/2})$, 
+the Index Calculus Method due to
+Kraitchik (see \cite{McCurley}) and the more recent number field sieve
+methods (see \cite[Section~4]{odlyzkodlp}).
+
+An overview over the current state of the art to solve this problem
+is given in \cite{odlyzkodlp}. For some values of $q$ (in particular
+for ``small $p$'') there are known
+algorithms with an asymptotic complexity of
+\[ \exp( (C+o(1)) (\log q)^{1/3} (\log \log q)^{2/3} ) \]
+for some constant $C$,
+but it is still an active area of research to come up with methods
+with this complexity for all values of $q$.
+
+Currently there seems to be no hope for algorithms that have
+polynomial complexity in $\log q$ on classical computers. The development
+of quantum computers might change this in the future.
+
+For practical purposes in matrix group algorithms 
+we can savely assume that the discrete logarithm
+problem does not pose any significant difficulties as long as $q$ is
+smaller or equal to $2^{32}$.
+
+\section{Integer factorisation}
+\label{intfact}
+
+\begin{Problem}[The integer factorisation problem]
+    Let $n \in \N$ be an integer.
+    The integer factorisation problem is the following:
+
+    \begin{center}\fbox{\parbox{5in}{\hfill
+        Find the unique expression of $n$ as a product of prime
+        powers $n = \prod_{i=1}^k p_i^{e_i}$. 
+        \hfill\mbox{}}}
+\end{center}
+\end{Problem}
+
+\medskip
+Obviously this problem can be solved by trial division in time
+$O(n^{1/2})$, however, like for the discrete logarithm problem, 
+there is currently no known
+algorithm to solve this problem with complexity that is polynomial
+in $\log n$.
+
+An overview over the current state of the art in integer factorisation
+is given in \cite{gabifaktorisierung}.
+
+For numbers $n$ of the special form $a^k \pm 1$, which includes the
+cardinalities $p^k - 1$ of the multiplicative groups of finite fields,
+extensive tables for ``small'' values of $a$ and $k$ have been
+collected. They can be found on the site \cite{brentfact} and are
+built into computer algebra systems to speed up integer factorisation.
+In particular the factorisations of all numbers $a^k \pm 1$ which are
+smaller than $10^{255}$ are provided there.
+
+For practical purposes in matrix group algorithms 
+we can savely assume that the integer factorisation
+problem for $n = p^k - 1$ 
+does not pose any significant difficulties as long as $q = p^k$ is
+smaller than $10^{255}$.
+
 
