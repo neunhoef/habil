@@ -2,14 +2,152 @@
 
 \chapter{Introduction}
 
+This chapter covers a few fundamental concepts and algorithms which
+will be used in the rest of the book. 
+
 \section{Straight line programs}
 \label{slp}
 
-\section{Random elements in groups}
-\label{randomelts}
+Let $G$ be a group that is given by a tuple of generators $(g_1,
+\ldots, g_k)$. That is, every element in $G$ can be expressed as a
+finite product of powers of the $g_i$ and their inverses. However,
+since $G$ is not necessarily abelian, the generators may occur more
+than once and the products can be quite long. We call such a product a 
+\emph{word in the generators $(g_1, \ldots, g_k)$}. 
+For finite groups we do not need the
+inverses of the generators since they all have finite order an can
+thus be expressed by positive powers.
+
+Quite often in applications we want to encode rather long words in
+generators on a computer. One reason for this is that we want to store certain
+elements in a known group in terms of a generating tuple (see in
+particular Section~\ref{standardgens}). Another reason is for example that to
+evaluate a group homomorphism $\varphi:G \to H$ on arbitrary elements
+$g \in G$, if we only know the images $\varphi(g_i)$ of a tuple of
+generators for $G$, we need to express $g$ explicitly in terms of
+the generators $(g_1, \ldots, g_k)$. Finally, the problem of constructive
+recognition (see Problem~\ref{ProbCR3}) also involves sometimes rather
+long words in a tuple of generators.
+
+To store and evaluate such words efficiently is the purpose of
+\emph{straight line programs (SLP)}.
+
+In general, straight line programs are programs that have no branches
+or loops, their execution follows a ``straight line'' under all
+circumstances. For the purpose of storing and evaluating words in
+generators in a group, we further restrict this to the following:
+
+\begin{Def}[Straight Line Program (SLP)]
+    \label{defslp}
+    A \emph{straight line program} is a procedure that takes as input a
+    $k$-tuple $(g_1, \ldots, g_k)$ of group elements in a 
+    common group and consists of a finite 
+    sequence of steps, which are each one of the following:
+\begin{itemize}
+    \item Compute the product of two stored elements.
+    \item Compute the inverse of a stored group element.
+\end{itemize}
+    An SLP starts with the elements $g_1, \ldots, g_k$,
+    stores all intermediate results and returns one or more of the 
+    group elements collected during its execution. The number of
+    steps in the SLP is called its \emph{length}.
+\end{Def}
+
+\begin{Rem}
+A straight line program of length $l$ can encode words in its input
+of length up to $2^l$. Obviously, it cannot encode all words of that
+length.
+\end{Rem}
+
+Implementations and data structures for straight line programs are
+available in the {\GAP} (see \cite{GAP4}) and {\MAGMA} (see \cite{Magma})
+computer algebra systems. The
+WWW-Atlas of group representations uses straight line programs to
+store generators for maximal subgroups of groups. Note that the
+current implementations of straight line programs in these systems
+provide an even more compact storage by allowing arbitrary finite
+products of powers of previously stored group elements in each step.
+
 
 \section{Randomised algorithms}
 \label{montevegas}
+
+Traditionally, an algorithm is a completely deterministic procedure to
+achieve a certain goal. Whenever it is executed, it performs the same
+steps and thus behaves in the same way when called twice with the same input.
+
+However, there is a certain limitation in this paradigm. In particular
+in situations, in which we want to find some result that can later
+be verified to be correct easily, random methods excel. By random
+methods we mean algorithms that involve a certain amount of random
+choices. That is, the sequence of steps performed by a randomised
+algorithm depends on certain random choices done during the algorithm.
+Of course, in practice we will usually use pseudo random numbers to
+do these random choices.
+
+We do not want to go into too much detail here, but there are many
+examples in which randomised algorithms can greatly outperform
+deterministic algorithms. However, how do we measure or analyse
+the performance of a randomised algorithm, given that it does
+different things on different calls with the same inputs, and thus
+has different runtimes on different occasions?
+
+One possibility for performance analysis is to look at the average
+or the expected runtime. Although this is often a good and
+interesting thing to look at, this type of analysis often stays a
+bit unsatisfactory, since one never knows, how long the algorithm will
+take at most in a particular instance.
+
+Therefore the most common approach for randomised algorithms is to do a 
+worst-case analysis. However, clearly the absolutely worst case is
+that by incredible bad luck all random choices turn out to be wrong
+and the algorithm does not succeed even after a very long time. To get
+rid of this problem we have to allow our algorithms to fail in some
+way, most commonly simply by giving up with \textsc{Fail} as answer.
+Using this exit route, we can devise algorithms that are
+guaranteed to terminate after a certain number of steps or a given
+amount of time. To be useful in practice, we of course want to have a
+bound on the probability with which this failure occurs. Optimally, we
+want to prescribe an upper bound for the failure probability
+beforehand. The guaranteed upper bound for the runtime then might
+depend on the choice of the failure probability bound.
+
+In general we distinguish between so-called ``Monte-Carlo'' and
+``Las Vegas'' algorithms as defined in the following.
+
+\begin{Def}[Monte Carlo algorithm]
+    A \emph{Monte Carlo algorithm with failure probability $\epsilon$}
+    is a randomised algorithm that is guaranteed to terminate after
+    a finite amount of time with some result, if the probability for
+    returning a wrong result is bounded by $\epsilon$.
+\end{Def}
+
+A bit more satisfying is the following.
+
+\begin{Def}[Las Vegas algorithm]
+    A \emph{Las Vegas algorithm with failure probability $\epsilon$}
+    is a randomised algorithm that is guaranteed to terminate after
+    a finite amount of time with either the correct result or
+    \textsc{Fail} indicating failure, if the probability for failure
+    is bounded by $\epsilon$.
+\end{Def}
+
+The two concepts are sometimes related by the following.
+
+\begin{Rem}[Upgrading Monte Carlo to Las Vegas by verification]
+Assume that there is an efficient way to verify the correctness of the output
+of a Monte Carlo algorithm. Then we can immediately upgrade the
+algorithm to be of Las Vegas type by following it with a verification
+step that returns ``fail'' if the result was incorrect in the first
+place. ``Efficient'' here means that the verification does not take
+much longer than the Monte Carlo computation in the first place.
+\end{Rem}
+
+We will use the terms ``Monte Carlo algorithm'' and ``Las Vegas
+algorithm'' in this sense throughout this book.
+
+\section{Random elements in groups}
+\label{randomelts}
 
 \section{Some notes on complexity theory}
 \label{sec:complexity}
