@@ -5,7 +5,10 @@
 
 In this chapter we collect for the sake of completeness some
 linear algebra algorithms together with their complexity analysis
-that are used in later chapters. 
+that are used in later chapters. At the end we comment on two major
+open problems, namely the discrete logarithm problem in finite fields and
+integer factorisation, which come up in the analysis of matrix group
+algorithms.
 
 \section{Order and projective order of a matrix}
 \label{sec:orders}
@@ -75,7 +78,7 @@ $f$ completely and now determine the (projective) order of
 $X+g^e\F[X]$ for an irreducible monic polynomial $g$ of degree $d$ 
 with non-zero constant term.
 
-From now on we switch again to matrices. Let $C \in \F^{d \times d}$ be 
+From now on we switch back to matrices. Let $C \in \F^{d \times d}$ be 
 the companion matrix of $g$ and $N$ the $(de \times de)$-block matrix with 
 $C$ along the main block diagonal, $(d \times d)$-identity matrices
 along the block diagonal directly above the main diagonal and zero blocks
@@ -87,7 +90,8 @@ elsewhere:
     \vdots & \ddots & \ddots & C      & \one \\
     0      & \cdots & \cdots & 0      & C
 \end{array} \right]. \]
-The minimal polynomial of $N$ is $g^e$ which can be seen as follows:
+The minimal polynomial $\mu_N$ of $N$ over $\F$ is $g^e$ 
+which can be seen as follows:
 Let $K$ be the splitting field $K$ of $g$ over $\F$. Since $g$ is
 irreducible and thus has no multiple roots, the 
 matrix $C$ is similar to a diagonal matrix over $K$, that is, there is an
@@ -300,10 +304,11 @@ elementary field operations. Summing up gives the claim.
 \end{center}
 \end{Problem}
 
-\medskip
-Obviously, this problem can be solved easily using an algorithm that
+\subsection{Computing discrete logarithms}
+
+Obviously this problem can be solved easily using an algorithm that
 simply tries all powers of $\zeta$. However, this simplistic approach
-obviously has complexity $O(q)$ in the worst case, which very quickly
+has complexity $O(q)$ in the worst case, which very quickly
 becomes impractical as $q$ grows.
 
 Better methods are the Shanks and Pollard methods (see 
@@ -313,6 +318,7 @@ Kraitchik (see \cite{McCurley}) and the more recent number field sieve
 methods (see \cite[Section~4]{odlyzkodlp}).
 
 An overview over the current state of the art to solve this problem
+including lots of references
 is given in \cite{odlyzkodlp}. For some values of $q$ (in particular
 for ``small $p$'') there are known
 algorithms with an asymptotic complexity of
@@ -326,7 +332,7 @@ polynomial complexity in $\log q$ on classical computers. The development
 of quantum computers might change this in the future.
 
 For practical purposes in matrix group algorithms 
-we can savely assume that the discrete logarithm
+we can safely assume that the discrete logarithm
 problem does not pose any significant difficulties as long as $q$ is
 smaller or equal to $2^{32}$.
 
@@ -344,9 +350,10 @@ smaller or equal to $2^{32}$.
 \end{center}
 \end{Problem}
 
-\medskip
+\subsection{Computing integer factorisations}
+
 Obviously this problem can be solved by trial division in time
-$O(n^{1/2})$, however, like for the discrete logarithm problem, 
+$O(n^{1/2} \log^2 n)$, however, like for the discrete logarithm problem, 
 there is currently no known
 algorithm to solve this problem with complexity that is polynomial
 in $\log n$.
@@ -363,9 +370,9 @@ In particular the factorisations of all numbers $a^k \pm 1$ which are
 smaller than $10^{255}$ are provided there.
 
 For practical purposes in matrix group algorithms 
-we can savely assume that the integer factorisation
-problem for $n = p^k - 1$ 
-does not pose any significant difficulties as long as $q = p^k$ is
+we can safely assume that the integer factorisation
+problem for $n = q^i - 1$ 
+does not pose any significant difficulties as long as $q^i$ is
 smaller than $10^{255}$.
 
 
