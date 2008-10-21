@@ -149,6 +149,130 @@ algorithm'' in this sense throughout this book.
 \section{Random elements in groups}
 \label{randomelts}
 
+Randomised algorithms in group theory need random elements in groups.
+Moreover, to allow a proper analysis of the behaviour of such
+algorithms one needs to know quite a lot about the distribution of
+the random elements in the group. Usually the best with respect to
+analysis is to have a source of uniformly distributed random elements.
+
+For most applications we are content with pseudo randomness, that is, with a
+deterministic procedure which produces from some initial seed a sequence of 
+elements with a good uniform distribution. Choosing other seeds (or
+maybe actually choosing the seed at random) then leads to a different
+behaviour of the algorithm in each call.
+
+There are well-known methods to produce good uniformly distributed
+pseudo random numbers (see for example \cite[Chapter~3]{AOCP2}).
+Building on these, there is a method to produce pseudo random elements
+in a finite group given by generators, which works astonishingly
+well in the sense that the distribution of the elements is very close
+to uniform. In the sequel we describe this method briefly but refer
+for proofs to the literature. After this we discuss some of the
+advantages and limitations of this method.
+
+\begin{algorithm}
+\caption{$\quad$ \sc RattleStep}
+\label{rattlestep}
+\begin{algorithmic}
+\STATE \textbf{Input:} A pair $(a,(h_1, \ldots, h_n))$ with $a \in G$
+and $G = \left< h_1, \ldots, h_n \right>$.
+\STATE \textbf{Output:} A modified pair $(a,(h_1, \ldots, h_n))$ with $a \in G$
+and $G = \left< \smash{h_1, \ldots, h_n} \right>$.
+\vspace*{2mm}
+\STATE $i := \textsc{Random}(\{ 1,2,\ldots,n\}$
+\STATE $j := \textsc{Random}(\{1,2,\ldots,n-1\}$
+\STATE $b := \textsc{Random}(\{1,2\}$
+\IF {$j = i$}
+    \STATE $j := j + 1$
+\ENDIF
+\IF {$b = 1$}
+    \STATE $h_i := h_i \cdot h_j$
+\ELSE
+    \STATE $h_i := h_j \cdot h_i$
+\ENDIF
+\STATE $a := a \cdot h_i$
+\STATE \textbf{Return} modified $(a,(h_1,\ldots,h_n))$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Def}[Random elements with \textsc{Rattle}]
+    \label{rattle}
+Let $G$ be a group given by a tuple $(g_1, \ldots, g_k)$ of generators
+and $n, N \in \N$ with $n \ge k$. The \textsc{Rattle} method to
+produce random elements in $G$ is the following procedure:
+
+It uses a variable $(a,(h_1,\ldots,h_n)) \in G \times G^n$
+which is changed during the runtime by calls to
+Algorithm~\ref{rattlestep}.
+
+It first initialises $(a,(h_1,\ldots,h_n))$
+by $a := \mathbf{1}_G$ and $h_i := g_i$ for $1 \le i \le k$ and $h_i
+:= \mathbf{1}_G$ for $k < i \le n$.
+
+Then it calls Algorithm~\ref{rattlestep} $N$
+times with $(a,(h_1, \ldots, h_n))$ as argument
+thereby changing it, and
+finally returns the last value of $a$ as a random element $a_0$ in $G$.
+
+After this initialisation phase it produces a sequence of random
+elements $(a_i)_{i \in \N}$ by calling 
+Algorithm~\ref{rattlestep} repeatedly with 
+$(a,(h_1, \ldots, h_n))$ as argument thereby changing it and
+assigning the value of $a$ to $a_i$ after step $i$.
+\end{Def}
+
+\begin{Rem}[Comments on the implementation of \textsc{Rattle}]
+It is not completely clear how to choose the parameters $n$ and $N$. In
+principal, $n$ could be chosen equal to $k$. However, what a good length
+$N$ of the initialisation phase is depends on the group $G$ and
+on the generating tuple $(g_1, \ldots, g_k)$. In practice one chooses $n$
+slightly bigger than $k$ and $N$ around $100$ unless $k$ is very big.
+For large $k$ the value of $N$ has to be chosen bigger. It is clear
+that a constant value for $N$ will not work well for $|G| \to \infty$.
+\end{Rem}
+
+\begin{Prop}[\textsc{Rattle} converges to the uniform distribution]
+    \label{proprattle}
+    The distribution of the element $a_0$ in the \textsc{Rattle} procedure (see
+    Definition~\ref{rattle}) converges for $N \to \infty$ to the
+    uniform distribution.
+\end{Prop}
+\proofbeg
+See \cite[Section~4]{LGMurray}.
+\proofend
+
+\subsection{A brief discussion of \textsc{Rattle}}
+
+Although it can be proved that for every finite group $G$ and every
+generating tuple $(g_1, \ldots, g_k)$ the distribution of the element
+$a_0$ for $N \to \infty$ tends to the uniform distribution (see
+Proposition~\ref{proprattle}), there is
+not much known about the rate of convergence. So picking the value for
+$N$ in practice is difficult, in particular if we do not know anything
+about $G$.
+
+If we then use the sequence produced by the \textsc{Rattle} method
+after initialisation as a sequence of random elements in $G$, 
+subsequent elements seem to be uniformly distributed, but adjacent
+elements in the sequence are clearly not distributed independently.
+Obviously the next element in the sequence depends heavily on the
+previous state $(a,(h_1,\ldots,h_n))$ and the previous element is
+equal to the $a$ value of this state. However, the state contains of
+course more information than simply the value $a$.
+
+Despite these obvious deficiencies, the algorithm
+works surprisingly well in practice. The computational cost for the 
+initialisation is 200 multiplications and after that 2 more
+multiplications for every further element in the sequence.
+The memory requirements are minimal and the produced sequence of
+random elements is good enough for most purposes. Analysing algorithms
+with the assumption that we can produce uniformly distributed random
+elements in the group efficiently provides good predictions on how
+well these algorithms work in practice.
+
+Throughout this book the \textsc{Rattle} method is used to produce
+random elements in group and the above assumption is made.
+
 \section{Some notes on complexity theory}
 \label{sec:complexity}
 
