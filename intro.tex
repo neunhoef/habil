@@ -12,6 +12,7 @@ elements in a finite group.
 \section{Some notes on complexity theory}
 \label{sec:complexity}
 
+\index{complexity theory}
 Already in this chapter but all the more in the rest of the book we
 talk about the analysis of algorithms. In this section we want to
 discuss briefly what we mean by this at all.
@@ -34,6 +35,7 @@ certain family of computational problems, we assign each instance of
 this problem a ``size'' and ask how the runtime of the algorithm grows
 in comparison to the size of the instance. This is in vague terms
 what is meant by ``complexity of an algorithm'' and ``complexity
+\index{complexity}
 theory'' is the study of the complexity of algorithms. The size of an
 instance of the above mentioned matrix multiplication problem of two $n
 \times n$-matrices could for example be measured by the value $n$.
@@ -54,6 +56,7 @@ in terms of the size $n$ of the input would then be $(2n-1)\cdot n^2$
 elementary field operations.
 
 If the growth rate of the complexity of an algorithm A is slower
+\index{growth rate}
 than the one for another algorithm $B$ solving the same problem, then 
 we would consider A to be ``better'' than B. Note that it is
 possible that the complexity of B is in fact smaller than
@@ -73,11 +76,13 @@ execution. Randomisation as described in Section~\ref{montevegas}
 makes this even more difficult. Therefore we are usually happy to come
 up with an upper bound of the number of steps necessary. In addition,
 when we are only interested in the growth rate of the complexity, we
+\index{growth rate}
 are only interested in the type of function expressing this upper
 bound in terms of the problem size and are actually not interested in
 the constants. 
 
 So to determine that the growth rate of the complexity
+\index{growth rate}
 of the example algorithm A above is smaller than the one of B, we do
 not need the exact number of steps $(2n-1)\cdot n^2$ and $n^4/20$
 respectively, but we only need to know that the first behaves ``like
@@ -94,12 +99,13 @@ possible we have tried to include constants in the complexity
 estimates. However, sometimes this would have been too tedious and
 would have complicated things dramatically. In these cases we are
 content with determining the growth rate. For this purpose, we adopt
+\index{growth rate}
 the standard big-$O$ notations, which we will briefly repeat here.
 It is used to formulate statements about the asymptotic behaviour of
 functions.
 
 \begin{Def}[Capital-$O$-notation]
-    \label{capO}
+    \label{capO}\index{O-notation@$O(-)$-notation}
     Let $\R^+$ be the set of positive real numbers and
     $g : \R^+ \to \R$.
     We say that a function $f : \R^+ \to \R$ is $O(g)$ if there are
@@ -109,6 +115,7 @@ functions.
 
 This will be used in the analysis of algorithms by saying for
 example: Algorithm A above has complexity $O(n^3)$ whereas algorithm B
+\index{complexity}
 above has complexity $O(n^4)$. Obviously it has to be clear from the
 context which family of computational problems the algorithm deals
 with and how the size $n$ of an instance of the problem is measured.
@@ -124,11 +131,13 @@ $O(n^e)$'' is true. Sometimes we can prove that our statement is best
 possible and sometimes we cannot.
 
 Up to now we have concentrated on the ``time complexity'' of
+\index{time complexity}
 algorithms, that is the asymptotic behaviour of the runtime with
 growing problem sizes. Although this is usually the most interesting
 aspect, it is of course also necessary to keep an eye on other
 computational resources like memory usage. We speak of ``space
 complexity'' in this case and use a similar setup and language. This
+\index{space complexity}
 only plays a minor role in this book.
 
 The point of view we adopt in this book is that the complexity analysis of
@@ -145,12 +154,14 @@ time complexity in terms of the problem size. We call these algorithms
 \section{Straight line programs}
 \label{slp}
 
+\index{straight line program}\index{SLP}
 Let $G$ be a group that is given by a tuple of generators $(g_1,
 \ldots, g_k)$. That is, every element in $G$ can be expressed as a
 finite product of powers of the $g_i$ and their inverses. However,
 since $G$ is not necessarily abelian, the generators may occur more
 than once and the products can be quite long. We call such a product a 
 \emph{word in the generators $(g_1, \ldots, g_k)$}. 
+\index{word in generators}
 For finite groups we do not need the
 inverses of the generators since they all have finite order an can
 thus be expressed by positive powers.
@@ -164,6 +175,7 @@ $g \in G$, if we only know the images $\varphi(g_i)$ of a tuple of
 generators for $G$, we need to express $g$ explicitly in terms of
 the generators $(g_1, \ldots, g_k)$. Finally, the problem of constructive
 recognition (see Problem~\ref{ProbCR3}) also involves sometimes rather
+\index{constructive recognition}
 long words in a tuple of generators.
 
 To store and evaluate such words efficiently is the purpose of
@@ -175,7 +187,8 @@ circumstances. For the purpose of storing and evaluating words in
 generators in a group, we further restrict this to the following:
 
 \begin{Def}[Straight Line Program (SLP)]
-    \label{defslp}
+    \label{defslp}\index{straight line program}\index{SLP}
+    \index{straight line program!Definition of}\index{SLP!Definition of}
     A \emph{straight line program} is a procedure that takes as input a
     $k$-tuple $(g_1, \ldots, g_k)$ of group elements in a 
     common group and consists of a finite 
@@ -201,6 +214,7 @@ available in the {\GAP} (see \cite{GAP4}) and {\MAGMA} (see
 \cite{Magma})
 computer algebra systems. The
 WWW-Atlas of group representations uses straight line programs to
+\index{WWW-Atlas of group representations}
 store generators for maximal subgroups of groups. Note that the
 current implementations of straight line programs in these systems
 provide an even more compact storage by allowing arbitrary finite
@@ -209,6 +223,7 @@ products of powers of previously stored group elements in each step.
 
 \section{Randomised algorithms}
 \label{montevegas}
+\index{randomised algorithm}\index{algorithm!randomised}
 
 Traditionally, an algorithm is a completely deterministic procedure to
 achieve a certain goal. Whenever it is executed, it performs the same
@@ -250,10 +265,12 @@ want to prescribe an upper bound for the failure probability
 beforehand. The guaranteed upper bound for the runtime then might
 depend on the choice of the failure probability bound.
 
-In general we distinguish between so-called ``Monte-Carlo'' and
+In general we distinguish between so-called ``Monte Carlo'' and
 ``Las Vegas'' algorithms as defined in the following.
 
 \begin{Def}[Monte Carlo algorithm]
+\index{randomised algorithm}\index{algorithm!randomised}
+\index{Monte Carlo algorithm}
     A \emph{Monte Carlo algorithm with failure probability $\epsilon$}
     is a randomised algorithm that is guaranteed to terminate after
     a finite amount of time with some result, if the probability for
@@ -263,6 +280,8 @@ In general we distinguish between so-called ``Monte-Carlo'' and
 A bit more satisfying is the following.
 
 \begin{Def}[Las Vegas algorithm]
+\index{randomised algorithm}\index{algorithm!randomised}
+\index{Las Vegas algorithm}
     A \emph{Las Vegas algorithm with failure probability $\epsilon$}
     is a randomised algorithm that is guaranteed to terminate after
     a finite amount of time with either the correct result or
@@ -273,6 +292,8 @@ A bit more satisfying is the following.
 The two concepts are sometimes related by the following.
 
 \begin{Rem}[Upgrading Monte Carlo to Las Vegas by verification]
+\index{verification}
+
 Assume that there is an efficient way to verify the correctness of the output
 of a Monte Carlo algorithm. Then we can immediately upgrade the
 algorithm to be of Las Vegas type by following it with a verification
@@ -284,7 +305,7 @@ much longer than the Monte Carlo computation in the first place.
 We will use the terms ``Monte Carlo algorithm'' and ``Las Vegas
 algorithm'' in this sense throughout this book.
 
-\section{Random elements in groups}
+\section{Random elements in finite groups}
 \label{randomelts}
 
 Randomised algorithms in group theory need random elements in groups.
@@ -311,6 +332,7 @@ advantages and limitations of this method.
 \begin{algorithm}
 \caption{$\quad$ \sc RattleStep}
 \label{rattlestep}
+\index{Rattle@\textsc{Rattle}}
 \begin{algorithmic}
 \STATE \textbf{Input:} A pair $(a,(h_1, \ldots, h_n))$ with $a \in G$
 and $G = \left< h_1, \ldots, h_n \right>$.
@@ -335,6 +357,7 @@ and $G = \left< \smash{h_1, \ldots, h_n} \right>$.
 
 \begin{Def}[Random elements with \textsc{Rattle}]
     \label{rattle}
+\index{Rattle@\textsc{Rattle}}
 Let $G$ be a group given by a tuple $(g_1, \ldots, g_k)$ of generators
 and $n, N \in \N$ with $n \ge k$. The \textsc{Rattle} method to
 produce random elements in $G$ is the following procedure:
@@ -359,7 +382,15 @@ $(a,(h_1, \ldots, h_n))$ as argument thereby changing it and
 assigning the value of $a$ to $a_i$ after step $i$.
 \end{Def}
 
+\begin{Rem}[Variant of product replacement]
+\index{Rattle@\textsc{Rattle}}
+The \textsc{Rattle} method described above is a variant of the
+``product replacement algorithm'', because the main part of a step replaces 
+an element by a product of it with another one.
+\end{Rem}
+
 \begin{Rem}[Comments on the implementation of \textsc{Rattle}]
+\index{Rattle@\textsc{Rattle}}
 It is not completely clear how to choose the parameters $n$ and $N$. In
 principal, $n$ could be chosen equal to $k$. However, what a good length
 $N$ of the initialisation phase is depends on the group $G$ and
@@ -371,6 +402,7 @@ that a constant value for $N$ will not work well for $|G| \to \infty$.
 
 \begin{Prop}[\textsc{Rattle} converges to the uniform distribution]
     \label{proprattle}
+\index{Rattle@\textsc{Rattle}}
     The distribution of the element $a_0$ in the \textsc{Rattle} procedure (see
     Definition~\ref{rattle}) converges for $N \to \infty$ to the
     uniform distribution.
@@ -381,6 +413,7 @@ See \cite[Section~4]{LGMurray}.
 
 \subsection{A brief discussion of \textsc{Rattle}}
 
+\index{Rattle@\textsc{Rattle}}
 Although it can be proved that for every finite group $G$ and every
 generating tuple $(g_1, \ldots, g_k)$ the distribution of the element
 $a_0$ for $N \to \infty$ tends to the uniform distribution (see
@@ -410,4 +443,5 @@ well these algorithms work in practice.
 
 Throughout this book the \textsc{Rattle} method is used to produce
 random elements in group and the above assumption is made.
+\index{Rattle@\textsc{Rattle}}
 

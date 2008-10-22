@@ -49,6 +49,7 @@ $g_1, \ldots, g_m$ of  matrices in $\GL(d, q)$, the
 basic problem is to find a composition series for the 
 group $G$ that they generate and to be able to express arbitrary 
 group elements as straight line programs in the generators.  
+\index{straight line program}\index{SLP}
 An overview of the  aims of the recognition 
 project  is given in \cite{MatGrpProj}.
 
@@ -1363,7 +1364,8 @@ Otherwise, we now have a nonempty set $S$ of nonscalar commutators. We
 compute a subgroup $H$ of a normal subgroup $N$ of $G$ 
 that is contained in $G'$ by 
  the methods of Section~\ref{sec:generation}. 
-Namely,  we use a variant of Rattle \cite{LGMurray, LGO97} to 
+Namely,  we use a variant of \textsc{Rattle} \cite{LGMurray, LGO97} to 
+\index{Rattle@\textsc{Rattle}}
 produce a set $T$ of $O(\log \delta^{-1} + d \log q)$ elements of 
 $N = \langle S \rangle^G$. Computing $T$ has complexity 
 $O(d^3 \log \delta^{-1} + d^4 \log q)$ 
@@ -2065,6 +2067,7 @@ in $O(d^3)$ elementary field operations.
 
 Note that this assumption is valid in practice by using Product
 Replacement and Rattle
+\index{Rattle@\textsc{Rattle}}
  (see \cite{ProdRep, LGMurray, LGO97}) 
  for groups and normal closure, and by taking random 
 linear combinations of random products of generators for algebras,

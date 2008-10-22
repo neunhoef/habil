@@ -934,7 +934,7 @@ the \DD7 case as well.
 
 \begin{algorithm}
 \caption{$\quad$ \sc InvolutionJumper}
-\index{Involution Jumper|textbf}
+\index{Involution Jumper}
 \label{alginvjump}
 \begin{algorithmic}
 \STATE \textbf{Input:} A group $G$, an involution
@@ -1111,7 +1111,7 @@ algorithm to find one, which is given as Algorithm~\ref{alginvmaker}
 
 \begin{algorithm}
 \caption{$\quad$ \sc InvolutionMaker}
-\index{Involution Maker|textbf}
+\index{Involution Maker}
 \label{alginvmaker}
 \begin{algorithmic}
 \STATE \textbf{Input:} A finite group $G$ and an integer $t$.
@@ -1159,7 +1159,7 @@ an element of $G$ in the sequel.
 The following definition helps in formulations.
 
 \begin{Def}[Projective involution]
-\index{Involution!projective|textbf}\index{projective Involution|textbf}
+\index{Involution!projective}\index{projective Involution}
 Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
 matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
 called \emph{projective involution in $G$}.
@@ -1176,7 +1176,7 @@ publications of the author for a more detailed analysis.
 
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD247}}
-\index{FindHomD247|textbf}
+\index{FindHomD247}
 \label{algreductionD24}
 \begin{algorithmic}
 \STATE \textbf{Input:} A group $G \le \GL(n,q)$ known to act absolutely
@@ -1219,7 +1219,9 @@ We have implemented Algorithm~\ref{algreductionD24}
 ``\textsc{FindHomD247}'' in {\GAP} and have
 performed many experiments. To generate random elements we use the
 \textsc{Rattle} algorithm (a variant of product replacement, see
-\cite{LGMurray, LGO97}). In all cases of groups $G$ in \DD2 or \DD4 we
+\index{Rattle@\textsc{Rattle}}
+\cite{LGMurray, LGO97} and Section~\ref{rattle}). 
+In all cases of groups $G$ in \DD2 or \DD4 we
 looked at, only very few steps of Algorithm~\ref{alginvjump}
 ``\textsc{InvolutionJumper}'' were needed to produce an element of the
 normal subgroup $N$ and thus to find a reduction. In typical examples
@@ -1305,7 +1307,7 @@ this check, which is summarised in Algorithm~\ref{algreductionD7}
 
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD7}}
-\index{FindHomD7|textbf}
+\index{FindHomD7}
 \label{algreductionD7}
 \begin{algorithmic}
 \STATE \textbf{Input:} A group $G \le \GL(n,q)$, a normal subgroup $N$ known 
