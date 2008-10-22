@@ -3,7 +3,144 @@
 \chapter{Introduction}
 
 This chapter covers a few fundamental concepts and algorithms which
-will be used in the rest of the book. 
+will be used in the rest of the book. We start talking about the
+complexity of algorithms, go on with the concept of straight line
+programs in groups and finish by mentioning the idea of randomisation
+in algorithms and a way to produce nearly uniformly distributed
+elements in a finite group.
+
+\section{Some notes on complexity theory}
+\label{sec:complexity}
+
+Already in this chapter but all the more in the rest of the book we
+talk about the analysis of algorithms. In this section we want to
+discuss briefly what we mean by this at all.
+
+An algorithm is usually designed to solve a whole family of problems of
+different sizes. Obviously, for a single, particular instance of a
+computational problem one can simply store the answer and look it up
+when needed in nearly no time. But this is usually not what we intend
+to do when we develop an algorithm. Furthermore, it is clear that a
+small instance of a computational problem usually will need less time
+to solve than a big instance of the same problem. It takes for example longer 
+to multiply two $10000\times 10000$-matrices with entries in the finite 
+field $\F_q$ than to multiply two $100\times 100$-matrices
+with entries in the same finite field $\F_q$,
+even if these two situations are instances of the same
+computational problem ``matrix multiplication over $\F_q$''.
+
+Therefore, when we talk about analysing an algorithm that solves a
+certain family of computational problems, we assign each instance of
+this problem a ``size'' and ask how the runtime of the algorithm grows
+in comparison to the size of the instance. This is in vague terms
+what is meant by ``complexity of an algorithm'' and ``complexity
+theory'' is the study of the complexity of algorithms. The size of an
+instance of the above mentioned matrix multiplication problem of two $n
+\times n$-matrices could for example be measured by the value $n$.
+
+Of course, different computers are running at different speeds, so
+what we usually do is to count the number of steps in the algorithm
+needed to complete a particular instance of the computational problem
+as a function of the size of the problem instance.
+We try to keep the different steps comparable. We might for example
+count the number of elementary field operations (addition,
+subtraction, multiplication, inversion) during the execution of a
+matrix multiplication. The standard simple-minded approach to matrix
+multiplication would then need about $(2n-1)\cdot n^2$ elementary field
+operations since each entry of the result is a sum of $n$ products of
+numbers in $\F_q$, that is, we need $n$ products and $n-1$ additions
+for each of the $n^2$ matrix entries. The complexity of this algorithm
+in terms of the size $n$ of the input would then be $(2n-1)\cdot n^2$
+elementary field operations.
+
+If the growth rate of the complexity of an algorithm A is slower
+than the one for another algorithm $B$ solving the same problem, then 
+we would consider A to be ``better'' than B. Note that it is
+possible that the complexity of B is in fact smaller than
+the one of A for small problem sizes. In that case we might want to
+implement both algorithms and use B for smaller instances and A for
+bigger instances. In this way complexity theory helps to come up with
+better implementations. If we for example had an algorithm B to multiply
+two $n\times n$-matrices over $\F_q$ using $n^4/20$ elementary field
+operations, it would be worthwhile to use it as opposed to the
+standard algorithm A for small matrices, since
+$n^4/20 \le (2n-1)\cdot n^2$ for $n \le 39$. However, for big
+matrices A would outperform B dramatically.
+
+Counting the steps in an algorithm can be very tedious and much more
+difficult if there are decisions and case distinctions during the
+execution. Randomisation as described in Section~\ref{montevegas}
+makes this even more difficult. Therefore we are usually happy to come
+up with an upper bound of the number of steps necessary. In addition,
+when we are only interested in the growth rate of the complexity, we
+are only interested in the type of function expressing this upper
+bound in terms of the problem size and are actually not interested in
+the constants. 
+
+So to determine that the growth rate of the complexity
+of the example algorithm A above is smaller than the one of B, we do
+not need the exact number of steps $(2n-1)\cdot n^2$ and $n^4/20$
+respectively, but we only need to know that the first behaves ``like
+$n^3$'' and the second ``like $n^4$''. The higher exponent $4$ in the
+second function eventually beats the smaller constant $1/20$.
+Note however that without knowing the constants we would in fact not
+know that the break-even point of where we should start using A in
+favor of B is at $n=39$. Having noticed this, we would like to comment
+that knowing the constants in the complexity of algorithms can be very
+interesting for coming up with good implementations.
+
+Different parts of this book go differently about this. Whenever
+possible we have tried to include constants in the complexity
+estimates. However, sometimes this would have been too tedious and
+would have complicated things dramatically. In these cases we are
+content with determining the growth rate. For this purpose, we adopt
+the standard big-$O$ notations, which we will briefly repeat here.
+It is used to formulate statements about the asymptotic behaviour of
+functions.
+
+\begin{Def}[Capital-$O$-notation]
+    \label{capO}
+    Let $\R^+$ be the set of positive real numbers and
+    $g : \R^+ \to \R$.
+    We say that a function $f : \R^+ \to \R$ is $O(g)$ if there are
+    two positive real constants $C$ and $D$ such that 
+    $|f(x)| \le C \cdot |g(x)|$ for all $x > D$.
+\end{Def}
+
+This will be used in the analysis of algorithms by saying for
+example: Algorithm A above has complexity $O(n^3)$ whereas algorithm B
+above has complexity $O(n^4)$. Obviously it has to be clear from the
+context which family of computational problems the algorithm deals
+with and how the size $n$ of an instance of the problem is measured.
+
+There is a certain sloppiness in this usage of Definition~\ref{capO}.
+Strictly speaking the following statement is true as well: 
+``The function $n \mapsto (2n-1)\cdot n^2$ is $O(n^5)$.'' This follows
+from the fact that the function $n \mapsto n^3$ is $O(n^5)$. However,
+this statement is not as strong as possible. Obviously, we are
+interested in the fact that the exponent $3$ is the \emph{least
+possible $e$} for which the statement ``the complexity of algorithm A is
+$O(n^e)$'' is true. Sometimes we can prove that our statement is best
+possible and sometimes we cannot.
+
+Up to now we have concentrated on the ``time complexity'' of
+algorithms, that is the asymptotic behaviour of the runtime with
+growing problem sizes. Although this is usually the most interesting
+aspect, it is of course also necessary to keep an eye on other
+computational resources like memory usage. We speak of ``space
+complexity'' in this case and use a similar setup and language. This
+only plays a minor role in this book.
+
+The point of view we adopt in this book is that the complexity analysis of
+algorithms is a tool to come up with good implementations. Complexity
+results tell us, which algorithms are suited best for which problem
+classes and possibly which problem sizes, and they tell us, what is
+considered to be a ``satisfactory'' algorithm for a problem class and
+what is considered to be ``lacking''. In general we would like to
+devise algorithms which have a polynomial as an asymptotic bound of their
+time complexity in terms of the problem size. We call these algorithms
+``polynomial-time algorithms''.
+
 
 \section{Straight line programs}
 \label{slp}
@@ -272,7 +409,4 @@ well these algorithms work in practice.
 
 Throughout this book the \textsc{Rattle} method is used to produce
 random elements in group and the above assumption is made.
-
-\section{Some notes on complexity theory}
-\label{sec:complexity}
 
