@@ -17,8 +17,8 @@ This section is about the computation of the order and the projective
 order of a matrix $M \in \F_q^{n \times n}$. After defining these 
 terms we describe the 
 ideas of the method in \cite{CellLeedOrder} in particular to show
-two things: Firstly that computing the minimal polynomial of a matrix
-is a crucial step in the computation of its order, and secondly that
+two things: First that computing the minimal polynomial of a matrix
+is a crucial step in the computation of its order, and second that
 integer factorisations of some of the numbers $q^i-1$ for $1 \le i \le n$ 
 can be needed in the process (see Section~\ref{intfact}).
 
@@ -32,7 +32,7 @@ identity matrix. It follows immediately by division with remainder in
 the exponent that $o$ divides every natural number $k$ for which 
 $M^k$ is equal to\/ $\one$ and that $p$ divides every natural number $k$
 for which $M^k$ is a scalar multiple of\/ $\one$. Thus $p$ divides in
-particular $o$ and it follows immediately, that if $M^p = \lambda \cdot
+particular $o$ and it follows immediately that, if $M^p = \lambda \cdot
 \one$ with $\lambda \in \F$, then $o$ is $p$ times the order of the
 scalar $\lambda$. \proofend
 \end{DefProp}
@@ -46,10 +46,10 @@ to $1$ (a scalar respectively) modulo $f$ or equivalently, that $X^p-1$
 divisible by $f$ (for some $\lambda \in \F$). 
 The order and projective order
 of a matrix $M$ as above and that of $X$ modulo the minimal polynomial 
-of $M$ are linked by the following lemma:
+of $M$ are linked by the following lemma.
 
 \begin{Lemm}[Orders and projective orders]
-Let $\F$ be a field and $M \in \F^{n \times n}$ an invertible matrix.
+Let\/ $\F$ be a field and $M \in \F^{n \times n}$ an invertible matrix.
 Then the (projective) order of $M$ is equal to the (projective) order of
 $X + \mu_M \F[X]$ modulo the minimal polynomial $\mu_M$ of $M$.
 \end{Lemm}
@@ -61,7 +61,7 @@ only if $M^p = \lambda \one$ for all $\lambda \in \F$.
 In the following we use this lemma to switch between matrices and
 polynomials as seems appropriate for the argumentation.
 
-We now want to discuss the computation of both the order and the
+Now we want to discuss the computation of both the order and the
 projective order of a matrix or its minimal polynomial respectively.
 
 Let $f \in \F[X]$ be a monic polynomial with non-zero constant term. 
@@ -133,7 +133,7 @@ integer factorisation (see Section~\ref{intfact})
 of $q^d-1$ since it uses a divide-and-conquer
 approach using this factorisation.
 
-Altogether, we can conclude the following result:
+Altogether we can conclude the following result.
 
 \begin{Prop}[Computing the (projective) order of a matrix]
 Let $M$ be a matrix in $\F_q^{n \times n}$. Assume that the 
@@ -172,7 +172,7 @@ The general approach to this problem is standard, thus we are mostly
 interested in the complexity. The basic procedure is
 Algorithm~\ref{semiechelonise}: By running
 all rows of $Y$ successively through Algorithm~\ref{clean} we
-find three things in the process: Firstly a subsequence
+find three things in the process: First a subsequence
 $t=(t_1,t_2, \ldots, t_{r})$ of $(1,2,\ldots, m)$ with
 $1 \le t_1 < t_2 < \cdots < t_r \le m$ such that the matrix
 $Y' \in \F^{r \times n}$ consisting of the rows with numbers 
@@ -195,7 +195,7 @@ of Algorithm~\ref{semiechelonise}.
 \STATE \textbf{Output:} Indices $1 \le t_1 < t_2 < \cdots < t_r$,
 a matrix $Y' \in \F^{r \times n}$ with semi echelon data sequence
 \STATE \mbox{}\phantom{\textbf{Output:}}
-$\calY = (Y',S,T,l)$, and a matrix $N \in \F^{(m-r) \times n}$
+$\calY = (Y',S,T,l)$ and a matrix $N \in \F^{(m-r) \times n}$
 whose rows span the nullspace of $Y$
 \STATE $\calY := $ empty semi echelon sequence for rows with length $n$
 \STATE $N := $ empty matrix for rows with length $n$
@@ -214,7 +214,7 @@ whose rows span the nullspace of $Y$
 
 \begin{Prop}[Complexity of Algorithm~\ref{semiechelonise}]
 \label{semiechelon}
-If $r$ is the rank of $M$, then Algorithm~\ref{semiechelonise} needs
+If $r$ is the rank of $M$, Algorithm~\ref{semiechelonise} needs
 at most
 \[ \frac{r(r+1)(2r+1)}{6} + nr^2 + 2rn(m-r) + r \]
 elementary field operations. This is $O(nm^2)$.
@@ -237,14 +237,14 @@ For the asymptotic statement we use $r \le \min\{ m,n \}$.
 \proofend
 
 \medskip
-After Algorithm~\ref{semiechelonise} has completed the rows of the
+After Algorithm~\ref{semiechelonise} has completed, the rows of the
 matrix $N$ span the solution space of the system of linear equations
 $xY = 0$. For a given $0 \neq b \in \F^{1 \times n}$ we have to run
 the ``cleaning'' part of Algorithm~\ref{clean} once.
 The result is either that the system has no solutions or a vector
 $a \in \F^{1 \times r}$ such that $b = aS = aTY'$ for the matrix $S$ in
 $\calY$ that is in row semi echelon form. Since $Y'$ consists of a 
-selection of the rows of $Y$ the vector $aT$ contains all the necessary
+selection of the rows of $Y$, the vector $aT$ contains all the necessary
 information to put together a solution $x$ with $b = xY$. The set
 of all solutions is then equal to $\{ x+n \mid n \in \rsp(N) \}$.
 
@@ -255,7 +255,7 @@ read off from the output of Algorithm~\ref{semiechelonise}. For
 the system $xY=b$ it can be derived using
 $2rn + r(r+1)$ elementary field operations.
 
-Thus, such a system can be solved in $O(nm^2)$ elementary field operations.
+Thus such a system can be solved in $O(nm^2)$ elementary field operations.
 \end{Cor}
 \proofbeg
 The above method needs one call to \textsc{CleanAndExtend} using at most
@@ -270,7 +270,7 @@ $2\cdot \frac{r(r+1)}{2}$ elementary field operations.
 Inverting a matrix $M \in \F^{n \times n}$ is the same as solving the
 system of linear equations $xM = e_i$ for all the standard basis
 vectors $e_i \in \F^{1 \times n}$. By Proposition~\ref{semiechelon}
-and Corollary~\ref{solvelinsys} we get:
+and Corollary~\ref{solvelinsys} we get the following result.
 
 \begin{Prop}[Inverting a matrix]
 Let $M \in \F^{n \times n}$ be an invertible matrix. Then the inverse
