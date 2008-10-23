@@ -258,7 +258,7 @@ degree $f$ of $\F_q$ over  $\F_{q_0}$.
 \item If $e > f^2$ then  return a homomorphism into $\GL(d/e, q^e)$. 
 Otherwise, if $f > 1$ then return a monomorphism into $\GL(d, q_0)$.
 \item Compute 10 commutators of random elements of $G$. If they are all 
-scalar, choose any nonscalar generator $g_i$  and check whether 
+scalar, choose any non-scalar generator $g_i$  and check whether 
 $[g_i, g_j]$ is scalar for all $j$. If so, 
 jump to step 10. 
 \item Compute a normal subgroup $N$ of the derived 
@@ -279,7 +279,7 @@ homogeneous component with irreducible $N$-submodules of
 dimension greater than $1$, find a tensor
 decomposition of $G$ as in
 Section~\ref{subsec:tensor}. 
-\item If $[g_i, g_j]$ is scalar for some nonscalar $g_i$ and all $j$, find 
+\item If $[g_i, g_j]$ is scalar for some non-scalar $g_i$ and all $j$, find 
 a nontrivial homomorphism from $G$ to $\F_q^\times$ as in
  Sections~\ref{sec:describe_scalars} and~\ref{subsec:scalars}. 
 \end{enumerate}
@@ -394,7 +394,7 @@ order of $G'$. Then
 \item The exponent of $G/Z(G)$ is at most $c$, 
 \item The exponent of $G$ is at most $cz$, and 
 \item The order of $G$ is a divisor of $c^{l}z$ where $l$ is the number of 
-noncentral generators of $G$.
+non-central generators of $G$.
 \end{enumerate}
 \end{Prop}
 
@@ -472,7 +472,7 @@ If $g \in Z(G)$, then in Proposition~\ref{prop:eigenspace}, $V$ is only a single
 %Z(G)$ such that $g$ satisfies the hypothesis of  
 %Proposition~\ref{prop:eigenspace}.
 
-\begin{Theo} [Noncentral element of prime order] \label{thm:exists_g}
+\begin{Theo} [Non-central element of prime order] \label{thm:exists_g}
 Let $G$ be an  $r$-group %such that $G' \leq Z(G)$
 satisfying Hypothesis~\ref{group-info}. Then either 
 $G$ is the quaternion group of order $8$ or $G$ 
@@ -491,7 +491,7 @@ that the only $r$-groups which contain a single
 subgroup of order $r$ are the cyclic groups and 
 the generalised quaternion groups. Since $\rho(G)$ 
 is absolutely irreducible and $d > 1$, the group 
-$G$ is not cyclic and so either $G$ has a noncentral 
+$G$ is not cyclic and so either $G$ has a non-central 
 element of order $r$ or $G$ is generalised quaternion.
 
 The generalised quaternion group of order $2^i$ 
@@ -499,7 +499,7 @@ for $i \geq 3$ has presentation
 $\langle a, b \ | a^{2^{i-1}} = b^4 = 
 a^{2^{n-2}}b^{-2} =  b^{-1} a ba = 1 \rangle$. 
 A short calculation shows that the derived group 
-contains noncentral elements for $i > 3$, 
+contains non-central elements for $i > 3$, 
 and hence if $G$ is a generalised quaternion 
 group then $|G| = 8$.
 \end{proof}
@@ -530,7 +530,7 @@ dimension of $V_i$ is $2$ (see for instance \cite[\S 47]{CR0}).
 
 Otherwise, by Theorem~\ref{thm:exists_g} 
 the  action has a
- noncentral element  $\rho(g)$ of order $r$.
+ non-central element  $\rho(g)$ of order $r$.
 The group $G$ also contains a central element of order $r$, which is mapped to a scalar.  
  Hence all of the eigenvalues 
 of $\rho(g)$ lie in $k$. Since $\rho(g)$ is 
@@ -1350,17 +1350,17 @@ Section~\ref{subsemi:sec:complexity}.
 % of size $O(l_G)$ in $O(l_G(|T| + m + l_G))$ matrix multiplications.
 
 We proceed differently depending on whether $G$ has at most $7$ 
-nonscalar generators. If this holds then we start by making all 
+non-scalar generators. If this holds then we start by making all 
 commutators of generators. If these are all scalar then $G'$ is 
-scalar, and the methods of Section~\ref{subsec:scalars} apply with $G'$ known to be scalar. If any of them is found to be nonscalar we proceed to generate $H$ as described below.
+scalar, and the methods of Section~\ref{subsec:scalars} apply with $G'$ known to be scalar. If any of them is found to be non-scalar we proceed to generate $H$ as described below.
 
-If there are more than $7$ nonscalar generators then we compute $10$
+If there are more than $7$ non-scalar generators then we compute $10$
 commutators of random elements of $G$. If these are all scalar 
-then for the first nonscalar generator $g_i$ of $G$ we test 
+then for the first non-scalar generator $g_i$ of $G$ we test 
 whether $[g_i, g_j]$ is scalar for $j > i$. If this holds for 
 all $j$ then Proposition~\ref{prop:scal_reduct} applies. 
 
-Otherwise, we now have a nonempty set $S$ of nonscalar commutators. We 
+Otherwise, we now have a nonempty set $S$ of non-scalar commutators. We 
 compute a subgroup $H$ of a normal subgroup $N$ of $G$ 
 that is contained in $G'$ by 
  the methods of Section~\ref{sec:generation}. 
@@ -1405,7 +1405,7 @@ by Clifford's Theorem.
 \item $N$ is reducible, and $V$ is a direct sum of 
 more than one homogeneous component.
 \item $N$ is reducible, and $V$ splits into a direct 
-sum of isomorphic $N$-submodules of dimension greater than $1$, so that in particular $N$ is nonscalar.
+sum of isomorphic $N$-submodules of dimension greater than $1$, so that in particular $N$ is non-scalar.
 \item $N$ is reducible, and $V$ splits into a direct sum of isomorphic $1$-dimensional submodules, so that $N$ is scalar.
 \end{enumerate}
 
@@ -1916,7 +1916,7 @@ The remaining case is that the restriction of the natural module to $N$
 has only one homogeneous component and all irreducible $N$-constituents
 are one-dimensional, so that $N$ consists of scalars.  
 We may also use the algorithms in this section if we have found a 
-nonscalar generator $g_i$ of $G$ such that $[g_i, g_j]$ is scalar for all $j$. 
+non-scalar generator $g_i$ of $G$ such that $[g_i, g_j]$ is scalar for all $j$. 
 
 
 
@@ -1929,7 +1929,7 @@ decomposition of the natural module.
 Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or 
 its projective version
 be an absolutely irreducible group such that the commutator 
-of a nonscalar generator $g_i$ with all other generators 
+of a non-scalar generator $g_i$ with all other generators 
 is known to be scalar. Then 
 we can construct a nontrivial homomorphism from $G$ 
 into the multiplicative group of\/ $\F_q$ at no further cost.
@@ -1937,11 +1937,11 @@ into the multiplicative group of\/ $\F_q$ at no further cost.
 \end{Prop}
 
 \begin{proof}
-We are given a nonscalar generator $g_i$, 
+We are given a non-scalar generator $g_i$, 
 and we already have calculated the homomorphism $\psi_{g_i}(g_j) = [g_j, g_i]$ from Lemma~\ref{lem:facts} 
 for all  $g_j$. 
 This
-kernel of $\psi_{g_i}$ is $C_G(g_i)$. Since $g_i$ is noncentral, $\psi_{g_i}$ 
+kernel of $\psi_{g_i}$ is $C_G(g_i)$. Since $g_i$ is non-central, $\psi_{g_i}$ 
 is nontrivial.
 Multiplying generators by scalars does not 
 change commutators, 
@@ -1973,7 +1973,7 @@ representation has been found.
 Finally we give a deterministic decomposition algorithm 
 for groups with scalar derived group that are not $r$-groups. 
 We can apply this algorithm if $G$ has 
-at most $7$ nonscalar generators, so that all commutators of generators 
+at most $7$ non-scalar generators, so that all commutators of generators 
 have been calculated --- in this case the $m^2$ vanished
 from the complexity. 
 This algorithm can easily be modified to decompose any 
@@ -2121,7 +2121,7 @@ in $O(md^3\log \delta^{-1})$ field operations
 (see Theorem~\ref{writing}).
 \item Immediately get a reduction in either the non-absolutely irreducible
 or the subfield case.
-\item Compute $10$ commutators of random elements of $G$. If all are scalar test in $O(md^3)$ whether all commutators of some nonscalar $g_i$ with other generators are scalar. If so, jump to step 10. 
+\item Compute $10$ commutators of random elements of $G$. If all are scalar test in $O(md^3)$ whether all commutators of some non-scalar $g_i$ with other generators are scalar. If so, jump to step 10. 
 \item Compute $s = O(d\log q + \log \delta^{-1})$ generators for 
     $H \le N \unlhd G$ with $N$ contained in $G'$ in 
     $O(d^3\log \delta^{-1} + d^4 \log q)$ field operations
@@ -2145,7 +2145,7 @@ homogeneous component with irreducible $N$-submodules
 dimension greater than $1$, find a tensor
 decomposition of $G$ in $O((s+m)d^3)$ field operations as in 
 Section~\ref{subsec:tensor}.
-\item If one nonscalar 
+\item If one non-scalar 
 generator has only scalar commutators with other generators we have 
 already constructed
 a nontrivial homomorphism from $G$ to $\F_q^\times$
