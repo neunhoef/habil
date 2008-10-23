@@ -45,7 +45,7 @@ less than $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
 
 Since linear algebra operations over finite fields can be performed
 rather efficiently by modern microprocessors, the limiting factor 
-for such computations is memory access. Therefore, it is performance
+for such computations is memory access. Therefore it is performance
 critical to store vectors and matrices using as little memory as possible
 and to choose the data structure in a way that allows for fast memory
 access. We call such memory efficient data structures ``compact''.
@@ -59,7 +59,7 @@ and all other characteristics. The reason for this is that in
 characteristic $2$ the addition of vectors can be implemented by using
 the XOR (exclusive or) operation available in every microprocessor
 instruction set. In odd characteristic, the available instructions
-do not fit so well to finite field arithmetic. Therefore, previous
+do not fit so well to finite field arithmetic. Therefore previous
 implementations mostly rely on table lookups to perform arithmetic
 operations. Since the memory space available for lookup tables is
 limited, this method is limited to relatively small fields (usually up to
@@ -144,7 +144,7 @@ coefficients of the unique residue class representative of degree smaller
 than $k$, where $c_k$ is the Conway polynomial used to construct the 
 finite field extension $\F_q$ over $\F_p$ (for details see \cite{Nickel}
 or on the web \cite{ConwayFL}). Namely, if $a \in \F_q$ is represented by
-the polynomial $\sum_{i=0}^{k-1} a_i x^i$, then we have to store the prime 
+the polynomial $\sum_{i=0}^{k-1} a_i x^i$, we have to store the prime 
 field elements $a_0, a_1, \ldots, a_{k-1}$. 
 
 In a compact vector of length $n$ of elements of $\F_q$ we distribute
@@ -166,7 +166,7 @@ $\lceil \log_2(2p-1) \rceil$ must be smaller or equal to the word length
 of the microprocessor.
 
 Now we can explain how we can add vectors in the above representation
-only by doing a series of word operations.
+by doing only a series of word operations.
 
 \subsection{Adding compact vectors}
 
@@ -197,7 +197,7 @@ in its word and we call these sections of $e$ adjacent bits in a word
 We prepare an ``offset'' word $o$ that contains in each component the
 number $2^{e-1}-p$ and a ``mask'' word $m$ that contains in each component
 the number $2^{e-1}$ meaning, that in each component only the most significant
-bit is set and all others are zero. In addition, we keep a word $n$
+bit is set and all others are zero. In addition we keep a word $n$
 containing the number $p$ in each component.
 
 The finite field sum $c$ of $a$ and $b$ is now computed in the following way:
@@ -260,13 +260,13 @@ following proposition.
 
 \begin{Prop}[Addition of compact vectors]
 \label{addvec}
-We assume a machine with $32$-bit word length. For $2 < p < 2^{31}$,
+We assume a machine with $32$-bit word length. For $2 < p < 2^{31}$
 two compact vectors of length $n$ over the field of $q=p^k$
 elements can be added using $7k\cdot \lceil n/w \rceil$ word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
 and $e = \lceil \log_2(2p-1) \rceil$. 
 
-For $p=2$, only $k \cdot \lceil n/32 \rceil$ word operations are needed.
+For $p=2$ only $k \cdot \lceil n/32 \rceil$ word operations are needed.
 
 For machines with $64$-bit word length the number of word operations
 is $7k \cdot \lceil n/(2w) \rceil$ and $\lceil n/64 \rceil$ respectively and 
@@ -364,12 +364,12 @@ $w = \lfloor 32/e \rfloor$ and $e = \lceil \log_2(2p-1) \rceil$.
 For\/ $2 < p < 2^{31}$ the total cost of a multiplication of a compact 
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_p$ is at most 
 $14k(e-2)\cdot \lceil n/w \rceil$ word operations (plus memory fetches
-and stores). For $p=2$, the scalar
+and stores). For $p=2$ the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
 
 For\/ $2 < p < 2^{31}$ the total cost of a multiplication of a compact
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_q$ is at most
-$7k(2k-1)(2e-3)\cdot \lceil n/w \rceil$. For $p = 2$, the total cost is
+$7k(2k-1)(2e-3)\cdot \lceil n/w \rceil$. For $p = 2$ the total cost is
 at most $2k(k-1) \cdot \lceil n/32 \rceil$ word operations.
 
 For a machine with $64$-bit word length the factors $\lceil n/w \rceil$
@@ -417,7 +417,7 @@ measurement is missing.
 We used three relatively new machines with popular microprocessors, 
 namely two different machines
 with an Intel Pentium 4 with 1024 kB second level cache running at 3.2 GHz 
-and a machine with a AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
+and a machine with an AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
 second level cache running at 2.0 GHz. The two Pentium 4 machines were
 equipped with memory modules with the same specifications (PC 3200, CL3). 
 
@@ -436,7 +436,7 @@ lengths of vectors. We used vectors using $32 \cdot 10^6$ bytes each in
 order to make sure that none of the data is in the second level cache,
 and vectors using $125000$ and $62500$ bytes each to make sure that
 most accesses should lead to cache hits in the second level cache.
-Of course, all operations are repeated many times to get a high accuracy
+Of course all operations are repeated many times to get a high accuracy
 of the measured time for one operation by averaging.
 
 We tested three different operations. The first, which we denote by 
@@ -573,7 +573,7 @@ when the vectors involved are shorter. This is to be expected, but shows
 only a factor of between $1.5$ and $3$ for the Pentium~4 and up to 
 a factor of $5$ for the Athlon processor.
 
-Theoretically, one could expect a higher speedup factor, but modern
+Theoretically one could expect a higher speedup factor, but modern
 processors and memory interfaces seem to be highly optimised for 
 linear memory accesses using so-called bursts. This means that the
 processor has a special method of accessing large amounts of consecutive
@@ -677,17 +677,17 @@ can be added using $7km\cdot \lceil n/w \rceil$
 word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
 and $e = \lceil \log_2(2p-1) \rceil$. 
-For $p=2$, only $mk \cdot \lceil n/32 \rceil$ word operations are needed.
+For $p=2$ only $mk \cdot \lceil n/32 \rceil$ word operations are needed.
 
 For\/ $2 < p < 2^{31}$ the total cost of a multiplication of
 $M$ by $s \in \F_p$ is at most 
 $14km(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
-and stores). For $p=2$, the scalar
+and stores). For $p=2$ the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
-For\/ $2 < p < 2^{31}$, the total cost of a multiplication of $M$
+For\/ $2 < p < 2^{31}$ the total cost of a multiplication of $M$
 by $s \in \F_q$ is at most
 $7k(2k-1)m(2e-3)\cdot \lceil n/w \rceil$.
- For $p = 2$, the total cost is
+ For $p = 2$ the total cost is
 at most $2k(k-1)m \cdot \lceil n/32 \rceil$ word operations.
 
 For a machine with $64$-bit word length the factors $\lceil n/w \rceil$
@@ -724,7 +724,7 @@ trick called ``grease'', which was invented by Richard Parker and
 others (see for example \cite[Algorithm 6.2]{ahohop}).
 
 The idea is that if the base field is small, there are not so many
-different linear combinations of a finite number of vectors. Thus,
+different linear combinations of a finite number of vectors. Thus
 we can distribute the rows of our matrix into small groups, say of
 $\ell$ adjacent rows each, and precompute all possible linear combinations of
 all vectors in each group. If we now want to multiply a vector $v$ and the 
@@ -844,7 +844,7 @@ without assumption using $p^j-j-1$ vector additions.
 successively adding $v_j$ altogether $p-2$ times. Then every $\F_p$-linear
 combination of $v_1, \ldots, v_j$ is either one of the already
 computed $\F_p$-linear combinations of $v_1, \ldots, v_{j-1}$ or the
-non-zero multiples of $v_j$, or a sum of two such vectors. Thus, we 
+non-zero multiples of $v_j$, or a sum of two such vectors. Thus we 
 can compute all missing $p^j - p^{j-1} - (p-1)$ vectors with one
 vector addition each, which proves the first statement. 
 
@@ -1271,7 +1271,7 @@ dependent.
 We conclude this section with Figures~\ref{matmulf2} and
 \ref{matmulf3} showing the
 performance of matrix multiplication using grease together with
-the Winograd method. Here, we used the Winograd method for matrices
+the Winograd method. Here we used the Winograd method for matrices
 of size greater or equal to $n=2500$ for $\F_2$ and ($n=3000$ for
 $\F_3$), that is, from $n=5000$ ($n=6000$ respectively) on it
 is used twice and so on. The curve shown there is 
