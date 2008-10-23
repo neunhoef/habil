@@ -33,8 +33,8 @@ computational problem ``matrix multiplication over $\F_q$''.
 Therefore, when we talk about analysing an algorithm that solves a
 certain family of computational problems, we assign each instance of
 this problem a ``size'' and ask how the runtime of the algorithm grows
-in comparison to the size of the instance. This is in vague terms
-what is meant by ``complexity of an algorithm'' and ``complexity
+in comparison to the size of different instances. This is in vague terms
+what is meant by ``complexity of an algorithm'', and ``complexity
 \index{complexity}
 theory'' is the study of the complexity of algorithms. The size of an
 instance of the above mentioned matrix multiplication problem of two $n
@@ -48,7 +48,7 @@ We try to keep the different steps comparable. We might for example
 count the number of elementary field operations (addition,
 subtraction, multiplication, inversion) during the execution of a
 matrix multiplication. The standard simple-minded approach to matrix
-multiplication would then need about $(2n-1)\cdot n^2$ elementary field
+multiplication would then need $(2n-1)\cdot n^2$ elementary field
 operations since each entry of the result is a sum of $n$ products of
 numbers in $\F_q$, that is, we need $n$ products and $n-1$ additions
 for each of the $n^2$ matrix entries. The complexity of this algorithm
@@ -163,7 +163,7 @@ than once and the products can be quite long. We call such a product a
 \emph{word in the generators $(g_1, \ldots, g_k)$}. 
 \index{word in generators}
 For finite groups we do not need the
-inverses of the generators since they all have finite order an can
+inverses of the generators since they all have finite order and can
 thus be expressed by positive powers.
 
 Quite often in applications we want to encode rather long words in
@@ -231,7 +231,8 @@ steps and thus behaves in the same way when called twice with the same input.
 
 However, there is a certain limitation in this paradigm. In particular
 in situations, in which we want to find some result that can later
-be verified to be correct easily, random methods excel. By random
+be verified to be correct easily, randomised methods excel. By
+randomised
 methods we mean algorithms that involve a certain amount of random
 choices. That is, the sequence of steps performed by a randomised
 algorithm depends on certain random choices done during the algorithm.
@@ -242,7 +243,7 @@ We do not want to go into too much detail here, but there are many
 examples in which randomised algorithms can greatly outperform
 deterministic algorithms. However, how do we measure or analyse
 the performance of a randomised algorithm, given that it does
-different things on different calls with the same inputs, and thus
+different things on different calls with the same input, and thus
 has different runtimes on different occasions?
 
 One possibility for performance analysis is to look at the average
@@ -256,7 +257,8 @@ worst-case analysis. However, clearly the absolutely worst case is
 that by incredible bad luck all random choices turn out to be wrong
 and the algorithm does not succeed even after a very long time. To get
 rid of this problem we have to allow our algorithms to fail in some
-way, most commonly simply by giving up with \textsc{Fail} as answer.
+way, most commonly simply by giving up with \textsc{Fail} as answer
+after a certain time.
 Using this exit route, we can devise algorithms that are
 guaranteed to terminate after a certain number of steps or a given
 amount of time. To be useful in practice, we of course want to have a
@@ -297,7 +299,7 @@ The two concepts are sometimes related by the following.
 Assume that there is an efficient way to verify the correctness of the output
 of a Monte Carlo algorithm. Then we can immediately upgrade the
 algorithm to be of Las Vegas type by following it with a verification
-step that returns ``fail'' if the result was incorrect in the first
+step that returns \textsc{Fail} if the result was incorrect in the first
 place. ``Efficient'' here means that the verification does not take
 much longer than the Monte Carlo computation in the first place.
 \end{Rem}
@@ -316,7 +318,7 @@ analysis is to have a source of uniformly distributed random elements.
 
 For most applications we are content with pseudo randomness, that is, with a
 deterministic procedure which produces from some initial seed a sequence of 
-elements with a good uniform distribution. Choosing other seeds (or
+elements with a good uniform distribution. Choosing different seeds (or
 maybe actually choosing the seed at random) then leads to a different
 behaviour of the algorithm in each call.
 
@@ -379,7 +381,7 @@ After this initialisation phase it produces a sequence of random
 elements $(a_i)_{i \in \N}$ by calling 
 Algorithm~\ref{rattlestep} repeatedly with 
 $(a,(h_1, \ldots, h_n))$ as argument thereby changing it and
-assigning the value of $a$ to $a_i$ after step $i$.
+assigning the value of $a$ to $a_i$ after call number $i$.
 \end{Def}
 
 \begin{Rem}[Variant of product replacement]
@@ -392,7 +394,7 @@ an element by a product of it with another one.
 \begin{Rem}[Comments on the implementation of \textsc{Rattle}]
 \index{Rattle@\textsc{Rattle}}
 It is not completely clear how to choose the parameters $n$ and $N$. In
-principal, $n$ could be chosen equal to $k$. However, what a good length
+principal $n$ could be chosen equal to $k$. However, what a good length
 $N$ of the initialisation phase is depends on the group $G$ and
 on the generating tuple $(g_1, \ldots, g_k)$. In practice one chooses $n$
 slightly bigger than $k$ and $N$ around $100$ unless $k$ is very big.
@@ -437,8 +439,10 @@ initialisation is 200 multiplications and after that 2 more
 multiplications for every further element in the sequence.
 The memory requirements are minimal and the produced sequence of
 random elements is good enough for most purposes. Analysing algorithms
-with the assumption that we can produce uniformly distributed random
-elements in the group efficiently provides good predictions on how
+that use \textsc{Rattle}
+\index{Rattle@\textsc{Rattle}}
+with the assumption that we it produces uniformly distributed random
+elements in the group provides good predictions on how
 well these algorithms work in practice.
 
 Throughout this book the \textsc{Rattle} method is used to produce
