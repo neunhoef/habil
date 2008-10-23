@@ -7,14 +7,15 @@ This chapter covers the implementation of the basic operations for matrices
 over finite fields. We begin with a description of a new concrete 
 representation of such matrices on nowadays computers in 
 Section~\ref{sec:ffematrices}, both in main memory and on storage.
-We then analyse the performance and complexity of matrix arithmetic 
+Then we analyse the performance and complexity of matrix arithmetic 
 for this new representation in Section~\ref{sec:matarith} and compare
 it to previous implementations. 
 %In Section~\ref{sec:basalgmat}, we give
 %an overview over the most basic algorithms for finite field matrices.
 
 We conclude our presentation of fundamental matrix algorithms
-in the next chapter where we present a method to compute the characteristic
+in the next Chapter~\ref{chap:charminpoly} 
+in which we present a method to compute the characteristic
 polynomial of matrices over finite fields and a new method
 for the minimal polynomial, which is used to compute projective orders
 of matrices as will be shown in Chapter~\ref{chap:linalg}.
@@ -26,7 +27,7 @@ of matrices as will be shown in Chapter~\ref{chap:linalg}.
 
 If you already know something about compact vectors and matrices over 
 finite fields you can safely skip the next subsection and directly
-proceed to Section~\ref{ssec:cvec}. We first explain the basic idea.
+proceed to Section~\ref{ssec:cvec}. First we explain the basic idea.
 
 \subsection{The idea}
 
@@ -39,7 +40,7 @@ as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
 $c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
 Conway polynomials are monic by definition, an element
 of\, $\F_q$ can be represented by a polynomial over\, $\F_p$ of degree 
-less then $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
+less than $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
 \log_2(p^k) \rceil$ bits.
 
 Since linear algebra operations over finite fields can be performed
@@ -83,7 +84,7 @@ memory usage in the case of extension fields.
 \subsection{Compact vectors}
 \label{ssec:cvec}
 
-We first describe in detail how a vector of length $n$ over the field
+First we describe in detail how a vector of length $n$ over the field
 $\F_q$ with $q=p^k$ elements is stored on a machine with word length $32$ 
 or $64$ bits respectively. The ideas for the step from $32$ to $64$ bits
 can be applied analogously for future microprocessors with even larger
@@ -105,7 +106,7 @@ We start with the prime field case $q=p$.
 
 We pack as many prime field elements as possible into a machine
 word, that is, $w := \lfloor 32/e \rfloor$ prime field elements per word
-on a machine with word length $32$ bit. On machines with word length $64$ bits
+on a machine with word length $32$ bits. On machines with word length $64$ bits
 we pack $w := 2 \cdot \lfloor 32/e \rfloor$ prime field elements into one word.
 Note that we do not use $\lfloor 64/e \rfloor$ elements which can be one
 more, since then the conversion between the different data formats for
@@ -117,7 +118,7 @@ from right to left, always using $e$ bits for one prime field element and
 packing $w$ prime field elements into a word.
 
 We illustrate this layout in the following example for $p=5$ and thus
-$e=4$ on a machine with $32$ bit word length:
+$e=4$ on a machine with $32$-bit word length:
 
 \begin{verbatim}
   bit             3322|2222|2222|1111|1111|1100|0000|0000
@@ -136,8 +137,8 @@ Note that the most significant bit in this representation is always $0$.
 The first $w$ prime field elements in a vector are stored in the first
 machine word of the vector, the next $w$ in the next word and so on.
 
-We proceed now to the extension field case $q=p^k$. Let $e$ and $w$ be
-exactly the same values as above. We now have to store $k$ prime field
+Now we proceed to the extension field case $q=p^k$. Let $e$ and $w$ be
+exactly the same values as above. Here we have to store $k$ prime field
 elements for every element of $\F_q = \F_p[x]/c_k\F_p[x]$, namely the 
 coefficients of the unique residue class representative of degree smaller 
 than $k$, where $c_k$ is the Conway polynomial used to construct the 
@@ -151,20 +152,20 @@ those numbers in the following way: The first $k$ machine words in the
 memory representation of the vector are used to store the first $w$
 elements of the vector. The first machine word holds all the coefficients
 $a_0$ of those $\F_q$ elements, the second the coefficients $a_1$ and so
-on. Since one machine word can hold up to $w$ prime field elements this
+on. Since one machine word can hold up to $w$ prime field elements, this
 fills the first $k$ words rather satisfactorily. The second $k$ machine words
 in the vector then hold the vector elements with indices 
 $w+1, w+2, \ldots, 2w$ in exactly the same way.
 
-Note again that for machines with a word length of $64$ bit we choose the
-value $w$ only twice as big as for $32$ bit machines, even if one more
+Note again that for machines with a word length of $64$ bits we choose the
+value $w$ only twice as big as for $32$-bit machines, even if one more
 prime field element would fit into the machine word.
 
 The only natural limit of this implementation is that 
 $\lceil \log_2(2p-1) \rceil$ must be smaller or equal to the word length
 of the microprocessor.
 
-We can now explain how we can add vectors in the above representation
+Now we can explain how we can add vectors in the above representation
 only by doing a series of word operations.
 
 \subsection{Adding compact vectors}
@@ -188,7 +189,7 @@ has the property, that $t \ge 2^{e-1}$ if and only if $a+b \ge p$
 the number $t$ is represented using binary expansion with $e$ bits,
 then the most significant bit is set if and only if $a+b \ge p$.
 
-This idea is now used for two words $a$ and $b$, containing $w$
+Now this idea is used for two words $a$ and $b$, containing $w$
 prime field elements each. Every prime field element uses exactly $e$ bits
 in its word and we call these sections of $e$ adjacent bits in a word 
 ``components'' for the moment. 
@@ -200,7 +201,7 @@ bit is set and all others are zero. In addition, we keep a word $n$
 containing the number $p$ in each component.
 
 The finite field sum $c$ of $a$ and $b$ is now computed in the following way:
-First $s := a+b$ and $t := a+b+o$ are computed. We then use an AND 
+First $s := a+b$ and $t := a+b+o$ are computed. Then we use an AND 
 operation for words to extract exactly the most significant bits of
 those components, in which the sum was greater or equal to $p$.
 This is done by computing $r := t \ \&\  m$ (we use the \& symbol to
@@ -216,10 +217,10 @@ the correct result.
 
 Thus, the complete formula is
 \[ a+b - \Big(\big(r - (r \gg (e-1))\big) \ \&\ n \Big)
-   \qquad \mbox{where}\quad r = (a+b+o) \ \&\  m \]
+   \qquad \mbox{where}\quad r = (a+b+o) \ \&\  m . \]
 
 We illustrate this by an example for $p=3$ on a machine with
-$32$ bit word length. In this case, $e = 3$ and $w = 10$. We want to
+$32$-bit word length. In this case, $e = 3$ and $w = 10$. We want to
 add the words shown below in the rows depicted by \texttt{a} and \texttt{b}.
 We also show the prepared words $o$, $m$, and $n$. The bits marked
 with \texttt{X} are not used and are all equal to zero.
@@ -249,16 +250,17 @@ the input values for easier verification:
   b:              XX|000|010|010|010|001|001|001|000|000|000
 \end{verbatim}
 
-Of course, it is a coincidence here that $u$ is equal to 
+Of course it is a coincidence here that $u$ is equal to 
 $u \ \&\ n$, since $p = 2^{e-1}-1$.
 
 This means, that the addition of two words containing $w$ prime field
 elements can be done in $7$ word operations for $p > 2$. For the
-$p=2$ case, we only need one XOR operation. Thus we have proved:
+$p=2$ case, we only need one XOR operation. Thus we have proved the
+following proposition.
 
 \begin{Prop}[Addition of compact vectors]
 \label{addvec}
-We assume a machine with $32$ bit word length. For $2 < p < 2^{31}$,
+We assume a machine with $32$-bit word length. For $2 < p < 2^{31}$,
 two compact vectors of length $n$ over the field of $q=p^k$
 elements can be added using $7k\cdot \lceil n/w \rceil$ word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
@@ -266,16 +268,16 @@ and $e = \lceil \log_2(2p-1) \rceil$.
 
 For $p=2$, only $k \cdot \lceil n/32 \rceil$ word operations are needed.
 
-For machines with $64$ bit word length the number of word operations
-is $7k \cdot \lceil n/(2w) \rceil$ and $\lceil n/64 \rceil$ resp.~and 
+For machines with $64$-bit word length the number of word operations
+is $7k \cdot \lceil n/(2w) \rceil$ and $\lceil n/64 \rceil$ respectively and 
 we can work with primes $p < 2^{63}$.
 \end{Prop}
 \Proof See above. \ProofEnd
 
 \begin{Rem}
-Note that since the amount of memory needed for a vector of length $n$
+Note that, since the amount of memory needed for a vector of length $n$
 is $k \cdot \lceil n/w \rceil$ for $p > 2$ and $\lceil n/32 \rceil$ for
-$p=2$ this means that the addition needs $7$ word operations for each
+$p=2$, this means that the addition needs $7$ word operations for each
 word of a vector for $p>2$ and $1$ word operation for $p=2$.
 
 Assuming a microprocessor
@@ -310,8 +312,8 @@ All this can be done with at most $2(e-2)$ vector additions.
 
 We now proceed to the extension field case $\F_q = \F_p[x]/c_k \F_p[x]$ 
 with the Conway polynomial $c_k$ and $q = p^k$.
-Here again a scalar $s \in \F_q$ is represented by an expansion
-$s = \sum_{i=0}^{k-1} s_i x^i + c_k \cdot \F_p[x]$. For the rest of this
+Here a scalar $s \in \F_q$ is represented by an expansion
+$s = \sum_{i=0}^{k-1} s_i x^i + c_k \cdot \F_p[x]$ again. For the rest of this
 section we omit the ``$+ c_k \cdot \F_p[x]$'' and denote cosets
 by their representing polynomials of degree less than $k$.
 
@@ -325,7 +327,7 @@ we see that
 + \sum_{i=0}^{k-1} t_{k-1} \cdot (x^k - c_k) \in \F_q \] 
 (remember that we compute in $\F_p[x]$ modulo $c_k$).
 Thus, the multiplication by $x$ can be achieved by a shift, one
-multiplication of $x^k - c_k$ with the prime field element $t_{k-1}$,
+multiplication of $x^k - c_k$ with the prime field element $t_{k-1}$
 and an addition.
 
 Since we distribute the prime field elements belonging to a single
@@ -334,7 +336,7 @@ do the shift basically for free by accessing a shifted memory location.
 But we still have to deal with the fact that we have $w$ possibly different
 highest coefficients $t_{k-1}$ stored together in one word. However,
 since we have to multiply all of them with the same prime field element
-coming from the expansion of $x^k - c_k = \sum_{i=0}^{k-1} b_i x^i$ 
+coming from the expansion of $x^k - c_k = \sum_{i=0}^{k-1} b_i x^i$,
 we can use the method described
 for the prime field case above to compute every word to be added to the
 shifted vector. That is, for each $k$ adjacent words 
@@ -351,26 +353,26 @@ of the multiplication $s \cdot v$ is at most $2k-1$ multiplications
 of a vector by a prime field scalar and $2k-1$ additions of vectors.
 Here we count one more addition to keep the formulas a bit simpler
 and to account for one copying operation.
-Thus, we have proved the following proposition:
+Thus we have proved the following proposition.
 
 \begin{Prop}[Multiplication of vectors by scalars]
 \label{multvec}
-We assume a machine with $32$ bit word length.
+We assume a machine with $32$-bit word length.
 Let $p$ be a prime, $q = p^k$, and $w$ and $e$ as above:
 $w = \lfloor 32/e \rfloor$ and $e = \lceil \log_2(2p-1) \rceil$.
 
-For $2 < p < 2^{31}$, the total cost of a multiplication of a compact 
+For\/ $2 < p < 2^{31}$ the total cost of a multiplication of a compact 
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_p$ is at most 
 $14k(e-2)\cdot \lceil n/w \rceil$ word operations (plus memory fetches
 and stores). For $p=2$, the scalar
 can only be $0$ or $1$ and therefore no computation is necessary at all.
 
-For $2 < p < 2^{31}$, the total cost of a multiplication of a compact
+For\/ $2 < p < 2^{31}$ the total cost of a multiplication of a compact
 vector $v$ of length $n$ over $\F_q$ by a scalar $s \in \F_q$ is at most
 $7k(2k-1)(2e-3)\cdot \lceil n/w \rceil$. For $p = 2$, the total cost is
 at most $2k(k-1) \cdot \lceil n/32 \rceil$ word operations.
 
-For a machine with $64$ bit word length the factors $\lceil n/w \rceil$
+For a machine with $64$-bit word length the factors $\lceil n/w \rceil$
 and $\lceil n/32 \rceil$ have to be changed to $\lceil n/(2w) \rceil$
 and $\lceil n/64 \rceil$ respectively
 and we can work with primes $p < 2^{63}$.
@@ -414,7 +416,7 @@ measurement is missing.
 
 We used three relatively new machines with popular microprocessors, 
 namely two different machines
-with an Intel Pentium 4 with 1024 kB second level cache running at 3.2 GHz, 
+with an Intel Pentium 4 with 1024 kB second level cache running at 3.2 GHz 
 and a machine with a AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
 second level cache running at 2.0 GHz. The two Pentium 4 machines were
 equipped with memory modules with the same specifications (PC 3200, CL3). 
@@ -438,13 +440,13 @@ Of course, all operations are repeated many times to get a high accuracy
 of the measured time for one operation by averaging.
 
 We tested three different operations. The first, which we denote by 
-``$z := v+w$'', is addition of two different vectors and writing the
+``$z := v+w$'', is adding two different vectors and writing the
 result to some other memory location. The time for memory allocation
 was not considered. The second operation, which we denote by 
-``$v := v+w$'', is also addition of two different vectors, but the result
+``$v := v+w$'', is also adding two different vectors, but the result
 is written into the same memory location as one of the summands.
-The third operation is denoted by ``$w := sw$'' and is multiplication
-of a vector by a (non-zero) scalar in place, that is, the result overwrites
+The third operation is denoted by ``$w := sw$'' and is multiplying
+a vector by a (non-zero) scalar in place, that is, the result overwrites
 the original vector. We chose the scalar $6 + 7\Z \in \F_7$, since its
 binary expansion is $110$ and it is thus one of the most ``expensive'' scalars
 for multiplication. Note that for the case of table lookups the chosen
@@ -456,7 +458,7 @@ the worst with respect to performance.
 
 All results are memory throughput values in megabytes per second. 
 That is, a result of $1000$ means that altogether $1000$ times
-$1024^2$ bytes of memory have been accessed. ``Altogether'' means, that for
+$1024^2$ bytes of memory have been accessed. ``Altogether'' means that for
 the operation $z := v+w$ both read operations (for $v$ and $w$) and the
 write operation into $z$ are counted, that is, for vectors of length
 $125000$ one such addition needs to access $375000$ bytes in memory,
@@ -555,7 +557,7 @@ The results for the $\F_2$ case show the throughput for raw memory access
 since the XOR operations for addition within the processor registers cost
 nearly nothing. 
 
-We first look at the top $\F_2$ part of Table~\ref{memthrough}.
+First we look at the top $\F_2$ part of Table~\ref{memthrough}.
 
 We observe that both implementations perform very similarly, which is
 only to be expected, since they use exactly the same method. For
@@ -607,7 +609,7 @@ Section~\ref{ssec:vecmat} computing too many vector times scalar
 operations can often be avoided, which renders the new method
 superior in many real life examples.
 
-Finally, note that due to the extra bit per prime field element that
+Finally note that due to the extra bit per prime field element that
 is necessary for doing word operations, vectors in the {\cvec}
 implementation need a bit more memory than in the {\GAP} library
 implementation (for characteristic not equal to $2$).
@@ -623,7 +625,7 @@ is no method that is better in all situations.
 \label{sec:matarith}
 
 Traditionally, matrices are implemented in the {\sf GAP} system as
-lists of (row-) vectors. This means, that the list object only
+lists of (row-) vectors. This means that the list object only
 holds references to the subobjects, which are the rows of the matrix.
 Therefore, one can for example permute rows very efficiently without
 actually touching the bulk of the data in the rows. Instead, one can
@@ -663,21 +665,21 @@ This section is extremely short, since to add matrices or
 to multiply a matrix by a scalar simply means to add corresponding
 row vectors or multiply all rows by the scalar respectively.
 Thus we immediately get from Propositions~\ref{addvec} and
-\ref{multvec}:
+\ref{multvec} the following corollary.
 
 \begin{Cor}[Matrix addition and multiplication of matrices by scalars]
-We assume a machine with $32$ bit word length. Let $M$ and $M'$ be 
+We assume a machine with $32$-bit word length. Let $M$ and $M'$ be 
 two compact matrices with $m$ rows and $n$ columns over $\F_q$, where $q
 = p^k$.
 
-For\/ $2 < p < 2^{31}$, the matrices $M$ and $M'$
+For\/ $2 < p < 2^{31}$ the matrices $M$ and $M'$
 can be added using $7km\cdot \lceil n/w \rceil$
 word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
 and $e = \lceil \log_2(2p-1) \rceil$. 
 For $p=2$, only $mk \cdot \lceil n/32 \rceil$ word operations are needed.
 
-For\/ $2 < p < 2^{31}$, the total cost of a multiplication of
+For\/ $2 < p < 2^{31}$ the total cost of a multiplication of
 $M$ by $s \in \F_p$ is at most 
 $14km(e-2)\cdot \lceil 32/w \rceil$ word operations (plus memory fetches
 and stores). For $p=2$, the scalar
@@ -688,7 +690,7 @@ $7k(2k-1)m(2e-3)\cdot \lceil n/w \rceil$.
  For $p = 2$, the total cost is
 at most $2k(k-1)m \cdot \lceil n/32 \rceil$ word operations.
 
-For a machine with $64$ bit word length the factors $\lceil n/w \rceil$
+For a machine with $64$-bit word length the factors $\lceil n/w \rceil$
 and $\lceil n/32 \rceil$ have to be changed to $\lceil n/(2w) \rceil$
 and $\lceil n/64 \rceil$ respectively
 and we can work with primes $p < 2^{63}$.
@@ -749,7 +751,7 @@ each block of $\ell$ rows and store them. If we have computed and stored
 all this data, we call the matrix ``greased''.
 Then a vector-matrix multiplication
 with this matrix only has to perform $\lceil m/\ell \rceil -1$ vector additions
-of looked up vectors. More precisely, we have the following result:
+of looked up vectors. More precisely, we have the following result.
 
 \begin{Theo}[Grease: expected cost and gain]
 \label{theogrease}
@@ -822,7 +824,7 @@ than a multiplication with a scalar.
 \end{itemize}
 \end{Rems}
  
-The following lemma is used in the proof of Theorem~\ref{theogrease}:
+The following lemma is used in the proof of Theorem~\ref{theogrease}.
 
 \begin{Lemm}[Computing all\/ $\F_p$-linear combinations]
 \label{alllinkomb}
@@ -834,7 +836,7 @@ computed, then all\/ $\F_p$-linear combinations of $v_1, \ldots, v_j$ can
 be computed with $p^j - p^{j-1} - 1$ vector additions.
 
 This implies in particular that all\/ $\F_p$-scalar multiples of a vector
-can be computed with $p-2$ vector additions, and inductively, that
+can be computed with $p-2$ vector additions, and inductively that
 all\/ $\F_p$-linear combinations of $v_1, \ldots, v_j$ can be computed
 without assumption using $p^j-j-1$ vector additions.
 \end{Lemm}
@@ -1014,10 +1016,10 @@ ones and copying the smaller intermediate results back into the
 bigger result. Since the cost of all this administration is proportional
 to the area of the matrices involved (i.e.~it is only quadratic in the
 size of the matrices), it is clear that this will be worthwhile for 
-``large'' matrices. For smaller matrices, the administrative overhead
+``large'' matrices. For smaller matrices the administrative overhead
 might dominate the saving effect of the better complexity.
 In particular, the method is only good if $7$ multiplications of two $(n
-\times n)$-matrices plus the administrational overhead need in fact less
+\times n)$-matrices plus the administrative overhead need in fact less
 time than one multiplication of two $(2n \times 2n)$-matrices.
 
 The percentage of administrative work for the preparation of a matrix
@@ -1271,11 +1273,11 @@ We conclude this section with Figures~\ref{matmulf2} and
 performance of matrix multiplication using grease together with
 the Winograd method. Here, we used the Winograd method for matrices
 of size greater or equal to $n=2500$ for $\F_2$ and ($n=3000$ for
-$\F_3$), that is, from $n=5000$ ($n=6000$ resp.) on it
+$\F_3$), that is, from $n=5000$ ($n=6000$ respectively) on it
 is used twice and so on. The curve shown there is 
 again the plot of the function $t = cn^3$ for some constant $c$, such
 that the curve passes through the actual measurement for $n=15000$
-($n=10000$ resp.).
+($n=10000$ respectively).
 The better complexity begins to show with a few outliers following
 the pattern observed above.
 
@@ -1552,7 +1554,7 @@ above mentioned expected range.
 \section{Raising matrices to powers}
 
 For the sake of completeness we conclude this chapter with the description
-of a well-known technique to raise an element to a power:
+of a well-known technique to raise an element to a power.
 
 \begin{Lemm}[Powering up]
 If $R$ is a monoid and $x \in R$, then the power $x^m$ can be computed
