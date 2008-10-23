@@ -22,12 +22,12 @@ actions leads to the study of matrix groups and using projective
 actions leads to the study of projective groups, by which we mean
 groups in which the elements are invertible matrices modulo scalars.
 Considering other actions to represent groups on a computer is
-possible (compare for example \cite{Kohl}) but up to now not studied much.
+possible (see for example \cite{Kohl}) but up to now not studied much.
 
 For finite permutation groups there are highly efficient
 algorithms to compute the order of a group, a composition series,
-centralisers of elements, stabilisers, $p$-Sylow subgroups, find
-normal subgroups, maximal subgroups, group homomorphisms, test
+centralisers of elements, stabilisers, $p$-Sylow subgroups, to find
+normal subgroups, maximal subgroups, group homomorphisms, to test
 membership of group elements and the like.
 Standard techniques use stabiliser chains, base and strong generating
 set methods (for a good account of the known methods see \cite{Ser}). 
@@ -42,7 +42,8 @@ which is the study of the asymptotic behaviour of the runtime of algorithms
 as the problem size tends to infinity\footnote{for a brief discussion see 
 Section~\ref{sec:complexity}}, has been a very important tool to
 devise efficient algorithms and to implement them. In particular,
-worst-case analysis of the complexity of algorithms has shown that
+worst-case analysis of the complexity of permutation group 
+algorithms has shown that
 \index{complexity}
 it is in practice worthwhile to first exclude a few nasty cases ---
 for which special methods apply --- before applying standard methods,
@@ -70,30 +71,114 @@ is to be able to do as much as possible with these matrix groups over
 finite fields, guided by what is already possible efficiently with
 finite permutation groups. The general idea is to use the complexity
 analysis of algorithms as a tool to come up with ``efficient''
-algorithms. Generally, an algorithm is considered to be ``good'' if
+algorithms. Generally an algorithm is considered to be ``good'' if
 its runtime is bounded from above by a polynomial in the size of the
 input.
 
-First goal: Constructive recognition (compare to sifting)
-Matrix group recognition project. A bit of history.
+A first step in this direction is set out by the so-called matrix group
+recognition project (see \cite{MatGrpProj} and \cite{OB}). This project
+came to live after the seminal paper \cite{neumann-praeger} by Peter Neumann 
+and Cheryl Praeger in 1992, in which they present an algorithm which decides,
+whether or not a group $G = \left< g_1, \ldots, g_k\right> \le \GL(n,q)$
+given by a set of generators contains the special linear group $\SL(n,q)$.
+The matrix group recognition project in the meantime has become an ongoing 
+colaborative effort of many researchers, and its aim
+is to devise efficient algorithms to perform the constructive recognition
+of a matrix group $G \le \GL(n,q)$ which is given by a set of generators. 
+With the term ``constructive recognition'' we mean
+\begin{itemize}
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\item to find the group order $|G|$, and
+\item to set up a procedure to 
+\begin{itemize}
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\item test whether an element $g \in \GL(n,q)$ is contained in $G$, and if so,
+\item express $g$ explicitly as a word in the given generators.%
+\footnote{For more details on the constructive recognition problem see
+Section~\ref{constrrecog}.}
+\end{itemize}
+\end{itemize}
+One good reason why it is sensible to solve this problem for matrix groups
+first is that the extremely successful method of stabiliser chains and
+bases and strong generating sets solves exactly
+this problem for permutation groups and is one of the fundamental
+algorithms for them. Therefore it is conceivable that an efficient solution
+to the constructive recognition problem for matrix groups will provide a
+similar fundament for the solution of further computational problems for
+matrix groups.
 
-Basic approach, rough sketch.
+The basic approach for the constructive recognition of matrix groups is
+to compute a so-called composition tree for $G$. The nodes of this binary 
+tree are groups together with a homomorphism to another group, the two
+descendants of a node are the kernel and image of this homomorphism. The
+leaves of the tree are simple groups, in which the constructive recognition
+problem has to be solved by other means, and the root of the tree is $G$
+itself. The infrastructure of the tree is organised such that a solution to
+the constructive recognition problem for $G$ can be put together
+by recursively traversing the tree and finally using the solutions to the
+constructive recognition problems in the leaves. This description of the
+composition tree here is
+necessarily very rough, for details see \cite{MatGrpProj} or \cite{OB}
+or Section~\ref{recapproach}.
 
-\section{The Book}
+\section{This Book}
 
+The matrix group recognition project has produced many
+results but is not yet fully completed.
 This book gives an overview over the current state of the art and
-shows some contributions of the author. Collaborations.
-Implementations.
+shows some contributions of the author. The collaborative nature of the
+whole project lends itself to joint papers by more than one person.
+Therefore, some of the author's contributions to the project, which can
+be found in Chapters~\ref{chap:charminpoly}, \ref{chap:comptree} and
+\ref{chap:subsemi}, are in fact collaborations with other authors.
 
-Work to do (in particular C9 groups).
+A second major part of the contributions of the author to the project lies
+in actual implementations. Together with \'Akos Seress we have started an
+implementation of the best known algorithms for group recognition in the
+{\GAP} computer algebra system (see \cite{GAP4}). This implementation comes
+in the form of two {\GAP} packages \textsf{recogbase} (see
+\cite{recogbase}) and \textsf{recog} (see \cite{recog})
+which are due to be published soon. The first provides a generic framework
+to implement composition trees in {\GAP} for arbitrary types of groups. 
+One interesting feature of the generic framework is that the type of group
+can vary within a single composition tree. The
+second package tries to collects the best known methods for group
+recognition for permutation groups, matrix groups and projective groups.
+Thus, everybody who contributes implementations will be an author of the
+\textsf{recog} package. 
 
-Not mentioned: New methods for matrices over finite fields using
-floating point numbers, details on C9, Mark Stather's work, further
-algorithms building on top of constructive recognition. Black box
-groups. Global analysis of the whole procedure of building a
-composition tree.
+This book describes a major part of the algorithms used in both
+packages. For some methods, mainly for the leaves of the composition tree,
+the reader is however referred to the literature.
 
-Structure of this book. Go through chapters. Explain authors.
+Since the matrix group project is not yet finished, the present work
+cannot give a complete description of a solution to the constructive
+recognition problem. In particular for the leaves of the composition tree
+a lot of work and improvement of algorithms still has to be done, as is
+explained in more detail in Chapter~\ref{chap:leaves}.
+
+We have intentionally left out a number of topics which are related, mostly
+because research on them is not completed or not even in a state for a
+satisfactory description. One is
+the whole field of algorithms for matrix groups that build on constructive
+recognition. Derek Holt and Mark Stather have recently published a paper
+\cite{HoltStather} pointing in that direction and Mark Stather's Phd thesis
+\cite{StatherPhd} lies also in this area. Another area left out is
+constructive recognition of black box groups, because we wanted to
+concentrate on matrix and projective group. We only cover the
+verification phase very briefly, which is however necessary to eventually
+have computational proofs of the results. The reason for this is that in
+fact very little work has been done on the actual implementation of
+verification routines. What is needed for this is basically good
+presentations for the leaf cases. Finally a global analysis of the
+whole procedure of building a composition tree is still needed. This seems
+achievable using estimates on the length of a composition series but is not
+yet done.
+
+Now we turn to the things that are contained in this book and briefly
+outline its structure. 
+
+Go through chapters. Explain authors.
 
 \section{Acknowledgements}
 
