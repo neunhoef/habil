@@ -494,7 +494,7 @@ the methods in \cite[Chapter 2]{Ser}, in particular
 \cite[Theorem~2.3.9]{Ser}.
 \end{Rem}
 
-In this section we have shown that to set up a reduction node only needs
+In this section we have shown that to set up a reduction node we only need
 an explicitly computable homomorphism $\varphi$ from $G$ into some
 ambient group $\HH$. Given this, one can constructively recognise the
 image, compute generators for the kernel and constructively recognise it,
@@ -513,7 +513,7 @@ a generic framework to organise an algorithm to achieve this.
 We have to explore every group $G$ as in Problem~\ref{ProbCR3} 
 occurring in our tree to find out whether we 
 can solve the constructive recognition 
-problem, or what kind of homomorphism can be 
+problem or what kind of homomorphism can be 
 applied to it. To this end, the framework holds a collection
 of so-called ``find homomorphism'' methods in stock. A find homomorphism
 method's objective is either to find a homomorphism $\varphi: G \to H$
@@ -523,11 +523,12 @@ solve the constructive recognition
 problem directly, which can but does not always have to find
 an isomorphism to some known group.
 
-For each type of groups (permutation groups, matrix groups, and black-box
+For each type of groups (permutation groups, matrix groups, projective
+groups and black-box
 groups), the system has a database of find homomorphism methods.
-We call the procedure that decides, which methods to try and in which order 
+We call the procedure that decides which methods to try and in which order 
 the ``method selection''. For this purpose we define a very simple and yet 
-versatile algorithm, which we will describe now. It is usable independently
+versatile algorithm which we will describe now. It is usable independently
 from group recognition, but we will explain it here in the context of
 our generic recognition procedure. Note that this new method selection
 procedure is not to be confused with the {\GAP} (see \cite{GAP4}) method
@@ -578,30 +579,30 @@ have failed by returning either \texttt{false} or \texttt{fail}.
 When all available methods either have declared themselves
 \texttt{NotApplicable} or have failed, then the method selection 
 starts all over again, now calling methods again that have returned
-\texttt{fail} once but of course skipping methods that have returned
+\texttt{fail} once, but of course skipping methods that have returned
 \texttt{false}. This whole process is repeated until each method has
 failed a configurable number of times, when the method selection
 finally gives up.
 
 We hope that this design is simple enough to keep an overview of what is
 tried in which order to prove the whole algorithm to work correctly,
-and versatile enough to implement a wide range of different algorithms,
-in which ``trying different methods'' is involved. We now explain
+and yet versatile enough to implement a wide range of different algorithms,
+in which ``trying different methods'' is involved. Now we explain
 the rationale behind some of the features of this procedure.
 
 The idea behind the fact that after a method having returned
 \texttt{fail} or \texttt{false} the method selection starts again
 with the highest ranked method is that even a failed method might
 have found out new information about the group, thereby making
-higher ranked methods, that have refused to work earlier by
-returning \texttt{NotApplicable}, newly applicable.
+higher ranked methods that have refused to work earlier by
+returning \texttt{NotApplicable} newly applicable.
 
 In the {\GAP} system, information about a group $G$ is collected in
 so-called {\em attributes} (for example,
 a permutation group object may store an attribute whether it is transitive
 or not), but we may also acquire the information that 
-$G$ is simple, or that it is solvable, or we may know $|G|$, etc. 
-Note that at any given time, the value of an attribute for a given group
+$G$ is simple or that it is solvable, or we may know $|G|$, etc. 
+Note that at any given time the value of an attribute for a given group
 object can already be computed or not, and the group object can learn new
 information about itself during its lifetime. This feature is already
 part of the {\GAP} system library. 
@@ -633,8 +634,8 @@ of the node. In this way, a composition tree is built recursively using the
 database of find homomorphism methods together with the generic code
 organising the recursive framework.
 
-Another important feature of this framework is the following. Quite often,
-a find homomorphism method finds out information about the group in
+Another important feature of this framework is the following. Quite often
+a find homomorphism method derives new information about the group in
 question that can be used further down in the composition tree most notably
 in the homomorphic image or the kernel of the group homomorphism found.
 For example it might already know that it has set up an isomorphism such
@@ -691,7 +692,7 @@ for groups without a ``reasonably short'' base. Of course, the
 Schreier-Sims method does not necessarily find a shortest possible base.
 However, one can implement the method such that in the resulting
 stabiliser chain all inclusions are proper.
-Therefore, we consider not the shortest possible base length but
+Therefore we consider not the shortest possible base length but
 an upper bound for the length of a base:
 
 \begin{Prop}[Maximal base length]
@@ -780,11 +781,11 @@ Rank & Name & Action & Hom/Leaf \\
 
 The method with the highest rank $50$ is the reduction method called
 \texttt{NonTransitive} for intransitive groups. It first tests whether
-$G$ is transitive, and if not constructs an explicitly
+$G$ is transitive and if not, constructs an explicitly
 computable homomorphism by restricting the action to one of the orbits in the
-permutation domain. If $G$ turns out to be transitive, then the
+permutation domain. If $G$ turns out to be transitive, the
 \texttt{NonTransitive} method immediately returns \texttt{false}
-indicating, that it can never be successful for the group $G$.
+indicating that it can never be successful for the group $G$.
 
 The next method \texttt{Giant} with rank $40$ tries to decide, whether the
 group $G \le S_n$ is a ``giant'', that is, it is either equal to
