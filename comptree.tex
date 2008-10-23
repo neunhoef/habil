@@ -34,7 +34,7 @@ intermixed in the same composition tree and secondly the fact that
 we change the generating set in each node of the composition tree
 which dramatically decreases the length of the resulting straight
 line programs. 
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 
 The contents of this chapter stem from joint work with \'Akos Seress
 and are an elaboration on the article \cite{AkosMaxISSAC}.
@@ -42,7 +42,7 @@ and are an elaboration on the article \cite{AkosMaxISSAC}.
 \section{Constructive recognition}
 \label{constrrecog}
 
-\index{constructive recognition}
+\index{constructive recognition}%
 There are at least two fundamentally different ways to represent groups on
 a computer. The first uses a presentation of the group and then
 expresses group elements as words in a free group representing
@@ -80,7 +80,7 @@ and subgroups of $\PGL(n,q)$ \emph{projective groups}.
 \end{Rem}
 
 \begin{Problem}[Constructive recognition --- first formulation]
-\label{ProbCR1}\index{constructive recognition}
+\label{ProbCR1}\index{constructive recognition}%
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume that we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group
@@ -143,13 +143,13 @@ membership testing procedure is available. To solve the original problem,
 such recognition procedures remember, how they got the nice generating
 tuple from the original generating tuple by means of a single, rather long
 straight line program.
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 
 With the above notion of efficiency and these arguments in mind we can now 
 formulate a preliminary version of the constructive recognition problem:
 
 \begin{Problem}[Constructive recognition --- preliminary formulation]
-\label{ProbCR2}\index{constructive recognition}
+\label{ProbCR2}\index{constructive recognition}%
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
@@ -159,7 +159,7 @@ computed $|G|$ and a
 generating tuple $( g'_1, \ldots, g'_l )$ for $G$, for which we have
 prepared a procedure that does the following: Given $g \in \GG$,
 decide whether $g \in G$ and if so, express $g$ as a straight line program
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 in $(g'_1, \ldots, g'_l)$. The new generating tuple may or may not be the
 same as the original one.
 
@@ -180,12 +180,12 @@ and $q$ in the sense of Definition~\ref{inputsize}.
 Note that this formulation will be refined in Problem~\ref{ProbCR3}.
 
 \begin{Rem}[Randomised algorithm]
-\index{randomised algorithm}\index{algorithm!randomised}
+\index{randomised algorithm}\index{algorithm!randomised}%
 We are content with using Las Vegas or Monte Carlo algorithms (see
 Section~\ref{montevegas}) provided that we can later on verify our results
 deterministically, even if this takes longer than the randomised
 recognition step. However, also the verification phase should have a
-\index{verification}
+\index{verification}%
 runtime that is proved to be bounded by a fixed polynomial in the input
 size parameters $n$, $k$ and $q$.
 \end{Rem}
@@ -248,7 +248,7 @@ refine the formulation once more. This time we present the final
 formulation:
 
 \begin{Problem}[Constructive recognition --- final formulation]
-\label{ProbCR3}\index{constructive recognition!final formulation}
+\label{ProbCR3}\index{constructive recognition!final formulation}%
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume that we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
@@ -260,7 +260,7 @@ We say that we have \emph{recognised $G$ constructively} if we have
 \item 
 prepared a procedure that does the following: Given $g \in \GG$,
 decide whether $g \in G$ and if so, express $g$ as a straight line program
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 in $(g'_1, \ldots, g'_l)$. Also, we have
 \item prepared a procedure that computes, given preimages $(p_1, \ldots,
 p_k)$ of $(g_1, \ldots, g_k)$ under some (surjective) homomorphism $\psi
@@ -317,7 +317,7 @@ of (2).
 \item[(4)] Computing generators $(n_1, \ldots, n_t) \in N^t$ with $N :=
 \ker(\varphi)$ together with a straight line program expressing
 $(n_1, \ldots, n_t)$ in terms of $(g_1, \ldots, g_k)$.
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 \item[(5)] Solving Problem~\ref{ProbCR3} for $N = \left< n_1, \ldots, n_t
 \right>$ with nice generators $(n'_1, \ldots, n'_u) \in N^u$.
 \end{itemize}
@@ -352,7 +352,7 @@ $g$ is not contained in $G$, regardless whether $h$ lies in $H$ or not!
 
 Then we try to express $h$ as a straight 
 line program $s_1$ in the nice generators $(h_1, \ldots, h_s)$ of $H$. If this
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 fails, $h$ is not contained in $H$ and thus $g$ is not contained in
 $G$. Otherwise we evaluate $s_1$ with inputs
 $(h'_1, \ldots, h'_s)$, the preimages of the nice generators of $H$ under
@@ -360,11 +360,11 @@ $\varphi$. If $g$ is contained in $G$, the result $h'$ is a preimage
 under $\varphi$ of $h = \varphi(g)$. Thus $n := h'^{-1}\cdot g$ is contained
 in the kernel $N$ of $\varphi$. We try to express $n$ as a straight
 line program $s_2$ in $(n'_1, \ldots, n'_u)$. If this fails, $n$
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 is not contained in $N$ and thus $g$ is not contained in $G$. Otherwise,
 we put together the straight line programs $s_1$ and $s_2$ to form
 one big straight line program $s$ that reaches $h'n$ from the input 
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 $(h'_1, \ldots, h'_s, n'_1, \ldots, n'_u)$. In this case we have proved
 that $g$ lies in $G$.
 \proofend
@@ -405,7 +405,7 @@ h'_s) \in G^s$ of the $(h_1, \ldots, h_s)$ under $\varphi$.
 Equipped with all this data and methods we can now do the following
 for an arbitrary element $g \in G$: Map it with $\varphi$ into $H$
 and call $h := \varphi(g)$. Then find a straight line program $s$ reaching
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 $h$ from $(h_1, \ldots, h_s)$ and evaluate it on $(h'_1, \ldots, h'_s)$
 to get an element $h' \in G$ with the property that
 $\varphi(g)=\varphi(h') = h$, thus $h'^{-1}\cdot g$ lies in the kernel $N$
@@ -421,7 +421,7 @@ $N$.
 Since $H \cong G/N$, the elements of $H$ correspond to cosets of $N$ in
 $G$. Our constructive membership test in $H$ produces a unique straight
 line program for every element $h \in H$ and the evaluation of those
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 programs on the preimages $(h'_1, \ldots, h'_s)$ thus chooses exactly one
 element of $G$ from each coset of $N$. Since the $x_i$ are evenly
 distributed in the whole of $G$, their images under $\varphi$ are
@@ -455,7 +455,7 @@ almost simple group. In this case we have the following result:
 Assume that in the above situation $H$ is isomorphic to the
 finitely presented group generated by generators $(h_1, \ldots, h_s)$
 subject to relations $(r_1, \ldots, r_m)$ given as a straight line
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 program $s$ in terms of the $(h_1, \ldots, h_s)$. Let $(r'_1, \ldots,
 r'_m)$ be preimages of the $(r_1, \ldots, r_m)$ under $\varphi$. 
 Let further $x_i$ for $1 \le i \le k$ be elements in $\left< h'_1, \ldots, 
