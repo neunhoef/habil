@@ -4,7 +4,7 @@
 \label{chap:comptree}
 
 After lots of preparations in the previous chapters
-in this chapter the main part of the whole book begins. We begin to talk
+in this chapter the main part of the whole book begins. We start to talk
 about the recognition of matrix groups. We start by formulating
 the concept of ``constructive recognition'' and explain the reasoning
 behind it in Section~\ref{constrrecog}. In this section we develop
@@ -20,7 +20,7 @@ formulation with good reasons for its complex structure.
 
 In the following sections we develop a
 framework for group recognition that is not only suitable for matrix
-groups and projective groups but also allows for the implementation of
+groups and projective groups, but also helps to implement
 the asymptotically best algorithms to handle permutation groups. In
 this framework we can switch between different representations of
 groups within one composition tree which allows for example to use 
@@ -103,8 +103,9 @@ The problem as posed in Problem~\ref{ProbCR1} can be solved easily by just
 enumerating the finite group $G$ completely. However, this is neither
 a sensible approach nor very interesting. The crucial point missing
 in Problem~\ref{ProbCR1} is that we want to do constructive recognition
-\emph{efficiently}. To express what we mean by that we use complexity
-theory. The class of problems is given by all possible tuples of
+\emph{efficiently}. To express what we mean by this we use complexity
+theory (see Section~\ref{sec:complexity}). 
+The class of problems is given by all possible tuples of
 generators of subgroups of our ambient groups. We have to specify
 what we mean by ``input size'':
 
@@ -121,7 +122,7 @@ and $q$ in all cases.
 
 \begin{Rem}
 Note that we use $\log_2(q)$ as one of the parameters of the input size
-rather than $q$ itself. The reason behind this is that one needs
+rather than $q$ itself. The reason for this is that one needs
 $\log_2(q)$ bits of data to store one finite field element of $\F_q$.
 This means that the amount of storage needed for the input matrices is
 proportional to $kn^2\log_2(q)$. Of course, the fact that the discrete
@@ -236,7 +237,7 @@ a further reduction.
 
 To make this recursion work we have to say quite carefully what has to
 happen at a non-leaf node $G$ such that we actually have solved the
-constructive recognition problem for the group $G$ at this node provided
+constructive recognition problem for the group $G$ at this node, provided
 we have solved the corresponding problem for the homomorphic image
 $H=\varphi(G)$ and the kernel $N = \ker(\varphi)$. Note that the problem
 in our first formulation in Problem~\ref{ProbCR1} could be solved
@@ -301,7 +302,7 @@ definition.
 \label{reducnode}
 Let $G = \left< g_1, \ldots, g_k \right> \le \GG$ be as in 
 Problem~\ref{ProbCR3}.
-We say that we have set up a \emph{reduction node} for $G$, if we have
+We say that we have set up a \emph{reduction node} for $G$ if we have
 performed the following steps:
 \begin{itemize}
 \item[(1)] Finding a surjective group homomorphism $\varphi : G \to H$ for
@@ -349,16 +350,16 @@ does not lie in $G$ by our assumptions in \ref{reducnode}.(1). Otherwise
 call the image $h \in H$. Note that in this case it can still be that
 $g$ is not contained in $G$, regardless whether $h$ lies in $H$ or not! 
 
-We then try to express $h$ as a straight 
+Then we try to express $h$ as a straight 
 line program $s_1$ in the nice generators $(h_1, \ldots, h_s)$ of $H$. If this
 \index{straight line program}\index{SLP}
-fails, then $h$ is not contained in $H$ and thus $g$ is not contained in
+fails, $h$ is not contained in $H$ and thus $g$ is not contained in
 $G$. Otherwise we evaluate $s_1$ with inputs
 $(h'_1, \ldots, h'_s)$, the preimages of the nice generators of $H$ under
-$\varphi$. If $g$ is contained in $G$, then the result $h'$ is a preimage 
+$\varphi$. If $g$ is contained in $G$, the result $h'$ is a preimage 
 under $\varphi$ of $h = \varphi(g)$. Thus $n := h'^{-1}\cdot g$ is contained
 in the kernel $N$ of $\varphi$. We try to express $n$ as a straight
-line program $s_2$ in $(n'_1, \ldots, n'_u)$. If this fails, then $n$
+line program $s_2$ in $(n'_1, \ldots, n'_u)$. If this fails, $n$
 \index{straight line program}\index{SLP}
 is not contained in $N$ and thus $g$ is not contained in $G$. Otherwise,
 we put together the straight line programs $s_1$ and $s_2$ to form
@@ -380,7 +381,7 @@ in Section~\ref{findhom} we describe a generic framework to organise the
 finding of reductions using a database of different methods. Finally we
 explain how this whole framework can be used to implement the
 asymptotically best algorithms for arbitrary permutation groups.
-The following chapters cover the question how to actually find reductions
+The following chapters cover the question how to find reductions
 and solve the constructive recognition problem for matrix groups and
 projective groups.
 
@@ -413,7 +414,7 @@ of $\varphi$. For this construction we have:
 \begin{Prop}[Even distribution of kernel elements]
 \label{evendistker}
 If $x_1, x_2, \ldots, x_m$ are evenly distributed random elements in $G$,
-then the above procedure produces evenly distributed random elements in
+the above procedure produces evenly distributed random elements in
 $N$.
 \end{Prop}
 \proofbeg
@@ -423,11 +424,11 @@ line program for every element $h \in H$ and the evaluation of those
 \index{straight line program}\index{SLP}
 programs on the preimages $(h'_1, \ldots, h'_s)$ thus chooses exactly one
 element of $G$ from each coset of $N$. Since the $x_i$ are evenly
-distributed in the whole of $G$ their images under $\varphi$ are
+distributed in the whole of $G$, their images under $\varphi$ are
 distributed evenly in $H$. Multiplying $x_i$ with the inverse of the
 chosen coset representative in the coset $x_iN$ amounts to mapping
 $x_i N$ bijectively onto $N$. Again by the even distribution of the $x_i$
-it follows, that the elements $y_i$ are evenly distributed in $N$.
+it follows that the elements $y_i$ are evenly distributed in $N$.
 \proofend
 
 \smallskip
@@ -437,17 +438,17 @@ a certain amount of random elements. Since every proper subgroup of $N$
 has index at least $2$ in $N$, the probability to increase the
 subgroup that is generated by the already produced elements is at least 
 $1/2$ for every new element. Thus the probability to find a generating
-set for the whole of $N$ is very high provided we produce enough random
-elements. We can then compute the normal closure using
+set for the whole of $N$ is very high, provided we produce enough random
+elements. Then we can compute the normal closure using
 the methods in \cite[Chapter 2]{Ser}, in particular
 \cite[Theorem~2.3.9]{Ser}.
 
 
 \medskip
-Sometimes, we not only recognise $H$ constructively in the sense of
-Problem~\ref{ProbCR3} but also find a presentation in terms of the 
-nice generators. This happens mostly but not exclusively if $H$ is an 
-almost simple group. In that case, we have the following result:
+Sometimes we not only recognise $H$ constructively in the sense of
+Problem~\ref{ProbCR3}, but also find a presentation in terms of the 
+nice generators. This happens mostly, but not exclusively, if $H$ is an 
+almost simple group. In this case we have the following result:
 
 \begin{Prop}[Kernel if a presentation of $H$ is known]
 \label{kernelpres}
@@ -469,7 +470,7 @@ Clearly, all the elements $y_i$ and $r'_i$ lie in $N$. Since $N$ is a
 normal subgroup of $G$, the normal closure $\tilde N$ of the group generated
 by $(y_1, \ldots, y_k, r'_1, \ldots, r'_m)$ is contained in $N$.
 
-On the other hand, every element $n$ of $N$ is a product of the generators
+On the other hand every element $n$ of $N$ is a product of the generators
 $g_i$. Thus, setting $n = g_{i_1} \cdots g_{i_t}$ for some numbers
 $i_j \in \{ 1, \ldots, k \}$, we get:
 \[ n = x_{i_1} x_{i_1}^{-1} g_{i_1} \cdots x_{i_t} x_{i_t}^{-1} g_{i_t}
@@ -483,10 +484,10 @@ of the subgroup generated by the $r'_i$ and thus $\tilde N = N$.
 \proofend
 
 \begin{Rem}[Computing the kernel with a given presentation of $H$]
-Using the results of the constructive recognition of $H$ together we
+Using the results of the constructive recognition of $H$ we
 can explicitly compute preimages $r'_i$ of the relations $r_i$ since
 the latter are given as straight line programs in terms of the nice
-\index{straight line program}\index{SLP}
+\index{straight line program}\index{SLP}%
 generators of $H$. Thus we can explicitly compute all the generators in
 Proposition~\ref{kernelpres}. The normal closure can be computed using
 the methods in \cite[Chapter 2]{Ser}, in particular
