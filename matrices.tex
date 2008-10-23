@@ -421,7 +421,7 @@ and a machine with a AMD Athlon 64 X2 Dual Core Processor 3800+ with 512 kB
 second level cache running at 2.0 GHz. The two Pentium 4 machines were
 equipped with memory modules with the same specifications (PC 3200, CL3). 
 
-In all runs, no other processes
+In all runs no other processes
 were consuming significant amounts of CPU time such that nothing should
 have interfered with the caches. Strangely enough, the two nearly identical
 machines show different performance. 
@@ -624,7 +624,7 @@ is no method that is better in all situations.
 \label{sec:matarith}
 \index{Matrix}%
 
-Traditionally, matrices are implemented in the {\sf GAP} system as
+Traditionally matrices are implemented in the {\sf GAP} system as
 lists of (row-) vectors. This means that the list object only
 holds references to the subobjects, which are the rows of the matrix.
 Therefore, one can for example permute rows very efficiently without
@@ -778,7 +778,7 @@ approximately $m(q-1)/q$ multiplications of a row vector by a non-zero
 scalar from\/ $\F_q$ plus $(m-1)(q-1)/q$ row vector additions, assuming that 
 about every $q$-th element of $v$ is equal to zero.
 \end{Theo}
-\Proof We first discuss the precomputation step to compute the greased
+\Proof First we discuss the precomputation step to compute the greased
 matrix. Since there are $q^\ell$ different linear combinations of $\ell$ 
 vectors the statement about the needed memory is clear.
 
@@ -1018,7 +1018,7 @@ to the area of the matrices involved (i.e.~it is only quadratic in the
 size of the matrices), it is clear that this will be worthwhile for 
 ``large'' matrices. For smaller matrices the administrative overhead
 might dominate the saving effect of the better complexity.
-In particular, the method is only good if $7$ multiplications of two $(n
+In particular the method is only good if $7$ multiplications of two $(n
 \times n)$-matrices plus the administrative overhead need in fact less
 time than one multiplication of two $(2n \times 2n)$-matrices.
 
@@ -1028,7 +1028,7 @@ This fact and the increasing effect of grease lead to the
 fact that for matrices over finite fields $n$ needs to be rather large
 for the above condition to be fulfilled. 
 
-Therefore, one has to test individually for each finite field and each
+Therefore one has to test individually for each finite field and each
 machine type, from which limit for $n$ on the Winograd method should
 be used. It seems that one can safely assume that provided it is 
 worthwhile for some $n_0$, it is also useful for all $n > n_0$. 
