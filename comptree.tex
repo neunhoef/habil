@@ -4,12 +4,12 @@
 \label{chap:comptree}
 
 After lots of preparations in the previous chapters
-in this chapter the main part of the whole book begins. We start to talk
+the main part of the whole book begins in this chapter. We start to talk
 about the recognition of matrix groups. We start by formulating
 the concept of ``constructive recognition'' and explain the reasoning
 behind it in Section~\ref{constrrecog}. In this section we develop
 a preliminary formulation of the main problem which will be refined
-in the next Section~\ref{recapproach}. There we explain the fundamental
+in the following Section~\ref{recapproach}. There we explain the fundamental
 approach to achieve
 constructive recognition by means of a ``composition tree''.
 The refinement of the formulation of the main
@@ -30,7 +30,7 @@ we find some set our matrix group is acting upon.
 The general approach to build a composition tree is not new and is
 already described in \cite{MatGrpProj}. What is new in our approach
 is first the abstraction to allow for different representations
-intermixed in the same composition tree and secondly the fact that
+intermixed in the same composition tree and second the fact that
 we change the generating set in each node of the composition tree
 which dramatically decreases the length of the resulting straight
 line programs. 
@@ -107,7 +107,7 @@ in Problem~\ref{ProbCR1} is that we want to do constructive recognition
 theory (see Section~\ref{sec:complexity}). 
 The class of problems is given by all possible tuples of
 generators of subgroups of our ambient groups. We have to specify
-what we mean by ``input size'':
+what we mean by ``input size''.
 
 \begin{Def}[Input size parameters]
 \label{inputsize}
@@ -117,7 +117,7 @@ $\PGL(n,q)$, then the input size of our problem is measured by $n$, $k$
 and $\log_2(q)$. If $\GG$ is the symmetric group on $n$ points then the
 input size is measured by $n$ and $k$. We silently set $q := 1$ in that
 case such that we can uniformly speak of the input size parameters $n$, $k$
-and $q$ in all cases.
+and $\log_2(q)$ in all cases.
 \end{Def}
 
 \begin{Rem}
@@ -140,13 +140,13 @@ impossible to find a method to express group elements in $G$ as straight
 programs in these generators. Usually, a recognition procedure first finds
 another ``nice'' generating tuple for $G$ for which a good constructive
 membership testing procedure is available. To solve the original problem,
-such recognition procedures remember, how they got the nice generating
+such recognition procedures remember how they got the nice generating
 tuple from the original generating tuple by means of a single, rather long
 straight line program.
 \index{straight line program}\index{SLP}%
 
 With the above notion of efficiency and these arguments in mind we can now 
-formulate a preliminary version of the constructive recognition problem:
+formulate another preliminary version of the constructive recognition problem.
 
 \begin{Problem}[Constructive recognition --- preliminary formulation]
 \label{ProbCR2}\index{constructive recognition}%
@@ -173,7 +173,7 @@ phase the \emph{(constructive) membership test phase}.
 
 The aim is that the algorithms for both phases have a runtime that is proved
 to be bounded by a fixed polynomial in the input size parameters $n$, $k$
-and $q$ in the sense of Definition~\ref{inputsize}.
+and $\log_2(q)$ in the sense of Definition~\ref{inputsize}.
 \proofend
 \end{Problem}
 
@@ -187,7 +187,7 @@ deterministically, even if this takes longer than the randomised
 recognition step. However, also the verification phase should have a
 \index{verification}%
 runtime that is proved to be bounded by a fixed polynomial in the input
-size parameters $n$, $k$ and $q$.
+size parameters $n$, $k$ and $\log_2(q)$.
 \end{Rem}
 
 \section{A recursive approach --- reductions}
@@ -206,8 +206,8 @@ are asymptotically better methods because the stabiliser chains are very long.
 
 Therefore one seeks \emph{reductions} in these cases. A reduction is
 a surjective group homomorphism $\varphi : G \to H$ that can be computed
-explicitly and for which $H$ is again a subgroup of a possibly different
-ambient group. In addition, the homomorphism $\varphi$ must either have
+explicitly and for which $H$ is a subgroup of a possibly different
+ambient group. In addition the homomorphism $\varphi$ must either have
 a non-trivial kernel or the group $H$ must be ``easier to handle'' in some
 sense. This can for example mean that one of the values $n$, $k$ and
 $q$ is smaller for $H$ than for $G$ while the others remain unchanged,
@@ -245,7 +245,7 @@ recursively in this way. However, for our formulation in Problem~\ref{ProbCR2}
 this is not possible since we can only express group elements in the nice
 generators and not in the original ones. This is the reason why we have to
 refine the formulation once more. This time we present the final
-formulation:
+formulation.
 
 \begin{Problem}[Constructive recognition --- final formulation]
 \label{ProbCR3}\index{constructive recognition!final formulation}%
@@ -261,7 +261,7 @@ We say that we have \emph{recognised $G$ constructively} if we have
 prepared a procedure that does the following: Given $g \in \GG$,
 decide whether $g \in G$ and if so, express $g$ as a straight line program
 \index{straight line program}\index{SLP}%
-in $(g'_1, \ldots, g'_l)$. Also, we have
+in $(g'_1, \ldots, g'_l)$. Furthermore, we have
 \item prepared a procedure that computes, given preimages $(p_1, \ldots,
 p_k)$ of $(g_1, \ldots, g_k)$ under some (surjective) homomorphism $\psi
 : \hat G \to G$ for some group $\hat G$, preimages under $\psi$ of the
@@ -282,7 +282,7 @@ phase the \emph{(constructive) membership test phase}.
 
 The aim is that the algorithms for both phases have a runtime that is proved
 to be bounded by a fixed polynomial in the input size parameters $n$, $k$
-and $q$ in the sense of Definition~\ref{inputsize}.
+and $\log_2(q)$ in the sense of Definition~\ref{inputsize}.
 
 In this book we refer to this problem as the \emph{constructive recognition
 problem (CRP)}.
@@ -347,7 +347,8 @@ generators is a generating tuple for $G$.
 Given $g \in \GG$, we can test membership in $G$ constructively as follows:
 First we try to map $g$ with $\varphi$. If this fails, the element $g$
 does not lie in $G$ by our assumptions in \ref{reducnode}.(1). Otherwise
-call the image $h \in H$. Note that in this case it can still be that
+call the image $h$, it lies in the ambient group of $H$. 
+Note that in this case it can still be that
 $g$ is not contained in $G$, regardless whether $h$ lies in $H$ or not! 
 
 Then we try to express $h$ as a straight 
@@ -355,7 +356,7 @@ line program $s_1$ in the nice generators $(h_1, \ldots, h_s)$ of $H$. If this
 \index{straight line program}\index{SLP}%
 fails, $h$ is not contained in $H$ and thus $g$ is not contained in
 $G$. Otherwise we evaluate $s_1$ with inputs
-$(h'_1, \ldots, h'_s)$, the preimages of the nice generators of $H$ under
+$(h'_1, \ldots, h'_s)$, which are preimages of the nice generators of $H$ under
 $\varphi$. If $g$ is contained in $G$, the result $h'$ is a preimage 
 under $\varphi$ of $h = \varphi(g)$. Thus $n := h'^{-1}\cdot g$ is contained
 in the kernel $N$ of $\varphi$. We try to express $n$ as a straight
@@ -409,7 +410,7 @@ and call $h := \varphi(g)$. Then find a straight line program $s$ reaching
 $h$ from $(h_1, \ldots, h_s)$ and evaluate it on $(h'_1, \ldots, h'_s)$
 to get an element $h' \in G$ with the property that
 $\varphi(g)=\varphi(h') = h$, thus $h'^{-1}\cdot g$ lies in the kernel $N$
-of $\varphi$. For this construction we have:
+of $\varphi$. For this construction we have the following result.
 
 \begin{Prop}[Even distribution of kernel elements]
 \label{evendistker}
@@ -419,11 +420,11 @@ $N$.
 \end{Prop}
 \proofbeg
 Since $H \cong G/N$, the elements of $H$ correspond to cosets of $N$ in
-$G$. Our constructive membership test in $H$ produces a unique straight
-line program for every element $h \in H$ and the evaluation of those
+$G$. Our constructive membership test in $H$ produces a straight
+line program for every element $h \in H$ and the evaluation of this
 \index{straight line program}\index{SLP}%
-programs on the preimages $(h'_1, \ldots, h'_s)$ thus chooses exactly one
-element of $G$ from each coset of $N$. Since the $x_i$ are evenly
+program on the preimages $(h'_1, \ldots, h'_s)$ thus chooses exactly one
+element of the coset $G$ of $N$ that is mapped to $h$. Since the $x_i$ are evenly
 distributed in the whole of $G$, their images under $\varphi$ are
 distributed evenly in $H$. Multiplying $x_i$ with the inverse of the
 chosen coset representative in the coset $x_iN$ amounts to mapping
@@ -448,7 +449,7 @@ the methods in \cite[Chapter 2]{Ser}, in particular
 Sometimes we not only recognise $H$ constructively in the sense of
 Problem~\ref{ProbCR3}, but also find a presentation in terms of the 
 nice generators. This happens mostly, but not exclusively, if $H$ is an 
-almost simple group. In this case we have the following result:
+almost simple group. In this case we have the following result.
 
 \begin{Prop}[Kernel if a presentation of $H$ is known]
 \label{kernelpres}
@@ -573,11 +574,11 @@ procedure chooses the next method called. If a method returns
 \texttt{NotApplicable}, then the method selection just calls the next
 method in the database. In the other two cases \texttt{false} and 
 \texttt{fail}, the method selection again starts with the highest ranked
-method, but skipping all methods that have already been tried and
+method, but skips all methods that have already been tried and
 have failed by returning either \texttt{false} or \texttt{fail}.
 
 When all available methods either have declared themselves
-\texttt{NotApplicable} or have failed, then the method selection 
+\texttt{NotApplicable} or have failed, the method selection 
 starts all over again, now calling methods again that have returned
 \texttt{fail} once, but of course skipping methods that have returned
 \texttt{false}. This whole process is repeated until each method has
@@ -599,7 +600,7 @@ returning \texttt{NotApplicable} newly applicable.
 
 In the {\GAP} system, information about a group $G$ is collected in
 so-called {\em attributes} (for example,
-a permutation group object may store an attribute whether it is transitive
+a permutation group object may store as an attribute whether it is transitive
 or not), but we may also acquire the information that 
 $G$ is simple or that it is solvable, or we may know $|G|$, etc. 
 Note that at any given time the value of an attribute for a given group
@@ -610,7 +611,7 @@ part of the {\GAP} system library.
 Further attributes may be
 computed when the method selection tries to apply
 different find homomorphism methods while processing the current group $G$.
-Therefore, a find homomorphism method can just look whether or not
+Therefore a find homomorphism method can just look whether or not
 a certain attribute is already known and then decide if it starts
 to work or declares itself \texttt{NotApplicable}. With new attributes
 being computed, this decision might be changed. By convention, a method
@@ -630,7 +631,7 @@ as described in Sections~\ref{recapproach} and \ref{findkernel}. In the
 other case a leaf in the composition tree is built and the find
 homomorphism method that returned \texttt{true} is responsible for the
 data and methods to do constructive membership testing in the group 
-of the node. In this way, a composition tree is built recursively using the
+of the node. In this way a composition tree is built recursively using the
 database of find homomorphism methods together with the generic code
 organising the recursive framework.
 
@@ -693,7 +694,7 @@ Schreier-Sims method does not necessarily find a shortest possible base.
 However, one can implement the method such that in the resulting
 stabiliser chain all inclusions are proper.
 Therefore we consider not the shortest possible base length but
-an upper bound for the length of a base:
+an upper bound for the length of a base.
 
 \begin{Prop}[Maximal base length]
 If $G \le S_n$ then every base of $G$, for which all inclusions in its
@@ -705,7 +706,7 @@ at least $2$.
 \proofend
 
 To formulate precise complexity statements we have to talk about families
-of permutation groups:
+of permutation groups.
 
 \begin{Def}[Families of small and large base groups]
     \label{SmallLargeBase}
@@ -732,7 +733,7 @@ permutation groups.
 \end{Rem}
 
 The motivation for the terms ``family of large/small base permutation
-groups'' is the following result:
+groups'' is the following result.
 
 \begin{Theo}[Complexity of the Schreier-Sims method]
 Let $\calF$ be a family of small base groups. Then a randomised version
@@ -816,7 +817,7 @@ to generate a subgroup of a repeated direct product than usual. Secondly,
 the system can use a special find homomorphism
 method for the kernel that produces a balanced composition tree, which 
 is more efficient both during the recognition phase and the membership
-testing phase. Here, the infrastructure in our framework to hand down 
+testing phase. Here the infrastructure in our framework to hand down 
 hints to kernel and homomorphic image of a homomorphism is used 
 extensively.
 
