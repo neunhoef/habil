@@ -110,9 +110,11 @@ matrix groups.
 
 The basic approach for the constructive recognition of matrix groups is
 to compute a so-called composition tree for $G$. The nodes of this binary 
+\index{composition tree}%
 tree are groups together with a homomorphism to another group, the two
 descendants of a node are the kernel and image of this homomorphism. The
 leaves of the tree are simple groups, in which the constructive recognition
+\index{leaf}%
 problem has to be solved by other means, and the root of the tree is $G$
 itself. The infrastructure of the tree is organised such that a solution to
 the constructive recognition problem for $G$ can be put together
@@ -138,9 +140,12 @@ in actual implementations. Together with \'Akos Seress we have started an
 implementation of the best known algorithms for group recognition in the
 {\GAP} computer algebra system (see \cite{GAP4}). This implementation comes
 in the form of two {\GAP} packages \textsf{recogbase} (see
+\index{recog package@\textsf{recog} package}%
+\index{recogbase package@\textsf{recogbase} package}%
 \cite{recogbase}) and \textsf{recog} (see \cite{recog})
 which are due to be published soon. The first provides a generic framework
 to implement composition trees in {\GAP} for arbitrary types of groups. 
+\index{composition tree}%
 One interesting feature of the generic framework is that the type of group
 can vary within a single composition tree. The
 second package tries to collects the best known methods for group
@@ -151,12 +156,14 @@ Thus, everybody who contributes implementations will be an author of the
 This book describes a major part of the algorithms used in both
 packages. For some methods, mainly for the leaves of the composition tree,
 the reader is however referred to the literature.
+\index{leaf}%
 
 Since the matrix group project is not yet finished, the present work
 cannot give a complete description of a solution to the constructive
 recognition problem. In particular for the leaves of the composition tree
 a lot of work and improvement of algorithms still has to be done, as is
 explained in some detail in Chapter~\ref{chap:leaves}.
+\index{leaf}%
 
 We have intentionally left out a number of topics which are related, mostly
 because research on them is not completed or not even in a state for a
@@ -173,6 +180,7 @@ have computational proofs of the results. The reason for this is that in
 fact very little work has been done on the actual implementation of
 verification routines. What is needed for this is basically good
 presentations for the groups occurring in the leaves. 
+\index{leaf}%
 Finally a global analysis of the
 whole procedure of building a composition tree is still needed. This seems
 achievable using estimates on the length of a composition series but is not

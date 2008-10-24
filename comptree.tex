@@ -2,6 +2,7 @@
 
 \chapter{Composition trees}
 \label{chap:comptree}
+\index{composition tree}%
 
 After lots of preparations in the previous chapters
 the main part of the whole book begins in this chapter. We start to talk
@@ -24,6 +25,7 @@ groups and projective groups, but also helps to implement
 the asymptotically best algorithms to handle permutation groups. In
 this framework we can switch between different representations of
 groups within one composition tree which allows for example to use 
+\index{composition tree}%
 permutation group methods during matrix group recognition, provided
 we find some set our matrix group is acting upon.
 
@@ -139,6 +141,7 @@ addition, for most generating tuples of $G$ it can be tedious if not
 impossible to find a method to express group elements in $G$ as straight
 programs in these generators. Usually, a recognition procedure first finds
 another ``nice'' generating tuple for $G$ for which a good constructive
+\index{nice generators}%
 membership testing procedure is available. To solve the original problem,
 such recognition procedures remember how they got the nice generating
 tuple from the original generating tuple by means of a single, rather long
@@ -192,6 +195,7 @@ size parameters $n$, $k$ and $\log_2(q)$.
 
 \section{A recursive approach --- reductions}
 \label{recapproach}
+\index{reduction}%
 
 Traditionally, the constructive recognition problem for permutation
 groups is solved by computing a stabiliser chain and a set of strong
@@ -216,6 +220,7 @@ less memory to store the generators for $H$ than those for $G$.
 Another possibility is that for a matrix group $G$ the homomorphic image
 $H$ is a permutation group.
 
+\index{reduction}%
 Having found a reduction $\varphi : G \to H$ one first tries to recognise
 $H$ constructively, then computes generators for the kernel $N$ of
 $\varphi$, recognises $N$ constructively and then puts everything together
@@ -226,6 +231,7 @@ Figure~\ref{comptreefig}), where the nodes correspond
 to subfactors of the original $G$ and where we have to recognise
 the groups in the leaf nodes constructively by other means without
 a further reduction.
+\index{leaf}%
 
 \begin{figure}
 \begin{center}
@@ -233,6 +239,7 @@ a further reduction.
 \end{center}
 \caption{A composition tree}
 \label{comptreefig}
+\index{composition tree}%
 \end{figure}
 
 To make this recursion work we have to say quite carefully what has to
@@ -267,6 +274,7 @@ p_k)$ of $(g_1, \ldots, g_k)$ under some (surjective) homomorphism $\psi
 : \hat G \to G$ for some group $\hat G$, preimages under $\psi$ of the
 nice generators $(g'_1, \ldots, g'_l)$.
 \end{itemize}
+\index{nice generators}%
 The new generating tuple may or may not be the same as the original one.
 The last point can for example be achieved by storing a straight line
 program that expresses $(g'_1, \ldots, g'_l)$ in terms of $(g_1, \ldots,
@@ -300,6 +308,7 @@ definition.
 
 \begin{Def}[Reduction node]
 \label{reducnode}
+\index{reduction}%
 Let $G = \left< g_1, \ldots, g_k \right> \le \GG$ be as in 
 Problem~\ref{ProbCR3}.
 We say that we have set up a \emph{reduction node} for $G$ if we have
@@ -314,6 +323,7 @@ returns either {\fail} or an arbitrary element in the ambient group of $H$.
 \item[(3)] Computing preimages $(h'_1, \ldots, h'_s) \in G^s$ under $\varphi$
 of the nice generators $(h_1, \ldots, h_s)$ of $H$ using the solution
 of (2).
+\index{nice generators}%
 \item[(4)] Computing generators $(n_1, \ldots, n_t) \in N^t$ with $N :=
 \ker(\varphi)$ together with a straight line program expressing
 $(n_1, \ldots, n_t)$ in terms of $(g_1, \ldots, g_k)$.
@@ -338,6 +348,7 @@ $\varphi$ is surjective and $N = \ker(\varphi)$.
 
 Recall that we call the tuple $(h'_1, \ldots, h'_s, n'_1, \ldots, n'_u)$
 the nice generators for $G$. Since 
+\index{nice generators}%
 \[ (\varphi(h'_1), \ldots, \varphi(h'_s))
 = (h_1, \ldots, h_s) \] 
 generates the epimorphic image $H$ of $G$ and
@@ -504,6 +515,7 @@ thereby fulfilling all requirements for a reduction node.
 
 \section{Finding homomorphisms and nice generators}
 \label{findhom}
+\index{nice generators}%
 
 During the recursive recognition procedure we have to solve
 Problem~\ref{ProbCR3} at every node of the composition tree, either
@@ -629,6 +641,7 @@ reduction or has solved the constructive recognition problem by other
 means. In the first case the generic machinery sets up a recognition node
 as described in Sections~\ref{recapproach} and \ref{findkernel}. In the
 other case a leaf in the composition tree is built and the find
+\index{leaf}%
 homomorphism method that returned \texttt{true} is responsible for the
 data and methods to do constructive membership testing in the group 
 of the node. In this way a composition tree is built recursively using the
@@ -816,6 +829,7 @@ create generators for the kernel since one needs often much more elements
 to generate a subgroup of a repeated direct product than usual. Secondly,
 the system can use a special find homomorphism
 method for the kernel that produces a balanced composition tree, which 
+\index{composition tree!balanced}\index{balanced tree}%
 is more efficient both during the recognition phase and the membership
 testing phase. Here the infrastructure in our framework to hand down 
 hints to kernel and homomorphic image of a homomorphism is used 

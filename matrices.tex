@@ -37,6 +37,7 @@ storing one such element on a computer needs only $\lceil \log_2(p)
 \rceil$ bits. The finite extension field  $\F_q$ with $q = p^k$ elements 
 is built
 as quotient $\F_p[x]/c_k \F_p[x]$ using the Conway polynomial
+\index{Conway polynomial}%
 $c_k$ (see \cite{Nickel} or on the web at \cite{ConwayFL}). Since the
 Conway polynomials are monic by definition, an element
 of\, $\F_q$ can be represented by a polynomial over\, $\F_p$ of degree 
@@ -142,6 +143,7 @@ exactly the same values as above. Here we have to store $k$ prime field
 elements for every element of $\F_q = \F_p[x]/c_k\F_p[x]$, namely the 
 coefficients of the unique residue class representative of degree smaller 
 than $k$, where $c_k$ is the Conway polynomial used to construct the 
+\index{Conway polynomial}%
 finite field extension $\F_q$ over $\F_p$ (for details see \cite{Nickel}
 or on the web \cite{ConwayFL}). Namely, if $a \in \F_q$ is represented by
 the polynomial $\sum_{i=0}^{k-1} a_i x^i$, we have to store the prime 
@@ -312,6 +314,7 @@ All this can be done with at most $2(e-2)$ vector additions.
 
 We now proceed to the extension field case $\F_q = \F_p[x]/c_k \F_p[x]$ 
 with the Conway polynomial $c_k$ and $q = p^k$.
+\index{Conway polynomial}%
 Here a scalar $s \in \F_q$ is represented by an expansion
 $s = \sum_{i=0}^{k-1} s_i x^i + c_k \cdot \F_p[x]$ again. For the rest of this
 section we omit the ``$+ c_k \cdot \F_p[x]$'' and denote cosets
@@ -432,6 +435,7 @@ obviously involving parameters which cannot easily be determined.
 For a discussion of these results see below.
 
 To demonstrate the effect of second level caches, we used different 
+\index{cache}%
 lengths of vectors. We used vectors using $32 \cdot 10^6$ bytes each in
 order to make sure that none of the data is in the second level cache,
 and vectors using $125000$ and $62500$ bytes each to make sure that
@@ -721,6 +725,7 @@ all one can say. However, in a situation in which we apply one given
 matrix repeatedly to lots of vectors (for example during matrix 
 multiplication (see below) or when enumerating orbits), there is a
 trick called ``grease'', which was invented by Richard Parker and 
+\index{grease}%
 others (see for example \cite[Algorithm 6.2]{ahohop}).
 
 The idea is that if the base field is small, there are not so many
@@ -737,6 +742,7 @@ $\ell$ of elements in each group is called ``grease level''.
 \input{grease.pstex_t}
 \end{center}
 \caption{Illustration for Vector-matrix multiplication and grease}
+\index{grease}%
 \label{grease}
 \end{figure}
 
@@ -749,12 +755,14 @@ call such a submatrix a ``grease block''.
 To do grease level $\ell$, we compute all possible linear combinations of
 each block of $\ell$ rows and store them. If we have computed and stored
 all this data, we call the matrix ``greased''.
+\index{grease}%
 Then a vector-matrix multiplication
 with this matrix only has to perform $\lceil m/\ell \rceil -1$ vector additions
 of looked up vectors. More precisely, we have the following result.
 
 \begin{Theo}[Grease: expected cost and gain]
 \label{theogrease}
+\index{grease}%
 Let $M$ be a matrix with $m$ rows and $n$ columns over the field\/ $\F_q$
 for $q = p^k$, and let $\ell \in \Z_{> 0}$.
 
@@ -880,6 +888,7 @@ automatically, we only come back to this below briefly.
 For some additional discussion of this topic see Section~\ref{sec:cache}. 
 
 The third method is to use the methods of Strassen and Winograd to
+\index{Strassen}\index{Winograd}%
 get a lower exponent than $3$ in the complexity of matrix multiplication
 of square matrices.
 
@@ -913,6 +922,7 @@ Furthermore, the advantage of grease
 grows with the matrix size.
 
 To optimise this, a calibration phase is done once and for all: For all finite
+\index{calibration}%
 fields separately, a procedure determines, how long a multiplication
 of a vector by an arbitrary scalar and the primitive root respectively
 takes in comparison to an addition of two vectors.
@@ -944,6 +954,7 @@ typical and holds also for other finite fields.
 \end{center}
 \caption{Multiplication times over $\F_2$ against matrix dimension
 using grease}
+\index{grease}%
 \label{matmulgrease}
 \end{figure}
 
@@ -955,6 +966,7 @@ using grease}
 using grease
 (magnification)}
 \label{matmulgrease_scaled}
+\index{grease}%
 \end{figure}
 
 The actual measurements are depicted by little $\times$ signs and
@@ -995,6 +1007,7 @@ analysis). For square $(n \times n)$-matrices this is the classical
 $O(n^3)$ complexity for the number of field operations.
 
 We now discuss methods by Strassen and Winograd to reduce this complexity
+\index{Strassen}\index{Winograd}%
 for large matrices. These methods apply in practice only to square matrices.
 The basic idea is that it is possible to multiply two $(2 \times 2)$-matrices
 using only $7$ multiplications instead of $8$ in the standard approach.
@@ -1003,6 +1016,7 @@ $(2n \times 2n)$-matrices means cutting both into $4$ blocks of
 $(n\times n)$-matrices each and computing the whole product by computing
 $7$ matrix products of $(n \times n)$-matrices. For details of the
 procedures developed by Strassen and Winograd see \cite[4.6.4]{AOCP2}.
+\index{Strassen}\index{Winograd}%
 With their help one can reduce the theoretical complexity for the 
 multiplication of two $(n \times n)$-matrices from $O(n^3)$
 to $O(n^{\log_2(7)}) \approx O(n^{2.807})$. 
@@ -1011,6 +1025,7 @@ further, but they seem to be of theoretical interest only (see
 also \cite[4.6.4]{AOCP2}).
 
 Using the Winograd method recursively needs a certain amount of
+\index{Winograd}%
 additional administration, mostly cutting bigger matrices into smaller
 ones and copying the smaller intermediate results back into the
 bigger result. Since the cost of all this administration is proportional
@@ -1070,6 +1085,7 @@ $n$ & Wino 0 & Wino 1 & Wino 2 & Wino 3 \\
 \end{center}
 \caption{Matrix multiplication times over $\F_2$ using Winograd}
 \label{MatMulWinograd2}
+\index{Winograd}%
 \end{table}
 
 One can observe that it is not true that the bigger the matrices are
@@ -1114,6 +1130,7 @@ $n$ & Wino 0 & Wino 1 & Wino 2 & Wino 3 \\
 \end{center}
 \caption{Matrix multiplication times over $\F_3$ using Winograd}
 \label{MatMulWinograd3}
+\index{Winograd}%
 \end{table}
 
 A good theoretical explanation of these findings is difficult, in
@@ -1237,6 +1254,8 @@ above.
 % The behaviour for other finite fields is similar. 
 The {\cvec} package
 contains an implementation of the Winograd method and uses a calibration
+\index{calibration}%
+\index{Winograd}%
 phase to determine for every finite field with $q \le 1024$ from which
 size the method is worth doing. In fact, there are two implementations
 of this method, one using more memory and less administrative overhead
@@ -1508,6 +1527,7 @@ the pattern observed above.
 % 
 \section{Cache issues}
 \label{sec:cache}
+\index{cache}%
  
 All modern microprocessors have built in caches, most of them more than
 one. For our purposes the second level cache is crucial. The potential

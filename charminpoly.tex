@@ -5,6 +5,7 @@
 
 \chapter{Computing characteristic and minimal polynomials}
 \label{chap:charminpoly}
+\index{characteristic polynomial}\index{minimal polynomial}%
 
 This chapter is about the computation of characteristic and minimal
 polynomials of matrices over finite fields. The contents of this
@@ -141,7 +142,7 @@ the constants involved.
 On a practical note,  the minimal polynomial algorithm implemented in the GAP library
 is the one in \cite{Steel} and (although we have been unable to 
 confirm this) we assume that this is the algorithm implemented 
-in Magma \cite{Magma}. 
+in {\MAGMA} \cite{Magma}. 
 
 \subsection{Outline of the paper}
 In Section~\ref{notation} we introduce our notation, in
@@ -165,7 +166,7 @@ of an implementation of our algorithm, including runtimes in
 realistic applications.  We compare these
 times with the current implementation for minimal polynomial computations
 in the {\sf GAP} library (see \cite{GAP4}), and as mentioned above, we 
-believe that Magma and {\sf GAP} are both using the algorithm in 
+believe that {\MAGMA} and {\sf GAP} are both using the algorithm in 
 \cite{Steel}. We show that our algorithm performs
 much better in important cases, and that our bounds on the computing
 cost are reflected in practical experiments.
@@ -182,6 +183,7 @@ estimates from Section~\ref{probest} that are only valid for
 finite fields.
 
 By an \emph{elementary field operation} 
+\index{elementary field operation}%
 we mean addition, subtraction, multiplication or division of two field 
 elements.
 In all our runtime bounds we will assume that one elementary
@@ -307,8 +309,8 @@ conveniently in \cite{vzG}.
 %\end{Not}
 
 \begin{Prop}[Complexity of standard greatest common divisor algorithm]
-\label{standardgcd}\mbox{}
-
+\label{standardgcd}
+\index{Gcd@\textsc{Gcd}}%
 Let $f,g \in \F[x]$ with $n := \deg f \ge \deg g =: m$, and $f = qg + r$
 with $q,r \in \F[x]$ such that $r=0$ or $\deg r < \deg g$. Then there is an
 algorithm to compute $q$ and $r$ that needs less than $2(m+1)(n-m+1)$ 
@@ -349,6 +351,7 @@ smaller bounds that imply our symmetric bounds.
 \proofend
 
 \subsection{Polynomial factorisation}\label{polyfactn}
+\index{polynomial factorisation}\index{factorisation!of polynomials}%
 
 Some of our algorithms return partially factorised polynomials
 which facilitate later factorisation into
@@ -416,6 +419,8 @@ We briefly recall the definition of the term ``order polynomial'':
 \begin{Def}[Order polynomial $\ord_M(v)$ and relative order polynomial]
 {\rm
 The \emph{order polynomial} $\ord_M(v)$ of a vector $v \in V$ is the
+\index{order polynomial}%
+\index{relative order polynomial}\index{order polynomial!relative}%
 monic polynomial $p \in \F[x]$ of smallest degree such that $v \cdot
 p(M) = 0 \in V$. In particular $\ord_M(0)=1$.
 
@@ -436,6 +441,7 @@ The following observation follows immediately from the definition above.
 
 \begin{Lemm}[Relative order polynomials]
 \label{relorderpol}
+\index{relative order polynomial}\index{order polynomial!relative}%
 For an $M$-invariant subspace  $W < V$ and $v\in V$, 
 $\ord_M(v+W)$ is the monic polynomial $p \in \F[x]$ of smallest degree such 
 that $v \cdot p(M) \in W$.
@@ -463,6 +469,7 @@ the systems of linear equations involved.
 
 \begin{Def}[Row semi echelon form]
     \label{rowsemiechelon}
+\index{row semi echelon form}%
 {\rm
     A non-zero matrix $S = (S_{i,j}) \in \F^{m \times n}$ is in 
     \emph{row semi echelon form} if there are positive 
@@ -484,6 +491,7 @@ form.
 
 \begin{Def}[Semi echelon data sequence]
     \label{semiecheseq}
+\index{semi echelon data sequence}%
 {\rm    Let $Y \in \F^{m \times n}$ be a matrix with $m \le n$ and of rank $m$. A 
     \emph{semi echelon data sequence for $Y$} is a tuple $\calY=
 (Y,S,T,l)$, where
@@ -533,6 +541,7 @@ row space of $S$.
 
 \begin{algorithm}
 \caption{$\quad$ \sc CleanAndExtend}
+\index{CleanAndExtend@\textsc{CleanAndExtend}}%
 \label{clean}
 \begin{algorithmic}
 \STATE \textbf{Input:} A semi echelon data sequence $\calY=(Y,S,T,l)$ with 
@@ -570,6 +579,7 @@ and $a'\in\F^{\len (\calY')}$, such that $v = a'S'$.
 
 \begin{Prop}[Correctness and complexity of Alg.~\ref{clean}:
 \label{PropCleanAndExtend}{\sc CleanAndExtend}]
+\index{CleanAndExtend@\textsc{CleanAndExtend}}%
 The output of Algorithm~\ref{clean} satisfies the Output
 specifications.
 %If Algorithm~\ref{clean} returns $(${\sc True}, $\calY,a)$, then $v\in\rsp
@@ -646,6 +656,7 @@ echelon data sequence, (see Remark~\ref{rem:seds}~(b)).
 \begin{algorithm}[t]
 \caption{$\quad$ \sc RelativeOrdPoly}
 \label{algordpoly}
+\index{RelativeOrdPoly@\textsc{RelativeOrdPoly}}%
 \begin{algorithmic}
 \STATE \textbf{Input:} A semi echelon data sequence $\calY=(Y,S,T,l)$ with 
 $Y,S \in \F^{m \times n}$ (possibly $m=0$),
@@ -682,8 +693,7 @@ bY'$.
 \begin{Prop}[Correctness and complexity of Alg.~\ref{algordpoly}:
 {\sc RelativeOrdPoly}]
 \label{proprelorderpol}
-
-\mbox{}\par
+\index{RelativeOrdPoly@\textsc{RelativeOrdPoly}}%
 Let $\calY=(Y,S,T,l)$ be a semi echelon data sequence with $Y,S \in \F^{m \times
 n}$ (possibly $m=0$), $v \in \F^n$, and $M \in \F^{n \times n}$
 such that $W:=\rsp(Y)$ is $M$-invariant. 
@@ -834,7 +844,8 @@ the characteristic polynomial of a matrix together with its analysis.
 It differs from the standard version in its use of randomisation. 
 
 \subsection{Random vectors}\label{random}
-
+\index{RandomVector@\textsc{RandomVector}}%
+\index{RandomVector*@\textsc{RandomVector*}}%
 Our characteristic polynomial algorithm, and later ones, 
 make use of the algorithms {\sc Ran\-dom\-Vec\-tor} and 
 {\sc RandomVector*} that produce independent uniformly 
@@ -894,6 +905,7 @@ matrix in $F^{n \times n}$ acting naturally on $V := \F^n$.
 \begin{algorithm}
 \caption{$\quad$ \sc CharPoly}
 \label{algcharpoly}
+\index{CharPoly@\textsc{CharPoly}}%
 \begin{algorithmic}
 \STATE \textbf{Input:} $M \in \F^{n\times n}$
 \STATE \textbf{Output:} 
@@ -929,7 +941,8 @@ specified in Proposition~\ref{propcharpoly}.
 
 \begin{Prop}[Correctness and complexity of Algorithm~\ref{algcharpoly}]
 %: {\sc CharPoly}]
-\label{propcharpoly}\mbox{}
+\label{propcharpoly}
+\index{CharPoly@\textsc{CharPoly}}%
 Algorithm~\ref{algcharpoly} satisfies
 the Output specifications, and furthermore
 $\calY=(Y,S,T,l)$ where
@@ -1135,7 +1148,6 @@ $q_i$ has equal mult.~in $\mu_{M,V}$
 and $\ord_M(v)$]
 \label{ProbOneMult}
 
-\mbox{}\par
 Let $\F = \F_q$ be a finite field with $q$ elements, let $V=\F^n$, let
 $U$ be a (possibly zero) $M$-invariant subspace such that the multiplicity of
 $q_i$ in $\mu_{M,U}$ is strictly smaller than in $\mu_{M,V}$, and let 
@@ -1203,8 +1215,6 @@ orders of these vectors.
 \begin{Prop}[Probability that an lcm of order polynomials equals
 $\mu_{M,V}$]
 \label{ProbAllMult}
-
-\mbox{}\par
 Let\/ $\F = \F_q$ be a finite field with $q$ elements.
 Suppose a sequence of vectors $v^{(1)}, \ldots, v^{(u)} \in V$ is chosen
 as follows: $v^{(1)}$ is a uniformly
@@ -1348,6 +1358,7 @@ is given as input to the algorithm.
 \begin{algorithm}
 \caption{$\quad$ \sc OrdPoly}
 \label{algordpolabs}
+\index{OrdPoly@\textsc{OrdPoly}}%
 \begin{algorithmic}
 \STATE \textbf{Input:} $M$, $k$, $(Y,S,T,l)$, $(p^{(j)})_{1 \le j \le k}$,
 $(b^{(j)})_{1 \le j \le k}$ as returned by {\sc CharPoly}, an integer
@@ -1379,8 +1390,7 @@ of which is $\ord_{YMY^{-1}}(v)$
 \begin{Prop}[Correctness and complexity of Algorithm~\ref{algordpolabs}:
 {\sc OrdPoly}]
 \label{propordpol}
-
-\mbox{}\par
+\index{OrdPoly@\textsc{OrdPoly}}%
 Let $\F = \F_q$ be a field with $q$ elements.
 The output of Algorithm~\ref{algordpolabs} satisfies the Output specifications.
 Moreover, Algorithm~\ref{algordpolabs}
@@ -1496,6 +1506,7 @@ Now we present our main procedure, Algorithm~\ref{algminpolymc}.
 \begin{algorithm}
 \caption{$\quad$ \sc MinPolyMC}
 \label{algminpolymc}
+\index{MinPolyMC@\textsc{MinPolyMC}}%
 \begin{algorithmic}
 \STATE \textbf{Input:} $M \in \F_q^{n \times n}$, $\varepsilon$ with
 $0 < \varepsilon < 1/2$.
@@ -1527,8 +1538,7 @@ Proposition~\ref{propminpoly} for details).
 
 \begin{Prop}[Correctness and complexity of Algorithm~\ref{algminpolymc}:
 {\sc MinPolyMC}]\label{propminpoly}
-
-\mbox{}\par
+\index{MinPolyMC@\textsc{MinPolyMC}}%
 Given a matrix $M \in \F_q^{n \times n}$ and a number
 $\varepsilon$ with $0 < \varepsilon < 1/2$, Algorithm~\ref{algminpolymc}
 returns a tuple $(b,f)$, where $b$ is either {\sc True} or {\sc Uncertain}
@@ -1689,8 +1699,6 @@ is given in the proof of Proposition~\ref{propminpoly}.)
 \begin{Prop}[Case of few random vectors chosen during comp.~of
 $\chi_{M,\F_q^n}$]
 \label{veryfewvectors}
-
-\mbox{}\par
 If $k \le \sqrt{n}$,  and the {\bf for} loop in 
 Algorithm~\ref{algminpolymc} is run $k$ times, then the output polynomial
 is $\mu_{M,\F_q^n}$. The 
@@ -1721,7 +1729,6 @@ Proposition~\ref{eval}, and the second using null space computations is
 given in Proposition~\ref{propverify}.
 
 \begin{Prop}[Verification by evaluation on vectors]\label{eval}
-    \mbox{}\par
 \index{verification}%
     For the output $(\textsc{Uncertain},f)$ of Algorithm~\ref{algminpolymc} 
     one can verify $f = \mu_{M,\F_q^n}$ using
@@ -1747,7 +1754,7 @@ with coefficient $2d(k-j+1)$. Thus the second term is at most
 2dn(u+1)(k-u) + 2dn(k-u)(k-u-1)/2 = dn(k-u)(k+u+1). 
 \]
 Adding this to the upper bound for the first term we get at most
-$dn(k-u)(k+u+4)$ as claimed.
+$dn(k-u)(k+u+4)$ as claimed in the proposition.
 \proofend
 
 \medskip
@@ -1802,7 +1809,7 @@ deterministically.
 \begin{algorithm}
 \caption{$\quad$ \sc MinPoly verification}
 \label{algminpolyverify}
-\index{verification}%
+\index{verification}\index{MinPoly Verification@\textsc{MinPoly Verification}}%
 \begin{algorithmic}
 \STATE \textbf{Input:} $M \in \F^{n \times n}$, $\chi_{M,V} = \prod_{i=1}^t q_i^{e_i}$ (factorised), 
 and a candidate $\prod_{i=1}^t q_i^{f_i}$ for $\mu_{M,\F_q^n}$ (factorised),
@@ -1824,8 +1831,8 @@ Proposition~\ref{propverify} for details).
 \end{algorithm}
 
 \begin{Prop}[Deterministic minimal polynomial verification]
-\label{propverify}\mbox{}
-\index{verification}%
+\label{propverify}
+\index{verification}\index{MinPoly Verification@\textsc{MinPoly Verification}}%
 
 If Algorithm~\ref{algminpolyverify} is called with candidate minimal polynomial
 $\prod_{i=1}^t q_i^{f_i}$ from Algorithm~\ref{algminpolymc}, 
@@ -1916,7 +1923,7 @@ All computations were done on a machine with an Intel Core 2 Quad CPU Q6600
 running at 2.40 GHz with 8 GB of main memory and two times 4 MB of second level
 cache. 
 
-We were unable to confirm that Magma \cite{Magma} 
+We were unable to confirm that {\MAGMA} \cite{Magma} 
 uses an algorithm  based on the canonical forms algorithm of Alan
 Steel presented in~\cite{Steel} for computing minimal 
 polynomials, although this is indicated in~\cite[Abstract]{Steel} and on the
@@ -1924,12 +1931,12 @@ web\\ %
 (see \texttt{http://magma.maths.usyd.edu.au/magma/htmlhelp/text347.htm}).
 
 Our colleague Colva Roney-Dougal kindly
-ran the Baby Monster example matrix $M_2$ on Magma and the resulting
+ran the Baby Monster example matrix $M_2$ in the {\MAGMA} system and the resulting
 times were roughly equivalent to the timing in the column ``Lib'' of
 Figure~\ref{timings}, suggesting that this is indeed the case. Since the
 minimal polynomial algorithm in the {\sf GAP} library is also based on 
 the algorithm in \cite{Steel}, we did not conduct extensive comparison tests of our
-algorithm on Magma.
+algorithm on {\MAGMA}.
 
 \subsection{Guide to the test data}
 The timing results
@@ -1993,7 +2000,7 @@ $2$, $2277$, $4$, $1$, $1$, $1$, $1$, $1$ and $1$.
 Therefore the standard algorithm spins up large subspaces
 many times.
 
-(c)\quad The matrices $M_3$ -- $M_7$ were constructed in the following way:
+(c)\quad The matrices $M_3$ to $M_7$ were constructed in the following way:
 In the language of $\F[x]$-modules we chose the order polynomials of
 the generators of their primary cyclic submodules, that is we chose the
 minimal polynomials on the primary cyclic submodules. For irreducible factors

@@ -75,8 +75,9 @@ If a homomorphism is found then the kernel and image are treated
 separately, eventually producing a
 \emph{composition tree}, whose leaves are either simple groups or
 groups that can be constructively  recognised by other means.
+\index{leaf}%
 
- Let 
+Let 
 $\overline{G} \leq \PGL(d, q)$ be the corresponding projective group. 
 In this chapter we present a fully analysed, polynomial-time Las
 Vegas algorithm to find a reduction for the case that  $G$ or $\overline{G}$
@@ -2195,6 +2196,7 @@ where $s = O(\log \delta^{-1} + d\log q)$.
 
 All of our algorithms have been implemented in the
 forthcoming \textsf{GAP} package \textsf{recog} for constructive group 
+\index{recog package@\textsf{recog} package}%
 recognition. In general 
 we make $\lfloor (d\log q)/20 \rfloor$
 random elements when producing generators for $N$ (see
@@ -2208,7 +2210,9 @@ most cases.
 In Table~\ref{subsemi:timings} we give timing results. 
 All experiments have been done on a machine with an Intel Core2 Quad 
 CPU Q6600 running at 2.40GHz with 8~GB of main memory using the
-development version of \textsf{GAP} and the \textsf{recog} package.  All times are in milliseconds and were
+development version of \textsf{GAP} and the \textsf{recog} package. All
+times are in milliseconds and were
+\index{recog package@\textsf{recog} package}%
 averaged over several runs. Note that due to randomisation the runtimes
 can vary significantly between runs.
 
