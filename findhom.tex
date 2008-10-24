@@ -3,7 +3,7 @@
 \chapter{Finding homomorphisms}
 \label{chap:findhom}
 
-In the previous Chapter~\ref{chap:comptree} we have formulated the problem
+In the previous Chapter~\ref{chap:comptree} we formulated the problem
 of constructive recognition of groups in Problem~\ref{ProbCR3} and have
 explained what a reduction is. This chapter describes how to find
 reductions for matrix groups and projective groups and how to prove
@@ -22,7 +22,7 @@ Aschbacher's theorem
 about the subgroup structure of the classical groups, which we describe
 in detail for the case of $\GL(n,q)$ in Section~\ref{sect:aschbacher},
 and the second is the classification of finite simple groups together
-with the classification of their absolutely irreducible modular matrix
+with the known results about their absolutely irreducible modular matrix
 representations. We are
 content with the statements in Aschbacher's theorem about the general
 linear group since they suffice for the purposes of constructive
@@ -35,9 +35,9 @@ classes \CC1 to \CC7 of subgroups, or it contains a classical group
 in its natural representation, or it is an almost simple group modulo
 scalars.
 
-All the classes \CC1 to \CC7 are somehow defined in a geometric way
+For the classes \CC1 to \CC7 the geometric way in which they are defined
 (compare
-Sections~\ref{descD1} to \ref{descD7}) and thus promise some kind of
+Sections~\ref{descD1} to \ref{descD7}) promises some kind of
 reduction. The two other cases are covered by two further classes \CC8
 and \CC9, which are described in Sections~\ref{descD8} and \ref{descD9}.
 For members of the latter two classes one will usually have to solve the
@@ -72,15 +72,15 @@ But we have also added further conditions on the groups
 in our classes \DD1 to \DD9 for three reasons. The first is that we
 wanted those classes that were difficult to handle algorithmically
 to be smaller, in order to make it easier to devise algorithms for
-the new classes. The second is that we wanted that the classes are
-``more disjoint'', that is, fewer groups lie in more than one
+the new classes. The second is that we wanted the classes to be
+``more disjoint'', so that fewer groups lie in more than one
 class. The third reason is that some more conditions on the groups in
 the classes immediately come out of the proof in the $\GL(n,q)$ case.
 
 The purpose of this chapter is to explain the statement of our variant 
 of Aschbacher's 
 theorem for $\GL(n,q)$ in detail, to give a proof and to give an
-overview over the known methods to deal with the different classes
+overview of the known methods to deal with the different classes
 together with references to the literature. Furthermore we present new 
 ideas to handle classes \DD2, \DD4 and \DD7, which seem to work very
 well in practice, but are not yet fully analysed with respect to their
@@ -100,8 +100,8 @@ Note again that we restrict ourselves to the general linear group
 throughout, which is only a special case of Aschbacher's theorem.
 
 \begin{Not}
-For this section we fix $n \in \N$ and $q=p^e$ for a prime $p$ and
-talk about the group $\GL(n,q)$. We denote the vector space $\F_q^{1
+For this section we fix $n \in \N$ and $q=p^e$ for a prime $p$.
+We denote the vector space $\F_q^{1
 \times n}$ by $V$ and note that $\GL(n,q)$ acts from the right on $V$ by
 vector-matrix multiplication.
 \end{Not}
@@ -153,15 +153,15 @@ to \ref{descD9}.
 We proceed with our definition of the subgroup classes \DD1 to \DD9. Throughout
 we denote for a subgroup $G \le \GL(n,q)$ its subgroup of scalar matrices
 by $Z$, that is, $Z := Z(\GL(n,q)) \cap G$. For each class we either
-give an alternate structural description or at least give the structure 
-of some ``typical'' example groups in that class.
+give an alternative, more structural definition, or at least give the
+structure of some ``typical'' example groups in that class.
 
 \subsection{Description of class \DD1: ``reducible''}
 \label{descD1}
 
 \newcommand{\desc}[1]{\begin{center}\fbox{\parbox{5.3in}{#1}}\end{center}}
 \newcommand{\diffasch}[1]{\textbf{Differences to Aschbacher's class \CC#1:}}
-\newcommand{\stru}{\textbf{Alternate structure description:}\par}
+\newcommand{\stru}{\textbf{Alternative definition:}\par}
 \newcommand{\exmemb}{\textbf{Example members:}\par}
 
 \desc{
@@ -252,7 +252,7 @@ $V$ is irreducible but not absolutely irreducible (see \cite[(29.13)]{CR0}).
 
 \medskip
 \diffasch3
-We include in \DD3 subgroups of the members of \CC3, but we exclude all
+We include in \DD3 subgroups of the members of \CC3 excluding all
 groups acting reducibly.
 
 \smallskip
@@ -282,7 +282,7 @@ A group $G \le \GL(n,q)$ lies in class \DD4 if the natural module $V$ is
 absolutely irreducible and $G$ has a normal subgroup $N$
 such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
 $k \ge 2$ modules which are all isomorphic to a single absolutely irreducible 
-$\F_q N$-module $W$.
+$\F_q N$-module $W$ with $\dim_{\F_q}(W) > 1$.
 }
 
 \diffasch4
@@ -298,7 +298,7 @@ The group $\GL(d_1,q) \circ \GL(d_2,q)$ is the central
 product of $\GL(d_1,q)$ and $\GL(d_2,q)$ for $d_1 \cdot d_2 = n$ and
 thus is contained in $\GL(n,q)$. It is
 the set of Kronecker products of a matrix in $\GL(d_1,q)$ and one in
-$\GL(d_2,q)$. These groups are members in \DD4.
+$\GL(d_2,q)$. These groups are members in \DD4 if $1 < d_1 < n$.
 
 
 \subsection{Description of class \DD5: ``subfield''}
@@ -404,13 +404,16 @@ A group $G \le \GL(n,q)$ lies in \DD8 if $G/Z$ contains a classical simple
 group in its natural representation in one of the following ways:
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item $G/Z$ contains $\PSL(n,q)$ and $(n,q) \notin \{(2,2),(2,3)\}$,
-\item $n$ is even, $G$ is contained in $\Sp(n,q)$ for some non-singular 
+\item $n$ is even, $G$ is contained in $N_{\GL(n,q)}(\Sp(n,q))$ 
+for some non-singular 
 symplectic form, $G/Z$ contains $\PSp(n,q)$ and $(n,q) \notin           
 \{(2,2),(2,3),(4,2)\}$,
-\item $q$ is a square, $G$ is contained in $U(n,q)$ for some non-singular 
-Hermitian form, $G/Z$ contains $\PSU(n,q)$ and $(n,q) \notin \{ (2,4),
-(2,9), (3,4) \}$,
-\item $G$ is contained in $O^\epsilon(n,q)$, the corresponding
+\item $q$ is a square, $G$ is contained in $N_{\GL(n,q)}(SU(n,q^{1/2}))$ 
+for some non-singular 
+Hermitian form, $G/Z$ contains $\PSU(n,q^{1/2})$ and $(n,q^{1/2}) 
+\notin \{ (2,2), (2,3), (3,2) \}$,
+\item $G$ is contained in $N_{\GL(n,q)}(\Omega^\epsilon(n,q))$, 
+the corresponding
     $\POmega^\epsilon(n,q)$ is simple and contained in $G/Z$.
     $\POmega^\epsilon(n,q)$ is simple if and only if
     \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
@@ -423,7 +426,7 @@ Hermitian form, $G/Z$ contains $\PSU(n,q)$ and $(n,q) \notin \{ (2,4),
 }
 
 \textbf{Note:} For the orthogonal groups the given restrictions on $(n,q)$
-are necessary for $\POmega^{(\pm)}(n,q)$ to be simple, see
+are necessary for $\POmega^{(\epsilon)}(n,q)$ to be simple, see
 \cite[Section~2.4]{ATLAS} for details.
 
 \medskip
@@ -452,8 +455,11 @@ simple groups, their Schur covers and automorphism groups.
 
 \medskip
 \diffasch9
-Aschbacher does not call this class \CC9 but in the literature many
-authors have called this ``Aschbacher class \CC9``.
+Aschbacher does not define a class \CC9 but in the literature many
+authors have called the groups which fulfill the conditions in
+his main theorem the ``Aschbacher class \CC9''.
+For the definition of \DD9 we have left out the condition that the
+simple group leaves a form invariant.
 
 \smallskip
 \exmemb
@@ -466,7 +472,7 @@ quasi-simple groups provide examples of groups in \DD9.
 
 The contents of this section are a variation on ``The Theory behind
 \textsc{Smash}'' from \cite[Section~2]{smashnormal} and provide a proof for
-Theorem~\ref{Asch}. The part about the semilinear action is copied
+Theorem~\ref{Asch}. The part about the semilinear action is taken
 from Section~\ref{subsec:semilin} and thus from 
 \cite[Section~6.4]{subfieldpaper}.
 
@@ -500,8 +506,8 @@ smaller fields and achieve the corresponding statement in class \DD9
 (see \ref{descD9}).
 
 We assume first that $G/Z$ is a simple group. If $G/Z$ were cyclic of prime 
-order, then $G$ would be abelian and $V$ could not be absolutely
-irreducible contrary to our assumptions.
+order, then $G$ would be abelian and $V$ would not be absolutely
+irreducible, contrary to our assumptions.
 
 There are two possibilities:
 The first is that $G/Z$ is one of the
@@ -515,7 +521,7 @@ projective representation of the finite simple group $G/Z$ that
 is by assumption not realisable over a proper subfield of $\F_q$.
 
 We assume from now on that $G/Z$ is not simple, let $\bar N$
-be a non-trivial minimal normal subgroup of $G/Z$ and $N$ be
+be a minimal normal subgroup of $G/Z$ and $N$ be
 the corresponding non-scalar normal subgroup of $G$ with $Z < N
 \triangleleft G$.
 
@@ -525,10 +531,11 @@ $V|_N$ is a direct sum of irreducible $\F_q N$-modules which are all
 $G$-conjugates of one irreducible $\F_q N$-submodule $W \le V|_N$. In
 particular all these irreducible summands have the same dimension. 
 
-First we assume that $W$ is not absolutely irreducible including both
-cases $W = V$ and $W < V$. Then $\End_{\F_q N}(W)$ is a proper finite
+First we assume that $W$ is not absolutely irreducible.
+Then $\End_{\F_q N}(W)$ is a proper finite
 extension field of $\F_q$, say $\F_{q^s}$, and $W$ and $V|_N$
-both can be considered as $\F_{q^s}$-vector spaces such that the action of
+both can be considered as $\F_{q^s}$-vector spaces of smaller dimension
+such that the action of
 $N$ on them is $\F_{q^s}$-linear, because $V|_N$ is isomorphic to a direct
 sum of $G$-conjugates of $W$. Note that the action of $c \in \End_{\F_q
 N}(W)$ on $W$ can be transferred to a conjugate $Wg$ by setting
@@ -658,12 +665,12 @@ transitively, all modules $W_i$ have the same dimension. So $G$ lies in
 \DD7 concluding case~(ii).
 
 We finally consider case (iii) that $\bar N = N/Z$ is a non-abelian finite 
-simple group. Since in this case the centraliser $C_{\bar N}(\bar N)$ is 
+simple group. Since in this case the centraliser $C_{G/Z}(\bar N)$ is 
 trivial, $G/Z$ is contained in the automorphism group of $\bar N$. 
 Thus either $N$ is a classical simple group in its natural
 representation defined over $\F_q$ and
 $G$ lies in \DD8, or $G$ lies in \DD9. Note that the assumptions we
-picked up along the way of this proof now allow to conclude that $V$
+picked up during this proof allow us to conclude that $V$
 gives rise to an absolutely irreducible projective representation for
 $G$ which is not realisable over a subfield (since $G$ is not \DD5).
 \proofend
@@ -687,7 +694,7 @@ G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
 for all $v_1 \in V_1$ and $v_2 \in V_2$.
 \end{Prop}
 \proofbeg
-This proof is copied from Section~\ref{subsec:tensor} and thus from 
+This proof is taken from Section~\ref{subsec:tensor} and thus from 
 \cite[Section~6.6]{subfieldpaper}.
 
 We assume that $G$ lies in \DD4, so the natural module $V$ is
@@ -842,10 +849,10 @@ assumption and the proof goes through.
 \label{findred}
 \index{reduction}%
 
-The purpose of this section is to give an overview how reductions can
-be found algorithmically provided that a matrix group
+The purpose of this section is to give an overview of how reductions can
+be found algorithmically, provided that a matrix group
 lies in one of the classes \DD1 to \DD7. We do not give full details
-here but rather sketch the methods used and collect references to the
+here but instead sketch the methods used and collect references to the
 literature.
 
 We continue to use the notation for a group $G \le \GL(n,q)$ that
@@ -853,6 +860,16 @@ $Z := Z(\GL(n,q)) \cap G$ is the subgroup of scalar matrices and that
 $V := \F_q^{1 \times n}$ is the natural right module. For the
 complexity statements we assume that $G$ is given by $m$ generators
 $g_1, \ldots, g_m \in \GL(n,q)$.
+
+Note that for a matrix group there is always the determinant map
+into the ground field and the natural homomorphism
+$G \to G/Z$. We can compute both explicitly and efficiently and may
+therefore assume that $G \le \SL(n,q)$.
+In the following we assume that we have already used the determinant
+homomorphism and then distinguish the cases, in which of the classes
+\DD1 to \DD7 the group $G$ lies. Whenever it is convenient we can
+switch over to the projective group $G/Z$ using the natural map 
+as reduction.
 
 \subsection{Finding a reduction in the reducible case: \DD1}
 \label{solveC1}
@@ -879,7 +896,7 @@ bound for the failure probability (see Lemma~\ref{MeatAxe}).
 Chapter~\ref{chap:subsemi} deals with the case that $G$ does not lie
 in \DD1 but is contained in \DD3 or in \DD5. The algorithms described
 there sometimes even find a reduction if $G$ lies neither in \DD3 nor
-in \DD5. Note that as it is standard in the literature we say in that
+in \DD5. Note that as it is common in the literature we say in that
 chapter that a group ``lies in \CC i'' if it is a subgroup of one of
 the groups in Aschbacher class \CC i. For \CC1, \CC3 and \CC5 this then 
 amounts to the same as talking about \DD1, \DD3 and \DD5 respectively.
@@ -913,21 +930,23 @@ mainly describe a new idea to find reductions for the classes \DD2 and
 \DD4. At the end of this section we give references to the literature
 to describe the current state of the art.
 
-The descriptions of the classes \DD2 and \DD4 have one property in common: They
-involve a normal subgroup $N$ of $G$ such that the restriction of the
-natural module to $N$ is reducible. That is, the MeatAxe can detect $N$ in
-the sense that if we have a list of elements of $G$ that happen to generate $N$, 
-the MeatAxe applied to these elements will return a proper $\F_q N$-submodule. 
-Since we can compute normal closures (see \cite[Theorem~2.3.9]{Ser}) it is
-in fact enough to produce one non-central element of $N$ to find a
-reduction for these cases.
+The descriptions of the classes \DD2 and \DD4 have one property in
+common: They involve a non-scalar normal subgroup $N$ of $G$ such
+that the restriction of the natural module to $N$ is reducible. That
+is, the MeatAxe can detect $N$ in the sense that if we have a list of
+elements of $G$ that happen to generate $N$, the MeatAxe applied to
+these elements will return a proper $\F_q N$-submodule. Since we can
+compute normal closures (see \cite[Theorem~2.3.9]{Ser}) it is in fact
+enough to produce one non-central element of $N$ to find a reduction for
+these cases.
 
 However, simply producing random elements in $G$ and hoping to hit elements
 in $N$ does not work efficiently. Therefore we propose a new method to
 produce non-central elements of a normal subgroup which is put together
 from different well-known techniques and seems to work extremely well in
 practice. We give a few heuristic reasons why this works so well below, but
-a complete analysis of this method still has to be done as of this writing.
+a complete analysis of this method still has to be done at the time of 
+this writing.
 In the following description of Algorithm~\ref{alginvjump}
 ``\textsc{InvolutionJumper}'' we include a
 slight variation which will be used in Section~\ref{solveD7} to resolve
@@ -1260,7 +1279,7 @@ number $m$ of generators of $G$ and $\log q$ (ignoring as usual the
 discrete logarithm (see Section~\ref{thedlp}) and integer factorisation 
 (see Section~\ref{intfact}) problems in order computations). 
 The major question to be
-resolved is whether there are groups in \DD2 or \DD4, for which it
+resolved is, for which groups in \DD2 or \DD4 this
 does not work well or not at all.
 \end{Expl}
 
@@ -1317,7 +1336,7 @@ to act absolutely irreducibly
 \STATE \textbf{Output:} A reduction homomorphism or \textsc{Fail}.
 
 \smallskip
-\IF {$n$ is not a $k$-th power for some $k > 2$}
+\IF {$n$ is not a $k$-th power for some $k \ge 2$}
     \STATE \textbf{Return} \textsc{Fail}
 \ENDIF
 \FOR {$i=1, \ldots, 3$}
