@@ -366,8 +366,8 @@ condition.
 \exmemb
 The following subgroups of $\GL(n,q)$ for suitable $(n,q)$ lie in \DD6:
 
-$r^{1+2m}.\Sp(2m,r)$ and $2_+^{1+2m}.O^+(2m,2)$ and 
-$2_-^{1+2m}.O^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
+$r^{1+2m}.\Sp(2m,r)$ and $2_+^{1+2m}.\mathrm{O}^+(2m,2)$ and 
+$2_-^{1+2m}.\mathrm{O}^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
 
 
 \subsection{Description of class \DD7: ``tensor induced''}
@@ -431,7 +431,8 @@ group in its natural representation in one of the following ways:
 for some non-singular 
 symplectic form, $G/Z$ contains $\PSp(n,q)$ and $(n,q) \notin           
 \{(2,2),(2,3),(4,2)\}$,
-\item $q$ is a square, $G$ is contained in $N_{\GL(n,q)}(SU(n,q^{1/2}))$ 
+\item $q$ is a square, $G$ is contained in 
+$N_{\GL(n,q)}(\SU(n,q^{1/2}))$ 
 for some non-singular 
 Hermitian form, $G/Z$ contains $\PSU(n,q^{1/2})$ and $(n,q^{1/2}) 
 \notin \{ (2,2), (2,3), (3,2) \}$,
@@ -549,7 +550,7 @@ is by assumption not realisable over a proper subfield of $\F_q$.
 We assume from now on that $G/Z$ is not simple, let $\bar N$
 be a minimal normal subgroup of $G/Z$ and $N$ be
 the corresponding non-scalar normal subgroup of $G$ with $Z < N
-\triangleleft G$.
+\unlhd G$.
 
 Now we use Clifford theory applied to the natural module $V$. By Clifford's
 theorem (see \cite[(49.2) and (49.7)]{CR0}) the restricted $\F_q N$-module
@@ -735,7 +736,7 @@ It immediately follows that we can choose a basis of $V$ such that all
 elements of $N$ are block diagonal matrices in which all diagonal blocks
 are identical of size $d$.
 
-As $N \triangleleft G$, for all $h \in N$ and $g \in G$,
+As $N \unlhd G$, for all $h \in N$ and $g \in G$,
  the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
 a block diagonal matrix in which all $d \times d$-blocks along the diagonal
 are identical. Fixing $g$, we conclude that $g\cdot (g^{-1}hg) = hg$ for all
@@ -796,6 +797,7 @@ proposition.
 \proofend
 
 \begin{DefProp}[{Tensor induction of (projective) representations}]
+\label{tensorinduction}
 \index{tensor induction}%
     For details and proofs see \cite[13A]{CRI} and \cite[Section~2]{kovacs}.
 
@@ -1279,8 +1281,8 @@ In all cases of groups $G$ in \DD2 or \DD4 we
 looked at, only very few steps of Algorithm~\ref{alginvjump}
 ``\textsc{InvolutionJumper}'' were needed to produce an element of the
 normal subgroup $N$ and thus to find a reduction. In typical examples
-like $(\GL(3,3)^{\times 6}).S_6 \le \GL(18,3)$ (imprimitive \DD2) or $Sp(6,3)
-\otimes O(7,3) \le \GL(48,3)$ (tensor decomposable \DD4) 
+like $(\GL(3,3)^{\times 6}).S_6 \le \GL(18,3)$ (imprimitive \DD2) or $\Sp(6,3)
+\otimes \mathrm{O}(7,3) \le \GL(48,3)$ (tensor decomposable \DD4) 
 in average only slightly more than one
 step was needed to produce an element of the normal subgroup. Thus trying
 $9$ times seems to be enough to rule out \DD2 and \DD4.
@@ -1289,13 +1291,13 @@ $9$ times seems to be enough to rule out \DD2 and \DD4.
 \begin{Expl}[Heuristic explanation for Algorithm~\ref{algreductionD24} 
 ``\textsc{FindHomD247}'']
 \index{FindHomD247@\textsc{FindHomD247}}%
-For being contained in a normal subgroup $N \triangleleft G$ only the
+For being contained in a normal subgroup $N \unlhd G$ only the
 conjugacy class of an element $x \in G$ is relevant since $N$ is a union of
 conjugacy classes of $G$. The Involution Jumper (see Algorithm~\ref{alginvjump}) 
 basically performs a random walk through the involution classes of $G/Z$,
 as is explained in Definition~\ref{markovinvclasses}. 
 The corresponding Markov chain seems to have very good properties with
-respect to visiting each vertex . 
+respect to visiting each vertex. 
 To begin with, Proposition~\ref{markovinvlimit} shows that it is irreducible
 and has a stationary distribution in which every class has a non-zero 
 probability. Even better, the vertices representing

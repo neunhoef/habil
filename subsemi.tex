@@ -1496,7 +1496,7 @@ property. Notice that the $\F_{q'}$-subspace chosen in the kernel
 vector by the standard basis method is unique up to multiplication 
 by elements of $\End_{\F_q N}(V) = \F_q$.   From this point on 
 the algorithm is guaranteed to determine   
-whether $G$ lies in \CC5.                                               
+whether $G$ lies in~\CC5.
 
 Now examine $h_i:= t^{-1}g_it$ and check whether it can be written as a
 product of a scalar $\lambda_i \in \F_{q}$ and an element of $\GL(d,
@@ -1749,7 +1749,7 @@ $S$ with $O(sd^3)$ field operations. Note that when we
 proved the final subfactor to be irreducible  we constructed the algebra
 word $c$ that is needed for isomorphism testing, namely a word 
 describing an algebra element with nullity the dimension of
-the centraliser of $N$.
+the centraliser of~$N$.
 
 Such an irreducible module $S$ is all we need to run the {\sc
 MinBlocks} procedure described in \cite{smashprim} which needs
@@ -1805,7 +1805,7 @@ Let  $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
 projective version be absolutely irreducible, and let $1 > \delta > 0$ be given.
 Let $N = \langle n_1, \ldots, n_s \rangle  \unlhd G$ be reducible, with a single homogeneous component of dimension $n > 1$, and let an irreducible $N$-submodule $S$ be given.
 In deterministic $O((s+m)d^3)$ field operations we construct a proper nontrivial 
-homomorphism from $G$ into $\PGL(d/n, q^e)$ for $e$ the degree of 
+homomorphism from $G$ into\/ $\PGL(d/n, q^e)$ for $e$ the degree of 
 the centraliser of $N$ on $S$. 
 \end{Theo}
 
@@ -2128,7 +2128,9 @@ in $O(md^3\log \delta^{-1})$ field operations
 (see Theorem~\ref{writing}).
 \item Immediately get a reduction in either the non-absolutely irreducible
 or the subfield case.
-\item Compute $10$ commutators of random elements of $G$. If all are scalar test in $O(md^3)$ whether all commutators of some non-scalar $g_i$ with other generators are scalar. If so, jump to step 10. 
+\item Compute $10$ commutators of random elements of $G$. If all are
+scalar test in $O(md^3)$ whether all commutators of some non-scalar
+$g_i$ with other generators are scalar. If so, jump to step 10.
 \item Compute $s = O(d\log q + \log \delta^{-1})$ generators for 
     $H \le N \unlhd G$ with $N$ contained in $G'$ in 
     $O(d^3\log \delta^{-1} + d^4 \log q)$ field operations
