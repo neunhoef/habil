@@ -4,7 +4,7 @@
 \label{chap:findhom}
 
 In the previous Chapter~\ref{chap:comptree} we formulated the problem
-of constructive recognition of groups in Problem~\ref{ProbCR3} and have
+of constructive recognition of groups in Problem~\ref{ProbCR3} and 
 explained what a reduction is. This chapter describes how to find
 reductions for matrix groups and projective groups and how to prove
 that a certain collection of methods will for any given
@@ -26,7 +26,7 @@ with the known results about their absolutely irreducible modular matrix
 representations. We are
 content with the statements in Aschbacher's theorem about the general
 linear group since they suffice for the purposes of constructive
-recognition and the statements and arguments are quite a bit simpler
+recognition and the statements and arguments are simpler
 than for the other classical groups. For details see \cite{aschbacher}.
 
 Roughly speaking, Aschbacher's theorem states that every subgroup of $\GL(n,q)$
@@ -90,7 +90,7 @@ possible for the more general classes \CC2, \CC4 and \CC7.
 An algorithm to recognise
 and handle classes \DD3 and \DD5 provided that the group does not lie in
 class \DD1 is described in detail in Chapter~\ref{chap:subsemi}.
-An overview over the handling of groups in classes \DD8 and \DD9 is
+An overview of the handling of groups in classes \DD8 and \DD9 is
 given in the next Chapter~\ref{chap:leaves}.
 
 \section{A variant of Aschbacher's theorem}
@@ -153,7 +153,7 @@ to \ref{descD9}.
 We proceed with our definition of the subgroup classes \DD1 to \DD9. Throughout
 we denote for a subgroup $G \le \GL(n,q)$ its subgroup of scalar matrices
 by $Z$, that is, $Z := Z(\GL(n,q)) \cap G$. For each class we either
-give an alternative, more structural definition, or at least give the
+give an alternative, more structural definition, or give the
 structure of some ``typical'' example groups in that class.
 
 \subsection{Description of class \DD1: ``reducible''}
@@ -287,10 +287,12 @@ $\F_q N$-module $W$ with $\dim_{\F_q}(W) > 1$.
 
 \diffasch4
 We define \DD4 including more conditions on the structure of the
-group and its natural representation than Aschbacher. The tensor
-product decomposition in the definition of \CC4 follows from our
-conditions, see Proposition~\ref{tensorprop}. On the other
-hand we allow the dimensions of the tensor factors to be equal.
+group and its natural representation than Aschbacher. The original
+definition of \CC4 uses a tensor product decomposition of $V$
+which is invariant under $G$.
+This follows from our conditions, see Proposition~\ref{tensorprop}. 
+Contrary to \CC4, we allow for \DD4 the dimensions of the tensor factors 
+to be equal.
 
 \smallskip
 \exmemb
@@ -312,7 +314,7 @@ G}$ with $\beta_g \in \F_q$ such that $\beta_g \cdot T^{-1} g T \in
 \GL(n,q_0)$ for all $g \in G$.}
 
 \diffasch5
-We include in \DD5 subgroups of the members of \CC5 but we exclude
+We include in \DD5 subgroups of the members of \CC5 excluding
 all groups acting not absolutely irreducibly.
 
 \smallskip
@@ -393,7 +395,8 @@ Remark~\ref{nottensorind} by an example.
 \smallskip
 \exmemb
 The following subgroups of $\GL(n,q)$ lie in \DD7:
-$\GL(r,q)^{\otimes k}.S_k$ where $n=r^k$ and $\GL(r,q)^{\otimes k}$ 
+
+$\GL(r,q)^{\otimes k}\colon S_k$ where $n=r^k$ and $\GL(r,q)^{\otimes k}$ 
 denotes the central product of $k$ copies of $\GL(r,q)$.
 
 \subsection{Description of class \DD8: ``classical''}
@@ -415,7 +418,7 @@ Hermitian form, $G/Z$ contains $\PSU(n,q^{1/2})$ and $(n,q^{1/2})
 \item $G$ is contained in $N_{\GL(n,q)}(\Omega^\epsilon(n,q))$, 
 the corresponding
     $\POmega^\epsilon(n,q)$ is simple and contained in $G/Z$.
-    $\POmega^\epsilon(n,q)$ is simple if and only if
+    The group $\POmega^\epsilon(n,q)$ is simple if and only if
     \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
         \item[*] $n\ge 3$, and
         \item[*] $q$ is odd if $n$ is odd, and
@@ -666,7 +669,8 @@ transitively, all modules $W_i$ have the same dimension. So $G$ lies in
 
 We finally consider case (iii) that $\bar N = N/Z$ is a non-abelian finite 
 simple group. Since in this case the centraliser $C_{G/Z}(\bar N)$ is 
-trivial, $G/Z$ is contained in the automorphism group of $\bar N$. 
+trivial (because $W=V|_N$ is absolutely irreducible), 
+$G/Z$ is contained in the automorphism group of $\bar N$. 
 Thus either $N$ is a classical simple group in its natural
 representation defined over $\F_q$ and
 $G$ lies in \DD8, or $G$ lies in \DD9. Note that the assumptions we
@@ -896,7 +900,7 @@ bound for the failure probability (see Lemma~\ref{MeatAxe}).
 Chapter~\ref{chap:subsemi} deals with the case that $G$ does not lie
 in \DD1 but is contained in \DD3 or in \DD5. The algorithms described
 there sometimes even find a reduction if $G$ lies neither in \DD3 nor
-in \DD5. Note that as it is common in the literature we say in that
+in \DD5. Note that, as it is common in the literature, we say in that
 chapter that a group ``lies in \CC i'' if it is a subgroup of one of
 the groups in Aschbacher class \CC i. For \CC1, \CC3 and \CC5 this then 
 amounts to the same as talking about \DD1, \DD3 and \DD5 respectively.
