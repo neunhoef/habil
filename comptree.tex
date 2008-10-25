@@ -61,6 +61,7 @@ and then formulate the fundamental problem.
 
 \begin{Hyp}[Ambient group]
 \label{ambient}
+\index{ambient group}%
 When we speak about an \emph{ambient group} we mean a finite group that can
 be represented on a computer such that we can perform the following tasks:
 \begin{itemize}
@@ -75,10 +76,12 @@ per element.
 \begin{Rem}
 All finite symmetric groups fulfil the hypotheses in Section~\ref{ambient}.
 We call subgroups of finite symmetric groups \emph{permutation groups}.
+\index{permutation group}%
 
 For a prime power $q$ the groups $\GL(n,q)$ and $\PGL(n,q)$ also fulfil
 the hypotheses. We call subgroups of $\GL(n,q)$ \emph{matrix groups}
 and subgroups of $\PGL(n,q)$ \emph{projective groups}.
+\index{matrix group}\index{projective group}%
 \end{Rem}
 
 \begin{Problem}[Constructive recognition --- first formulation]
@@ -113,6 +116,7 @@ what we mean by ``input size''.
 
 \begin{Def}[Input size parameters]
 \label{inputsize}
+\index{input size parameters}%
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient}
 and $(g_1, \ldots, g_k) \in \GG^k$. If $\GG$ is either $\GL(n,q)$ or
 $\PGL(n,q)$, then the input size of our problem is measured by $n$, $k$
@@ -256,6 +260,7 @@ formulation.
 
 \begin{Problem}[Constructive recognition --- final formulation]
 \label{ProbCR3}\index{constructive recognition!final formulation}%
+\index{constructive recognition problem}\index{CRP}%
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient} and 
 assume that we are given a generating tuple $(g_1, \ldots, g_k) \in
 \GG^k$ for a group $G := \left< g_1, \ldots, g_k \right> \le \GG$. 
@@ -287,6 +292,8 @@ $\F_{q^i}$ for $1 \le i \le n$ efficiently.
 We call the first phase until $G$ is
 recognised constructively the \emph{recognition phase} and the second
 phase the \emph{(constructive) membership test phase}.
+\index{recognition phase}\index{membership test phase}%
+\index{constructive membership test phase}%
 
 The aim is that the algorithms for both phases have a runtime that is proved
 to be bounded by a fixed polynomial in the input size parameters $n$, $k$
@@ -294,6 +301,7 @@ and $\log_2(q)$ in the sense of Definition~\ref{inputsize}.
 
 In this book we refer to this problem as the \emph{constructive recognition
 problem (CRP)}.
+\index{CRP}%
 \proofend
 \end{Problem}
 
@@ -308,7 +316,7 @@ definition.
 
 \begin{Def}[Reduction node]
 \label{reducnode}
-\index{reduction}%
+\index{reduction}\index{reduction node}%
 Let $G = \left< g_1, \ldots, g_k \right> \le \GG$ be as in 
 Problem~\ref{ProbCR3}.
 We say that we have set up a \emph{reduction node} for $G$ if we have
@@ -399,6 +407,7 @@ projective groups.
 
 \section{Finding the kernel of a homomorphism}
 \label{findkernel}
+\index{finding kernels}\index{kernel of a homomorphism}%
 
 In this section we assume that we are in the situation described in
 Problem~\ref{ProbCR3} and want to construct a reduction node in the sense
@@ -546,6 +555,7 @@ from group recognition, but we will explain it here in the context of
 our generic recognition procedure. Note that this new method selection
 procedure is not to be confused with the {\GAP} (see \cite{GAP4}) method
 selection. 
+\index{method selection}%
 
 The group recognition procedure for a node just calls the generic method
 selection procedure with the database of find homomorphism methods
@@ -612,6 +622,7 @@ returning \texttt{NotApplicable} newly applicable.
 
 In the {\GAP} system, information about a group $G$ is collected in
 so-called {\em attributes} (for example,
+\index{attributes in GAP@attributes in {\GAP}}%
 a permutation group object may store as an attribute whether it is transitive
 or not), but we may also acquire the information that 
 $G$ is simple or that it is solvable, or we may know $|G|$, etc. 
@@ -657,6 +668,7 @@ that the kernel is trivial or it might know that the homomorphic image of a
 matrix group is a permutation group. To communicate such information to the
 methods used further down in the tree there is an infrastructure to hand
 down so-called ``hints''. These hints might for example consist of additional
+\index{hints}%
 knowledge about the group such that certain find homomorphism methods
 are particularly well suited. Having this type of information available
 further down in the tree helps choosing the best find homomorphism method
@@ -687,6 +699,7 @@ However, this method does not work very efficiently for so-called
 from the complexity theory of permutation groups.
 
 \begin{Def}[Base of a permutation group]
+\index{base of a permutation group}\index{stabiliser chain}%
 Let $G \le S_n$ be a subgroup of the symmetric group on $\{1,\ldots,n\}$.
 A tuple $B \in \{ 1, \ldots, n\}^l$ is called a \emph{base of $G$ with
 length $l$}, if only the identity of $G$ fixes every point in $B$: 
@@ -722,7 +735,8 @@ To formulate precise complexity statements we have to talk about families
 of permutation groups.
 
 \begin{Def}[Families of small and large base groups]
-    \label{SmallLargeBase}
+\label{SmallLargeBase}
+\index{small base groups}\index{large base groups}%
 Let $\calF$ be a family of permutation groups, all embedded into
 possibly different symmetric groups $S_n$ and given by generating tuples. 
 For a $G \in \calF$ we denote 
@@ -790,6 +804,7 @@ Rank & Name & Action & Hom/Leaf \\
 \end{tabular}
 \end{center}
 \caption{Find homomorphism methods for permutation groups}
+\index{finding homomorphism!for permutation groups}%
 \label{permdb}
 \end{table}
 
@@ -833,6 +848,7 @@ method for the kernel that produces a balanced composition tree, which
 is more efficient both during the recognition phase and the membership
 testing phase. Here the infrastructure in our framework to hand down 
 hints to kernel and homomorphic image of a homomorphism is used 
+\index{hints}%
 extensively.
 
 The fourth find homomorphism method \texttt{Jellyfish} with rank $20$

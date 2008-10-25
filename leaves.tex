@@ -71,6 +71,7 @@ can possible find would be prohibitively large.
 
 \section{Non-constructive recognition}
 \label{nonconstructive}
+\index{non-constructive recognition}%
 
 The term ``non-constructive recognition'' for a group means finding
 the isomorphism type. In situations where direct methods for constructive 
@@ -97,6 +98,7 @@ respectively.
 
 \section{Standard generators}
 \label{standardgens}
+\index{standard generators}% 
 
 In this section we give a definition of the term
 ``standard generators''. As in this whole chapter we do not want to go
@@ -117,6 +119,7 @@ isomorphism to eventually solve the constructive recognition problem (see
 The concept of standard generators serves this purpose.
 
 \begin{Def}[Standard generators]
+\index{standard generators}% 
     Let $G$ be a finite group and $\Aut(G)$ its automorphism group. Then
     $\Aut(G)$ acts on tuples of elements of $G$ componentwise. We choose
     one orbit of this action that contains tuples whose entries
@@ -175,6 +178,7 @@ that is uniformly distributed in the group.
 \end{Exa}
 
 \begin{Prop}[The virtue of standard generators]
+\index{standard generators}% 
 If $(s_1, \ldots, s_m) \in G^m$ and $(t_1, \ldots, t_m) \in G^m$ are 
 both standard generators for a group $G$, then the equations
 \[ \varphi (s_i) = t_i \qquad\mbox{for all } 1 \le i \le m \]
@@ -214,7 +218,8 @@ $\hat G$ to $G$.
 \end{Rem}
 
 \begin{Rem}[Good standard generators]
-    \label{goodstandgens}
+\label{goodstandgens}
+\index{standard generators}% 
 
 We want to comment only briefly on this topic. Basically, the choice
 of the standard generators for an isomorphism type of group, that is 
@@ -233,6 +238,7 @@ representations, see \cite{WWWAtlas}.
 
 \begin{App}[Storing hints for stabiliser chains]
 \label{hintsstabchains}
+\index{hints for stabiliser chains}%
 One immediate application of standard generators is the following. If
 a group has a subgroup $U$ with a relatively low index, then we can store
 generators for this subgroup as a straight line program in standard
@@ -256,6 +262,7 @@ for the sporadic simple groups. Their hints data is available in the
 {\MAGMA} system (see \cite{Magma}) and will be used in the composition tree
 implementation in the {\GAP} system as well.
 \end{App}
+\index{standard generators}% 
 
 \section{The classical case in natural representation: \DD8}
 \label{solveD8}
@@ -288,6 +295,7 @@ elements as straight line programs in the standard generators.
 
 \section{The almost simple case: \DD9}
 \label{solveD9}
+\index{almost simple}%
 
 This part of the whole group recognition project is probably the one
 for which the currently known methods are least satisfying. In particular

@@ -1,12 +1,12 @@
 Checks done:
 
-Chapter ready   read    spell   sentences Anja  index   notationindex
-Preface X       X       X                       X
-I       X       X       X       X               X
-II      X       X       X       X         X     X
-III     X       -       X       -         -     X
-IV      X       X       X                 X
-V       X       X       X                 X
-VI      X       X       X
-VII     X       -       X       -         -
-VIII    X       X       X
+Chapter ready   read    spell   sentences Anja   Colva   index   notationindex
+Preface X       X       X                        -       X
+I       X       X       X       X                -       X
+II      X       X       X       X         X      -       X
+III     X       -       X       -         -      -       X
+IV      X       X       X                 X      -       X
+V       X       X       X                 X      -       X
+VI      X       X       X                 -      X       X
+VII     X       -       X       -         -      X       X
+VIII    X       X       X                 -      X       X

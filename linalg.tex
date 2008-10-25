@@ -24,6 +24,7 @@ integer factorisations of some of the numbers $q^i-1$ for $1 \le i \le n$
 can be needed in the process (see Section~\ref{intfact}).
 
 \begin{DefProp}[Order and projective order]
+\index{order of a matrix}\index{projective order of a matrix}%
 Let $\F$ be a field and $M \in \F^{n \times
 n}$ an invertible matrix. The \emph{order} of $M$ is the least natural
 number $o$ such that $M^o$ is equal to the identity matrix\/ $\one$.
@@ -137,6 +138,7 @@ approach using this factorisation.
 Altogether we can conclude the following result.
 
 \begin{Prop}[Computing the (projective) order of a matrix]
+\index{order of a matrix}\index{projective order of a matrix}%
 Let $M$ be a matrix in $\F_q^{n \times n}$. Assume that the 
 minimal polynomial of $M$ is known and completely factorised into
 \index{minimal polynomial}%
@@ -159,6 +161,7 @@ minimal polynomial also helps to compute the (projective) order.
 
 \section{Solving systems of linear equations}
 \label{sec:syslineq}
+\index{system of linear equations}%
 
 This section describes and analyses the problem of solving a system
 of linear equations. This can be formulated as follows:
@@ -170,6 +173,7 @@ Sometimes the problem has to be solved for more than one $b$ and sometimes
 it is enough to find one solution $x$. In particular the homogeneous case 
 $b=0$ is important, here the set of solutions is called the \emph{nullspace}
 of $M$.
+\index{nullspace}%
 
 The general approach to this problem is standard, thus we are mostly
 interested in the complexity. The basic procedure is
@@ -192,6 +196,7 @@ of Algorithm~\ref{semiechelonise}.
 
 \begin{algorithm}
 \caption{$\quad$ \sc SemiEchelonise}
+\index{SemiEchelonise@\textsc{SemiEchelonise}}%
 \label{semiechelonise}
 \begin{algorithmic}
 \STATE \textbf{Input:} A matrix $Y \in \F^{m \times n}$.
@@ -217,6 +222,7 @@ whose rows span the nullspace of $Y$
 
 \begin{Prop}[Complexity of Algorithm~\ref{semiechelonise}]
 \label{semiechelon}
+\index{SemiEchelonise@\textsc{SemiEchelonise}}%
 If $r$ is the rank of $M$, Algorithm~\ref{semiechelonise} needs
 at most
 \[ \frac{r(r+1)(2r+1)}{6} + nr^2 + 2rn(m-r) + r \]
@@ -251,8 +257,9 @@ selection of the rows of $Y$, the vector $aT$ contains all the necessary
 information to put together a solution $x$ with $b = xY$. The set
 of all solutions is then equal to $\{ x+n \mid n \in \rsp(N) \}$.
 
-\begin{Cor}[Solving a linear system of equations]
+\begin{Cor}[Solving a system of linear equations]
 \label{solvelinsys}
+\index{system of linear equations}%
 The set of solutions of the system of linear equations $xY=0$ can be
 read off from the output of Algorithm~\ref{semiechelonise}. For
 the system $xY=b$ it can be derived using
@@ -269,6 +276,7 @@ $2\cdot \frac{r(r+1)}{2}$ elementary field operations.
 
 \section{Inverting matrices}
 \label{sec:invert}
+\index{inverting a matrix}%
 
 Inverting a matrix $M \in \F^{n \times n}$ is the same as solving the
 system of linear equations $xM = e_i$ for all the standard basis
@@ -276,6 +284,7 @@ vectors $e_i \in \F^{1 \times n}$. By Proposition~\ref{semiechelon}
 and Corollary~\ref{solvelinsys} we get the following result.
 
 \begin{Prop}[Inverting a matrix]
+\index{inverting a matrix}%
 Let $M \in \F^{n \times n}$ be an invertible matrix. Then the inverse
 can be computed using at most
 \[ \frac{n(n+1)(2n+1)}{6} + 4n^3 + n^2 + n \]
@@ -293,8 +302,10 @@ elementary field operations. Summing up gives the claim.
 
 \section{The discrete logarithm problem}
 \label{thedlp}
+\index{discrete logarith problem}\index{DLP}%
 
 \begin{Problem}[The discrete logarithm problem in finite fields]
+\index{discrete logarith problem}\index{DLP}%
     Let $q = p^k$ be a power of a prime $p$. Then the multiplicative
     group of the finite field $\F_q$ is cyclic, say $\F_q^\times =
     \left< \zeta \right>$ for a fixed element $\zeta$ of order $q-1$.
@@ -309,17 +320,21 @@ elementary field operations. Summing up gives the claim.
 \end{Problem}
 
 \subsection{Computing discrete logarithms}
+\index{discrete logarith problem}\index{DLP}%
 
 Obviously this problem can be solved easily using an algorithm that
-simply tries all powers of $\zeta$. However, this simplistic approach
+simply tries all powers of~$\zeta$. However, this simplistic approach
 has complexity $O(q)$ in the worst case, which very quickly
 becomes impractical as $q$ grows.
 
 Better methods are the Shanks and Pollard methods (see 
+\index{Shanks method}\index{Pollard method}%
 \cite[Section~3]{odlyzkodlp}) with complexity $O(q^{1/2})$, 
 the Index Calculus Method due to
-Kraitchik (see \cite{McCurley}) and the more recent number field sieve
+\index{Index Calculus Method}%
+Kraitchik (see \cite{McCurley}) and the more recent Number Field Sieve
 methods (see \cite[Section~4]{odlyzkodlp}).
+\index{Number Field Sieve}%
 
 An overview of the current state of the art to solve this problem
 including lots of references
@@ -339,11 +354,14 @@ For practical purposes in matrix group algorithms
 we can safely assume that the discrete logarithm
 problem does not pose any significant difficulties as long as $q$ is
 smaller or equal to $2^{32}$.
+\index{discrete logarith problem}\index{DLP}%
 
 \section{Integer factorisation}
 \label{intfact}
+\index{integer factorisation}%
 
 \begin{Problem}[The integer factorisation problem]
+\index{integer factorisation}%
     Let $n \in \N$ be an integer.
     The integer factorisation problem is the following:
 
@@ -355,6 +373,7 @@ smaller or equal to $2^{32}$.
 \end{Problem}
 
 \subsection{Computing integer factorisations}
+\index{integer factorisation}%
 
 Obviously this problem can be solved by trial division in time
 $O(n^{1/2} \log^2 n)$, however, like for the discrete logarithm problem, 
@@ -378,5 +397,6 @@ we can safely assume that the integer factorisation
 problem for $n = q^i - 1$ 
 does not pose any significant difficulties as long as $q^i$ is
 smaller than $10^{255}$.
+\index{integer factorisation}%
 
 

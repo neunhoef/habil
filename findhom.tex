@@ -2,6 +2,8 @@
 
 \chapter{Finding homomorphisms}
 \label{chap:findhom}
+\index{finding homomorphism!for matrix groups}%
+\index{finding homomorphism!for projective groups}%
 
 In the previous Chapter~\ref{chap:comptree} we formulated the problem
 of constructive recognition of groups in Problem~\ref{ProbCR3} and 
@@ -127,10 +129,11 @@ contained in classes for which the known algorithms are not yet completely
 satisfying, mostly with respect to their complexity analysis.
 In addition we try to reduce the overlap between the classes.
 
-We formulate a variant of Aschbacher's theorem in the following way:
+We formulate a variant of Aschbacher's theorem in the following way.
 
 \begin{Theo}[Variant of Aschbacher's theorem, specialised to\/ $\GL(n,q)$]
 \label{Asch}
+\index{Aschbacher's theorem}%
 Let $G$ be a subgroup of\/ $\GL(n,q)$ with $n \ge 2$.
 Then $G$ is contained in at least one of the
 classes \DD1 to \DD9 of subgroups described in Sections~\ref{descD1}
@@ -158,6 +161,7 @@ structure of some ``typical'' example groups in that class.
 
 \subsection{Description of class \DD1: ``reducible''}
 \label{descD1}
+\index{reducible groups}%
 
 \newcommand{\desc}[1]{\begin{center}\fbox{\parbox{5.3in}{#1}}\end{center}}
 \newcommand{\diffasch}[1]{\textbf{Differences to Aschbacher's class \CC#1:}}
@@ -182,6 +186,7 @@ to a subgroup of a group
            C \in \F_q^{n-m \times m} \right\} \]
 for some $0 < m < n$. The group $P_m$ is called a \emph{maximal parabolic
 subgroup} and is a semidirect product
+\index{maximal parabolic subgroup}\index{parabolic subgroup}%
 of the normal $p$-subgroup
 \[ U_m := \left\{ \left[ \begin{array}{cc} \one_m & 0 \\ C & \one_{n-m} 
            \end{array} \right]
@@ -194,6 +199,7 @@ $(n-m) \times (n-m)$-identity matrix.
 
 \subsection{Description of class \DD2: ``imprimitive''}
 \label{descD2}
+\index{imprimitive groups}%
 
 \desc{
 A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
@@ -226,6 +232,7 @@ if they act absolutely irreducibly.
 
 \subsection{Description of class \DD3: ``semilinear''}
 \label{descD3}
+\index{semilinear groups}%
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD3 if the natural module $V$ is
@@ -265,6 +272,7 @@ by choosing an $\F_q$-basis of $\F_{q^s}$.
 
 \subsection{Description of class \DD4: ``tensor decomposable''}
 \label{descD4}
+\index{tensor decomposable groups}%
 
 %%% % Old version:
 %%% \desc{
@@ -305,6 +313,7 @@ $\GL(d_2,q)$. These groups are members in \DD4 if $1 < d_1 < n$.
 
 \subsection{Description of class \DD5: ``subfield''}
 \label{descD5}
+\index{subfield groups}%
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD5 if the natural module $V$ is
@@ -325,6 +334,7 @@ proper subfield of $\F_q$.
 
 \subsection{Description of class \DD6: ``extraspecial''}
 \label{descD6}
+\index{extraspecial groups}%
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD6 if the natural module $V$ is absolutely
@@ -356,6 +366,7 @@ $2_-^{1+2m}.O^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
 
 \subsection{Description of class \DD7: ``tensor induced''}
 \label{descD7}
+\index{tensor induced groups}%
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD7 if it acts absolutely irreducibly on the 
@@ -401,6 +412,7 @@ denotes the central product of $k$ copies of $\GL(r,q)$.
 
 \subsection{Description of class \DD8: ``classical''}
 \label{descD8}
+\index{classical groups}%
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD8 if $G/Z$ contains a classical simple
@@ -440,6 +452,7 @@ classical group in its natural representation defined over $\F_q$.
 
 \subsection{Description of class \DD9: ``almost simple''}
 \label{descD9}
+\index{almost simple groups}\index{almost simple}%
 
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD9, if it is not in \DD8 and
@@ -475,6 +488,7 @@ quasi-simple groups provide examples of groups in \DD9.
 
 The contents of this section are a variation on ``The Theory behind
 \textsc{Smash}'' from \cite[Section~2]{smashnormal} and provide a proof for
+\index{Smash@\textsc{Smash}}%
 Theorem~\ref{Asch}. The part about the semilinear action is taken
 from Section~\ref{subsec:semilin} and thus from 
 \cite[Section~6.4]{subfieldpaper}.
@@ -686,6 +700,7 @@ representations.
 
 \begin{Prop}[\DD4 implies tensor decomposability]
     \label{tensorprop}
+\index{tensor decomposable groups}%
 If a group $G \le \GL(n,q)$ lies in \DD4, then it is tensor decomposable,
 by which we mean the following:
 There is a decomposition
@@ -772,6 +787,7 @@ proposition.
 \proofend
 
 \begin{DefProp}[{Tensor induction of (projective) representations}]
+\index{tensor induction}%
     For details and proofs see \cite[13A]{CRI} and \cite[Section~2]{kovacs}.
 
     Let $G$ be a group, $K$ an arbitrary field, $H<G$ a subgroup of
@@ -811,6 +827,7 @@ proposition.
 
 \begin{Prop}[\DD7 implies ``projective tensor induced'']
     \label{tensorindprop}
+\index{tensor induced groups}%
 If a group $G \le \GL(n,q)$ lies in \DD7, then the projective
 representation afforded by its natural module is tensor induced.
 \end{Prop}
@@ -828,6 +845,7 @@ assumption and the proof goes through.
 
 \begin{Rem}[{\DD7 does \emph{not} imply tensor induced}]
     \label{nottensorind}
+\index{tensor induced groups}%
     Let $G$ be the semidirect product 
     $(\SL(2,7) \otimes_{\F_7} \SL(2,7)).S_2 < \GL(4,7)$ where the
     $S_2$ permutes the tensor factors. The natural module $V := \F_7^4$ is
@@ -958,7 +976,7 @@ the \DD7 case as well.
 
 \begin{algorithm}
 \caption{$\quad$ \sc InvolutionJumper}
-\index{Involution Jumper}%
+\index{InvolutionJumper@\textsc{Involution Jumper}}%
 \label{alginvjump}
 \begin{algorithmic}
 \STATE \textbf{Input:} A group $G$, an involution
@@ -995,6 +1013,7 @@ element of $G$}
 \end{algorithm}
 
 \begin{Prop}[The Involution Jumper]
+\index{InvolutionJumper@\textsc{Involution Jumper}}%
 Let $G$ be a finite group. If Algorithm~\ref{alginvjump}
 ``\textsc{InvolutionJumper}'' is called with $G$ and an
 involution $x$, the return value $u$ is either an involution in $G$ with
@@ -1135,7 +1154,7 @@ algorithm to find one, which is given as Algorithm~\ref{alginvmaker}
 
 \begin{algorithm}
 \caption{$\quad$ \sc InvolutionMaker}
-\index{Involution Maker}%
+\index{InvolutionMaker@\textsc{InvolutionMaker}}%
 \label{alginvmaker}
 \begin{algorithmic}
 \STATE \textbf{Input:} A finite group $G$ and an integer $t$.
@@ -1157,6 +1176,7 @@ element of $G$}
 \end{algorithm}
 
 \begin{Prop}[Involution Maker]
+\index{InvolutionMaker@\textsc{InvolutionMaker}}%
 Let $G$ be a finite group. Then the return value $u$ of 
 Algorithm~\ref{alginvmaker} ``\textsc{InvolutionMaker}'' 
 called with the group $G$ is either
@@ -1183,7 +1203,7 @@ an element of $G$ in the sequel.
 The following definition helps in formulations.
 
 \begin{Def}[Projective involution]
-\index{Involution!projective}\index{projective Involution}%
+\index{involution!projective}\index{projective involution}%
 Let $G \le \GL(n,q)$ and $Z := G \cap Z(\GL(n,q))$ be the subgroup of scalar
 matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
 called \emph{projective involution in $G$}.
@@ -1200,7 +1220,7 @@ publications of the author for a more detailed analysis.
 
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD247}}
-\index{FindHomD247}%
+\index{FindHomD247@\textsc{FindHomD247}}%
 \label{algreductionD24}
 \begin{algorithmic}
 \STATE \textbf{Input:} A group $G \le \GL(n,q)$ known to act absolutely
@@ -1239,6 +1259,7 @@ irreducibly.
 
 \begin{Obs}[Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' works 
 well in practice]
+\index{FindHomD247@\textsc{FindHomD247}}%
 We have implemented Algorithm~\ref{algreductionD24}
 ``\textsc{FindHomD247}'' in {\GAP} and have
 performed many experiments. To generate random elements we use the
@@ -1258,6 +1279,7 @@ $9$ times seems to be enough to rule out \DD2 and \DD4.
 
 \begin{Expl}[Heuristic explanation for Algorithm~\ref{algreductionD24} 
 ``\textsc{FindHomD247}'']
+\index{FindHomD247@\textsc{FindHomD247}}%
 For being contained in a normal subgroup $N \triangleleft G$ only the
 conjugacy class of an element $x \in G$ is relevant since $N$ is a union of
 conjugacy classes of $G$. The Involution Jumper (see Algorithm~\ref{alginvjump}) 
@@ -1328,10 +1350,11 @@ statement ``Perform check for \DD7'' in a situation in which we have produced
 a candidate for the normal subgroup $N$. We now describe how to perform
 this check, which is summarised in Algorithm~\ref{algreductionD7}
 ``\textsc{FindHomD7}''.
+\index{FindHomD7@\textsc{FindHomD7}}%
 
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD7}}
-\index{FindHomD7}%
+\index{FindHomD7@\textsc{FindHomD7}}%
 \label{algreductionD7}
 \begin{algorithmic}
 \STATE \textbf{Input:} A group $G \le \GL(n,q)$, a normal subgroup $N$ known 
