@@ -44,12 +44,12 @@ simple. Even if there is a non-trivial kernel the composition tree setup
 will take care of this.
 
 Matrix groups and projective groups of course act on their natural
-module and in there on vectors and subspaces. So finding any other
+module and thus on vectors and subspaces. So finding some
 action is not difficult. Achieving good performance however can be
 tricky. To this end we want to find short orbits. Heuristic methods
 for this for matrix groups can be found in \cite{shortorbits}.
 
-Another possibility are low index methods.
+Another possibility is low index methods.
 Here one would guess the point stabiliser of a point with a short
 orbit, restrict the natural module to it and use the MeatAxe to find a
 proper invariant subspace. The orbit of this subspace would then be
@@ -91,7 +91,7 @@ occurs very frequently in a certain isomorphism type after some tries,
 we can rule out this type with a known error probability.
 
 See Sections~\ref{solveD8} and \ref{solveD9} for an overview of the
-current state of the art of non-constructive recognition for classical
+methods for non-constructive recognition for classical
 groups in their natural representation (class \DD8) and for groups in class \DD9
 respectively.
 
@@ -100,7 +100,7 @@ respectively.
 
 In this section we give a definition of the term
 ``standard generators''. As in this whole chapter we do not want to go
-into detail too much but instead give the reader an idea of the
+into too much detail but instead give the reader an idea of the
 concept.
 
 Once the isomorphism type of a group $G = \left< g_1, \ldots,
@@ -128,9 +128,9 @@ The concept of standard generators serves this purpose.
 \end{Def}
 
 \begin{Rem}
-Note that indeed this choice has to be done individually for every
+Note that this choice has to be done individually for every
 isomorphism type of finite groups and the properties have to be
-determined intelligently such that finding a tuple of standard
+determined intelligently, such that finding a tuple of standard
 generators is possible efficiently (see Section~\ref{goodstandgens}).
 \end{Rem}
 
@@ -165,9 +165,10 @@ To find standard generators for $M_{11}$:
   \item Now $ababbabbb$ has order $5$, and standard generators of $M_{11}$ 
       have been obtained.
 \end{enumerate}
-It is a theorem that this procedure produces standard generators, the
-probabilities can be read off the character table of $M_{11}$ and assume
-that we produce uniformly distributed random elements.
+It is a theorem that this procedure produces standard generators and the
+probabilities can be read off the character table of $M_{11}$. Of course 
+we assume uniformly distributed random elements for these
+probabilities to be correct.
 Note that choosing random conjugates of $x$ that are uniformly distributed in the
 conjugacy class of $x$ can be achieved by conjugating $x$ with a random element
 that is uniformly distributed in the group.
@@ -309,8 +310,18 @@ both constructive and non-constructive recognition is that $G/Z$ is
 itself not necessarily simple, after all, $G/Z$ is only ``almost simple''.
 However, the Schreier conjecture, which follows from the classification
 of finite simple groups, says that $\Aut(\bar N) / \bar N$ is solvable
-for all finite simple groups $\bar N$. In fact, this outer automorphism
-group is rather small in most cases occurring in practice.
+for all finite simple groups~$\bar N$. 
+
+In fact, this outer automorphism
+group is rather small for groups occurring in practice. 
+If $\bar N$ is alternating or sporadic, then
+$|\Out(\bar N)| = 2$ except for $|\Out(A_6)| = 4$.
+In \cite[Lemma 1.4]{LucchiniMorigi} it is shown
+that for a simple group $\bar N$ of Lie type in cross-characteristic, 
+$|\Out(\bar N)| \le \beta \log n$ for some global constant
+$\beta$. If $\bar N$ is a simple group of Lie type in its defining
+characteristic, then $|\Out(\bar N)| \le 2(n+1)\log q$ by
+\cite[Proof of Lemma 1.3]{LucchiniMorigi}.
 
 So the first step for recognition is to find the simple subgroup
 isomorphic to $\bar N$ of $G/Z$, we denote this by $N/Z$ in the following. 
