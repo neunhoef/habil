@@ -1220,15 +1220,6 @@ matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
 called \emph{projective involution in $G$}.
 \end{Def}
 
-We summarise the method to find a reduction in the case that $G$ lies in
-\DD2 or \DD4 in Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}''. 
-This algorithm
-already contains a line to check for \DD7 which we will explain in
-Section~\ref{solveD7}. We do not analyse this algorithm here but only
-describe some observations and give a few heuristic arguments to try to
-explain why it works so well. The reader is kindly referred to future
-publications of the author for a more detailed analysis.
-
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD247}}
 \index{FindHomD247@\textsc{FindHomD247}}%
@@ -1267,6 +1258,15 @@ irreducibly.
 \ENDWHILE
 \end{algorithmic}
 \end{algorithm}
+
+We summarise the method to find a reduction in the case that $G$ lies in
+\DD2 or \DD4 in Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}''. 
+This algorithm
+already contains a line to check for \DD7 which we will explain in
+Section~\ref{solveD7}. We do not analyse this algorithm here but only
+describe some observations and give a few heuristic arguments to try to
+explain why it works so well. The reader is kindly referred to future
+publications of the author for a more detailed analysis.
 
 \begin{Obs}[Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' works 
 well in practice]
@@ -1345,24 +1345,6 @@ case. To some extent it seems to work even better in this case, since the
 factor group $G/N$ has an action on $k$ points where $n=r^k$ for some $r$
 and $k$, which makes $k$ relatively small in real world situations.
 
-There are basically two problems. The first is that we cannot easily detect 
-that the normal closure of our involution produced by the Involution
-Jumper is equal to $N$, because $V|_N$ is absolutely irreducible. The
-second is that even if we assume this, we have to find the action of $G/N$ on
-the direct factors of $N/Z$ (recall that in the \DD7 case the group $N/Z$
-is isomorphic to a direct product of pairwise isomorphic non-abelian simple
-groups that are permuted transitively by the conjugation action of $G/N$ on
-$N$). In this section we present a new idea to solve these two problems
-which works very well in practice. As for the \DD2 and \DD4 cases, the reader is
-kindly referred to future publications by the author for a complete analysis.
-
-Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' already contains a 
-statement ``Perform check for \DD7'' in a situation in which we have produced
-a candidate for the normal subgroup $N$. We now describe how to perform
-this check, which is summarised in Algorithm~\ref{algreductionD7}
-``\textsc{FindHomD7}''.
-\index{FindHomD7@\textsc{FindHomD7}}%
-
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD7}}
 \index{FindHomD7@\textsc{FindHomD7}}%
@@ -1401,6 +1383,24 @@ to act absolutely irreducibly
 \STATE \textbf{Return} action homomorphism as reduction
 \end{algorithmic}
 \end{algorithm}
+
+There are basically two problems. The first is that we cannot easily detect 
+that the normal closure of our involution produced by the Involution
+Jumper is equal to $N$, because $V|_N$ is absolutely irreducible. The
+second is that even if we assume this, we have to find the action of $G/N$ on
+the direct factors of $N/Z$ (recall that in the \DD7 case the group $N/Z$
+is isomorphic to a direct product of pairwise isomorphic non-abelian simple
+groups that are permuted transitively by the conjugation action of $G/N$ on
+$N$). In this section we present a new idea to solve these two problems
+which works very well in practice. As for the \DD2 and \DD4 cases, the reader is
+kindly referred to future publications by the author for a complete analysis.
+
+Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' already contains a 
+statement ``Perform check for \DD7'' in a situation in which we have produced
+a candidate for the normal subgroup $N$. We now describe how to perform
+this check, which is summarised in Algorithm~\ref{algreductionD7}
+``\textsc{FindHomD7}''.
+\index{FindHomD7@\textsc{FindHomD7}}%
 
 First of all, if $n$ does not have a decomposition as
 $n=r^k$, then we do nothing since $G$ cannot lie in \DD7. Otherwise,

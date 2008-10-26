@@ -28,9 +28,9 @@
 \usepackage{graphicx}
 \usepackage[colorlinks=true,backref=page,dvipdfm,%hypertex,
             linkcolor=MyBlue,urlcolor=MyRed,citecolor=MyGreen,
-            pdftitle={Computing with Matrix Groups},
+            pdftitle={Constructive Recognition of Finite Groups},
             pdfauthor={Max Neunh\string\öffer},
-            pdfsubject={Matrix Groups},
+            pdfsubject={Matrix and projective groups},
             pdfkeywords={constructive recognition}]{hyperref}
 \usepackage{myhyppdf}
 \usepackage{algorithm}
@@ -49,18 +49,20 @@
 \usepackage[a4paper,
 %\usepackage[letterpaper,  % for letter: make it possible but not optimized
             height=8.30in,width=5.87in,
+            vmarginratio=1:1,
             % this is 71% of a4 in both dimensions ==> page usage 50%
             % use default: hmarginratio=2:3,vmarginratio=2:3,
-            %showframe,   % for verification purposes
+            % showframe,   % for verification purposes
             headheight=1\baselineskip,verbose]{geometry}
 %So zum Korrekturlesen mit breitem rechtem Rand:
 %%%\usepackage[a4paper,
 %%%%\usepackage[letterpaper,  % for letter: make it possible but not optimized
 %%%            height=8.30in,width=5.87in,
+%%%            vmarginratio=1:1,
 %%%            % this is 71% of a4 in both dimensions ==> page usage 50%
 %%%            % use default: hmarginratio=2:3,vmarginratio=2:3,
 %%%            %showframe,   % for verification purposes
-%%%            headheight=1\baselineskip,verbose,twoside=false,left=5mm]{geometry}
+%%%            headheight=1\baselineskip,verbose,twoside=false,left=10mm]{geometry}
 
 % Bemerkung: showkeys und hyperref funktionieren nicht zusammen!
 
@@ -243,6 +245,7 @@ November 2008
 
 \include{preface}
 
+\newpage\enlargethispage{-1\baselineskip}
 \tableofcontents
 \thispagestyle{fancy}
 

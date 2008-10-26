@@ -1291,6 +1291,37 @@ $\ord_{YMY^{-1}}(vY^{-1})$ are equal for every $v \in V$ and thus also
 the order polynomials $\ord_M(vY)$ and $\ord_{YMY^{-1}}(v)$ are equal for every
 $v \in V$.
 
+\begin{figure}
+\caption{Overview of the matrix $YMY^{-1}$}
+\label{bigmat}
+\[ \left[ \begin{array}{cccccc|cccccc|c|cccccc}
+\cline{1-6}
+  0 & 1 &      &      &   &   \\
+    & 0 & 1    &      & 0 &   \\
+    &   &\ddots&\ddots&   &   \\
+    & 0 &      &   0  & 1 &   \\
+    &   &      &      & 0 & 1 \\
+  {}* & * &   *  &   *  & * & * \\
+\cline{1-12}
+  &&&&&& 0 & 1 &      &      &   &   \\
+  &&&&&&  & 0 & 1    &      & 0 &   \\
+  &&&&&&  &   &\ddots&\ddots&   &   \\
+  &&&&&&  & 0 &      &   0  & 1 &   \\
+  &&&&&&  &   &      &      & 0 & 1 \\
+  {}*&*&*&*&*&*&* & * &   *  &   *  & * & * \\
+\cline{1-13}
+  &&&\vdots&&& &&&\vdots&&& \ddots \\
+\cline{1-19}
+  &&&&&& &&&&&& & 0 & 1 &      &      &   &   \\
+  &&&&&& &&&&&& & & 0 & 1    &      & 0 &   \\
+  &&&&&& &&&&&& & &   &\ddots&\ddots&   &   \\
+  &&&&&& &&&&&& & & 0 &      &   0  & 1 &   \\
+  &&&&&& &&&&&& & &   &      &      & 0 & 1 \\
+  {}*&*&*&*&*&*& *&*&*&*&*&*&* &*& * &   *  &   *  & * & * \\
+\hline
+\end{array} \right] \]
+\end{figure}
+
 For the convenience of the reader we display the matrix
 $YMY^{-1}$ in Figure~\ref{bigmat}. Note in particular that the matrix is
 sparse, provided that the degrees $d_i$ are not too small.
@@ -1324,37 +1355,6 @@ produced during a run of Algorithm~\ref{algcharpoly}. Note that for
 the analysis it is crucial that a number $z$ such that
 the vector $v$ lies in $W'_z$ 
 is given as input to the algorithm.
-
-\begin{figure}
-\caption{Overview of the matrix $YMY^{-1}$}
-\label{bigmat}
-\[ \left[ \begin{array}{cccccc|cccccc|c|cccccc}
-\cline{1-6}
-  0 & 1 &      &      &   &   \\
-    & 0 & 1    &      & 0 &   \\
-    &   &\ddots&\ddots&   &   \\
-    & 0 &      &   0  & 1 &   \\
-    &   &      &      & 0 & 1 \\
-  {}* & * &   *  &   *  & * & * \\
-\cline{1-12}
-  &&&&&& 0 & 1 &      &      &   &   \\
-  &&&&&&  & 0 & 1    &      & 0 &   \\
-  &&&&&&  &   &\ddots&\ddots&   &   \\
-  &&&&&&  & 0 &      &   0  & 1 &   \\
-  &&&&&&  &   &      &      & 0 & 1 \\
-  {}*&*&*&*&*&*&* & * &   *  &   *  & * & * \\
-\cline{1-13}
-  &&&\vdots&&& &&&\vdots&&& \ddots \\
-\cline{1-19}
-  &&&&&& &&&&&& & 0 & 1 &      &      &   &   \\
-  &&&&&& &&&&&& & & 0 & 1    &      & 0 &   \\
-  &&&&&& &&&&&& & &   &\ddots&\ddots&   &   \\
-  &&&&&& &&&&&& & & 0 &      &   0  & 1 &   \\
-  &&&&&& &&&&&& & &   &      &      & 0 & 1 \\
-  {}*&*&*&*&*&*& *&*&*&*&*&*&* &*& * &   *  &   *  & * & * \\
-\hline
-\end{array} \right] \]
-\end{figure}
 
 \begin{algorithm}
 \caption{$\quad$ \sc OrdPoly}
@@ -1970,6 +1970,7 @@ $\varepsilon = 1/100$ for all runs.
 \subsection{The test matrices}
 Next, we describe the matrices $M_1, \ldots, M_{10}$ we used.
 
+\enlargethispage{1\baselineskip}
 (a) \quad The matrices $M_1$ and $M'_1$ were purely random matrices from
 $\F_3^{1000\times 1000}$ with all entries
 chosen with uniform distribution from the field $\F_3$. Such matrices
