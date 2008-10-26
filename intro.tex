@@ -14,7 +14,7 @@ elements in a finite group.
 \label{sec:complexity}
 
 \index{complexity theory}%
-Already in this chapter but all the more in the rest of the book we
+Already in this chapter, but all the more in the rest of the book, we
 talk about the analysis of algorithms. In this section we want to
 discuss briefly what we mean by this at all.
 
@@ -65,7 +65,7 @@ possible that the complexity of B is in fact smaller than
 the one of A for small problem sizes. In that case we might want to
 implement both algorithms and use B for smaller instances and A for
 bigger instances. In this way complexity theory helps to come up with
-better implementations. If we for example had an algorithm B to multiply
+better implementations. If we had for example an algorithm B to multiply
 two $n\times n$-matrices over $\F_q$ using $n^4/20$ elementary field
 operations, it would be worthwhile to use it as opposed to the
 standard algorithm A for small matrices, since
@@ -83,7 +83,7 @@ are only interested in the type of function expressing this upper
 bound in terms of the problem size and are actually not interested in
 the constants. 
 
-So to determine that the growth rate of the complexity
+So, to determine that the growth rate of the complexity
 \index{growth rate}%
 of the example algorithm A above is smaller than the one of B, we do
 not need the exact number of steps $(2n-1)\cdot n^2$ and $n^4/20$
@@ -119,7 +119,7 @@ This will be used in the analysis of algorithms by saying for
 example: Algorithm A above has complexity $O(n^3)$ whereas algorithm B
 \index{complexity}%
 above has complexity $O(n^4)$. Obviously it has to be clear from the
-context which family of computational problems the algorithm deals
+context, which family of computational problems the algorithm deals
 with and how the size $n$ of an instance of the problem is measured.
 
 There is a certain sloppiness in this usage of Definition~\ref{capO}.
@@ -134,7 +134,7 @@ possible and sometimes we cannot.
 
 Up to now we have concentrated on the ``time complexity'' of
 \index{time complexity}%
-algorithms, that is the asymptotic behaviour of the runtime with
+algorithms, that is, the asymptotic behaviour of the runtime with
 growing problem sizes. Although this is usually the most interesting
 aspect, it is of course also necessary to keep an eye on other
 computational resources like memory usage. We speak of ``space
@@ -196,8 +196,8 @@ generators in a group, we further restrict this to the following:
     common group and consists of a finite 
     sequence of steps, which are each one of the following:
 \begin{itemize}
-    \item Compute the product of two stored elements.
-    \item Compute the inverse of a stored group element.
+    \item Compute the product of two stored elements, or
+    \item compute the inverse of a stored group element.
 \end{itemize}
     An SLP starts with the elements $g_1, \ldots, g_k$,
     stores all intermediate results and returns one or more of the 
@@ -315,7 +315,7 @@ algorithm'' in this sense throughout this book.
 Randomised algorithms in group theory need random elements in groups.
 Moreover, to allow a proper analysis of the behaviour of such
 algorithms one needs to know quite a lot about the distribution of
-the random elements in the group. Usually the best with respect to
+the random elements in the group. Usually, the best with respect to
 analysis is to have a source of uniformly distributed random elements.
 
 For most applications we are content with pseudo randomness, that is, with a
@@ -415,18 +415,18 @@ that a constant value for $N$ will not work well for $|G| \to \infty$.
 See \cite[Section~4]{LGMurray}.
 \proofend
 
-\subsection{A brief discussion of \textsc{Rattle}}
+\subsubsection{A brief discussion of \textsc{Rattle}}
 
 \index{Rattle@\textsc{Rattle}}%
 Although it can be proved that for every finite group $G$ and every
 generating tuple $(g_1, \ldots, g_k)$ the distribution of the element
 $a_0$ for $N \to \infty$ tends to the uniform distribution (see
 Proposition~\ref{proprattle}), there is
-not much known about the rate of convergence. So picking the value for
+not much known about the rate of convergence. So, picking the value for
 $N$ in practice is difficult, in particular if we do not know anything
 about $G$.
 
-If we then use the sequence produced by the \textsc{Rattle} method
+If we use the sequence produced by the \textsc{Rattle} method
 after initialisation as a sequence of random elements in $G$, 
 subsequent elements seem to be uniformly distributed, but adjacent
 elements in the sequence are clearly not distributed independently.

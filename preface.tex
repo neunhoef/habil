@@ -9,7 +9,9 @@
 %This chapter gives a brief overview of the mathematical area and the 
 %content of the present book and finishes with the acknowledgements.
 
-\section{The Goal}
+\section*{The Goal}
+\addcontentsline{toc}{section}{The Goal}
+\markboth{Preface}{The Goal}
 
 The mathematical area of the present book is computational group
 theory. The ultimate goal of this theory is to be able to do
@@ -36,7 +38,8 @@ These algorithms are implemented in computer algebra
 systems like {\GAP} (see \cite{GAP4}) and {\MAGMA} (see \cite{Magma})
 and the status of this area can justifiably be called satisfactory.
 
-A few interesting experiences have been made from this area. One is that 
+A few interesting experiences have been made from the study of permutation
+group algorithms. One is that 
 complexity theory,
 \index{complexity theory}%
 which is the study of the asymptotic behaviour of the runtime of algorithms 
@@ -48,7 +51,7 @@ algorithms has shown that
 \index{complexity}%
 it is in practice worthwhile to first exclude a few nasty cases ---
 for which special methods apply --- before applying standard methods,
-which would be disastrously slow in these nasty cases. Large base
+which would be disastrously slow in these special cases. Large base
 groups (see Section~\ref{SmallLargeBase}) are an example for such
 nasty cases for stabiliser chain methods.
 Another interesting
@@ -72,7 +75,7 @@ is to be able to do as much as possible with these matrix groups over
 finite fields, guided by what is already possible efficiently for
 finite permutation groups. The general idea is to use the complexity
 analysis of algorithms as a tool to come up with ``efficient''
-algorithms. Generally an algorithm is considered to be ``good'' if
+algorithms. Generally, an algorithm is considered to be ``good'' if
 its runtime is bounded from above by a polynomial in the size of the
 input.
 
@@ -124,14 +127,16 @@ composition tree here is
 necessarily very rough, for details see \cite{MatGrpProj} or \cite{OB}
 or Section~\ref{recapproach}.
 
-\section{This Book}
+\section*{This Book}
+\addcontentsline{toc}{section}{This Book}
+\markboth{Preface}{This Book}
 
 The matrix group recognition project has produced many
 results but is not yet fully completed.
 This book gives an overview of the current state of the art and
 shows some contributions of the author. The collaborative nature of the
 whole project lends itself to joint papers by more than one person.
-Therefore, some of the author's contributions to the project, which can
+Therefore, some of the author's work in the context of this project, which can
 be found in Chapters~\ref{chap:charminpoly}, \ref{chap:comptree} and
 \ref{chap:subsemi}, are in fact collaborations with other authors.
 
@@ -158,7 +163,7 @@ packages. For some methods, mainly for the leaves of the composition tree,
 the reader is however referred to the literature.
 \index{leaf}%
 
-Since the matrix group project is not yet finished, the present work
+Since the matrix group recognition project is not yet finished, the present work
 cannot give a complete description of a solution to the constructive
 recognition problem. In particular for the leaves of the composition tree
 a lot of work and improvement of algorithms still has to be done, as is
@@ -172,7 +177,7 @@ the whole field of algorithms for matrix groups that build on constructive
 recognition. Derek Holt and Mark Stather have recently published a paper
 \cite{HoltStather} pointing in that direction and Mark Stather's PhD thesis
 \cite{StatherPhd} and \cite{StatherSylow} also lie in this area. 
-Another area left out is the
+Another topic left out is the
 constructive recognition of black box groups, because we wanted to
 concentrate on matrix and projective groups. We only cover the
 verification phase very briefly, which is however necessary to eventually
@@ -181,7 +186,7 @@ fact very little work has been done on the actual implementation of
 verification routines. What is needed for this is basically good
 presentations for the groups occurring in the leaves. 
 \index{leaf}%
-Finally a global analysis of the
+Finally, a global analysis of the
 whole procedure of building a composition tree is still needed. This seems
 achievable using estimates on the length of a composition series but is not
 yet done.
@@ -190,9 +195,9 @@ Now we turn to the things that are contained in this book and
 outline its structure. 
 
 Chapter~\ref{chap:intro} introduces briefly some concepts from computer
-science which apply to computational group theory and describes a
+science, which apply to computational group theory, and describes a
 way to produce nearly uniformly distributed random elements in a
-finite group. Chapter~\ref{chap:cmats} describes a new method to
+finite group. Chapter~\ref{chap:cmats} introduces a new method to
 implement matrices over finite fields on a computer. Having an efficient
 implementation of the finite field arithmetic and linear algebra
 routines is obviously an indispensable foundation for implementing
@@ -221,13 +226,13 @@ by the matrix group recognition project, namely the constructive
 recognition problem. We give a gentle introduction starting with a
 rough formulation of the problem followed by two refinements. Then the
 fundamental approach using composition trees and a generic framework
-for group recognition are explained. We explain in detail the idea and
+for group recognition are described. We explain in detail the idea and
 purpose of reduction homomorphisms. The
 contents of this chapter are a variation and extension of the paper
 \cite{AkosMaxISSAC} by \'Akos Seress and the author, in which the
 composition tree approach is refined by allowing for a change in the generating
 set of the group to be recognised. This refinement can dramatically
-increase the performance because the resulting straight line programs
+increase the performance, because the resulting straight line programs
 are much shorter than in the traditional version. Finally, the chapter
 closes with a description how the currently best known algorithms for
 the constructive recognition of permutation groups fit in nicely with
@@ -257,12 +262,14 @@ Chapter~\ref{chap:leaves} finally tries to summarise the state of the
 art for algorithms to do constructive recognition for the leaves of
 the composition tree, that is for groups in the Aschbacher classes
 \CC8 and \CC9. We do not try to explain any of the best known
-methods there because the final word on them seems not to be spoken
-as of this writing. Rather, we explain the concepts of non-constructive
+methods there, because the final word on them seems not to be spoken
+at the time of this writing. Rather, we explain the concepts of non-constructive
 recognition and standard generators and give references to the
 literature.
 
-\section{Acknowledgements}
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+\markboth{Preface}{Acknowledgements}
 
 First and foremost I would like to thank Gerhard Hi\ss{} for a multitude
 of things. He was not only my PhD supervisor but also gave me the
@@ -280,7 +287,8 @@ repeatedly to the University of Western Australia in Perth for
 research visits. During one of these visits I met \'Akos Seress, whom
 I thank for motivating me to start working in the area of
 computational matrix group theory, for successfully collaborating with
-me over several years and for inviting me repeatedly to Columbus, Ohio
+me over several years and for inviting me repeatedly to the Ohio State
+University in Columbus
 for research visits.
 
 Furthermore I thank my coauthors Jon Carlson, Cheryl Praeger, 
@@ -289,10 +297,14 @@ collaboration on a major part of the work that went into the present book.
 
 I thank the University of St Andrews and in particular Steve Linton
 for employing me since 2007 and giving me the opportunity to complete
-the work on this book as part of my research job.
+the work on this book as part of my research job. I am grateful to all the
+people in both the Mathematics and Computer Science departments, because
+they integrated me very nicely and made it easy for me to feel well
+and start joint work.
 
 A big thank-you also goes to Colva Roney-Dougal who helped a lot in
-proofreading and who agreed to constantly correct my English.
+proofreading, agreed to constantly correct my English and motivated me to
+apply for my position in St Andrews.
 
 I wholeheartedly thank my parents for their permanent support and
 for allowing me to have the long mathematics education I had, which
@@ -300,6 +312,7 @@ gave me the opportunity to get into my dream job.
 
 Last but not least I would like to thank my wonderful wife Anja for
 her constant support and encouragement during the completion of this
-book.
+book. I also thank her for moving to Scotland, such that we can live
+together in this beautiful and relaxed country.
 
 \renewcommand{\thechapter}{\Roman{chapter}}
