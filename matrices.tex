@@ -262,7 +262,7 @@ following proposition.
 
 \begin{Prop}[Addition of compact vectors]
 \label{addvec}
-We assume a machine with $32$-bit word length. For $2 < p < 2^{31}$
+We assume a machine with $32$-bit word length. For\/ $2 < p < 2^{31}$
 two compact vectors of length $n$ over the field of $q=p^k$
 elements can be added using $7k\cdot \lceil n/w \rceil$ word operations
 (plus memory fetches and stores), where $w = \lfloor 32/e \rfloor$
@@ -270,8 +270,8 @@ and $e = \lceil \log_2(2p-1) \rceil$.
 
 For $p=2$ only $k \cdot \lceil n/32 \rceil$ word operations are needed.
 
-For machines with $64$-bit word length the number of word operations
-is $7k \cdot \lceil n/(2w) \rceil$ and $\lceil n/64 \rceil$ respectively and 
+For machines with\/ $64$-bit word length the number of word operations
+is\/ $7k \cdot \lceil n/(2w) \rceil$ and $\lceil n/64 \rceil$ respectively and 
 we can work with primes $p < 2^{63}$.
 \end{Prop}
 \Proof See above. \ProofEnd

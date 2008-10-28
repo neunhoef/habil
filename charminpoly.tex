@@ -15,7 +15,8 @@ Praeger and are already published as \cite{minpolypaper}.
 \section{Introduction}
 
 Let $\F$ be a finite field and $M \in \F^{n \times n}$ a matrix. This paper
-presents and analyses a Monte Carlo  algorithm to compute the minimal 
+presents and analyses a Monte Carlo  algorithm (see
+Section~\ref{montevegas}) to compute the minimal 
 polynomial of $M$, that is,
 the monic polynomial $\mu \in \F[x]$ of least degree, such that
 $\mu(M) = 0$. 
@@ -51,8 +52,8 @@ real number $\varepsilon < 1/2$, Algorithm~\ref{algminpolymc}
 computes the minimal polynomial of $M$ with probability at least $1-\varepsilon$.
 For sufficiently large $n$ and fixed $\varepsilon$, the number of elementary 
 field operations required is less than $7n^3$ plus the costs of 
-factorising a degree $n$ polynomial over $\F_q$ and constructing at most $n$
-random vectors in $\F^n$.
+factorising a degree $n$ polynomial over\/ $\F_q$ and constructing at most $n$
+random vectors in\/ $\F^n$.
 \end{Theo}
 
 %For more details see Section~\ref{minpoly}. 
@@ -695,7 +696,8 @@ bY'$.
 {\sc RelativeOrdPoly}]
 \label{proprelorderpol}
 \index{RelativeOrdPoly@\textsc{RelativeOrdPoly}}%
-Let $\calY=(Y,S,T,l)$ be a semi echelon data sequence with $Y,S \in \F^{m \times
+Let\/ $\calY=(Y,S,T,l)$ be a semi echelon data sequence 
+with $Y,S \in \F^{m \times
 n}$ (possibly $m=0$), $v \in \F^n$, and $M \in \F^{n \times n}$
 such that $W:=\rsp(Y)$ is $M$-invariant. 
 The output of Algorithm 2 satisfies the Output specifications, and
@@ -1149,10 +1151,10 @@ $q_i$ has equal mult.~in $\mu_{M,V}$
 and $\ord_M(v)$]
 \label{ProbOneMult}
 
-Let $\F = \F_q$ be a finite field with $q$ elements, let $V=\F^n$, let
+Let\/ $\F = \F_q$ be a finite field with $q$ elements, let $V=\F^n$, let
 $U$ be a (possibly zero) $M$-invariant subspace such that the multiplicity of
 $q_i$ in $\mu_{M,U}$ is strictly smaller than in $\mu_{M,V}$, and let 
-$v$ be a uniformly distributed random element of $V\setminus U$. Then 
+$v$ be a uniformly distributed random element of\/ $V\setminus U$. Then 
 the multiplicity of $q_i$ is the same in $\ord_M(v)$ and $\mu_{M,V}$ 
 with probability greater than
 $1-q^{-\deg q_i}$.
@@ -1392,7 +1394,7 @@ of which is $\ord_{YMY^{-1}}(v)$
 {\sc OrdPoly}]
 \label{propordpol}
 \index{OrdPoly@\textsc{OrdPoly}}%
-Let $\F = \F_q$ be a field with $q$ elements.
+Let\/ $\F = \F_q$ be a field with $q$ elements.
 The output of Algorithm~\ref{algordpolabs} satisfies the Output specifications.
 Moreover, Algorithm~\ref{algordpolabs}
 requires at most
@@ -1542,7 +1544,7 @@ Proposition~\ref{propminpoly} for details).
 \index{MinPolyMC@\textsc{MinPolyMC}}%
 Given a matrix $M \in \F_q^{n \times n}$ and a number
 $\varepsilon$ with $0 < \varepsilon < 1/2$, Algorithm~\ref{algminpolymc}
-returns a tuple $(b,f)$, where $b$ is either {\sc True} or {\sc Uncertain}
+returns a tuple $(b,f)$, where $b$ is either\/ {\sc True} or\/ {\sc Uncertain}
 and $f \in \F_q[x]$ is a polynomial. With probability at least $1-\varepsilon$
 the polynomial $f=\mu_{M,\F_q^n}$, and if
 \/ $b = \mbox{\sc True}$ then
@@ -1786,7 +1788,7 @@ as claimed.
 Of course, this immediately implies:
 
 \begin{Cor}[Small degree minimal polynomial]
-If $\deg \mu_{M,\F_q^n} < n$, then the output of Algorithm~\ref{algminpolymc} 
+If\/ $\deg \mu_{M,\F_q^n} < n$, then the output of Algorithm~\ref{algminpolymc} 
 can be verified by evaluation using at most 
 \[ 2\cdot n^3 \cdot \deg \mu_{M,\F_q^n} \] 
 elementary field operations.
@@ -1839,7 +1841,7 @@ Proposition~\ref{propverify} for details).
 
 If Algorithm~\ref{algminpolyverify} is called with candidate minimal polynomial
 $\prod_{i=1}^t q_i^{f_i}$ from Algorithm~\ref{algminpolymc}, 
-then it either returns {\sc True} or a 
+then it either returns\/ {\sc True} or a 
 positive integer~$j$.
 In the former case, $\mu_{M,\F_q^n}=\prod_{i=1}^t q_i^{f_i}$,
 while in the latter case the
@@ -1991,7 +1993,7 @@ The matrices $a$ and $b$ were downloaded from the WWW-Atlas of group
 \index{WWW-Atlas of group representations}%
 representations (see \cite{WWWAtlas}). The matrix $a+b+ab$ is
 interesting because it is one of the algebra words that is used
-in the {\sc MeatAxe} (see \cite{MeatAxeParker} and \cite{MeatAxeHoltRees})
+in the {\sc MeatAxe} (see \cite{MeatAxeRP} and \cite{MeatAxeHoltRees})
 to compute composition series of modules and
 we could very well imagine using the minimal polynomial instead of
 the characteristic polynomial in some places in the {\sc MeatAxe}.

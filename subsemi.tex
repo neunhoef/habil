@@ -108,7 +108,8 @@ In addition to developing reduction algorithms, we characterise
 the groups which have a faithful absolutely irreducible module
 on which the derived group acts by scalar matrices. 
 We also develop efficient Monte Carlo 
-methods for generating subgroups of matrix groups that behave 
+methods (see Section~\ref{montevegas})
+for generating subgroups of matrix groups that behave 
 like normal subgroups. The use of Clifford's Theorem 
 upgrades these algorithms to Las Vegas. 
 
@@ -804,7 +805,6 @@ If there exists a $\tilde{V}$ such that $V \cong K \otimes_{F} \tilde{V}$ as
 $KG$-modules then there is an irreducible representation of
 $G$ over $F$ which is $K$-equivalent to the natural representation of $G$ on $V$,
  hence there is a $t$ as required.
-
 On the other hand, such a $t$ 
 gives rise to a representation of $G$ over $F$ and thus to an $FG$-module
 $\tilde{V}$. The extension of scalars $K \otimes_F \tilde V$ of 
@@ -1461,8 +1461,8 @@ lies in class \CC5, provided $G$ is in \CC3 or in \CC5 or
 $G'$ is not absolutely irreducible.
 
 \begin{Lemm} [{Compare \cite[Lemma~4.1]{GLGOB}}]
-If\/ $G$ can be written over $\F_{q_0}$ modulo scalars in $\F_q$, 
-then $N \leq G'$ can be written over $\F_{q_0}$.
+If\/ $G$ can be written over\/ $\F_{q_0}$ modulo scalars in\/ $\F_q$, 
+then $N \leq G'$ can be written over\/ $\F_{q_0}$.
 \end{Lemm}
 
 \begin{proof}
@@ -1480,7 +1480,7 @@ Let $N = \langle n_1, \ldots, n_s \rangle \unlhd G$ be a subgroup of the
 derived group known (by
 a MeatAxe run) to be absolutely irreducible. 
 Then in $O(sd^3 \log \delta^{-1} + md^3)$ field operations
-we construct a homomorphism to $\PGL(d, q_0)$ for minimal $q_0$
+we construct a homomorphism to\/ $\PGL(d, q_0)$ for minimal $q_0$
  or prove that $G$ and
 $\overline{G}$ are not in \CC5. The algorithm returns {\tt fail} with
 probability at most $\delta$.
@@ -1568,7 +1568,7 @@ In deterministic $O(d^4\log q + m d^3)$ field operations we construct
  two homomorphisms, one to
 the cyclic group of order $e$ for some divisor $e$ of $d$ and a second
 from the kernel of the
-first to $\GL(d/e, q^e)$ or $\PGL(d/e, q^e)$.
+first to\/ $\GL(d/e, q^e)$ or\/ $\PGL(d/e, q^e)$.
 \end{Theo} 
 
 \begin{proof}
@@ -1901,6 +1901,7 @@ diagonal matrices with identical $n \times n$-diagonal blocks.
 
 The projective situation can be handled identically,
 by viewing the kernel as a  projective group.
+
 \end{proof}
 
 If  $H$ is a proper subgroup of $N$, then
