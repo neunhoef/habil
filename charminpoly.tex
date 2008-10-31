@@ -25,7 +25,7 @@ problems for matrices and has a wide range of applications. As well as
 revealing information about the Frobenius
 normal form of $M$, the minimal polynomial also elucidates the structure 
 of $\F^n$ viewed as $\F[x]$-module, where $x$ acts by multiplication with $M$. 
-In addition the order of $M$ modulo scalars is often found by first 
+In addition, the order of $M$ modulo scalars is often found by first 
 determining the minimal polynomial. Apart from these applications it has
 important practical utility, for example
 in the context of the matrix group recognition project~\cite{OB}.
@@ -39,9 +39,9 @@ particular we did not want to produce matrices with entries in
 larger fields or polynomial rings as intermediate results, 
 and we preferred to restrict ourselves to using only row operations 
 (rather than a combination of row and column operations). 
-In addition we wished to use standard field and polynomial arithmetic,
-and we wished to give  an explicit worst-case upper bound
-for the number of elementary field operations needed, and not only an
+In addition, we wished to use standard field and polynomial arithmetic,
+and we wanted to give  an explicit worst-case upper bound
+for the number of elementary field operations needed, rather than only an
 asymptotic complexity statement.
 Our Monte Carlo algorithm adheres to these requirements for matrices 
 over fields $\F_q$ of order $q$.
@@ -84,7 +84,7 @@ system~\cite{GAP4}.
 There are several interesting and asymptotically efficient
 minimal polynomial algorithms for $n\times n$ matrices in the literature. The most  
 asymptotically efficient deterministic algorithm is due to Storjohann 
-\cite{Stor01} in 2001. It is nearly optimal, `requiring about the same number of 
+(see \cite{Stor01}). It is nearly optimal, `requiring about the same number of 
 field operations as required for matrix 
 multiplication' (see \cite[Abstract, p368]{Stor01}). 
 It involves a divide-and-conquer strategy that produces matrices 
@@ -94,17 +94,17 @@ something we wished to avoid as it creates additional complications in practical
 applications within a computer algebra system used for group and 
 matrix algebra computations.
 
-Storjohann's earlier deterministic algorithm~\cite{Stor98} in 1998 uses classical 
+Storjohann's earlier deterministic algorithm (see \cite{Stor98}) uses classical 
 field arithmetic and requires $O(n^3)$ field operations. 
 It first reduces the matrix to `zig-zag form', using a mix of row 
 and column operations, then produces the Smith normal form 
-as a matrix with polynomial entries, and finally the Frobenius normal form.
+as a matrix with polynomial entries and finally the Frobenius normal form.
 In systems such as {\sf GAP}, matrices over small finite fields 
 are stored in a compressed form that
 makes row operations simple, but column operations difficult.
 Restricting to one of these types of operations was one of our criteria.
 
-A Monte Carlo minimal polynomial algorithm of Giesbrecht~\cite{Gie95} from 1995
+A Monte Carlo minimal polynomial algorithm of Giesbrecht (see \cite{Gie95}) 
 that runs in `nearly optimal time' contains some 
 features we find desirable for practical implementation, namely 
 his algorithm first constructs a `modular cyclic decomposition' 
@@ -115,12 +115,12 @@ Keller-Gehrig algorithm \cite{KelG85} and lead to a
 Las Vegas algorithm that computes a Frobenius form over an extension 
 field and then the minimal polynomial.
 The field size over which the given matrix is written is assumed 
-to be greater than $n^2$, and if this is not the case it is 
+to be greater than $n^2$, and if this is not the case, it is 
 suggested that an embedding into a larger extension field be used.
 Several of these features were undesirable for us.
 
 In \cite[Section 4]{AC97} Augot and Camion propose a deterministic algorithm
-to compute the minimal polynomial of a matrix which is to some extent
+to compute the minimal polynomial of a matrix, which is to some extent
 similar to our algorithm. It is deterministic with
 complexity $O(n^3 + m^2 \cdot n^2)$ field operations, 
 where $m$ is the number of blocks
@@ -196,7 +196,7 @@ and the set of row vectors of length $m$ by $\F^m$. For a vector
 $v \in \F^m$ we write $v_i$ for its $i$-th component and for a matrix 
 $M \in \F^{m \times n}$ we denote its $i$-th row, which is
 a row vector of length $n$, by $M[i]$. We use ``row vector
-times matrix'' operations, and in general right modules throughout.
+times matrix'' operations and in general right modules throughout.
 If $V$ is a vector space over $\F$ and $W$ is a subspace, the
 quotient space is denoted by $V/W$ and its cosets by
 $v+W$ for $v \in V$. The $\F$-linear span of the vectors
@@ -352,7 +352,7 @@ smaller bounds that imply our symmetric bounds.
 %\end{eqnarray*}
 \proofend
 
-\subsection{Polynomial factorisation}\label{polyfactn}
+\subsection*{Polynomial factorisation}\label{polyfactn}
 \index{polynomial factorisation}\index{factorisation!of polynomials}%
 
 Some of our algorithms return partially factorised polynomials
@@ -454,7 +454,8 @@ that $v \cdot p(M) \in W$.
 %\smallskip
 We now turn to the question of how one computes the order polynomial of
 a vector $v \in V$. The basic idea is to apply the matrix
-$M$ to the vector repeatedly computing a sequence \[ v, vM, vM^2, \ldots, vM^d \]
+$M$ to the vector repeatedly computing a sequence \[ v, vM, vM^2, \ldots,
+vM^d, \]
 until $vM^d$ is a linear combination
 \[ 
 vM^d = \sum_{i=0}^{d-1} a_i vM^i, 
@@ -538,7 +539,7 @@ the zero vector of $\F^n$.
 \medskip
 We now present Algorithm~\ref{clean}, which is one step in the
 computation of a semi echelon data sequence for a matrix $Y$. We
-denote by $S[i]$ the $i$-th row of the matrix $S$, and by $\rsp(S)$ the 
+denote by $S[i]$ the $i$-th row of the matrix $S$ and by $\rsp(S)$ the 
 row space of $S$.
 
 \begin{algorithm}
@@ -589,7 +590,7 @@ specifications.
 %Algorithm~\ref{clean} returns $(${\sc False}, $\calY',a')$, then $v\not
 %\in\rsp(Y)$, $\calY'$ has length $m+1$ and extends $\calY$, and $v=a'S'$.
 Moreover, Algorithm~\ref{clean} requires at most $2mn$ field operations
-if $v\in\rsp(Y)$, and
+if $v\in\rsp(Y)$ and\/
 $(2m+1)n + (m+1)^2 + 1$ field operations otherwise.
 \end{Prop}
 
@@ -722,7 +723,8 @@ vM+W, \ldots, vM^d+W$  (those are the successive values of
 $v'$) until $vM^d+W$ lies in the subspace of $V/W$ 
 generated by the vectors $v+W, vM+W, \ldots, vM^{d-1}+W$. 
 The given matrix $S$ together with Algorithm~\ref{clean} defines a
-direct sum decomposition of the $\F$-vector space $V := \F^n = W \oplus W'$
+direct sum decomposition of the $\F$-vector space $V := \F^n = W \oplus
+W'$,
 where $W'$ is the subspace of vectors having $0$ in all positions
 occurring in the list $l$. Since $W' \cong V/W$, 
 Algorithm~\ref{algordpoly} effectively computes in $V/W$ by always `cleaning
@@ -788,7 +790,7 @@ $q \in \F[x]$ of degree less than $d$ such that $w = vq(M)$.
 Moreover,
 \[ \ord_M(w) = \frac{p}{\gcd(p,q)}. \]
 \end{Lemm}
-\noindent We omit the routine proof for the sake of brevity. \proofend
+%\noindent We omit the routine proof for the sake of brevity. \proofend
 %\proofbeg
 %The existence and uniqueness of $q$ follows from identifying $V$ as an 
 %$\F[x]$-module. Let $f := \ord_M(w)$ and $r := \gcd(p,q)$, so that $wf(M)=0$, and 
@@ -809,13 +811,13 @@ Moreover,
 
 %\textbf{Or this one:}
 %
-%\proofbeg The cyclic module $v\F[x]$ is isomorphic
-%to $\F[x]/(p\F[x])$ because $p\F[x] = \ann_{\F[x]}(v)$. Under this isomorphism
-%$w$ is mapped to $q+p\F[x]$. Thus 
-%$\ord_M(w)\F[x] = \ann_{\F[x]}(q+p\F[x])$. Since $\lcm(p,q) = qp/\gcd(p,q)$
-%in the unique factorisation domain $\F[x]$ the statement follows
-%as all occurring polynomials here are monic.
-%\proofend
+\proofbeg The cyclic module $v\F[x]$ is isomorphic
+to $\F[x]/(p\F[x])$ because $p\F[x] = \ann_{\F[x]}(v)$. Under this isomorphism
+$w$ is mapped to $q+p\F[x]$. Thus 
+$\ord_M(w)\F[x] = \ann_{\F[x]}(q+p\F[x])$. Since $\lcm(p,q) = qp/\gcd(p,q)$
+in the unique factorisation domain $\F[x]$, the statement follows
+as all occurring polynomials here are monic.
+\proofend
 
 \begin{Lemm}[Absolute and relative order polynomials]
 \label{absordpoly}
@@ -823,20 +825,20 @@ Let $W$ be an $M$-invariant subspace of $V$, $v \in V$ and
 $q := \ord_M(v+W) \in \F[x]$. Then
 \[ \ord_M(v) = q \cdot \ord_M(vq(M)). \]
 \end{Lemm}
-\noindent We omit the routine proof for the sake of brevity. \proofend
-%\proofbeg
-%Let $p := \ord_M(v) \in \F[x]$. Then $vp(M) \in W$ (since $vp(M)=0$),
-%and hence by Lemma~\ref{relorderpol}, $q$ divides $p$. If $q=p$
-%then $vq(M)=0$ so $\ord_M(vq(M)) =1$ and the result follows.
-%Otherwise $\deg(q)< \deg(p)$, $w:=vq(M)\in\la v\ra_M$, and so by
-%Lemma~\ref{ordpolcyclic}, $p=\ord_M(w)\cdot \gcd(p,q)=\ord_M(w)\cdot q$.
-% On the
-% other hand, $p$ divides $q \cdot \ord_M(vq)$ since the latter is a
-% polynomial annihilating $v$. Letting now $r \in \F[x]$ such that $p=qr$,
-% we get that $r$ divides $\ord_M(vq)$ and since $0 = vqr$
-% that $\ord_M(vq)$ divides $r$. Since both polynomials are monic it
-% follows, that they are equal thus proving the claim.
-%\proofend
+%\noindent We omit the routine proof for the sake of brevity. \proofend
+\proofbeg
+Let $p := \ord_M(v) \in \F[x]$. Then $vp(M) \in W$ (since $vp(M)=0$),
+and hence by Lemma~\ref{relorderpol}, $q$ divides $p$. If $q=p$
+then $vq(M)=0$ so $\ord_M(vq(M)) =1$ and the result follows.
+Otherwise $\deg(q)< \deg(p)$, $w:=vq(M)\in\la v\ra_M$, and so by
+Lemma~\ref{ordpolcyclic}, $p=\ord_M(w)\cdot \gcd(p,q)=\ord_M(w)\cdot q$.
+ On the
+ other hand, $p$ divides $q \cdot \ord_M(vq)$ since the latter is a
+ polynomial annihilating $v$. Letting now $r \in \F[x]$ such that $p=qr$,
+ we get that $r$ divides $\ord_M(vq)$ and since $0 = vqr$
+ that $\ord_M(vq)$ divides $r$. Since both polynomials are monic, it
+ follows that they are equal thus proving the claim.
+\proofend
 
 \section{Computing the characteristic polynomial}
 
@@ -952,7 +954,7 @@ $\calY=(Y,S,T,l)$ where
 $Y \in \F^{n \times n}$ is invertible with rows
 \[ v\!^{(1)}, v\!^{(1)}M, \ldots, v\!^{(1)}M^{d_1-1}, 
 v\!^{(2)}, v\!^{(2)}M, \ldots, v\!^{(2)}M^{d_2-1},
-   \ldots, v\!^{(k)}, v\!^{(k)}M, \ldots, v\!^{(k)} M^{d_k-1} 
+   \ldots, v\!^{(k)}, v\!^{(k)}M, \ldots, v\!^{(k)} M^{d_k-1},
 \]
 where $d_i := \deg(p^{(i)})$ for $1 \le i \le k$. Further, for $1 \le i \le k$,
 $v^{(i)}$ is a uniformly distributed random element of\/ $V\setminus W_{i-1}$, 
@@ -1028,7 +1030,7 @@ the construction that $YMY^{-1}$
  B^{(2)}_1 &  C_2 & \ddots & \vdots \\
  \vdots    &\ddots& \ddots & 0 \\
  B^{(k)}_1 &\cdots& B^{(k)}_{k-1} & C_k
-\end{array} \right] \]
+\end{array} \right], \]
 where the matrix $C_i$ is the companion matrix of the polynomial $p^{(i)}$,
 %that is, for $p^{(i)} = x^{d_i} - \sum_{j=0}^{d_i-1} a_j x^j$,
 %\[ C_i = \left[ \begin{array}{ccccc}
@@ -1052,7 +1054,7 @@ needed by Algorithm~\ref{algcharpoly}.
 In the $i^{th}$ run of the {\bf while} loop, the cost of constructing the
 random vectors $a$ and $c$ is at most 
 \[ \xi_{n-\len(\calY^{(i-1)})}+\xi_{\len(\calY^{(i-1)})}
-\leq \xi_{n}, 
+\leq \xi_{n} 
 \]
 (see Subsection~\ref{random}). The cost to compute $v^{(i)}$ is 
 at most $2s_{i-1}n$ elementary field operations,
@@ -1131,7 +1133,7 @@ multiplicities $e_i$.
 Using \cite[Theorem 3.12]{Jacob1} we can then write the $\F[x]$-module $V$
 as a direct sum of primary cyclic modules
 \begin{equation} \label{primary}
-V \cong \bigoplus_{i=1}^t \bigoplus_{j=1}^{m_i} w_{i,j} \F[x] 
+V \cong \bigoplus_{i=1}^t \bigoplus_{j=1}^{m_i} w_{i,j} \F[x], 
 \end{equation}
 such that $\ord_M(w_{i,j}) = q_i^{f_{i,j}}$ with
 $e_i \ge f_{i,1} \ge f_{i,2} \ge \cdots \ge f_{i,m_i} \ge 1$
@@ -1243,7 +1245,7 @@ $\ord_M(v^{(j)})$ is strictly smaller than $f_{i,1}$.
 Note that
 the $F_j$ are not stochastically independent since we choose
 $v^{(j)}$ outside of the space $\left< v^{(1)}, \ldots, v^{(j-1)}\right>_M$.
-However, $E_i = F_1 \cap F_2 \cap \cdots \cap F_u$ because $f$ is the
+However, $E_i = F_1 \cap F_2 \cap \cdots \cap F_u$, because $f$ is the
 least common multiple of the order polynomials of the $v^{(j)}$.
 By Proposition~\ref{ProbOneMult} applied with $U=\{0\}$, 
 the probability $\Prob(F_1)$

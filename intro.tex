@@ -76,7 +76,7 @@ Counting the steps in an algorithm can be very tedious and much more
 difficult if there are decisions and case distinctions during the
 execution. Randomisation as described in Section~\ref{montevegas}
 makes this even more difficult. Therefore we are usually happy to come
-up with an upper bound of the number of steps necessary. In addition,
+up with an upper bound for the number of steps necessary. In addition,
 when we are only interested in the growth rate of the complexity, we
 \index{growth rate}%
 are only interested in the type of function expressing this upper
@@ -176,9 +176,9 @@ evaluate a group homomorphism $\varphi:G \to H$ on arbitrary elements
 $g \in G$, if we only know the images $\varphi(g_i)$ of a tuple of
 generators for $G$, we need to express $g$ explicitly in terms of
 the generators $(g_1, \ldots, g_k)$. Finally, the problem of constructive
-recognition (see Problem~\ref{ProbCR3}) also involves sometimes rather
+recognition (see Problem~\ref{ProbCR3}) involves sometimes rather
 \index{constructive recognition}%
-long words in a tuple of generators.
+long words in a tuple of generators, too.
 
 To store and evaluate such words efficiently is the purpose of
 \emph{straight line programs (SLP)}.
@@ -249,7 +249,7 @@ different things on different calls with the same input, and thus
 has different runtimes on different occasions?
 
 One possibility for performance analysis is to look at the average
-or the expected runtime. Although this is often a good and
+or the expected runtime. Although this is a good and
 interesting thing to look at, this type of analysis often stays a
 bit unsatisfactory, since one never knows, how long the algorithm will
 take at most in a particular instance.
@@ -264,7 +264,7 @@ after a certain time.
 Using this exit route, we can devise algorithms that are
 guaranteed to terminate after a certain number of steps or a given
 amount of time. To be useful in practice, we of course want to have a
-bound on the probability with which this failure occurs. Optimally, we
+bound for the probability with which this failure occurs. Optimally, we
 want to prescribe an upper bound for the failure probability
 beforehand. The guaranteed upper bound for the runtime then might
 depend on the choice of the failure probability bound.
@@ -301,7 +301,7 @@ The two concepts are sometimes related by the following.
 Assume that there is an efficient way to verify the correctness of the output
 of a Monte Carlo algorithm. Then we can immediately upgrade the
 algorithm to be of Las Vegas type by following it with a verification
-step that returns \textsc{Fail} if the result was incorrect in the first
+step that returns \textsc{Fail}, if the result was incorrect in the first
 place. ``Efficient'' here means that the verification does not take
 much longer than the Monte Carlo computation in the first place.
 \end{Rem}
@@ -376,7 +376,7 @@ by $a := \mathbf{1}_G$ and $h_i := g_i$ for $1 \le i \le k$ and $h_i
 
 Then it calls Algorithm~\ref{rattlestep} $N$
 times with $(a,(h_1, \ldots, h_n))$ as argument
-thereby changing it, and
+thereby changing it and
 finally returns the last value of $a$ as a random element $a_0$ in $G$.
 
 After this initialisation phase it produces a sequence of random
@@ -443,7 +443,7 @@ The memory requirements are minimal and the produced sequence of
 random elements is good enough for most purposes. Analysing algorithms
 that use \textsc{Rattle}
 \index{Rattle@\textsc{Rattle}}%
-with the assumption that we it produces uniformly distributed random
+with the assumption that it produces uniformly distributed random
 elements in the group provides good predictions on how
 well these algorithms work in practice.
 

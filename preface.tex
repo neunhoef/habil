@@ -15,7 +15,7 @@
 
 The mathematical area of the present book is computational group
 theory. The ultimate goal of this theory is to be able to do
-computations in and with groups. Traditionally there are several ways
+computations in and with groups. Traditionally, there are several ways
 to implement groups on computers. One way is to work with finitely
 presented groups, that is by specifying generators and relations.
 Another is to use group actions to actually store,
@@ -82,7 +82,7 @@ input.
 A first step in this direction is set out by the so-called matrix group
 recognition project (see \cite{MatGrpProj} and \cite{OB}). This project
 came to live after the seminal paper \cite{neumann-praeger} by Peter Neumann 
-and Cheryl Praeger in 1992, in which they present an algorithm which decides,
+and Cheryl Praeger in 1992, in which they present an algorithm which decides
 whether or not a group $G = \left< g_1, \ldots, g_k\right> \le \GL(n,q)$
 given by a set of generators contains the special linear group $\SL(n,q)$.
 The matrix group recognition project in the meantime has become an ongoing 
@@ -180,7 +180,7 @@ recognition. Derek Holt and Mark Stather have recently published a paper
 Another topic left out is the
 constructive recognition of black box groups, because we wanted to
 concentrate on matrix and projective groups. We only cover the
-verification phase very briefly, which is however necessary to eventually
+verification phase very briefly, although this phase is necessary to
 have computational proofs of the results. The reason for this is that in
 fact very little work has been done on the actual implementation of
 verification routines. What is needed for this is basically good
@@ -189,7 +189,7 @@ presentations for the groups occurring in the leaves.
 Finally, a global analysis of the
 whole procedure of building a composition tree is still needed. This seems
 achievable using estimates on the length of a composition series but is not
-yet done.
+done yet.
 
 Now we turn to the things that are contained in this book and
 outline its structure. 
@@ -239,14 +239,15 @@ the constructive recognition of permutation groups fit in nicely with
 the proposed framework.
 
 The next Chapter~\ref{chap:findhom} explains a variant of Aschbacher's
-theorem on subgroups of classical groups restricted to the general linear
+theorem on subgroups of classical groups (see \cite{aschbacher})
+restricted to the general linear
 group case. A relatively short complete proof is given.
 Our variant changes the definition of the occurring
 classes of subgroups slightly to make it easier to devise algorithms
 for finding reduction homomorphisms for groups in some of these classes.
 This approach already seems to bear fruit in the last part of the
 chapter where we present an overview of algorithms to find reduction
-homomorphisms for groups in the different classes. For the new classes
+homomorphisms for groups in the different classes. For our classes
 \DD2, \DD4 and \DD7 new ideas to tackle groups in these classes are
 given as well as references to the literature for the currently best
 known methods.
@@ -273,7 +274,7 @@ literature.
 
 First and foremost I would like to thank Gerhard Hi\ss{} for a multitude
 of things. He was not only my PhD supervisor but also gave me the
-opportunity to be employed at the RWTH Aachen for 10 years in research
+opportunity to be employed at the RWTH Aachen for 10~years in research
 and teaching positions. He holds the chair of Lehrstuhl D f\"ur
 Mathematik and thereby provided a superb environment for me to develop
 from being a student of mathematics to be a professional mathematician.
@@ -287,9 +288,8 @@ repeatedly to the University of Western Australia in Perth for
 research visits. During one of these visits I met \'Akos Seress, whom
 I thank for motivating me to start working in the area of
 computational matrix group theory, for successfully collaborating with
-me over several years and for inviting me repeatedly to the Ohio State
-University in Columbus
-for research visits.
+me over several years and for my trips to the Ohio State
+University in Columbus.
 
 Furthermore I thank my coauthors Jon Carlson, Cheryl Praeger, 
 Colva Roney-Dougal and \'Akos Seress for the interesting and fruitful
@@ -307,8 +307,8 @@ proofreading, agreed to constantly correct my English and motivated me to
 apply for my position in St Andrews.
 
 I wholeheartedly thank my parents for their permanent support and
-for allowing me to have the long mathematics education I had, which
-gave me the opportunity to get into my dream job.
+for making it possible for me to enjoy a broad and deep education in 
+mathematics, which gave me the opportunity to get into my dream job.
 
 Last but not least I would like to thank my wonderful wife Anja for
 her constant support and encouragement during the completion of this

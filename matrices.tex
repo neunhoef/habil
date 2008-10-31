@@ -46,7 +46,7 @@ less than $k$ and thus by storing $k$ elements of\, $\F_p$ using $\lceil
 
 Since linear algebra operations over finite fields can be performed
 rather efficiently by modern microprocessors, the limiting factor 
-for such computations is memory access. Therefore it is performance
+for such computations is the memory access. Therefore it is performance
 critical to store vectors and matrices using as little memory as possible
 and to choose the data structure in a way that allows for fast memory
 access. We call such memory efficient data structures ``compact''.
@@ -174,7 +174,7 @@ by doing only a series of word operations.
 
 The basic addition formula for finite field elements is rather simple:
 For prime field elements we only have to add two numbers in the range 
-from $0$ to $p-1$, and
+from $0$ to $p-1$ and
 subtract $p$, if the sum is greater or equal to $p$. The extension
 field elements are done componentwise. However, we have to solve
 the problem of doing this simple operation using word operations and 
@@ -186,7 +186,7 @@ The idea to overcome this problem for $p > 2$ is the following.
 Assume $a$ and $b$
 are two integers in the range from $0$ to $p-1$. By adding
 $2^{e-1}-p$ to the sum $a+b$ we get $t := a+b+2^{e-1}-p$, which
-has the property, that $t \ge 2^{e-1}$ if and only if $a+b \ge p$
+has the property that $t \ge 2^{e-1}$ if and only if $a+b \ge p$
 (remember $2p-1 \le 2^e$ and thus $p-1 < 2^{e-1}$). That is, if
 the number $t$ is represented using binary expansion with $e$ bits,
 then the most significant bit is set if and only if $a+b \ge p$.
@@ -224,7 +224,7 @@ Thus, the complete formula is
 We illustrate this by an example for $p=3$ on a machine with
 $32$-bit word length. In this case, $e = 3$ and $w = 10$. We want to
 add the words shown below in the rows depicted by \texttt{a} and \texttt{b}.
-We also show the prepared words $o$, $m$, and $n$. The bits marked
+We also show the prepared words $o$, $m$ and $n$. The bits marked
 with \texttt{X} are not used and are all equal to zero.
 
 \begin{verbatim}
@@ -239,7 +239,7 @@ with \texttt{X} are not used and are all equal to zero.
 \end{verbatim}
 
 In the following table we show some intermediate results and repeat
-the input values for easier verification:
+the input values for easier verification.
 
 \begin{verbatim}
   a+b:            XX|000|100|011|010|011|010|001|010|001|000
@@ -255,9 +255,9 @@ the input values for easier verification:
 Of course it is a coincidence here that $u$ is equal to 
 $u \ \&\ n$, since $p = 2^{e-1}-1$.
 
-This means, that the addition of two words containing $w$ prime field
+This means that the addition of two words containing $w$ prime field
 elements can be done in $7$ word operations for $p > 2$. For the
-$p=2$ case, we only need one XOR operation. Thus we have proved the
+$p=2$ case we only need one XOR operation. Thus we have proved the
 following proposition.
 
 \begin{Prop}[Addition of compact vectors]
@@ -627,7 +627,7 @@ is no method that is better in all situations.
 \section{Matrix arithmetic}
 \label{sec:matarith}
 
-Traditionally matrices are implemented in the {\sf GAP} system as
+Traditionally, matrices are implemented in the {\sf GAP} system as
 lists of (row-) vectors. This means that the list object only
 holds references to the subobjects, which are the rows of the matrix.
 Therefore, one can for example permute rows very efficiently without
@@ -651,7 +651,7 @@ When devising efficient algorithms dealing with matrices, one has to know
 which type of matrix one is using, because one has to know, when the
 system actually copies data and when it only passes references.
 
-For the {\cvec} package we chose the row list matrix approach since it fits
+For the {\cvec} package we chose the row list matrix approach, since it fits
 better into the existing {\GAP} library and allows for easier code reusage.
 We also discuss this approach further in this section. We call a list
 of compact vectors of the same length over the same field a ``compact
@@ -719,13 +719,13 @@ $v_i$ and add the resulting vector to the final result for $1 \le i \le m$.
 Thus this operation can be done using at most $m$ multiplications
 of a vector by a scalar plus $m-1$ vector additions.
 
-If we are considering only one vector-matrix multiplication this is basically
+If we are considering only one vector-matrix multiplication, this is basically
 all one can say. However, in a situation in which we apply one given
 matrix repeatedly to lots of vectors (for example during matrix 
 multiplication (see below) or when enumerating orbits), there is a
 trick called ``grease'', which was invented by Richard Parker and 
 \index{grease}%
-others (see for example \cite[Algorithm 6.2]{ahohop}).
+others (see for example \cite[Algorithm~6.2]{ahohop}).
 
 The idea is that if the base field is small, there are not so many
 different linear combinations of a finite number of vectors. Thus
@@ -749,7 +749,7 @@ This technique is illustrated pictorially in Figure~\ref{grease}. There
 one can see a vector-matrix multiplication. The vector is divided into
 sections of length $\ell$, beginning from the left, leaving a section of
 possibly less than $\ell$ elements at the right hand side. Each such section
-corresponds to $\ell$ (or less at the end) adjacent rows in the matrix, we 
+corresponds to $\ell$ (or less at the end) adjacent rows in the matrix; we 
 call such a submatrix a ``grease block''.
 To do grease level $\ell$, we compute all possible linear combinations of
 each block of $\ell$ rows and store them. If we have computed and stored
@@ -802,7 +802,7 @@ $p^{k\cdot \ell} - k\cdot \ell - 1 =
 q^\ell - k \cdot \ell - 1$ row vector additions, which is the cost in the
 theorem. Note that the scalar multiplications by the
 primitive root of\/ $\F_q$ can be done
-more efficiently since the element represented by the polynomial $x$
+more efficiently, since the element represented by the polynomial $x$
 is sparse, such that the scalar multiplication by it is faster.
 
 After having greased the matrix, a multiplication of a vector by 
@@ -876,7 +876,9 @@ rows of $M$ from the right with the matrix $N$ and putting the $m$ resulting
 rows of length $s$ into the resulting matrix in $\F_q^{m \times s}$.
 
 There are at least three methods to improve the performance of this
-computation: The first is using grease (see the previous section), which
+computation: 
+
+The first is using grease (see the previous section), which
 we will analyse in detail in this section. 
 
 The second is arranging the same computations in a different order to 
@@ -891,7 +893,7 @@ The third method is to use the methods of Strassen and Winograd to
 get a lower exponent than $3$ in the complexity of matrix multiplication
 of square matrices.
 
-We now discuss grease before we analyse for which sizes of
+Now we discuss grease before we analyse for which sizes of
 matrices the Strassen/Winograd method is worthwhile doing.
 
 When the matrices we want to multiply are big enough such that the number
@@ -1096,7 +1098,7 @@ Winograd applications for $(n \times n)$-matrices is $i$, then it
 is not necessarily true that the best number of Winograd applications
 for $(2n \times 2n)$-matrices is $i+1$ (see for example $n=2000$ in 
 Table~\ref{MatMulWinograd2}). The situation for the base field 
-$\F_2$ is admittedly an extreme example but it is typical for small
+$\F_2$ is admittedly an extreme example, but it is typical for small
 fields as can be seen by comparison with the field $\F_3$ for which we
 show some analogous timings in Table~\ref{MatMulWinograd3}.
 
@@ -1138,16 +1140,16 @@ processor type and memory interface. As mentioned above, at least
 three factors
 seem to play a role: The first is that the saving effects of grease
 are greater for bigger matrices, the second is that administrative
-costs for the Winograd method play a bigger role for smaller matrices
+costs for the Winograd method play a bigger role for smaller matrices,
 and finally the processor caches and specialities in main memory
 interfaces like burst accesses sometimes have nearly unpredictable
-effects on performance. For example for the field $\F_2$ it seems that
+effects on performance. For example, for the field $\F_2$ it seems that
 for square matrices in the range of $n=3500$ to $n=4500$ cutting them
 once does not make the pieces small enough to fit into the second
 level cache and doing the Winograd trick twice already involves
-too much administrative overhead such that altogether it is best not
+too much administrative overhead, such that altogether it is best not
 to use the Winograd method at all. For smaller matrices in the range $n=2000$
-to $n=3000$ on the other hand it seems worthwhile to use Winograd once
+to $n=3000$ on the other hand it seems worthwhile to use Winograd once,
 which makes the pieces fit into the second level cache. For $n=5000$ in
 turn it seems to be the best to use Winograd twice to end up with
 matrices of size $1250$ fitting into the second level cache. Thus it
@@ -1258,7 +1260,7 @@ contains an implementation of the Winograd method and uses a calibration
 phase to determine for every finite field with $q \le 1024$ from which
 size the method is worth doing. In fact, there are two implementations
 of this method, one using more memory and less administrative overhead
-and one using less memory. The first is used for smaller matrices since
+and one using less memory. The first is used for smaller matrices, since
 for them it is crucial to cut down administrative costs as much as
 possible. For really large matrices, the extra memory needed would hurt
 too much and the saving effects of the better complexity render the
@@ -1528,7 +1530,7 @@ the pattern observed above.
 \label{sec:cache}
 \index{cache}%
  
-All modern microprocessors have built in caches, most of them more than
+All modern microprocessors have built-in caches, most of them more than
 one. For our purposes the second level cache is crucial. The potential
 of proper cache usage can be read off the data in
 Table~\ref{memthrough}. Varying between different processor
@@ -1546,14 +1548,14 @@ than main memory accesses. If we manage to implement our linear
 algebra algorithms in a way such that $90$\% of all storage accesses
 are cache hits, then we can speed up $90$\% of the calculation by a
 factor of $5$ (assuming that memory access is the most time-critical
-part of the computation). Optimally, the remaining $10$\% remain unchanged.
+part of the computation). Optimally, the other $10$\% remain unchanged.
 This means that the overall saving factor is between $3$ and $4$ because the
 needed time is $(90/5+10)\% = 28\%$ of the time without cache-aware
 methods. 
 
 However, reaping this saving factor is tricky. On one hand it proves
 increasingly difficult to understand exactly, what modern processors,
-memory interfaces and caches actually do. On the other hand for many
+memory interfaces and caches actually do. On the other hand, for many
 algorithms it is quite difficult to rearrange the computations in a
 way, such that in fact $90\%$ of memory accesses lead to cache hits.
 Quite often such rearrangements need a certain administrative effort,
@@ -1565,7 +1567,7 @@ For the {\cvec} package we have mostly ignored the potential gains
 through cache-aware programming since in most instances experiments
 indicated that the necessary effort did not promise enough benefit.
 
-On the other hand Jon Thackray has reported successes in his
+Contrary to these conclusions, Jon Thackray has reported successes in his
 stand-alone implementation of basic linear algebra routines using
 cache-aware programming. His performance gains seem to lie in the
 above mentioned expected range.
