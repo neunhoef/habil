@@ -24,7 +24,7 @@ framework for group recognition that is not only suitable for matrix
 groups and projective groups, but also helps to implement
 the asymptotically best algorithms to handle permutation groups. In
 this framework we can switch between different representations of
-groups within one composition tree which allows for example to use 
+groups within one composition tree, which allows for example to use 
 \index{composition tree}%
 permutation group methods during matrix group recognition, provided
 we find some set our matrix group is acting upon.
@@ -120,8 +120,8 @@ what we mean by ``input size''.
 Let $\GG$ be an ambient group in the sense of Hypothesis~\ref{ambient}
 and $(g_1, \ldots, g_k) \in \GG^k$. If $\GG$ is either $\GL(n,q)$ or
 $\PGL(n,q)$, then the input size of our problem is measured by $n$, $k$
-and $\log_2(q)$. If $\GG$ is the symmetric group on $n$ points then the
-input size is measured by $n$ and $k$. We silently set $q := 1$ in that
+and $\log_2(q)$. If $\GG$ is the symmetric group on $n$ points, then the
+input size is measured by $n$ and $k$. We silently set $q := 1$ in this
 case such that we can uniformly speak of the input size parameters $n$, $k$
 and $\log_2(q)$ in all cases.
 \end{Def}
@@ -141,8 +141,8 @@ time algorithm for constructive recognition stems from this decision
 There is another reason why the formulation in Problem~\ref{ProbCR1} is not
 practical. Namely, the straight line programs for elements $g \in G$
 written in terms of the original generators can be extremely long. In
-addition, for most generating tuples of $G$ it can be tedious if not
-impossible to find a method to express group elements in $G$ as straight
+addition, for most generating tuples of $G$ it can be tedious, if not
+impossible, to find a method to express group elements in $G$ as straight
 programs in these generators. Usually, a recognition procedure first finds
 another ``nice'' generating tuple for $G$ for which a good constructive
 \index{nice generators}%

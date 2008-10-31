@@ -1278,10 +1278,10 @@ Our minimal polynomial algorithm runs Algorithm~\ref{algcharpoly} as its
 first step. So assume, from now on,
 that we have already run Algorithm~\ref{algcharpoly}
 and obtained all the output it produces, in particular
-the basis given by the rows of the matrix $Y$ (as in Proposition~\ref{propcharpoly}),
+the basis given by the rows of the matrix $Y$ (as in Proposition~\ref{propcharpoly})
 \[ 
 (v^{(1)}, v^{(1)}M, \ldots, v^{(1)} M^{d_1-1}, \ldots, v^{(k)}, 
-v^{(k)} M, \ldots, v^{(k)} M^{d_k-1}) 
+v^{(k)} M, \ldots, v^{(k)} M^{d_k-1}),
 \]
 the relative order polynomials $p^{(i)} = \ord_M(v^{(i)}
 + W_{i-1})$, and the vectors $b^{(i)}$ for $1 \le i \le k$.
@@ -1330,13 +1330,13 @@ For the convenience of the reader we display the matrix
 $YMY^{-1}$ in Figure~\ref{bigmat}. Note in particular that the matrix is
 sparse, provided that the degrees $d_i$ are not too small.
 Due to the special form of $YMY^{-1}$ it is much more efficient to compute
-the images of vectors under $YMY^{-1}$, than under $M$. 
+the images of vectors under $YMY^{-1}$ than under~$M$. 
 This is crucial in the analysis of our algorithms. 
 Therefore we will from now on do all computations of order polynomials
 with respect to $YMY^{-1}$.
 
 Set $M' := YMY^{-1}$ and $W'_i := W_i Y^{-1}$ for $1 \le i \le k$.
-Note that we have $v^{(i)} = e^{(s_{i-1}+1)} Y$ for $1 \le i \le k$
+Note that we have $v^{(i)} = e^{(s_{i-1}+1)} Y$ for $1 \le i \le k$,
 where $e^{(1)}, \ldots, e^{(n)}$ is the standard basis of $\F^n$. (That is,  
  $e^{(i)}$ contains exactly one $1$ in position $i$ and otherwise zeros. Recall
 that $s_i = \sum_{j=1}^i d_j$ with $s_0 = 0$.) Furthermore, for $1 \le i \le k$,
@@ -1491,7 +1491,7 @@ last and most important term can be bounded by
     &=& 2 \sum_{r=1}^z s_r \left(\sum_{j=r}^z d_j\right)
     = 2 \sum_{r=1}^z s_r (s_z - s_{r-1}) \\
     &=& 2 \sum_{r=1}^z s_r (s_z - s_r) + 2 \sum_{r=1}^z s_r d_r
-    \le (\frac{z}{2}+2) \cdot s_z^2
+    \le (\frac{z}{2}+2) \cdot s_z^2,
 \end{eqnarray*}
 since the function $t(s_z-t)$ has maximum value $s_z^2/4$
 for $t$ in the interval $[0,s_z]$.
@@ -1549,7 +1549,7 @@ $\varepsilon$ with $0 < \varepsilon < 1/2$, Algorithm~\ref{algminpolymc}
 returns a tuple $(b,f)$, where $b$ is either\/ {\sc True} or\/ {\sc Uncertain}
 and $f \in \F_q[x]$ is a polynomial. With probability at least $1-\varepsilon$
 the polynomial $f=\mu_{M,\F_q^n}$, and if
-\/ $b = \mbox{\sc True}$ then
+\/ $b = \mbox{\sc True}$, then
 $f = \mu_{M,\F_q^n}$ is guaranteed. Moreover, 
 if\/ $f \ne \mu_{M,\F_q^n}$, then 
 $f$ is a proper divisor of $\mu_{M,\F_q^n}$ and
@@ -1571,14 +1571,14 @@ $\sum_{j=1}^t q^{-u\deg q_j} \le \varepsilon$.
 
 For $n$ sufficiently large and fixed $\varepsilon$, this is less than
 \[ 6n^3 + {\rm fact}(n,q) + 
-\frac{1}{3} \lceil\frac{\log n-\log \varepsilon}{\log q}\rceil^2 \cdot n^2 
+\frac{1}{3} \lceil\frac{\log n-\log \varepsilon}{\log q}\rceil^2 \cdot n^2,
 \]
 which is less than $7n^3 + {\rm fact}(n,q)$ (plus the cost of computing at most $n$ random 
 vectors in Algorithm~\ref{algcharpoly}).
 \end{Prop}
 
 
-\begin{Rem}
+\begin{Rem}[Overall complexity]
 Note that if we use a randomised polynomial factorisation algorithm
 (necessary for large $q$), then the algorithm can be modified to allow
 for a possible failure of factorisation of the `Factorise' step (line
@@ -1589,7 +1589,7 @@ upper bound in Proposition~{\rm\ref{propminpoly}} of $O(n^3\log^3 q)$
 for $n$ sufficiently large and fixed $\varepsilon$.
 \end{Rem}
 
-\begin{Rem}
+\begin{Rem}[Modification to get a deterministic version]
     \label{algdeterm}
     Algorithm~\ref{algminpolymc} can be changed into a deterministic
     one by running the `$i$-loop' for $i$ up to $k$, instead of $u$. An upper
@@ -1637,7 +1637,7 @@ $f = \mu_{M,\F_q^n}$. This also implies, since the initial value
 of $f$ is $\lcm(p^{(1)}, \ldots, p^{(k)})$, that the returned
 polynomial $f$ divides $\mu_{M,\F_q^n}$ and every irreducible factor of
 $\mu_{M,\F_q^n}$ divides $f$. In particular, if $\deg f =n$ then we must
-have $f=\chi_{M,\F_q^n}=\mu_{M,\F_q^n}$. Thus if $(\mbox{\sc True},f)$
+have $f=\chi_{M,\F_q^n}=\mu_{M,\F_q^n}$. Thus, if $(\mbox{\sc True},f)$
 is returned then $f = \mu_{M,\F_q^n}$ is guaranteed.
 
 
@@ -1667,7 +1667,7 @@ field operations used for the computation of the  $u\le u_0$ order polynomials
 is at most
 \[
 \sum_{i=1}^u(\frac{i}{2}+9)s_i^2 \leq \frac{u(u+1)}{4}s_u^2+9us_u^2
-\le u_0\left(\frac{u_0+37}{4}\right) n^2.
+\le u_0\left(\frac{u_0+37}{4}\right) n^2,
 \]
 which, for sufficiently large $n$ and fixed $\epsilon$, is less than
 $\frac{1}{3}u_0^2n^2<n^3$.
@@ -1687,9 +1687,9 @@ All notation from previous sections remains in force. The first result
 follows immediately from Proposition~\ref{propminpoly}.
 
 \begin{Prop}[Cases, in which the result is already proven to be correct]
-If the output polynomial of Algorithm~\ref{algminpolymc} is  $\chi_{M,\F_q^n}$,
-then the output is $(${\sc True}, $\chi_{M,\F_q^n})$
-and is correct.
+If the output polynomial of Algorithm~\ref{algminpolymc} is equal to 
+$\chi_{M,\F_q^n}$, then the output is $(${\sc True}, $\chi_{M,\F_q^n})$
+and correct.
 %If $\mu_{M,\F_q^n} = \chi_{M,\F_q^n}$ then either the output of 
 %Algorithm~\ref{algminpolymc} is incorrect, or the output is 
 %$(${\sc True}, $\mu_{M,\F_q^n})$.
@@ -1703,7 +1703,7 @@ polynomial $f$ is guaranteed to be the minimal polynomial, giving a deterministi
 algorithm with proven result. (Proof of correctness 
 is given in the proof of Proposition~\ref{propminpoly}.)
 
-\begin{Prop}[Case of few random vectors chosen during comp.~of
+\begin{Prop}[Case of few random vectors chosen during computation of
 $\chi_{M,\F_q^n}$]
 \label{veryfewvectors}
 If $k \le \sqrt{n}$,  and the {\bf for} loop in 
@@ -1732,14 +1732,14 @@ Remark~\ref{algdeterm} as a verification algorithm, at a cost of
 $O(k^2n^2)$ field operations. Two alternative verification procedures
 \index{verification}%
 are given below. The first involving evaluation on vectors is given in
-Proposition~\ref{eval}, and the second using null space computations is
-given in Proposition~\ref{propverify}.
+Proposition~\ref{eval} and the second using null space computations
+in Proposition~\ref{propverify}.
 
 \begin{Prop}[Verification by evaluation on vectors]\label{eval}
 \index{verification}%
     For the output $(\textsc{Uncertain},f)$ of Algorithm~\ref{algminpolymc} 
     one can verify $f = \mu_{M,\F_q^n}$ using
-    at most $dn(k-u)(k+u+4)$ elementary field operations where $u$ and
+    at most $dn(k-u)(k+u+4)$ elementary field operations, where $u$ and
     $k$ are as in Proposition~\ref{propminpoly} and $d = \deg f$.
 \end{Prop}
 \proofbeg
@@ -1748,7 +1748,7 @@ $u+1 \le i \le k$,
 by direct evaluation using the techniques described in
 the proof of Proposition~\ref{propordpol}. Recall first that the
 result $f$ comes in factorised form. Since $e^{(s_{i-1}+1)}$ lies
-in $W'_i$ the arguments in the proof of Proposition~\ref{propordpol}
+in $W'_i$, the arguments in the proof of Proposition~\ref{propordpol}
 show that this evaluation can be done using at most
 $3d s_i + 2d \sum_{r=1}^i s_r$ elementary field operations. Thus, an
 upper bound for the total cost for all these evaluations is
@@ -1886,10 +1886,10 @@ with equality if and only if $f_i\ge f_{i,1}$.
 Since $f_i\le f_{i,1}$, equality holds above if and only if $f_i$
 is equal to the multiplicity $f_{i,1}$ of $q_i$ in  $\mu_{M,\F_q^n}$.
 Therefore, Algorithm~\ref{algminpolyverify} always returns the
-result as stated in the Proposition.
+result as stated in the proposition.
 
 As to the cost, Algorithm~\ref{algminpolyverify} evaluates $q_i$ at 
-$YMY^{-1}$ which needs at most $2r_i n^3$ elementary field operations
+$YMY^{-1}$, which needs at most $2r_i n^3$ elementary field operations
 by Lemma~\ref{costpolyeval}. It then takes the result to the
 $f_i^{\mathrm{th}}$ power, which can be done by repeated squaring
 with at most $2n^3\lceil \log f_i \rceil$ elementary field operations, and 
@@ -1899,7 +1899,7 @@ of the row space of the matrix). Note that we are not using the
 sparseness of $YMY^{-1}$ here.
 \proofend
 
-\begin{Rem}
+\begin{Rem}[Performance in practice]
 The cost in Proposition~\ref{propverify} is much smaller than $n^4$ in
 many cases. One of the worst cases occurs when $\chi_{M,\F^n}$ contains lots of
 different factors of degree $1$ each occurring with multiplicity $3$, and 
@@ -1911,9 +1911,13 @@ directly evaluating the minimal polynomial at $M$. Note that even in this case
 only about every sixth entry of\/ $YMY^{-1}$ is different from zero. 
 \end{Rem}
 
-\begin{Rem}
- As in each of our procedures there are some simplifications we could make in practice
-which do not reduce the worst case complexity estimates. For example, in Algorithm~\ref{algminpolyverify}, there is no need to compute the kernel of $q_i(YMY^{-1})^{f_i}$ if the irreducible $q_i$ does not divide any of the relative order polynomials $p^{(j)}$ for $u<j\leq k$. 
+\begin{Rem}[Further optimisations]
+ As in each of our procedures there are some simplifications we
+could make in practice which do not reduce the worst case complexity
+estimates. For example, in Algorithm~\ref{algminpolyverify}, there is no
+need to compute the kernel of $q_i(YMY^{-1})^{f_i}$ if the irreducible
+$q_i$ does not divide any of the relative order polynomials $p^{(j)}$
+for $u<j\leq k$.
 \end{Rem}
 
 
@@ -1988,7 +1992,7 @@ and this explains the
 big differences in the runtimes for these matrices.
 
 (b)\quad The matrix $M_2$ is one coming from actual applications. Namely, it is
-the matrix $a+b+ab$ where the two matrices $a,b \in \F_2^{4370 \times
+the matrix $a+b+ab$, where the two matrices $a,b \in \F_2^{4370 \times
 4370}$ describe the action of two standard generators of the Baby monster
 sporadic simple group on its smallest faithful simple module over $\F_2$.
 The matrices $a$ and $b$ were downloaded from the WWW-Atlas of group

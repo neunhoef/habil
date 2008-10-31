@@ -65,7 +65,7 @@ constructive recognition in a special case, for example using standard
 generators (see Sections~\ref{solveD8} and \ref{solveD9}).
 
 Our classes \DD1 to \DD9 are similar to the classes \CC1 to \CC9 but
-different. First of all we include many but not all subgroups of
+slightly different. First of all we include many but not all subgroups of
 class \CC i into \DD i such that we can replace the formulation ``$G$ is a
 subgroup of a member of \CC i'' by ``$G$ is contained in \DD i''. Many
 authors have used this formulation for the Aschbacher classes \CC1 to
@@ -450,7 +450,7 @@ the corresponding
 }
 
 \textbf{Note:} For the orthogonal groups the given restrictions on $(n,q)$
-are necessary for $\POmega^{(\epsilon)}(n,q)$ to be simple, see
+are necessary for $\POmega^{\epsilon}(n,q)$ to be simple, see
 \cite[Section~2.4]{ATLAS} for details.
 
 \medskip
@@ -552,7 +552,7 @@ be a minimal normal subgroup of $G/Z$ and $N$ be
 the corresponding non-scalar normal subgroup of $G$ with $Z < N
 \unlhd G$.
 
-Now we use Clifford theory applied to the natural module $V$. By Clifford's
+Next we use Clifford theory applied to the natural module $V$. By Clifford's
 theorem (see \cite[(49.2) and (49.7)]{CR0}) the restricted $\F_q N$-module
 $V|_N$ is a direct sum of irreducible $\F_q N$-modules which are all
 $G$-conjugates of one irreducible $\F_q N$-submodule $W \le V|_N$. In
@@ -592,7 +592,7 @@ preserved by $G$ and the summands are permuted transitively. The above
 argument shows that all $G$-conjugates of $W$ are absolutely
 irreducible because $W$ is.
 
-From now on we assume additionally that there is only one homogeneous
+We assume from now on additionally that there is only one homogeneous
 component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
 Then $\dim W > 1$ because $N$ is non-scalar.
 
@@ -601,7 +601,7 @@ First we assume that $W$ is a proper subspace of $V$. Let $d :=
 all $G$-conjugates of $W$ are isomorphic to $W$ as $\F_q N$-modules,
 we have shown that $G$ lies in \DD4 (see \ref{descD4}).
 
-Now we move on to the case that $W = V|_N$, that is, the restriction
+We proceed to the case that $W = V|_N$, that is, the restriction
 $V|_N$ is irreducible. We are still assuming that $W$ is
 absolutely irreducible.
 
@@ -610,7 +610,7 @@ As such, by \cite[Theorem 4.3A.(iii)]{DixonMort}, it is
 a direct product $\bar T_1 \times \cdots \times \bar T_k$ of copies of a 
 simple group $\bar T$ which are all conjugate under $G/Z$. Thus $N$ is
 a central product of the corresponding preimages $T_1, \ldots, T_k$
-under the natural map $G \to G/Z$. We now distinguish three cases:
+under the natural map $G \to G/Z$. We distinguish three cases:
 \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item[(i)] $\bar T$ is cyclic of prime order $r$, 
 \item[(ii)] $\bar T$ is non-abelian simple with $k > 1$ and
@@ -764,7 +764,7 @@ $h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
       g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
       g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,d/n} \end{array} \right]
- = hg
+ = hg,
 \end{eqnarray*}
 where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
 representing $h$ on the module $W$ and $D^g(h) = D(g^{-1}hg)$ is the
@@ -862,7 +862,7 @@ assumption and the proof goes through.
     $S_2$ permutes the tensor factors. The natural module $V := \F_7^4$ is
     absolutely irreducible also when restricted to the normal subgroup
     $N := \SL(2,7) \otimes_{\F_7} \SL(2,7)$ of index $2$. The centre 
-    $Z := \left< -\id \right>$ of $G$ has $2$ elements and $N/Z$ is a
+    $Z := \left< -\id \right>$ of $G$ has two elements and $N/Z$ is a
     minimal normal subgroup of $G/Z$ which is a direct product of two
     copies of the non-abelian simple group $\PSL(2,7)$. Thus $G$ lies
     in \DD7 by construction.
@@ -896,8 +896,8 @@ $g_1, \ldots, g_m \in \GL(n,q)$.
 
 Note that for a matrix group there is always the determinant map
 into the ground field and the natural homomorphism
-$G \to G/Z$. We can compute both explicitly and efficiently and may
-therefore assume that $G \le \SL(n,q)$.
+$G \to G/Z$. We can compute both explicitly and efficiently.
+
 In the following we assume that we have already used the determinant
 homomorphism and then distinguish the cases, in which of the classes
 \DD1 to \DD7 the group $G$ lies. Whenever it is convenient we can
@@ -1109,7 +1109,7 @@ defined:
                        \mbox{ and } \textsc{Order}(y[x,y]^k) = 2l \\
         y^k          & xy=yx \mbox{ and } \textsc{Order}(y) = 2k 
     \end{array}
-    \right.
+    \right. .
 \]
 Since we have $f(x^g,y^g) = f(x,y)^g$ whenever $f(x,y)$ is defined and
 $y$ is supposed to be uniformly distributed in $G$ and thus in each
@@ -1434,7 +1434,7 @@ We then try to enumerate the orbit of $G$ acting on the central factors of
 $T$, immediately giving up if this orbit has a different length than $k$.
 
 The only problem to solve for this is how to represent the conjugates of
-$T$ on the computer and how to compare them! Since we know that in the \DD7
+$T$ on the computer and how to compare them. Since we know that in the \DD7
 case $T/Z$ is a non-abelian simple group, this is both relatively easy. We
 represent $T$ and its conjugates by a short generating set. To start this,
 we produce $3$ random elements of $T$ making sure that the first one does

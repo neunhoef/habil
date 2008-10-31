@@ -9,6 +9,12 @@ The contents of this
 chapter are joint work with Jon F.~Carlson and Colva M.~Roney-Dougal and 
 are already published as \cite{subfieldpaper}.
 
+Note that we use the original Aschbacher classes \CC1 to \CC9 instead of
+our new classes \DD1 to \DD9 in this chapter, because this makes the text
+readable independently from this book. For the purposes of finding
+reductions for groups in the classes \DD3 and
+\DD5 the methods below for \CC3 and \CC5 can be applied without change.
+
 % Rest is copied from the subfield paper.
 % Changes:
 %  \  after \GAP:
@@ -156,7 +162,7 @@ faithful absolutely irreducible representations over arbitrary fields
 is mapped into the scalar matrices. In 
 Section~\ref{sec:generation} we prove probabilistic results 
 about the number of random elements required to generate  a matrix group. 
-In Section~\ref{realisesubfield} we present an 
+In Section~\ref{realisesubfield} we explain an 
 algorithm for writing irreducible matrix groups over a smaller field. 
 In Section~\ref{subsemi:main} we present the main body of our algorithm,
 followed by Section~\ref{subsemi:sec:complexity} which summarises the complexity 
@@ -271,7 +277,7 @@ whether $N$ can be written over a smaller field, as in
  Section~\ref{subsec:subfield_scalars}. If $G$ is not contained in
 \CC5, return {\tt false} as $G$ is not in \CC3 or \CC5.
 \item If $N$ is irreducible but not absolutely 
-irreducible find a semilinear decomposition 
+irreducible, find a semilinear decomposition 
 of $G$, as in Section~\ref{subsec:semilin}.
 \item If $N$ is reducible with more than one 
 homogeneous component, find an imprimitive 
@@ -377,7 +383,7 @@ Part $(4)$ then follows from the fact that a Sylow $p$-subgroup of $G$
 would contribute a factor of $p$ to the centre of $\rho(G)$, and hence
 to the centre of $G$.
 
-$(5)$ is a straightforward calculation. That is,
+Part $(5)$ is a straightforward calculation. That is,
 \[
 h_1 h_2 g [g, h_1 h_2] = g h_1 h_2 = h_1 g [g, h_1] h_2 = h_1 g h_2 [g, h_1] 
 = h_1 h_2 g [g, h_1] [g, h_2]
@@ -392,11 +398,11 @@ The lemma allows us to prove the following.
 
 \begin{Prop} \label{exponents}
 Let $z$ be the order of $Z(G)$, and let $c$ be the 
-order of $G'$. Then 
+order of $G'$. Then
 \begin{enumerate}
-\item The exponent of $G/Z(G)$ is at most $c$, 
-\item The exponent of $G$ is at most $cz$, and 
-\item The order of $G$ is a divisor of $c^{l}z$ where $l$ is the number of 
+\item the exponent of $G/Z(G)$ is at most $c$, 
+\item the exponent of $G$ is at most $cz$, and 
+\item the order of $G$ is a divisor of $c^{l}z$ where $l$ is the number of 
 non-central generators of $G$.
 \end{enumerate}
 \end{Prop}
@@ -523,7 +529,7 @@ or $\rho(G)$ is imprimitive.
 
 \begin{proof}
 By Lemma~\ref{lem:tensor} we may consider $V$ 
-as a tensor product, with a distinct Sylow 
+as a tensor product with a distinct Sylow 
 subgroup of $G$ acting on each tensor factor. 
 Let $V_i$ be one such factor. 
 
@@ -572,7 +578,8 @@ In this section we analyse the generation
 of a subgroup $H = \langle g_1, \ldots, g_n \rangle$ 
 of a normal subgroup $N$ of a matrix group 
 $G$, and in particular provide bounds on $n$ 
-for $H$ to have the same submodule structure and endomorphism ring as $N$, with probability at least $1 - \delta$.
+for $H$ to have the same submodule structure and endomorphism ring as $N$ 
+with probability at least $1 - \delta$.
 Perhaps surprisingly, we do this via results for permutation groups. 
 
 %We shall need the following lemma.
@@ -654,8 +661,8 @@ so $p \leq 2/3$.
 Hence, with probability at least $1/3$, at 
 least $k/4$ of the $G_{i-1}$-orbits that are not $G$-orbits 
 are proper subsets of orbits of $G_{i}$. Thus
- the number of orbits of $G_{i}$ which are 
-not orbits of $G$ is at most $7k/8$, and the claim follows. 
+ the number of orbits of $G_{i}$, which are 
+not orbits of $G$, is at most $7k/8$, and the claim follows. 
 
 Define $Y_1, \ldots, Y_t$ by 
 \[\begin{array}{ll}
@@ -682,7 +689,7 @@ In turn this is less than or equal to $\delta$.
 %\leq \delta$, and the result follows. 
 \end{proof}
  
-We now apply the previous theorem to matrix groups, by considering their action on vectors. 
+We now apply the previous theorem to matrix groups by considering their action on vectors. 
 
 \begin{Theo} [Correct action of subgroup]
 Let $G \leq \GL(d, q)$, and let $1 > \delta > 0$ 
@@ -769,7 +776,7 @@ generating set for a normal subgroup of $G$ which is contained in $G'$.
 \section{Writing $\mathbf{G}$ over a smaller field}
 \label{realisesubfield}
 
-In this section unless indicated otherwise we let $K$ be a finite field, let
+In this section, unless indicated otherwise, we let $K$ be a finite field, let
  $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, K)$, 
 and let $V = K^{1 \times d}$ be the natural right
 $KG$-module. We assume that $V$ is irreducible but not necessarily
@@ -831,7 +838,7 @@ so that $F[G] = E^{d' \times d'}$. Set $L := F_0[G] \cap (E \cdot
 $F_0$-algebra.
 \end{Prop}
 \begin{proof}
-Clearly $e = 1$ and  $E=F$ if and only $V$ is absolutely irreducible.
+Clearly $e = 1$ and  $E=F$ if and only if $V$ is absolutely irreducible.
 
 Choosing an $F$-basis $(c_1,\ldots,c_e)$ of $E$ we can express each element 
 of $E$ as an $(e\times e)$-matrix over $F$.
@@ -860,7 +867,7 @@ Consequently, $B$ is a simple algebra.
 By the usual Wedderburn Theorems there exists an isomorphism
  $\psi: L^{s \times s} \rightarrow B$
 for some $s$,  and some extension $L$ of $F_0$. 
-The field $L$ need not contain $F$. However,  the elements of $B$ corresponding
+The field $L$ needs not contain $F$. However,  the elements of $B$ corresponding
 to scalar matrices in $L^{s \times s}$ are central in $B$ and hence also
 central in $FB = E^{d' \times d'}$. Therefore we can identify
 $L$ with the centre of $B$ and thus with some subfield of $E$.
@@ -948,7 +955,7 @@ $K_0[G] \cap (K \cdot \mathbf{1}_{d \times d})
 extension field of $F$ of degree $e$.
 \end{Theo}
 \begin{proof}
-Since $K$ is finite there is a smallest subfield $F$ of
+Since $K$ is finite, there is a smallest subfield $F$ of
 $K$ such that there exists a $t \in \GL(d,K)$ with $G^t \le \GL(d,F)$.
 By Lemma~\ref{extsca} the natural $F[G^t]$-module $V := F^{1 \times d}$ is
 irreducible.
@@ -1124,9 +1131,9 @@ $FG$-automorphism of $W$ mapping $w_1$ to $w_2$.
 \end{itemize}
 \end{Theo}
 
-\noindent\textsc{Remark:} 
+\noindent\textbf{Remark:} 
 This provides an efficient algorithm to test
-whether $V \cong W$ as $FG$-modules and if so to construct an explicit
+whether $V \cong W$ as $FG$-modules, and if so, to construct an explicit
 isomorphism, provided $V$ is known to be irreducible and $\dim_F(E)$ is known.
  The algorithm finds $c$, 
 computes $SB(V,v,(g_1, \ldots, g_m))$, and then computes
@@ -1138,7 +1145,7 @@ either computes an isomorphism $\varphi$ or proves that none exists.
 
 \smallskip
 \begin{proof}
-$\ker_V(c)$ is $E$-invariant and thus
+The kernel $\ker_V(c)$ is $E$-invariant and thus
 a vector space over $E$. By assumption its $E$-dimension is 1. 
 Every $FG$-module isomorphism between $V$ and $W$ maps
 $\ker_V(c)$ into $N$. If $W \cong V$, then
@@ -1583,7 +1590,7 @@ When  $N$ is irreducible but not absolutely irreducible,
 the MeatAxe returns a generator $C$ of
 the field $\F_{q^e} = \End_{\F_q N}(V)$ realised as a matrix in
 $\GL(d,q)$ together with  $e$. Note that $e \le d$. 
-The matrix $C$ need not generate the
+The matrix $C$ needs not generate the
 multiplicative group of $\F_{q^e}$, but its powers $C^0, C^1, \ldots,
 C^{e-1}$ are $\F_q$-linearly independent. 
 
@@ -1601,7 +1608,7 @@ explicit $\F_{q^e}$-vector space structure on  $V$.
 To get the $\F_{q^e}$-span of a vector $v \in V$ we  compute
 $v, vC, vC^2, \ldots, vC^{e-1}$. In this way we can 
 perform a spinning algorithm for $V$ as an $\F_{q^e}$-vector space. All
-computations are with vectors over $\F_q$ but whenever
+computations are with vectors over $\F_q$, but whenever
 we produce a new vector $v$ that does not lie in the $\F_q$-span of what we
 already have, we not only add $v$ but also $vC, vC^2, \ldots,
 vC^{e-1}$ by repeatedly multiplying with $C$. 
@@ -1679,7 +1686,7 @@ However this can only happen with probability $\delta$.
 
  If there
 are too many divisors, we simply report {\tt fail}. This happens
-with probability at most $\delta$ by Corollary~\ref{cor:right_action}, 
+with probability at most $\delta$ by Corollary~\ref{cor:right_action}
 and never in practice. 
 
 \subsection{More than one homogeneous component} \label{subsec:imprim}
@@ -1746,7 +1753,7 @@ of failure $\delta$. One application of the isomorphism testing
 procedure described in Theorem~\ref{isotest} gives a homomorphism of the
 irreducible factor into $V|_{\F_q N}$ and thus an irreducible submodule
 $S$ with $O(sd^3)$ field operations. Note that when we
-proved the final subfactor to be irreducible  we constructed the algebra
+proved the final subfactor to be irreducible,  we constructed the algebra
 word $c$ that is needed for isomorphism testing, namely a word 
 describing an algebra element with nullity the dimension of
 the centraliser of~$N$.
@@ -1927,7 +1934,7 @@ non-scalar generator $g_i$ of $G$ such that $[g_i, g_j]$ is scalar for all $j$.
 
 
 We start with a proposition giving a homomorphism 
-into the multiplicative group of the field that need 
+into the multiplicative group of the field that needs
 not necessarily correspond to an imprimitive 
 decomposition of the natural module.
 
@@ -1966,8 +1973,8 @@ so these algorithms will also work in the projective case.  %
 %too many generators. Let $\psi_g(h)$ be a generator for the 
 %image. Then the set $\{g_i h^{o/a_i}, h^o : 1 \leq i \leq m\}$ 
 %is a normal generating set for the kernel. 
-Since $g_i \in C_G(g_i)$ the kernel will 
-be a non-absolutely irreducible group, and may not be irreducible. 
+Since $g_i \in C_G(g_i)$, the kernel will 
+be a non-absolutely irreducible group and may not be irreducible. 
 If $G'$ is known to be scalar then
  the derived group of the kernel $C_G(g_i)$ is also
 central, and hence a hint can be passed to the kernel to return 
@@ -2063,7 +2070,7 @@ our complexity analysis.
 \label{hypMtx}
 \index{MeatAxe}%
 Assume that we can generate a sufficiently evenly distributed random
-element in the group generated by a set $X$ of matrices, and in its 
+element both in the group generated by a set $X$ of matrices, and in its 
 normal closure  in
  a  group $G \le \GL(d,q)$, in $O(d^3)$ elementary field
 operations.
@@ -2073,10 +2080,10 @@ in $O(d^3)$ elementary field operations.
 \end{Hyp}
 
 Note that this assumption is valid in practice by using Product
-Replacement and Rattle
+Replacement and \textsc{Rattle}
 \index{Rattle@\textsc{Rattle}}%
  (see \cite{ProdRep, LGMurray, LGO97}) 
- for groups and normal closure, and by taking random 
+ for groups and normal closures, and by taking random 
 linear combinations of random products of generators for algebras,
 at least after an initialisation phase.
 However, these assumptions are not proven to hold in general!
@@ -2122,7 +2129,7 @@ complete procedure in Section~\ref{sec:defns}:
 \begin{enumerate}
 \item Assume $G = \left< g_1, \ldots, g_m \right> \le \GL(d,q)$ acting
 irreducibly, $E = \End_{\F_q G}(\F^d) = \F_{q^e}$ and
-field generator $C \in \GL(d,q)$ of $E^\ast$ are known. If $e > 1$ find an explicit
+field generator $C \in \GL(d,q)$ of $E^\ast$ are known. If $e > 1$, find an explicit
 base change in $O(md^3)$ field operations.
 \item Try to write $G$ over a subfield with $\beta_i = 1$ for $1 \leq i \leq m$ 
 in $O(md^3\log \delta^{-1})$ field operations
@@ -2156,7 +2163,7 @@ dimension greater than $1$, find a tensor
 decomposition of $G$ in $O((s+m)d^3)$ field operations as in 
 Section~\ref{subsec:tensor}.
 \item If one non-scalar 
-generator has only scalar commutators with other generators we have 
+generator has only scalar commutators with other generators, we have 
 already constructed
 a nontrivial homomorphism from $G$ to $\F_q^\times$
  as in
