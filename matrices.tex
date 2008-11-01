@@ -119,7 +119,7 @@ from right to left, always using $e$ bits for one prime field element and
 packing $w$ prime field elements into a word.
 
 We illustrate this layout in the following example for $p=5$ and thus
-$e=4$ on a machine with $32$-bit word length:
+$e=4$ on a machine with $32$-bit word length.
 
 \begin{verbatim}
   bit             3322|2222|2222|1111|1111|1100|0000|0000
@@ -256,7 +256,7 @@ Of course it is a coincidence here that $u$ is equal to
 $u \ \&\ n$, since $p = 2^{e-1}-1$.
 
 This means that the addition of two words containing $w$ prime field
-elements can be done in $7$ word operations for $p > 2$. For the
+elements can be done in $7$~word operations for $p > 2$. For the
 $p=2$ case we only need one XOR operation. Thus we have proved the
 following proposition.
 
@@ -588,7 +588,7 @@ Here one can see two important things: The first is that the $7$ word
 operations per word stated in Proposition~\ref{addvec} can be done as
 fast as main memory access (compare main memory throughput for $p=2$ and
 $p=7$ on all architectures). If nearly all accesses lead to hits in 
-the second level cache, then the $7$ operations reduce the memory
+the second level cache, then the $7$~operations reduce the memory
 throughput, but only by a factor of about $2$ to $3$, depending on
 the processor architecture.
 
@@ -626,6 +626,7 @@ is no method that is better in all situations.
 
 \section{Matrix arithmetic}
 \label{sec:matarith}
+\enlargethispage{-1\baselineskip}
 
 Traditionally, matrices are implemented in the {\sf GAP} system as
 lists of (row-) vectors. This means that the list object only
@@ -765,6 +766,7 @@ of looked up vectors. More precisely, we have the following result.
 Let $M$ be a matrix with $m$ rows and $n$ columns over the field\/ $\F_q$
 for $q = p^k$, and let $\ell \in \Z_{> 0}$.
 
+\enlargethispage{-1\baselineskip}
 Then greasing the matrix $M$ with grease level $\ell$ multiplies the amount
 of memory needed for $M$ by at most $q^\ell$. The precomputation of the
 linear combinations costs at most 
@@ -890,7 +892,7 @@ For some additional discussion of this topic see Section~\ref{sec:cache}.
 
 The third method is to use the methods of Strassen and Winograd to
 \index{Strassen}\index{Winograd}%
-get a lower exponent than $3$ in the complexity of matrix multiplication
+get a lower exponent than $3$~in the complexity of matrix multiplication
 of square matrices.
 
 Now we discuss grease before we analyse for which sizes of
@@ -1034,7 +1036,7 @@ to the area of the matrices involved (i.e.~it is only quadratic in the
 size of the matrices), it is clear that this will be worthwhile for 
 ``large'' matrices. For smaller matrices the administrative overhead
 might dominate the saving effect of the better complexity.
-In particular the method is only good if $7$ multiplications of two $(n
+In particular the method is only good if $7$~multiplications of two $(n
 \times n)$-matrices plus the administrative overhead need in fact less
 time than one multiplication of two $(2n \times 2n)$-matrices.
 
@@ -1529,12 +1531,13 @@ the pattern observed above.
 \section{Cache issues}
 \label{sec:cache}
 \index{cache}%
- 
+\enlargethispage{1\baselineskip}
+
 All modern microprocessors have built-in caches, most of them more than
 one. For our purposes the second level cache is crucial. The potential
 of proper cache usage can be read off the data in
 Table~\ref{memthrough}. Varying between different processor
-architectures, accesses into the cache are about $2$ to $5$ times faster
+architectures, accesses into the cache are about $2$~to $5$ times faster
 than into the main memory. Of course, these factors apply only for the
 case of accessing larger areas of main memory consecutively, because
 in this case modern processors use burst accesses. However, most

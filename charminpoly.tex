@@ -1179,6 +1179,7 @@ and in turn this is uniserial with composition series
 Thus, $X$ has a unique maximal $\F[x]$-submodule, namely  $X':=\la w q_i(M)\ra_M$,
 and $X'$ has codimension $r:=\deg(q_i)$ in $X$. 
 
+\enlargethispage{1\baselineskip}
 As discussed above, each vector $v\in V$ has a 
 unique expression as $v=x+y$ with $x\in X, y\in Y$. Moreover
 $\ord_M(v)$ is the least common multiple of $\ord_M(x)$ and $\ord_M(y)$.
@@ -1298,7 +1299,7 @@ $v \in V$.
 \begin{figure}
 \caption{Overview of the matrix $YMY^{-1}$}
 \label{bigmat}
-\[ \left[ \begin{array}{cccccc|cccccc|c|cccccc}
+\[ \left[ \ \begin{array}{cccccc|cccccc|c|cccccc}
 \cline{1-6}
   0 & 1 &      &      &   &   \\
     & 0 & 1    &      & 0 &   \\
@@ -1323,7 +1324,7 @@ $v \in V$.
   &&&&&& &&&&&& & &   &      &      & 0 & 1 \\
   {}*&*&*&*&*&*& *&*&*&*&*&*&* &*& * &   *  &   *  & * & * \\
 \hline
-\end{array} \right] \]
+\end{array} \ \right] \]
 \end{figure}
 
 For the convenience of the reader we display the matrix
@@ -1559,7 +1560,7 @@ The number of elementary field operations needed by
 Algorithm~\ref{algminpolymc} is bounded above by
 \[ 
 {\rm char}(n,q) + {\rm fact}(n,q) + 
-  \sum_{i=1}^u (\frac{i}{2}+9)s_i^2
+  \sum_{i=1}^u (\frac{i}{2}+9)s_i^2,
 \]
 where ${\rm char}(n,q)$ is an upper bound for the number of elementary field operations needed to
 compute the characteristic polynomial (see
@@ -1763,6 +1764,7 @@ with coefficient $2d(k-j+1)$. Thus the second term is at most
 Adding this to the upper bound for the first term we get at most
 $dn(k-u)(k+u+4)$ as claimed in the proposition.
 \proofend
+\enlargethispage{-2\baselineskip}
 
 \medskip
 For the following discussion we need a lemma:
@@ -1869,7 +1871,7 @@ $e_i \ge f_{i,1} \ge f_{i,2} \ge \cdots \ge f_{i,m_i} \ge 1$ and
 $\sum_{j=1}^{m_i} f_{i,j} = e_i$. Thus, for each $i$,
 $q_i$ occurs in  $\mu_{M,\F_q^n}$ with multiplicity $f_{i,1}$,
 and so in particular $f_i\le f_{i,1}$.
-The element $q_i^{f_i}$ acts
+The element $\smash{q_i^{f_i}}$ acts
 invertibly on all direct summands $w_{i',j} \F[x]$ with $i' \neq i$
 since $q_i$ is irreducible and every order polynomial of a non-zero vector
 in such a direct summand is a power of $q_{i'}$, by 
@@ -1931,7 +1933,7 @@ that of algorithms currently implemented in the
 {\sf GAP} library (see \cite{GAP4}). 
 
 All computations were done on a machine with an Intel Core 2 Quad CPU Q6600
-running at 2.40 GHz with 8 GB of main memory and two times 4 MB of second level
+running at 2.40~GHz with 8~GB of main memory and two times 4 MB of second level
 cache. 
 
 We were unable to confirm that {\MAGMA} \cite{Magma} 
@@ -1939,7 +1941,8 @@ uses an algorithm  based on the canonical forms algorithm of Alan
 Steel presented in~\cite{Steel} for computing minimal 
 polynomials, although this is indicated in~\cite[Abstract]{Steel} and on the
 web\\ %
-(see \texttt{http://magma.maths.usyd.edu.au/magma/htmlhelp/text347.htm}).
+(see \href{http://magma.maths.usyd.edu.au/magma/htmlhelp/text347.htm}
+{\texttt{http://magma.maths.usyd.edu.au/magma/htmlhelp/text347.htm}}).
 
 Our colleague Colva Roney-Dougal kindly
 ran the Baby Monster example matrix $M_2$ in the {\MAGMA} system and the resulting
@@ -2023,7 +2026,7 @@ conjugated it with a random element of the general linear group to
 get a dense matrix with the same normal form.
 
 For $M_3 \in \F_5^{600 \times 600}$ we chose one cyclic summand with
-minimal polynomial $(x-\zeta_5)^{300}$ plus 300 summands with minimal
+minimal polynomial $(x-\zeta_5)^{300}$ plus 300~summands with minimal
 polynomial $x-\zeta_5$, where $\zeta_5 \in \F_5$ is a primitive root.
 This is a typical case in which our Monte Carlo algorithm and
 the deterministic verification both perform very well in comparison
@@ -2032,8 +2035,9 @@ with older techniques. The reason for this is that the high dimensional
 cyclic subspace is spun up many times in the standard minimal polynomial
 algorithm as for the matrix $M_2$.
 
+\enlargethispage{-1\baselineskip}
 For $M_4 \in \F_3^{1200 \times 1200}$ we chose 400 cyclic summands with
-minimal polynomial $(x-\zeta_3)^2$ plus 400 cyclic summands with
+minimal polynomial $(x-\zeta_3)^2$ plus 400~cyclic summands with
 minimal polynomial $(x-\zeta_3)$, where again $\zeta_3 \in \F_3$ is
 a primitive root. In contrast with the matrix $M_3$,  our algorithms 
 performed very well in this case but they were not

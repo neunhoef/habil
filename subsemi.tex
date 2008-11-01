@@ -15,6 +15,7 @@ readable independently from this book. For the purposes of finding
 reductions for groups in the classes \DD3 and
 \DD5 the methods below for \CC3 and \CC5 can be applied without change.
 
+\vspace*{-0.5\baselineskip}
 % Rest is copied from the subfield paper.
 % Changes:
 %  \  after \GAP:
@@ -169,6 +170,7 @@ followed by Section~\ref{subsemi:sec:complexity} which summarises the complexity
 results and Section~\ref{implcomplexity} which reports on our implementation 
 of these algorithms. 
 
+\enlargethispage{1\baselineskip}
 The first author is grateful to the RWTH in Aachen for their kind 
 hospitality and to the Humboldt Foundation for support while parts of
 this chapter were being written. 
@@ -227,7 +229,7 @@ The group $G$ lies in \CC5 if there exists a subfield $\F_{q_0} \subsetneq
 \F_q$, a $t \in \GL(d,q)$, and $\beta_1, \ldots, \beta_m
 \in \F_q^\times$ such that $t^{-1}g_it = \beta_i  h_i$ with
 $h_i \in \GL(d,q_0)$. The group $\overline{G}$ lies in \CC5 if and only if 
-$G$ lies in \CC5: note 
+$G$ lies in \CC5: Note 
 that multiplying $g_1, \ldots, g_m$ 
  by scalars from $\F_q$ does not change the membership of $G$ in \CC5. 
 \end{Def}
@@ -572,8 +574,10 @@ extraspecial group of order $3^{1+2}$.
 %than mixing $k$ and $\F_q$. Jon, could 
 %you check I've done this right? Thanks!
 
+\vspace*{-0.5\baselineskip}
 \section{Generation of matrix groups by random elements} \label{sec:generation}
 
+%\vspace*{-0.5\baselineskip}
 In this section we analyse the generation 
 of a subgroup $H = \langle g_1, \ldots, g_n \rangle$ 
 of a normal subgroup $N$ of a matrix group 
@@ -584,6 +588,7 @@ Perhaps surprisingly, we do this via results for permutation groups.
 
 %We shall need the following lemma.
 
+%\enlargethispage{1\baselineskip}
 \begin{Lemm} %[{See \cite[Corollary 2.2]{babai95}}]
     \label{babailemma}
     Let $X_1, X_2, \ldots$ be a sequence of\/ $0$-$1$ valued random
@@ -595,11 +600,11 @@ Perhaps surprisingly, we do this via results for permutation groups.
     \[ \Pro\left( \sum_{i=1}^t X_i \le (1-\epsilon)pt\right) \le
        e^{-\epsilon^2pt/2}. \]
    \end{Lemm}
-
 \begin{proof} See \cite[Corollary 2.2]{babai95} or \cite[Lemma
     2.3.3]{Ser}.
 \end{proof}
 
+\pagebreak
 The following proposition is based on \cite[2.3.7]{Ser}, where it is    
 proved for the case $G$ transitive. Note that the assumptions are       
 slightly more general than for $G$ given as a group of permutations, as 
@@ -689,7 +694,9 @@ In turn this is less than or equal to $\delta$.
 %\leq \delta$, and the result follows. 
 \end{proof}
  
-We now apply the previous theorem to matrix groups by considering their action on vectors. 
+\pagebreak
+We now apply the previous theorem to matrix groups by considering their
+action on vectors.
 
 \begin{Theo} [Correct action of subgroup]
 Let $G \leq \GL(d, q)$, and let $1 > \delta > 0$ 
@@ -756,7 +763,6 @@ by Lemma~\ref{babailemma} with $p = 1/2$, $t = c \log d$ and $\epsilon = 1 - 2/(
  $$\Pro(\sum_{i = 1}^t Y_i \leq \log d) \leq e^{-\frac{1}{4}(1- \frac{2}{c \log 2})^2 c \log d} \leq e^{-\frac{3}{16}c \log d}$$ since $c \geq 22$. 
 This is at most $\delta/2$ so the result follows. 
 \end{proof}
-
 
 \begin{Cor} [Correct action of normal subgroup] \label{cor:right_action}
 For $G \leq \GL(d, q)$, let $N \unlhd G$ and let $1 > \delta > 0$ 
@@ -1285,7 +1291,7 @@ matrix $t$ explicitly.
 
 Finally, we
  determine the smallest subfield $F$ of $K$ containing all
-coefficients of $t^{-1}g_it$ for $1 \leq i \leq m$.
+coefficients of $t^{-1}g_it$ for \mbox{$1 \leq i \leq m$}.
 
     All individual steps are $O(md^3)$ proving our claims.
 If the search for $c$
@@ -1779,7 +1785,7 @@ Of course in practice we work with a subgroup $H$ of $N$. If $H$
 has a submodule that is \emph{not} an $N$-submodule then it is
 possible that we will not be able to find a homomorphism from the
 irreducible $H$-subfactor to $V$. In this case the algorithm will report
-{\tt fail}: note that this occurs with probability at most $\delta$. 
+{\tt fail}: Note that this occurs with probability at most $\delta$. 
 However, it is possible to rerun the algorithm starting at
 Sections~\ref{subsec:caseanalysis} with a new version of $H$ that has
 submodule structure closer to that of $N$. To see this, note that
@@ -1802,7 +1808,7 @@ MeatAxe has proved that $H$ acts reducibly by finding an explicit
 proper nontrivial submodule $V'$ of the natural module.
 
 As described in Theorem~\ref{thm:imp_reduct} we first find an
-irreducible $H$-submodule $S$ and run the {\sc MinBlocks} procedure. If
+irreducible $H$-submodule $S$ and run the\linebreak \mbox{{\sc MinBlocks}} procedure. If
 this fails to find a block system, then (assuming $H$ has the same
 submodule structure as $N$) there is only one homogeneous component,
 corresponding to $S$.
@@ -1864,7 +1870,7 @@ $h \in N$. If we now cut $g$ into $n \times n$-blocks, we get:
       g_{2,1} & g_{2,2} & \cdots & g_{2,d/n} \\ \hline
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
       g_{d/n,1}&g_{d/n,2}& \cdots& g_{d/n,d/n} \end{array} \right]
- = hg
+ = hg,
 \end{eqnarray*}
 where the $g_{i,j}$ are $n \times n$-matrices, $D(h)$ is a matrix
 representing $h$ on the module $S$ and $D^g(h) = D(g^{-1}hg)$ is the
@@ -1994,7 +2000,7 @@ black box group with order oracle that is known to be
 nilpotent and not a $p$-group. 
 The assumption that the prime factors of $q^i-1$ 
 are known for $i \leq d$ is reasonable in practice, 
-and is relied upon for many other algorithms: see 
+and is relied upon for many other algorithms: See 
 \cite{brillart} for details of currently maintained lists of such factors.
 
 
@@ -2080,9 +2086,9 @@ in $O(d^3)$ elementary field operations.
 \end{Hyp}
 
 Note that this assumption is valid in practice by using Product
-Replacement and \textsc{Rattle}
+Replacement and \textsc{Rattle}%
 \index{Rattle@\textsc{Rattle}}%
- (see \cite{ProdRep, LGMurray, LGO97}) 
+\linebreak (see \cite{ProdRep, LGMurray, LGO97}) 
  for groups and normal closures, and by taking random 
 linear combinations of random products of generators for algebras,
 at least after an initialisation phase.
@@ -2323,7 +2329,7 @@ the five homogeneous components, then tells the kernel node that the
 group is reducible and in block form so that a MeatAxe 
 call is not necessary. 
 
-
+\enlargethispage{-2\baselineskip}
 Example $17$ is a central product of an extraspecial $3$-group of
 order $243$ in its irreducible representation of dimension $9$ over
 $\F_{25}$ with the sporadic finite simple group $HS$ in an irreducible

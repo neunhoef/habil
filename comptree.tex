@@ -380,9 +380,9 @@ $(h'_1, \ldots, h'_s)$, which are preimages of the nice generators of $H$ under
 $\varphi$. If $g$ is contained in $G$, the result $h'$ is a preimage 
 under $\varphi$ of $h = \varphi(g)$. Thus $n := h'^{-1}\cdot g$ is contained
 in the kernel $N$ of $\varphi$. We try to express $n$ as a straight
-line program $s_2$ in $(n'_1, \ldots, n'_u)$. If this fails, $n$
+line program $s_2$ in $(n'_1, \ldots, n'_u)$. If this fails, 
 \index{straight line program}\index{SLP}%
-is not contained in $N$ and thus $g$ is not contained in $G$. Otherwise,
+$n$~is not contained in $N$ and thus $g$ is not contained in $G$. Otherwise,
 we put together the straight line programs $s_1$ and $s_2$ to form
 one big straight line program $s$ that reaches $h'n$ from the input 
 \index{straight line program}\index{SLP}%
@@ -494,10 +494,10 @@ by $(y_1, \ldots, y_k, r'_1, \ldots, r'_m)$ is contained in $N$.
 
 On the other hand every element $n$ of $N$ is a product of the generators
 $g_i$. Thus, setting $n = g_{i_1} \cdots g_{i_t}$ for some numbers
-$i_j \in \{ 1, \ldots, k \}$, we get:
+$i_j \in \{ 1, \ldots, k \}$, we get
 \[ n = x_{i_1} x_{i_1}^{-1} g_{i_1} \cdots x_{i_t} x_{i_t}^{-1} g_{i_t}
      = x_{i_1} y_{i_1} \cdots x_{i_t} y_{i_t}
-     = \tilde n \cdot x \]
+     = \tilde n \cdot x, \]
 where $\tilde n$ is a product of some $G$-conjugates of the $y_{i_j}$
 and $x$ is a product of the $h'_i$ that lies in $N$. Since the $h'_i$
 are preimages of the generators $h_i$ of $H$ and $r'_i$ are preimages
@@ -708,7 +708,7 @@ length $l$}, if only the identity of $G$ fixes every point in $B$:
 The \emph{stabiliser chain} belonging to a base $B$ is the chain of
 subgroups
 \[ G \ge G_{b_1} \ge G_{b_1,b_2} \ge \cdots \ge G_{b_1,\ldots,b_k} =
-\{\id\} \]
+\{\id\}, \]
 where $G_{b_1, \ldots, b_j} =
 \{ g \in G \mid b_i^g = b_i \mbox{ for all } 1 \le i \le j \}$.
 \end{Def}
