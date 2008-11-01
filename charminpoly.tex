@@ -712,7 +712,7 @@ Algorithm~\ref{algordpoly} requires at most
  &+& s^{(2)}(m+d-1,m-1) 
 + 2s^{(1)}(m+d,0)
 \end{eqnarray*}
-elementary field operations where $s^{(1)}$ and $s^{(2)}$ are the
+elementary field operations, where $s^{(1)}$ and $s^{(2)}$ are the
 functions defined in (\ref{si}).
 \end{Prop}
 
@@ -864,7 +864,7 @@ $\F^s$, for $s \in \N$, and for subspaces of $V$ of the form
 %\quad\mbox{where}\quad l=(l_1,\dots,l_m).
 %\]
 \[
-V(l)=\{ v\,|\, v_{l_i}=0\quad\mbox{for}\quad  1\leq i\leq m\}
+V(l)=\{ v\,|\, v_{l_i}=0\quad\mbox{for}\quad  1\leq i\leq m\},
 \quad\mbox{where}\quad l=(l_1,\dots,l_m).
 \]
 If $l$ is the empty sequence then $V(l)=V$.
@@ -930,7 +930,8 @@ specified in Proposition~\ref{propcharpoly}.
     \STATE $c := \mbox{\sc RandomVector*}(V(l^{(i-1)}))$
     \STATE $v^{(i)} := aS^{(i-1)} + c$
 	\STATE 
-       \hspace*{10mm} \COMMENT{ $v^{(i)}\not\in\rsp(S^{(i-1)})$ where $\calY^{(i-1)}=(Y^{(i-1)},S^{(i-1)},
+       \hspace*{10mm} \COMMENT{ $v^{(i)}\not\in\rsp(S^{(i-1)})$, 
+       where $\calY^{(i-1)}=(Y^{(i-1)},S^{(i-1)},
                               T^{(i-1)},l^{(i-1)})$}
     \STATE $(p^{(i)},\calY^{(i)},b^{(i)}) :=$
    % \STATE \hspace*{3cm}
@@ -950,7 +951,7 @@ specified in Proposition~\ref{propcharpoly}.
 \index{CharPoly@\textsc{CharPoly}}%
 Algorithm~\ref{algcharpoly} satisfies
 the Output specifications, and furthermore
-$\calY=(Y,S,T,l)$ where
+$\calY=(Y,S,T,l)$, where
 $Y \in \F^{n \times n}$ is invertible with rows
 \[ v\!^{(1)}, v\!^{(1)}M, \ldots, v\!^{(1)}M^{d_1-1}, 
 v\!^{(2)}, v\!^{(2)}M, \ldots, v\!^{(2)}M^{d_2-1},
@@ -1004,7 +1005,7 @@ we do not need the product itself.
 
 \proofof{Proposition~\ref{propcharpoly}}
 Most statements in the proposition follow immediately from 
-Proposition~\ref{proprelorderpol}: note that, because of the conventions
+Proposition~\ref{proprelorderpol}: Note that, because of the conventions
 explained in Remark \ref{rem:seds}(b), in the first run of the
 `while' loop $v^{(1)}=c$ is a random non-zero vector of $V$ and
 $p^{(1)}=\ord_M(v^{(1)})$, and more generally,
@@ -1210,7 +1211,7 @@ $w_{i,1}\F[x]$ and $w_{i,2}\F[x]$.
 We now give a second probability bound which will be crucial in our
 Monte Carlo algorithm to compute the minimal polynomial. In 
 that algorithm we choose  a sequence of vectors 
-$v^{(1)}, \dots v^{(u)}$ such that $v^{(1)}$ is a uniformly distributed
+$v^{(1)}, \dots, v^{(u)}$ such that $v^{(1)}$ is a uniformly distributed
 random element of $V\setminus\{0\}$, and for $i\geq2$ we choose
 $v^{(i)}$ as a uniformly distributed random element of 
 $V \setminus U$, where $U=\left< v^{(1)}, \ldots, v^{(i-1)} \right>_M$.
@@ -1297,8 +1298,6 @@ the order polynomials $\ord_M(vY)$ and $\ord_{YMY^{-1}}(v)$ are equal for every
 $v \in V$.
 
 \begin{figure}
-\caption{Overview of the matrix $YMY^{-1}$}
-\label{bigmat}
 \[ \left[ \ \begin{array}{cccccc|cccccc|c|cccccc}
 \cline{1-6}
   0 & 1 &      &      &   &   \\
@@ -1325,6 +1324,8 @@ $v \in V$.
   {}*&*&*&*&*&*& *&*&*&*&*&*&* &*& * &   *  &   *  & * & * \\
 \hline
 \end{array} \ \right] \]
+\caption{Overview of the matrix $YMY^{-1}$}
+\label{bigmat}
 \end{figure}
 
 For the convenience of the reader we display the matrix
@@ -1477,7 +1478,7 @@ paragraph we see that $vg(M')$ can be computed at a cost of at most
 =(2d_i+u)s_i+2d_i\sum_{r=1}^is_r \leq 3d_is_i+2d_i\sum_{r=1}^is_r.
 \]
 Subsequent runs of the repeat loop require similar numbers of elementary
-operations, with $i$ replaced by $j$ where $i-1\geq j\geq 1$.
+operations, with $i$ replaced by $j$, where $i-1\geq j\geq 1$.
 Thus Algorithm 4 needs at most
 \[
 \sum_{j=1}^z \left( 4d_j^2  + 3d_j s_j + 2d_j 
@@ -1516,7 +1517,7 @@ Now we present our main procedure, Algorithm~\ref{algminpolymc}.
 \begin{algorithmic}
 \STATE \textbf{Input:} $M \in \F_q^{n \times n}$, $\varepsilon$ with
 $0 < \varepsilon < 1/2$.
-\STATE \textbf{Output:} A tuple $(b,f)$ where $b$ is either {\sc True}
+\STATE \textbf{Output:} A tuple $(b,f)$, where $b$ is either {\sc True}
 or {\sc Uncertain} and $f \in \F_q[x]$
 \STATE \hspace*{0mm} \phantom{\textbf{Output:}} (see
 Proposition~\ref{propminpoly} for details).
@@ -1603,7 +1604,7 @@ a `verification  algorithm'. By Proposition~\ref{algminpolymc},
 the additional cost of these extra runs is
 \[
 \sum_{i=u+1}^k(\frac{i}{2}+9)s_i^2 \leq s_k^2\left(\frac{(k+u+1)(k-u)}{4}+9(k-u)\right)
-= s_k^2\frac{(k-u)(k+u+37)}{4}
+= s_k^2\frac{(k-u)(k+u+37)}{4},
 \]
 and for sufficiently large $n$ this cost is less than 
 $n^4/4$ field operations.
@@ -2080,8 +2081,6 @@ very quickly discovered that the least common multiple of the relative order
 polynomials was already equal to the characteristic polynomial.
 
 \begin{figure}
-\caption{Timings for minimal polynomial computation}
-\label{timings}
 \begin{center}
 \hspace*{-5mm}
 \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
@@ -2119,6 +2118,8 @@ $M_{10}$& 17  &  400 & 0.26 & 0.19 & 0.22 & 0.22 & 0 & 0 & 0 & 1 \\
 \medskip
 $^*$ averaged over 10 runs
 \end{center}
+\caption{Timings for minimal polynomial computation}
+\label{timings}
 \end{figure}
 
 \bigskip\noindent

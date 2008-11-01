@@ -97,7 +97,7 @@ In the case that $G$ or $\overline{G}$ is in \CC3 or \CC5
 we either find a proper nontrivial homomorphism from $G$ to a permutation, matrix or projective group, or an isomorphism writing $G$ or $\overline{G}$ over a smaller field, or in a smaller dimension. 
   In addition, for some groups in classes \CC2, \CC4 or \CC6,
  we find a nontrivial reduction homomorphism: 
-this is important as there is as yet no fully 
+This is important as there is as yet no fully 
 polynomial-time analysis for these classes. 
 
 Our algorithms are efficient in the sense that they use a 
@@ -208,7 +208,7 @@ w)g_i = v  g_i + \lambda^{\alpha_i}  w  g_i\] for
 all $v,w \in \F_{q^e}^{d/e}$ and all $\lambda \in \F_{q^e}$.
  The 
 group $\overline{G}$ lies in \CC3 if and only if $G$ lies in \CC3: 
-note that multiplying $g_1, \ldots, g_m$ by scalars from $\F_q$ 
+Note that multiplying $g_1, \ldots, g_m$ by scalars from $\F_q$ 
 does not affect the semilinearity of $G$. 
 \end{Def}
 
@@ -243,7 +243,7 @@ $\overline{G} \cong \langle \overline{h_1},
 \ldots, \overline{h_m} \rangle$ embeds naturally in $\PGL(d,q_0)$.
 
 We assume that the input to our algorithm is an irreducible group
-$G$: see Lemma~\ref{MeatAxe} 
+$G$: See Lemma~\ref{MeatAxe} 
 for the complexity of proving this. The MeatAxe run which shows $G$ 
 to be irreducible also computes the endomorphism ring $E = \End_{\F_q G}(V)$.
   If $G$ is irreducible  but not
@@ -317,7 +317,7 @@ returning a homomorphism or reporting {\tt false}; or it can report {\tt
 fail} with a prescribed probability bound
  $\delta$. If success is reported, the result is
 guaranteed to be correct. If the algorithm reports {\tt false} then some
-additional information may be deduced: for example, that if $G$ lies in
+additional information may be deduced: For example, that if $G$ lies in
 \CC2 then $G'$ is transitive on all possible sets of blocks.
 
 
@@ -404,7 +404,7 @@ order of $G'$. Then
 \begin{enumerate}
 \item the exponent of $G/Z(G)$ is at most $c$, 
 \item the exponent of $G$ is at most $cz$, and 
-\item the order of $G$ is a divisor of $c^{l}z$ where $l$ is the number of 
+\item the order of $G$ is a divisor of $c^{l}z$, where $l$ is the number of 
 non-central generators of $G$.
 \end{enumerate}
 \end{Prop}
@@ -437,7 +437,7 @@ $G$ is a direct product $G =  S_1 \times S_2 \times \cdots
 \begin{Lemm} \label{lem:tensor}
 The module $V$ is a tensor product 
 \[
-V \ \  \cong \ \ V_1 \otimes \cdots \otimes V_t
+V \ \  \cong \ \ V_1 \otimes \cdots \otimes V_t,
 \]
 where each $V_i$ is an absolutely irreducible module for $S_i$ on 
 which $S_j$ acts trivially for $i \neq j$. 
@@ -455,11 +455,11 @@ Let
 $g \in G$ have all eigenvalues in  $k$.
 Then $V$ is a vector space direct sum 
 \[
-V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \cdots \oplus V_{\lambda_s}
+V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \cdots \oplus V_{\lambda_s},
 \]
 where $\lambda_1, \ldots, \lambda_s$ are the eigenvalues of $\rho(g)$ and
 $V_{\lambda_i}$ is the $\lambda_i$-eigenspace. 
-Moreover, if $h \in G$, then $V_{\lambda_i}\rho(h) = V_{\lambda_j}$ 
+Moreover, if $h \in G$, then $V_{\lambda_i}\rho(h) = V_{\lambda_j}$,
 where $\lambda_j = \psi_g(h)\lambda_i$.
 \end{Prop}
 
@@ -623,7 +623,7 @@ orbits on $\Omega$ as $G$.
 \end{Prop}
 
 \begin{proof}
-Let $t = c \log |\Omega|$ where 
+Let $t = c \log |\Omega|$, where 
 $c \geq \max\{24 \log \delta^{-1}/\log |\Omega|, 45\}$.
 Let $g_1, \ldots, g_t$ be uniformly distributed random elements 
 of $G$. For $1 \leq i \leq t$ let 
@@ -759,8 +759,11 @@ $Y_i = 1$ otherwise. If
 $\sum_{i = 1}^t Y_i \geq \log_2 d \geq \log_2 (d/f)$ 
 then $\End_{\F_q H}(V) = \End_{\F_q G}(V)$. Now, 
 $\Pro(Y_i = 1) \geq 1/2$ by the claim, so 
-by Lemma~\ref{babailemma} with $p = 1/2$, $t = c \log d$ and $\epsilon = 1 - 2/(c \log 2)$ % \cite[Corollary 2.2]{babai95} 
- $$\Pro(\sum_{i = 1}^t Y_i \leq \log d) \leq e^{-\frac{1}{4}(1- \frac{2}{c \log 2})^2 c \log d} \leq e^{-\frac{3}{16}c \log d}$$ since $c \geq 22$. 
+by Lemma~\ref{babailemma} with $p = 1/2$, $t = c \log d$ and $\epsilon =
+1 - 2/(c \log 2)$, % \cite[Corollary 2.2]{babai95}
+ \[\Pro(\sum_{i = 1}^t Y_i \leq \log d) \leq e^{-\frac{1}{4}(1-
+\frac{2}{c \log 2})^2 c \log d} \leq e^{-\frac{3}{16}c \log d}\] since
+$c \geq 22$.
 This is at most $\delta/2$ so the result follows. 
 \end{proof}
 
@@ -957,7 +960,7 @@ unique smallest subfield $F$ of $K$ such that there exists $t \in
 \GL(d,K)$ with $G^t \le \GL(d,F)$. This $F$ is uniquely determined by 
 $K_0[G] \cap (K \cdot \mathbf{1}_{d \times d}) 
 = F \cdot \mathbf{1}_{d \times d}$. Furthermore,   $K_0[G] \cong E^{d/e
-\times d/e}$ where $E = \End_{F[G^t]}(F^{1 \times d})$ is an 
+\times d/e}$, where $E = \End_{F[G^t]}(F^{1 \times d})$ is an 
 extension field of $F$ of degree $e$.
 \end{Theo}
 \begin{proof}
@@ -2334,7 +2337,7 @@ Example $17$ is a central product of an extraspecial $3$-group of
 order $243$ in its irreducible representation of dimension $9$ over
 $\F_{25}$ with the sporadic finite simple group $HS$ in an irreducible
 representation of dimension $21$ over $\F_{25}$. The latter
-representation came from one over $\F_5$ where the representing
+representation came from one over $\F_5$, where the representing
 matrices of the group generators were multiplied by elements from 
 $\F_{25}$. The extraspecial factor vanishes
 when computing a subgroup of the derived group, since it is 

@@ -334,7 +334,7 @@ all groups acting not absolutely irreducibly.
 \smallskip
 \stru
 A group lies in \DD5 if and only if it is conjugate in $\GL(n,q)$ to a
-subgroup of $\GL(n,q_0) \cdot \F_q^*$ where $\F_{q_0}$ is a 
+subgroup of $\GL(n,q_0) \cdot \F_q^*$, where $\F_{q_0}$ is a 
 proper subfield of $\F_q$.
 
 \subsection{Description of class \DD6: ``extraspecial''}
@@ -414,7 +414,7 @@ Remark~\ref{nottensorind} by an example.
 \exmemb
 The following subgroups of $\GL(n,q)$ lie in \DD7:
 
-$\GL(r,q)^{\otimes k}\colon S_k$ where $n=r^k$ and $\GL(r,q)^{\otimes k}$ 
+$\GL(r,q)^{\otimes k}\colon S_k$, where $n=r^k$ and $\GL(r,q)^{\otimes k}$ 
 denotes the central product of $k$ copies of $\GL(r,q)$.
 
 \subsection{Description of class \DD8: ``classical''}
@@ -808,7 +808,7 @@ proposition.
     for $x \in G$, where $xg_i = g_{\pi(i)}h_i$ with $\pi \in S_k$
     and $h_i \in H$ for $1 \le i \le k$.
     Let $\kappa$ be the group homomorphism $\kappa: \GL(d,K)
-    \wr S_k \to \GL(d^k,K)$ where the direct factors of the base group
+    \wr S_k \to \GL(d^k,K)$, where the direct factors of the base group
     act on the tensor factors of $(K^d)^{\otimes k} \cong K^{d^k}$ and
     the top group permutes them. Let $\bar\kappa : \PGL(d,K) \wr S_k
     \to \PGL(d^k,K)$ be the corresponding map for the projective linear
@@ -858,7 +858,7 @@ assumption and the proof goes through.
     \label{nottensorind}
 \index{tensor induced groups}%
     Let $G$ be the semidirect product 
-    $(\SL(2,7) \otimes_{\F_7} \SL(2,7)).S_2 < \GL(4,7)$ where the
+    $(\SL(2,7) \otimes_{\F_7} \SL(2,7)).S_2 < \GL(4,7)$, where the
     $S_2$ permutes the tensor factors. The natural module $V := \F_7^4$ is
     absolutely irreducible also when restricted to the normal subgroup
     $N := \SL(2,7) \otimes_{\F_7} \SL(2,7)$ of index $2$. The centre 
@@ -917,7 +917,7 @@ the endomorphism ring as a field.
 
 Under the assumptions in Section~\ref{hypMtx} the MeatAxe provides a
 Las Vegas algorithm which terminates
-after at most $O(mn^3\log \delta^{-1})$ elementary field operations where $m$
+after at most $O(mn^3\log \delta^{-1})$ elementary field operations, where $m$
 is the number of generators of $G$ and $0 < \delta < 1/2$ is an upper
 bound for the failure probability (see Lemma~\ref{MeatAxe}).
 
@@ -1342,7 +1342,7 @@ Section~\ref{solveD24} does not work immediately. However, the observation
 that Algorithm~\ref{alginvjump} ``\textsc{InvolutionJumper}'' produces an
 element of $N$ with relatively high probability also holds for the \DD7
 case. To some extent it seems to work even better in this case, since the 
-factor group $G/N$ has an action on $k$ points where $n=r^k$ for some $r$
+factor group $G/N$ has an action on $k$ points, where $n=r^k$ for some $r$
 and $k$, which makes $k$ relatively small in real world situations.
 
 \begin{algorithm}
