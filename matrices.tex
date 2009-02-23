@@ -739,7 +739,11 @@ $\ell$ of elements in each group is called ``grease level''.
 
 \begin{figure}[ht]
 \begin{center}
-\input{grease_pstex_t}
+\begin{picture}(0,0)%
+\pgfdeclareimage{grease_pstex}{grease_pstex}%
+\pgfuseimage{grease_pstex}%
+\end{picture}%
+\input{grease.pstex_t}
 \end{center}
 \caption{Illustration for Vector-matrix multiplication and grease}
 \index{grease}%
@@ -953,7 +957,9 @@ typical and holds also for other finite fields.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=14cm]{matmulF2grease}
+%\includegraphics[width=14cm]{matmulF2grease}
+\pgfdeclareimage[width=14cm]{matmulF2grease}{matmulF2grease}
+\pgfuseimage{matmulF2grease}
 \end{center}
 \caption{Multiplication times over $\F_2$ against matrix dimension
 using grease}
@@ -963,7 +969,9 @@ using grease}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=14cm]{matmulF2grease_scaled}
+%\includegraphics[width=14cm]{matmulF2grease_scaled}
+\pgfdeclareimage[width=14cm]{matmulF2grease_scaled}{matmulF2grease_scaled}
+\pgfuseimage{matmulF2grease_scaled}
 \end{center}
 \caption{Multiplication times over $\F_2$ against matrix dimension
 using grease
@@ -1305,7 +1313,9 @@ the pattern observed above.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=14cm]{matmulF2_all}
+%\includegraphics[width=14cm]{matmulF2_all}
+\pgfdeclareimage[width=14cm]{matmulF2_all}{matmulF2_all}
+\pgfuseimage{matmulF2_all}
 \end{center}
 \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
 \label{matmulf2}
@@ -1313,7 +1323,9 @@ the pattern observed above.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=14cm]{matmulF3_all}
+%\includegraphics[width=14cm]{matmulF3_all}
+\pgfdeclareimage[width=14cm]{matmulF3_all}{matmulF3_all}
+\pgfuseimage{matmulF3_all}
 \end{center}
 \caption{Matrix multiplication times over $\F_3$ against matrix dimension}
 \label{matmulf3}
