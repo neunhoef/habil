@@ -2192,6 +2192,8 @@ where $s = O(\log \delta^{-1} + d\log q)$, that is by
               + d^4 \log( \delta^{-1} \log d) \log q). \]
 Fixing $\delta > 0$ this simplifies to $O(d^4 \log (\log d) \log q + md^3)$. 
 \begin{table}
+\caption{Complexity of algorithm for different cases}
+\label{casescomplexity}
 \begin{center}
 \begin{tabular}{|l|l|}
 \hline
@@ -2212,8 +2214,6 @@ Path & Cost \\
 \\[3mm]
 where $s = O(\log \delta^{-1} + d\log q)$.
 \end{center}
-\caption{Complexity of algorithm for different cases}
-\label{casescomplexity}
 \end{table}
 
 \section{Implementation and performance}
@@ -2243,6 +2243,8 @@ can vary significantly between runs.
 
 
 \begin{table}
+\caption{Timing results for a few example groups}
+\label{subsemi:timings}
 \begin{center}
     \begin{tabular}{|r|l|r|l|r|c|r|l|r|r|}
 \hline
@@ -2268,8 +2270,6 @@ No & Group      &    $d$&  $q$     & $m$& Case     & $d'$& $q'$ & Time & Total\\
 \hline
     \end{tabular}
 \end{center}
-\caption{Timing results for a few example groups}
-\label{subsemi:timings}
 \end{table}
 
 Columns ``$d$'' and ``$q$'' give the matrix dimension
