@@ -68,6 +68,12 @@
 
 \usepackage{algorithm}
 \usepackage{algorithmic}
+% Dirty hack to make hyperref happy:
+\makeatletter
+\def\theHALC@line{\thealgorithm-\theALC@line}
+\def\theHALC@rem{\thealgorithm-\theALC@rem}
+\makeatother
+
 
 % Bemerkung: showkeys und hyperref funktionieren nicht zusammen!
 
