@@ -29,7 +29,7 @@ possible (see for example \cite{Kohl}) but up to now not studied much.
 
 For finite permutation groups there are highly efficient
 algorithms to compute the order of a group, a composition series,
-centralisers of elements, stabilisers, $p$-Sylow subgroups, to find
+centralisers of elements, stabilisers, Sylow $p$-subgroups, to find
 normal subgroups, maximal subgroups, group homomorphisms, to test
 membership of group elements and the like.
 Standard techniques use stabiliser chains, base and strong generating
@@ -85,6 +85,8 @@ came to live after the seminal paper \cite{neumann-praeger} by Peter Neumann
 and Cheryl Praeger in 1992, in which they present an algorithm which decides
 whether or not a group $G = \left< g_1, \ldots, g_k\right> \le \GL(n,q)$
 given by a set of generators contains the special linear group $\SL(n,q)$.
+This algorithm answered a question posed by Joachim Neub\"user at a workshop in
+Oberwolfach about computational group theory.
 The matrix group recognition project in the meantime has become an ongoing 
 collaborative effort of many researchers, and its aim
 is to devise efficient algorithms to perform the constructive recognition
@@ -97,7 +99,7 @@ With the term ``constructive recognition'' we mean
 \begin{itemize}
 \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item test whether an element $g \in \GL(n,q)$ is contained in $G$, and if so,
-\item express $g$ explicitly as a word in the given generators.%
+\item express $g$ explicitly as a product in the given generators.%
 \footnote{For more details on the constructive recognition problem see
 Section~\ref{constrrecog}.}
 \end{itemize}
@@ -151,10 +153,12 @@ in the form of two {\GAP} packages \textsf{recogbase} (see
 which are due to be published soon. The first provides a generic framework
 to implement composition trees in {\GAP} for arbitrary types of groups. 
 \index{composition tree}%
-One interesting feature of the generic framework is that the type of group
-can vary within a single composition tree. The
-second package tries to collects the best known methods for group
-recognition for permutation groups, matrix groups and projective groups.
+One interesting feature of the generic framework is that within a single
+composition tree there can be groups in different representations, that is,
+there can be a mixture of permutation groups, matrix groups and
+projective groups.
+The second package tries to collect the best known methods for group
+recognition for each of these types of groups.
 Thus, everybody who contributes implementations will be an author of the
 \textsf{recog} package. 
 
@@ -179,7 +183,7 @@ recognition. Derek Holt and Mark Stather have recently published a paper
 \cite{StatherPhd} and \cite{StatherSylow} also lie in this area. 
 Another topic left out is the
 constructive recognition of black box groups, because we wanted to
-concentrate on matrix and projective groups. We only cover the
+concentrate on matrix groups and projective groups. We only cover the
 verification phase very briefly, although this phase is necessary to
 have computational proofs of the results. The reason for this is that in
 fact very little work has been done on the actual implementation of
@@ -191,7 +195,7 @@ whole procedure of building a composition tree is still needed. This seems
 achievable using estimates on the length of a composition series but is not
 done yet.
 
-Now we turn to the things that are contained in this book and
+Now we turn to the contents of this book and
 outline its structure. 
 
 Chapter~\ref{chap:intro} introduces briefly some concepts from computer

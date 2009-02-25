@@ -60,7 +60,7 @@ succeeds, our variant of Aschbacher's theorem shows that the group must
 be a member of \DD8 or \DD9. In this case the constructive recognition problem
 has to be
 solved by different means, usually by first finding out which classical
-or almost simple group it is and then using this information to do the
+or almost simple group it is and then by using this information to do the
 constructive recognition in a special case, for example using standard
 generators (see Sections~\ref{solveD8} and \ref{solveD9}).
 
@@ -84,13 +84,13 @@ of Aschbacher's
 theorem for $\GL(n,q)$ in detail, to give a proof and to give an
 overview of the known methods to deal with the different classes
 together with references to the literature. Furthermore we present new 
-ideas to handle classes \DD2, \DD4 and \DD7, which seem to work very
+ideas to handle the classes \DD2, \DD4 and \DD7, which seem to work very
 well in practice, but are not yet fully analysed with respect to their
 applicability and complexity. It seems that our changed definition of
 these classes helped to derive better algorithms than was previously
 possible for the more general classes \CC2, \CC4 and \CC7.
 An algorithm to recognise
-and handle classes \DD3 and \DD5 provided that the group does not lie in
+and handle the classes \DD3 and \DD5 provided that the group does not lie in
 class \DD1 is described in detail in Chapter~\ref{chap:subsemi}.
 An overview of the handling of groups in classes \DD8 and \DD9 is
 given in the next Chapter~\ref{chap:leaves}.
@@ -184,7 +184,7 @@ A group lies in \DD1 if and only if it is conjugate in $\GL(n,q)$
 to a subgroup of a group
 \[ P_m := \left\{ \left[ \begin{array}{cc} A & 0 \\ C & D \end{array} \right]
            \mid A \in \GL(m,q), D \in \GL(n-m,q) \mbox{ and }
-           C \in \F_q^{n-m \times m} \right\} \]
+           C \in \F_q^{(n-m) \times m} \right\} \]
 for some $0 < m < n$. The group $P_m$ is called a \emph{maximal parabolic
 subgroup} and is a semidirect product
 \index{maximal parabolic subgroup}\index{parabolic subgroup}%
@@ -192,7 +192,7 @@ of the normal $p$-subgroup
 \[ U_m := \left\{ \left[ \begin{array}{cc} \one_m & 0 \\ C & \one_{n-m} 
            \end{array} \right]
            \mid 
-           C \in \F_q^{n-m \times m} \right\} \]
+           C \in \F_q^{(n-m) \times m} \right\} \]
 and $\GL(m,q) \times \GL(n-m,q)$, the factors being embedded on the
 diagonal blocks. 
 Here $\one_m$ is the $(m \times m)$-identity matrix and $\one_{n-m}$ is the
@@ -208,21 +208,26 @@ A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
 absolutely irreducible and $G$ has a normal subgroup $N$ containing $Z$ 
 such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
 absolutely irreducible modules that are not all isomorphic.
+}
 
-By Clifford theory this immediately implies that there is a decomposition
+Note that 
+by Clifford theory this immediately implies that there is a decomposition
 of $V$ as a direct sum of $m$-dimensional subspaces 
 $V = V_1 \oplus \cdots \oplus V_t$
 such that the summands are permuted transitively by $G$. That is, 
 for every $1 \le i \le t$ and every 
 $g \in G$ there is a $j$ with $V_i g = V_j$ and the action on the
-summands is transitive. The $V_i$ are the homogeneous components.
-}
+summands is transitive. The $V_i$ are the homogeneous components
+of $V|_N$.
 
+\medskip
 \diffasch2
 We include in \DD2 the subgroups of the members of \CC2 that
-permute the direct summands transitively, but we exclude all groups
+permute the homogeneous components of $V|_N$ transitively, but we exclude all groups
 acting not absolutely irreducibly and we add the condition that the
 irreducible $\F_q N$-summands of $V|_{N}$ are absolutely irreducible.
+We also exclude groups in \CC2 for which the kernel of the permutation
+action is contained in the centre of $G$.
 
 \smallskip
 \exmemb
@@ -269,7 +274,7 @@ groups acting reducibly.
 \stru
 A group lies in \DD3 if and only if it acts irreducibly on the natural
 module and is conjugate in $\GL(n,q)$ to a subgroup of $\GGL(n/s,q^s)$ for
-some prime $s \mid n$, realised as $(n \times n)$-matrices over $\F_q$
+some $s \mid n$, realised as $(n \times n)$-matrices over $\F_q$
 by choosing an $\F_q$-basis of $\F_{q^s}$.
 
 
@@ -299,7 +304,9 @@ $\F_q N$-module $W$ with $\dim_{\F_q}(W) > 1$.
 
 \diffasch4
 We define \DD4 including more conditions on the structure of the
-group and its natural representation than Aschbacher. The original
+group and its natural module than Aschbacher. In particular, we omit
+simple groups acting on an irreducible tensor product of two
+irreducible modules. The original
 definition of \CC4 uses a tensor product decomposition of $V$
 which is invariant under $G$.
 This follows from our conditions, see Proposition~\ref{tensorprop}. 

@@ -40,11 +40,11 @@ scalar $\lambda$. \proofend
 \end{DefProp}
 
 For a monic polynomial $f \in \F[X]$ with non-zero constant term
-we define the \emph{order} (\emph{projective order} respectively) of 
-$X + f\F[X]$ in $\F[X]/f\F[X]$ modulo $f$ as the least natural 
+we define the \emph{order} (\emph{projective order}, respectively) of 
+$X + f\F[X]$ in $\F[X]/f\F[X]$ as the least natural 
 number $p$ such that $X^p$ is congruent 
-to $1$ (a scalar respectively) modulo $f$ or equivalently, that $X^p-1$ 
-($X^p-\lambda$ respectively) is
+to $1$ (a scalar, respectively) modulo $f$ or equivalently, that $X^p-1$ 
+($X^p-\lambda$, respectively) is
 divisible by $f$ (for some $\lambda \in \F$). 
 The order and projective order
 of a matrix $M$ as above and that of $X$ modulo the minimal polynomial 
@@ -73,7 +73,7 @@ $\F[X]/f\F[X]$ is isomorphic to
 \[ \F[X]/f\F[X] \cong
    \prod_{i=1}^k \F[X]/f_i^{e_i} \F[X], \]
 where $f = \prod_{i=1}^k f_i^{e_i}$ is the factorisation of $f$ into
-its pairwise distinct irreducible factors $f_i$. Using this
+its pairwise distinct irreducible monic factors $f_i$. Using this
 isomorphism the (projective) order of $X+f\F[X]$ is equal to the least 
 common multiple of the (projective) orders of the $X + f_i^{e_i}
 \F[X]$ in $\F[X]/f_i^{e_i}\F[X]$. Thus, as a first step we factorise
@@ -95,7 +95,7 @@ elsewhere:
 \end{array} \right]. \]
 The minimal polynomial $\mu_N$ of $N$ over $\F$ is $g^e$ 
 which can be seen as follows:
-Let $K$ be the splitting field $K$ of $g$ over $\F$. Since $g$ is
+Let $K$ be the splitting field of $g$ over $\F$. Since $g$ is
 irreducible and thus has no multiple roots, the 
 matrix $C$ is similar to a diagonal matrix over $K$, that is, there is an
 invertible $T \in K^{d \times d}$ such that $TCT^{-1}$ is diagonal
@@ -108,7 +108,7 @@ polynomial of $N$ with multiplicity $e$. Thus the minimal polynomial
 of $N$ over $K$ is $g^e$ and thus also $\mu_N = g^e$.
 
 We assume from now on that $\F$ is the finite field $\F_q$ with $q$
-elements.
+elements of characteristic $p$.
 Writing $N = \tilde C + \tilde \one$, where $\tilde C$ is the matrix
 with only $C$ along the main block diagonal and $\tilde \one$
 accordingly we have $\tilde C \cdot \tilde \one = \tilde \one \cdot \tilde C$
@@ -173,7 +173,7 @@ Find all $x \in \F^{1 \times m}$ with $xY = b$.
 
 Sometimes the problem has to be solved for more than one $b$ and sometimes
 it is enough to find one solution $x$. In particular the homogeneous case 
-$b=0$ is important, here the set of solutions is called the \emph{nullspace}
+$b=0$ is important. Here the set of solutions is called the \emph{nullspace}
 of $M$.
 \index{nullspace}%
 
@@ -190,7 +190,7 @@ semi echelon data sequence $\calY = (Y',S,T,l)$ for $Y'$ as defined
 in Definition~\ref{semiecheseq}. Thirdly, for every row of $Y$ that
 is a linear combination of the rows above it in $Y$, we find a linear 
 relation of the rows of $Y$ and all these relations span the nullspace
-of $Y$ in the end.
+of $Y$.
 
 We leave the details and the proof that this procedure does what
 we claim to the reader. The following proposition analyses the cost

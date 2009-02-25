@@ -14,7 +14,8 @@ Praeger and are already published as \cite{minpolypaper}.
 
 \section{Introduction}
 
-Let $\F$ be a finite field and $M \in \F^{n \times n}$ a matrix. This paper
+Let $\F$ be a finite field and $M \in \F^{n \times n}$ a matrix. This
+chapter
 presents and analyses a Monte Carlo  algorithm (see
 Section~\ref{montevegas}) to compute the minimal 
 polynomial of $M$, that is,
@@ -70,12 +71,12 @@ minimal polynomial algorithm
 we present and analyse in Section~\ref{verify} a deterministic
 verification procedure to
 \index{verification}%
-be run after Algorithm~\ref{algminpolymc} that has a similar asymptotic
+be run after Algorithm~\ref{algminpolymc}, that has a similar asymptotic
 complexity in many cases, but is $O(n^4)$ in the worst-case scenario.
 Our motivation for giving concrete upper bounds for the costs of 
 various component procedures was that, in practical implementations, 
 these assist us to compare different algorithms in order to 
-decide which to use in different situations. At the end of the paper we discuss
+decide which to use in different situations. At the end of this chapter we discuss
 a practical implementation and tests of the algorithms in the {\sf GAP}
 system~\cite{GAP4}.
 
@@ -98,9 +99,9 @@ Storjohann's earlier deterministic algorithm (see \cite{Stor98}) uses classical
 field arithmetic and requires $O(n^3)$ field operations. 
 It first reduces the matrix to `zig-zag form', using a mix of row 
 and column operations, then produces the Smith normal form 
-as a matrix with polynomial entries and finally the Frobenius normal form.
+of a matrix with polynomial entries and finally the Frobenius normal form.
 In systems such as {\sf GAP}, matrices over small finite fields 
-are stored in a compressed form that
+are stored in a compressed form (compare Chapter~\ref{chap:cmats}) that
 makes row operations simple, but column operations difficult.
 Restricting to one of these types of operations was one of our criteria.
 
@@ -145,7 +146,7 @@ is the one in \cite{Steel} and (although we have been unable to
 confirm this) we assume that this is the algorithm implemented 
 in {\MAGMA} \cite{Magma}. 
 
-\subsection{Outline of the paper}
+\subsection{Outline of the chapter}
 In Section~\ref{notation} we introduce our notation, in
 Section~\ref{complexity} we cite a few complexity bounds for basic
 algorithms. The next Section~\ref{ordpoly} introduces order polynomials
@@ -157,7 +158,7 @@ well-known algorithm to compute characteristic polynomials by introducing
 some randomisation, because this is later needed in the analysis of our
 main Monte Carlo algorithm. In Section~\ref{probest} we give some
 probability estimates that are also used later in the analysis.
-The second last Section~\ref{verify}
+Section~\ref{verify}
 covers the deterministic verification of the results of our
 \index{verification}%
 Monte Carlo algorithm. We describe in detail cases in which this
@@ -177,7 +178,7 @@ cost are reflected in practical experiments.
 \section{Notation}
 \label{notation}
 
-Throughout the paper $\F$ will be a fixed field. Although we envisage
+Throughout this chapter $\F$ will be a fixed field. Although we envisage
 $\F$ to be a finite field for our applications, this is not necessary
 for most of our results. However in the later sections we use some probability 
 estimates from Section~\ref{probest} that are only valid for 
@@ -211,7 +212,7 @@ by saying that ``the matrix $M$ induces an action on the $\F$-vector space''
 $V, W, V/W$ respectively.
 
 Throughout, $\F[x]$ denotes
-the polynomial ring over $\F$ in an indeterminate $x$. For a square matrix $M$ and
+the polynomial ring over $\F$ in the indeterminate $x$. For a square matrix $M$ and
 a polynomial $p \in \F[x]$ we denote the evaluation of $p$ at $M$
 by $p(M)$.
 
@@ -311,7 +312,7 @@ conveniently in \cite{vzG}.
 
 \begin{Prop}[Complexity of standard greatest common divisor algorithm]
 \label{standardgcd}
-\index{Gcd@\textsc{Gcd}}%
+\index{gcd}%
 \index{greatest common divisor}%
 Let $f,g \in \F[x]$ with $n := \deg f \ge \deg g =: m$, and $f = qg + r$
 with $q,r \in \F[x]$ such that $r=0$ or $\deg r < \deg g$. Then there is an
@@ -329,7 +330,7 @@ $m$ and $n$.}
 \end{Rem}
 
 \proofof{Proposition \ref{standardgcd}}
-Use polynomial division and the standard {\sc Gcd} algorithm
+Use polynomial division and the standard $\gcd$ algorithm
 and count. See \cite[Section 2.4 and Section 3.3]{vzG} for
 smaller bounds that imply our symmetric bounds.
 %The standard polynomial division algorithm repeatedly subtracts a shifted 
@@ -367,7 +368,7 @@ polynomial factorisation procedures.
 
 Details can be found in Knuth~\cite[4.6.2]{AOCP2} of a deterministic 
 polynomial factorisation algorithm inspired by an idea of Berlekamp. 
-Its cost is polynomial in both the degree $n$ and field size 
+Its cost is polynomial in both the degree $n$ and the field size 
 $|\F|=q$, as it requires $O(q)$ computations
 of greatest common divisors. Thus it works well only for $q$ small. 
 %However, 
@@ -385,11 +386,13 @@ fail to find all the irreducible factors.
 It involves the procedure {\sc RandomVector}, which is discussed further in Subsection~\ref{random}, to 
 produce independent uniformly distributed random elements of an 
 $n$-dimensional vector space over $\F$  for 
-which a basis is known. Throughout the paper logarithms are always taken to base $2$.
+which a basis is known. Throughout this chapter logarithms are always taken to 
+base~$2$.
 
 \begin{Rem}[\sc PolynomialFactorisation]\label{rem:polyfactn}
 Suppose $f(x)\in \F[x]$ of degree $n\geq 1$ with $r$ irreducible 
-factors (counting multiplicities) and, if $q$ is large, suppose that 
+factors (counting multiplicities) and, if $q$ is large, suppose
+additionally that 
 we are given a real number $\ve$ such that $0<\ve<1/2$. The  number 
 fact$(n,q)$ of elementary field operations required to find a complete
 set of irreducible factors of $f(x)$ is at most
@@ -423,7 +426,7 @@ We briefly recall the definition of the term ``order polynomial'':
 The \emph{order polynomial} $\ord_M(v)$ of a vector $v \in V$ is the
 \index{order polynomial}%
 \index{relative order polynomial}\index{order polynomial!relative}%
-monic polynomial $p \in \F[x]$ of smallest degree such that $v \cdot
+monic polynomial $p \in \F[x] \setminus \{0\}$ of smallest degree such that $v \cdot
 p(M) = 0 \in V$. In particular $\ord_M(0)=1$.
 
 For an $M$-invariant subspace  $W < V$, the \emph{relative order polynomial}
@@ -445,7 +448,8 @@ The following observation follows immediately from the definition above.
 \label{relorderpol}
 \index{relative order polynomial}\index{order polynomial!relative}%
 For an $M$-invariant subspace  $W < V$ and $v\in V$, 
-$\ord_M(v+W)$ is the monic polynomial $p \in \F[x]$ of smallest degree such 
+$\ord_M(v+W)$ is the monic polynomial $p \in \F[x] \setminus \{0\}$ 
+of smallest degree such 
 that $v \cdot p(M) \in W$.
 \end{Lemm}
 %\proofbeg This is clear because a coset $v+W \in V/W$ is zero
@@ -701,9 +705,9 @@ Let\/ $\calY=(Y,S,T,l)$ be a semi echelon data sequence
 with $Y,S \in \F^{m \times
 n}$ (possibly $m=0$), $v \in \F^n$, and $M \in \F^{n \times n}$
 such that $W:=\rsp(Y)$ is $M$-invariant. 
-The output of Algorithm 2 satisfies the Output specifications, and
+The output of Algorithm~\ref{algordpoly} satisfies the Output specifications, and
 moreover if $d>0$, then
-rows $m+1, \ldots, m+d$ of $Y'$ are equal to $v,vM,\ldots,vM^{d-1}$
+the rows $m+1, \ldots, m+d$ of $Y'$ are equal to $v,vM,\ldots,vM^{d-1}$
 respectively.
 Algorithm~\ref{algordpoly} requires at most
 \begin{eqnarray*}
@@ -718,12 +722,12 @@ functions defined in (\ref{si}).
 
 \begin{Rem}
 Note that, if $d=0$ then $S'=S$, so $v=b'Y\in W$, and in this case $p=1$. 
-Algorithm~\ref{algordpoly} successively considers the vectors $v+W,
-vM+W, \ldots, vM^d+W$  (those are the successive values of
+Algorithm~\ref{algordpoly} successively considers the vectors $v,
+vM, \ldots, vM^d$  (those are the successive values of
 $v'$) until $vM^d+W$ lies in the subspace of $V/W$ 
 generated by the vectors $v+W, vM+W, \ldots, vM^{d-1}+W$. 
 The given matrix $S$ together with Algorithm~\ref{clean} defines a
-direct sum decomposition of the $\F$-vector space $V := \F^n = W \oplus
+direct sum decomposition of the $\F$-vector space $V = \F^n = W \oplus
 W'$,
 where $W'$ is the subspace of vectors having $0$ in all positions
 occurring in the list $l$. Since $W' \cong V/W$, 
@@ -1085,7 +1089,7 @@ The next two expressions involving the functions $s^{(1)}$ and $s^{(2)}$
 sum to $2(n+1)s^{(1)}(n-1,0) = n(n+1)(n-1)$ and $s^{(2)}(n-1,0) = 
 \frac{(n-1)n(2n-1)}{6}$ respectively, using (\ref{formels1}) and
 (\ref{formels2}) and the properties noted
-above it. 
+above them. 
 Finally, the terms $2s^{(1)}(s_i,0)$ sum to 
 $2\sum_{i=1}^k s^{(1)}(s_i,0) 
 = \sum_{i=1}^k s_i(s_i+1)$.
@@ -1159,7 +1163,7 @@ Let\/ $\F = \F_q$ be a finite field with $q$ elements, let $V=\F^n$, let
 $U$ be a (possibly zero) $M$-invariant subspace such that the multiplicity of
 $q_i$ in $\mu_{M,U}$ is strictly smaller than in $\mu_{M,V}$, and let 
 $v$ be a uniformly distributed random element of\/ $V\setminus U$. Then 
-the multiplicity of $q_i$ is the same in $\ord_M(v)$ and $\mu_{M,V}$ 
+the multiplicity of $q_i$ is the same in\/ $\ord_M(v)$ and in $\mu_{M,V}$ 
 with probability greater than
 $1-q^{-\deg q_i}$.
 \end{Prop}
@@ -1380,10 +1384,13 @@ of which is $\ord_{YMY^{-1}}(v)$
 \STATE $f := [\ ]$ \hspace*{1cm} \COMMENT{empty list}
 \REPEAT
     \STATE $h := \sum_{j=1}^{d_i} v_{s_{i-1}+j} x^{j-1}$
+    \COMMENT{this is the $q$ from Lemma~\ref{ordpolcyclic} for computing
+    $\ord_{M'}(v+W'_{i-1})$}
     \IF {$h \neq 0$}
     \STATE $\hat g := p^{(i)}/\gcd(h,p^{(i)})$ \hspace*{1cm} \COMMENT{factorised}
         \STATE \textbf{add} $\hat g$ to list $f$
         \STATE \textbf{compute} product $g$ of factors in $\hat g$
+        \COMMENT{$g=\hat g$, but the latter only exists in factorised form}
         \IF {$i > 1$}
             \STATE $v := v \cdot g(YMY^{-1})$ \hspace*{1cm} 
             \COMMENT{see Proposition~\ref{propordpol} for this computation}
@@ -1476,8 +1483,10 @@ where $\sum_{s=1}^um_s=\deg g=d_i$. From the previous
 paragraph we see that $vg(M')$ can be computed at a cost of at most
 \[
 \sum_{s=1}^u\left((2m_s+1)s_i +2m_s\sum_{r=1}^i s_r \right)
-=(2d_i+u)s_i+2d_i\sum_{r=1}^is_r \leq 3d_is_i+2d_i\sum_{r=1}^is_r.
+=(2d_i+u)s_i+2d_i\sum_{r=1}^is_r \leq 3d_is_i+2d_i\sum_{r=1}^is_r
 \]
+elementary field operations.
+
 Subsequent runs of the repeat loop require similar numbers of elementary
 operations, with $i$ replaced by $j$, where $i-1\geq j\geq 1$.
 Thus Algorithm 4 needs at most
@@ -1572,7 +1581,8 @@ operations needed to factorise each of a set of polynomials over $\F_q$ whose de
 (see Subsection~{\rm\ref{polyfactn}}). Moreover either $u=k$, or $u<k$ and
 $\sum_{j=1}^t q^{-u\deg q_j} \le \varepsilon$.
 
-For $n$ sufficiently large and fixed $\varepsilon$, this is less than
+For $n$ sufficiently large and fixed $\varepsilon$, the number of
+elementary field operations needed is less than
 \[ 6n^3 + {\rm fact}(n,q) + 
 \frac{1}{3} \lceil\frac{\log n-\log \varepsilon}{\log q}\rceil^2 \cdot n^2,
 \]
@@ -1633,7 +1643,7 @@ and~\ref{propordpol}, the probability that $f$ after termination of
 Algorithm~\ref{algminpolymc} is equal to $\mu_{M,\F_q^n}$ is at least
 $1-\varepsilon$.
 
-  From the discussion at the beginning of Section~\ref{probest},
+  From the discussion at the beginning of Section~\ref{minpoly},
 $\mu_{M,\F_q^n}$ is the least common multiple of the $k$ polynomials
 $\ord_M(v^{(1)}), \dots,\ord_M(v^{(k)})$, and hence if $u=k$ then
 $f = \mu_{M,\F_q^n}$. This also implies, since the initial value
@@ -1650,7 +1660,7 @@ after the factorisations computed in line 2 of the algorithm, we neglect
 the forming of least common multiples and the products here, because
 all results from Algorithm~\ref{algordpolabs} come already factorised
 into irreducible factors. We can thus compute the least common multiples
-by taking maximums of multiplicities. Hence the first displayed upper
+by taking maxima of multiplicities. Hence the first displayed upper
 bound is proved.
 
 For the asymptotic complexity bound we have to consider the initial value of the number $u$,
@@ -1672,7 +1682,7 @@ is at most
 \sum_{i=1}^u(\frac{i}{2}+9)s_i^2 \leq \frac{u(u+1)}{4}s_u^2+9us_u^2
 \le u_0\left(\frac{u_0+37}{4}\right) n^2,
 \]
-which, for sufficiently large $n$ and fixed $\epsilon$, is less than
+which, for sufficiently large $n$ and fixed $\varepsilon$, is less than
 $\frac{1}{3}u_0^2n^2<n^3$.
 \proofend
 
@@ -1962,7 +1972,7 @@ dimension of the matrix, the column marked ``$q$'' the number of elements
 of the base field. 
 The columns marked ``Lib'' and ``AS'' contain the times needed for one run of 
 the minimal polynomial algorithm based on \cite{Steel} as implemented in 
-the {\sf GAP} library, and as implemented (by the first author) in the
+the {\sf GAP} library, and as implemented (by the author) in the
 {\sf GAP} language, respectively.
 The column ``MC'' contains the total time for our 
 Monte Carlo algorithm as presented in Algorithm~\ref{algminpolymc}.
@@ -2039,9 +2049,9 @@ algorithm as for the matrix $M_2$.
 
 \enlargethispage{-1\baselineskip}
 For $M_4 \in \F_3^{1200 \times 1200}$ we chose 400 cyclic summands with
-minimal polynomial $(x-\zeta_3)^2$ plus 400~cyclic summands with
-minimal polynomial $(x-\zeta_3)$, where again $\zeta_3 \in \F_3$ is
-a primitive root. In contrast with the matrix $M_3$,  our algorithms 
+minimal polynomial $(x+1)^2$ plus 400~cyclic summands with
+minimal polynomial $(x+1)$.
+In contrast with the matrix $M_3$,  our algorithms 
 performed very well in this case but they were not
 much faster than the older techniques, since the standard algorithm
 run on $M_4$ does not spin up many large cyclic subspaces.
@@ -2086,7 +2096,7 @@ polynomials was already equal to the characteristic polynomial.
 \hspace*{-5mm}
 \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
 \hline
-M & $q$ & $n$ & Lib & AS & MC & Spin & Fact & OrdP & Ver. & k \\
+M & $q$ & $n$ & Lib & AS & MC & Spin & Fact & OrdP & Ver. & $k$ \\
 \hline
 \hline
 $M_1$  & 3   & 1000 & 1.95$^*$ & 0.65 & 13.7 & 0.33 & 13.3 & 0.05 & 0 & 2 \\
@@ -2123,17 +2133,17 @@ $^*$ averaged over 10 runs
 \label{timings}
 \end{figure}
 
-\bigskip\noindent
-{\bf Acknowledgements:}\quad 
-We would like to thank an anonymous referee for invaluable
-suggestions that improved and streamlined the exposition and in particular encouraged us to think about and improve
-the deterministic verification procedures.
-\index{verification}%
+%\bigskip\noindent
+%{\bf Acknowledgements:}\quad 
+%We would like to thank an anonymous referee for invaluable
+%suggestions that improved and streamlined the exposition and in particular encouraged us to think about and improve
+%the deterministic verification procedures.
+%\index{verification}%
 
 %\footnote{
-This research forms part of a Discovery
-Project and Federation Fellowship Grant of the  second author funded by the
-Australian Research Council.%}
+%This research forms part of a Discovery
+%Project and Federation Fellowship Grant of Cheryl Praeger funded by the
+%Australian Research Council.%}
 
 %\bibliographystyle{alpha}
 %\bibliographystyle{jcm}

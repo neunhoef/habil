@@ -165,7 +165,7 @@ than once and the products can be quite long. We call such a product a
 \emph{word in the generators $(g_1, \ldots, g_k)$}. 
 \index{word in generators}%
 For finite groups we do not need the
-inverses of the generators since they all have finite order and can
+inverses of the generators since they all have finite order and inverses can
 thus be expressed by positive powers.
 
 Quite often in applications we want to encode rather long words in
@@ -193,7 +193,7 @@ generators in a group, we further restrict this to the following:
     \index{straight line program!definition of}\index{SLP!definition of}%
     A \emph{straight line program} is a procedure that takes as input a
     $k$-tuple $(g_1, \ldots, g_k)$ of group elements in a 
-    common group and consists of a finite 
+    group and consists of a finite 
     sequence of steps, which are each one of the following:
 \begin{itemize}
     \item Compute the product of two stored elements, or
@@ -278,7 +278,7 @@ In general we distinguish between so-called ``Monte Carlo'' and
 \index{Monte Carlo algorithm}%
     A \emph{Monte Carlo algorithm with failure probability $\epsilon$}
     is a randomised algorithm that is guaranteed to terminate after
-    a finite amount of time with some result, if the probability for
+    a finite amount of time with some result, such that the probability of
     returning a wrong result is bounded by $\epsilon$.
 \end{Def}
 
@@ -290,7 +290,7 @@ A bit more satisfying is the following.
     A \emph{Las Vegas algorithm with failure probability $\epsilon$}
     is a randomised algorithm that is guaranteed to terminate after
     a finite amount of time with either the correct result or
-    \textsc{Fail} indicating failure, if the probability for failure
+    \textsc{Fail} indicating failure, such that the probability of failure
     is bounded by $\epsilon$.
 \end{Def}
 
@@ -344,9 +344,9 @@ and $G = \left< h_1, \ldots, h_n \right>$.
 \STATE \textbf{Output:} A modified pair $(a,(h_1, \ldots, h_n))$ with $a \in G$
 and $G = \left< \smash{h_1, \ldots, h_n} \right>$.
 \vspace*{2mm}
-\STATE $i := \textsc{Random}(\{ 1,2,\ldots,n\}$
-\STATE $j := \textsc{Random}(\{1,2,\ldots,n-1\}$
-\STATE $b := \textsc{Random}(\{1,2\}$
+\STATE $i := \textsc{Random}(\{ 1,2,\ldots,n\})$
+\STATE $j := \textsc{Random}(\{1,2,\ldots,n-1\})$
+\STATE $b := \textsc{Random}(\{1,2\})$
 \IF {$j = i$}
     \STATE $j := j + 1$
 \ENDIF
@@ -375,7 +375,7 @@ It first initialises $(a,(h_1,\ldots,h_n))$
 by $a := \mathbf{1}_G$ and $h_i := g_i$ for $1 \le i \le k$ and $h_i
 := \mathbf{1}_G$ for $k < i \le n$.
 
-Then it calls Algorithm~\ref{rattlestep} $N$
+Then it calls Algorithm~\ref{rattlestep} repeatedly $N$
 times with $(a,(h_1, \ldots, h_n))$ as argument
 thereby changing it and
 finally returns the last value of $a$ as a random element $a_0$ in $G$.
@@ -429,11 +429,12 @@ about $G$.
 
 If we use the sequence produced by the \textsc{Rattle} method
 after initialisation as a sequence of random elements in $G$, 
-subsequent elements seem to be uniformly distributed, but adjacent
+every single element $a_i$ is nearly uniformly distributed (as $a_0$ is by
+Proposition~\ref{proprattle}). However, adjacent
 elements in the sequence are clearly not distributed independently.
 Obviously the next element in the sequence depends heavily on the
 previous state $(a,(h_1,\ldots,h_n))$ and the previous element is
-equal to the $a$ value of this state. However, the state contains of
+equal to the $a$ value of this state. On the other hand, the state contains of
 course more information than simply the value $a$.
 
 Despite these obvious deficiencies, the algorithm
@@ -449,6 +450,6 @@ elements in the group provides good predictions on how
 well these algorithms work in practice.
 
 Throughout this book the \textsc{Rattle} method is used to produce
-random elements in group and the above assumption is made.
+random elements in a group and the above assumption is made.
 \index{Rattle@\textsc{Rattle}}%
 

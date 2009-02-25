@@ -72,7 +72,11 @@ as word lengths in standard microprocessors increase.
 The main novelty in the approach presented here is to overcome this
 problem by choosing the data structures in a way that allows to use
 processor word operations for all arithmetic operations in all
-characteristics. Also this idea has been used before (see
+characteristics. A word operation is an arithmetical operation like an
+addition, which a microprocessor can perform on two integers each stored in a
+machine word in a single step.
+
+Also this idea has been used before (see
 \cite{EssenLinAlg}), however, no implementation of this seems to
 be available any more and, more importantly, the approach still
 insisted on storing whole elements of\, $\F_q$ in one machine word.
@@ -202,7 +206,9 @@ the number $2^{e-1}$ meaning, that in each component only the most significant
 bit is set and all others are zero. In addition we keep a word $n$
 containing the number $p$ in each component.
 
-The finite field sum $c$ of $a$ and $b$ is now computed in the following way:
+The finite field sum $c$ of $a$ and $b$ is now computed in the following
+way (note that from now on arithmetic operations like $+$ are
+processor word operations):
 First $s := a+b$ and $t := a+b+o$ are computed. Then we use an AND 
 operation for words to extract exactly the most significant bits of
 those components, in which the sum was greater or equal to $p$.
@@ -283,9 +289,12 @@ $p=2$, this means that the addition needs $7$ word operations for each
 word of a vector for $p>2$ and $1$ word operation for $p=2$.
 
 Assuming a microprocessor
-with a long enough instruction pipeline we can conclude that all this
+with a long enough instruction pipeline we can conclude that all these
+word operations together
 can be done as fast as accessing the main memory to fetch $a$ and $b$ and
-store the result somewhere, such that the number $7$ does not hurt at all. 
+store the result somewhere. Therefore the number of $7$ word operations
+does not hurt at all, since the bottleneck is not the actual computation
+but rather the memory access.
 Compare Section~\ref{ssec:discussion} and see Section~\ref{sec:cache}
 for some additional comments on processor caches.
 \end{Rem}
@@ -577,11 +586,13 @@ when the vectors involved are shorter. This is to be expected, but shows
 only a factor of between $1.5$ and $3$ for the Pentium~4 and up to 
 a factor of $5$ for the Athlon processor.
 
-Theoretically one could expect a higher speedup factor, but modern
-processors and memory interfaces seem to be highly optimised for 
+Theoretically from the technical specifications of main memory and second
+level cache one would expect a higher speedup factor, but modern
+processors and memory interfaces are highly optimised for 
 linear memory accesses using so-called bursts. This means that the
 processor has a special method of accessing large amounts of consecutive
-memory words consecutively, which we seem to use here.
+memory words consecutively. All these effects together seem to lead
+to the behaviour we observe.
 
 We turn now to the middle part of the table concerning the field $\F_7$.
 Here one can see two important things: The first is that the $7$ word
@@ -715,8 +726,8 @@ vector by a matrix can be simulated using the transposed matrix.
 The multiplication $vM$ can be understood as taking a linear combination
 of the rows of $M$, the vector $v$ contains the coefficients. This
 kind of reasoning already leads to the most efficient way to implement
-this operation: We multiply the $i$-th row of $M$ by the scalar
-$v_i$ and add the resulting vector to the final result for $1 \le i \le m$.
+this operation: We multiply the $i$-th row of $M$ by the $i$-th component
+$v_i$ of $v$ and add the resulting vector to the final result for $1 \le i \le m$.
 Thus this operation can be done using at most $m$ multiplications
 of a vector by a scalar plus $m-1$ vector additions.
 
@@ -890,14 +901,14 @@ we will analyse in detail in this section.
 The second is arranging the same computations in a different order to 
 achieve that more memory fetches and stores are handled by the second
 level cache. This approach is used in some implementations and can
-speed up computations. Since the third method produces this cache locality
-automatically, we only come back to this below briefly.
-For some additional discussion of this topic see Section~\ref{sec:cache}. 
-
+speed up computations. 
 The third method is to use the methods of Strassen and Winograd to
 \index{Strassen}\index{Winograd}%
 get a lower exponent than $3$~in the complexity of matrix multiplication
 of square matrices.
+This produces cache locality
+automatically, therefore we only discuss the second method briefly below.
+For some additional discussion of caches see Section~\ref{sec:cache}. 
 
 Now we discuss grease before we analyse for which sizes of
 matrices the Strassen/Winograd method is worthwhile doing.
@@ -1031,6 +1042,9 @@ procedures developed by Strassen and Winograd see \cite[4.6.4]{AOCP2}.
 With their help one can reduce the theoretical complexity for the 
 multiplication of two $(n \times n)$-matrices from $O(n^3)$
 to $O(n^{\log_2(7)}) \approx O(n^{2.807})$. 
+A first version was published by Strassen and later slightly improved by
+Winograd. In the following we will concentrate on the Winograd
+variant.
 There are also more involved methods reducing the exponent
 further, but they seem to be of theoretical interest only (see 
 also \cite[4.6.4]{AOCP2}).
@@ -1303,11 +1317,11 @@ We conclude this section with Figures~\ref{matmulf2} and
 performance of matrix multiplication using grease together with
 the Winograd method. Here we used the Winograd method for matrices
 of size greater or equal to $n=2500$ for $\F_2$ and ($n=3000$ for
-$\F_3$), that is, from $n=5000$ ($n=6000$ respectively) on it
+$\F_3$), that is, from $n=5000$ ($n=6000$, respectively) on it
 is used twice and so on. The curve shown there is 
 again the plot of the function $t = cn^3$ for some constant $c$, such
 that the curve passes through the actual measurement for $n=15000$
-($n=10000$ respectively).
+($n=10000$, respectively).
 The better complexity begins to show with a few outliers following
 the pattern observed above.
 
@@ -1569,7 +1583,7 @@ needed time is $(90/5+10)\% = 28\%$ of the time without cache-aware
 methods. 
 
 However, reaping this saving factor is tricky. On one hand it proves
-increasingly difficult to understand exactly, what modern processors,
+increasingly difficult to understand exactly what modern processors,
 memory interfaces and caches actually do. On the other hand, for many
 algorithms it is quite difficult to rearrange the computations in a
 way, such that in fact $90\%$ of memory accesses lead to cache hits.
