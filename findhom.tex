@@ -385,7 +385,7 @@ $2_-^{1+2m}.\mathrm{O}^-(2m,2)$ and $(4 \circ 2^{1+2m}).\Sp(2m,2)$.
 \desc{
 A group $G \le \GL(n,q)$ lies in \DD7 if it acts absolutely irreducibly on the 
 natural module $V$ and, for some $k$, it has a normal 
-subgroup $N$ containing $Z = Z(G)$ that is isomorphic to a central product 
+subgroup $N$ containing $Z$ that is isomorphic to a central product 
 $T \circ \cdots \circ T$ of
 $k$ copies of a group $T$ which is a central extension of a non-abelian
 simple group $\bar T$ by $Z$, such that: 
@@ -394,8 +394,8 @@ The restricted
 module $V|_N$ is isomorphic to an outer tensor product $W_1 \otimes_{\F_q}
 \cdots \otimes_{\F_q} W_k$ of $k$
 absolutely irreducible $\F_q T$-modules of the same dimension on which 
-$Z$ acts as scalars, and $G/N$ acts on $N$ by permuting the tensor factors
-transitively.}
+$Z$ acts as scalars, and $G/N$ acts on the set of central factors of $N$ by 
+permuting them transitively.}
 
 By the term ``outer tensor product'' we mean that every factor
 $T$ in the central product $N$ acts on exactly one of the tensor factors $W_i$.
@@ -625,11 +625,12 @@ under the natural map $G \to G/Z$. We distinguish three cases:
 \end{itemize}
 We now consider case (i) that $\bar T$ is cyclic of prime order $r$, then
 $\bar N = N/Z$ is an elementary-abelian $r$-group of order $r^k$.
-Since $N$ is not abelian, we have $k > 1$.
+Since $N$ is not abelian ($W$ is an absolutely irreducible $\F_qN$-module
+with dimension greater than $1$), we have $k > 1$.
 The derived subgroup $N'$ of $N$ is contained in $Z$ and
 we recall that $Z$ is the centre of $N$ since $V|_N = W$ is absolutely
 irreducible. So $N$ is nilpotent and thus the direct product of its
-Sylow subgroups. Let $R$ be the $r$-Sylow subgroup of $N$, all other
+Sylow subgroups. Let $R$ be the $r$-Sylow subgroup of $N$. All other
 Sylow subgroups of $N$ consist of scalar matrices since $N/Z$ is
 elementary abelian. Thus the module $V|_R$ is absolutely irreducible
 and $R$ is not abelian.
@@ -639,7 +640,7 @@ because it is contained in the cyclic group $Z(R) \le Z$ we have $|R'| =
 r = |N'|$.
 
 Assume first that $r$ is odd. For $x,y \in R$ we have $(xy)^r =
-x^ry^r[y,x]^{r(r-1)/2} = x^ry^r$ since $R'$ has order $r$, thus the
+x^ry^r[y,x]^{r(r-1)/2} = x^ry^r$ since $R'$ has order $r$. Thus the
 elements of $R$ whose order divides $r$ form a characteristic 
 subgroup of $N$ and thus a normal subgroup $E$ of $G$. Since for
 $r$ odd, an $r$-group containing a unique subgroup of order $r$ is
@@ -684,7 +685,9 @@ $E/Z(E)$ is irreducible and thus $G$ lies in \DD6 with $r=2$.
 This concludes case (i) that $\bar T$ is cyclic of prime order $r$.
 
 We now consider case (ii) that $\bar N$ is a direct product of more than
-one copies of a non-abelian simple group $\bar T$. Thus $N$ is a
+one copies of a non-abelian simple group $\bar T$. The conjugation action
+of $G$ on $N$ fixes $Z$ elementwise and permutes the direct factors
+of $N/Z$ and therefore also the central factors of $N$. Thus $N$ is a
 central product of the groups $T_1, \ldots, T_k$, each of which is
 isomorphic to a single group $T$, which is a central extension of
 $\bar T$ by $Z$. The absolutely irreducible representations
@@ -694,7 +697,7 @@ scalars. Furthermore, since $T_1, \ldots, T_k$ are all conjugate under
 $G$, the natural module $V|_N$ must be isomorphic to an outer tensor product
 $W_1 \otimes_{\F_q} \cdots \otimes_{\F_q} W_k$ 
 of $k$ absolutely irreducible $\F_q T$-modules $W_i$ on which $Z$
-acts as scalars. Since $G/N$ acts on $N$ by permuting the factors
+acts as scalars. Since $G$ acts on $N$ by permuting the factors
 transitively, all modules $W_i$ have the same dimension. So $G$ lies in
 \DD7 concluding case~(ii).
 
@@ -793,7 +796,7 @@ This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times
 is a unique element $u_{i,j} \in \F_q$ (possibly $0$) with 
 $g_{i,j} = T \cdot u_{i,j}$. Thus we have shown that with respect to
 the above choice of basis, every element $g$ is equal to a Kronecker 
-product of some matrix in $U \in \F_q^{n/d \times n/d}$ with a matrix
+product of some matrix $U \in \F_q^{n/d \times n/d}$ with a matrix
 $T \in \F_q^{d \times d}$. Since $g$ is invertible both 
 $U$ and $T$ are invertible. 
 
@@ -982,7 +985,7 @@ these cases.
 
 However, simply producing random elements in $G$ and hoping to hit elements
 in $N$ does not work efficiently. Therefore we propose a new method to
-produce non-central elements of a normal subgroup which is put together
+produce non-central elements of a normal subgroup. This method is put together
 from different well-known techniques and seems to work extremely well in
 practice. We give a few heuristic reasons why this works so well below, but
 a complete analysis of this method still has to be done at the time of 
@@ -1047,10 +1050,11 @@ $x c = c^{-1}x$ and thus
 $xc^k = c^{-k}x$ for all $k$. Thus, if $c$ has even 
 order $2k$, then
 $c^k$ is an involution commuting with $x$ and $c^k$ lies in $[H,G]$ 
-for every subgroup $H \le G$ with $x \in H$ by construction.
+for every subgroup $H \le G$ with $x \in H$ by construction 
+(compare Remark~\ref{booleanarg}).
 
-Now assume that $c$ has odd order $2k+1 > 1$,
-then $xyc^k = yxcc^k = y c^{-k-1}x=yc^kx$ and $z := yc^k$ is an 
+Now assume that $c$ has odd order $2k+1 > 1$.
+Then $xyc^k = yxcc^k = y c^{-k-1}x=yc^kx$ and $z := yc^k$ is an 
 element in the 
 involution
 centraliser $C_{G}(x)$. In fact, Richard Parker has observed that
@@ -1072,6 +1076,7 @@ involution commuting with and different from $x$.
 \proofend
 
 \begin{Rem}[The boolean argument $b$]
+\label{booleanarg}
 The boolean argument $b$ will usually
 be \textsc{True}, however, it can be set to
 \textsc{False}, in which case the algorithm will return a $u$ 
@@ -1105,8 +1110,8 @@ choice of the involution in the starting class.
 \proofbeg
 Only the last statement needs to be proved. The result of
 \[ \textsc{InvolutionJumper}(G,x,\infty,\textsc{True}) \] can
-be summarised in the following formula, which is evaluated for the
-first random element $y$ generated in the algorithm for which it is
+be summarised in the following formula. It is evaluated for the
+first random element $y$ generated in the algorithm for which $f$ is
 defined:
 \[ f(x,y)
     := \left\{ 
@@ -1199,7 +1204,10 @@ Let $G$ be a finite group. Then the return value $u$ of
 Algorithm~\ref{alginvmaker} ``\textsc{InvolutionMaker}'' 
 called with the group $G$ is either
 an involution or \textsc{Fail}. The latter result occurs only if
-only a small percentage of elements in $G$ has even order.
+all $t$ random
+elements generated in the algorithm have odd order. Therefore, the
+probability of failure is small, as long as there are enough elements
+in $G$ with even order.
 \end{Prop}
 \proofbeg Omitted.
 \proofend
@@ -1253,7 +1261,7 @@ irreducibly.
             \STATE \textbf{Return} tensor product decomposition (\DD4)
         \ENDIF
     \ELSE 
-        \STATE Perform check for \DD7 (see Section~\ref{solveD7})
+        \STATE Perform check for \DD7 (see Section~\ref{solveD7} below)
     \ENDIF
     \IF {$i \ge 9$}
         \STATE \textbf{Return} \textsc{Fail}
@@ -1312,7 +1320,7 @@ involution classes in normal subgroups seem to attract the Involution
 Jumper. The fact that we are computing commutators seems to add to this
 effect because we can hope to go down along the derived series of $G$.
 For example in all cases where the commutator $[x,y]$ of the previous
-involution with a random element has even order but has odd order in
+involution $x$ with a random element $y$ has even order but has odd order in
 $G/N$, the Involution Jumper immediately jumps into $N$!
 
 The experimental evidence suggests that it is feasible to analyse this
@@ -1398,7 +1406,8 @@ second is that even if we assume this, we have to find the action of $G/N$ on
 the direct factors of $N/Z$ (recall that in the \DD7 case the group $N/Z$
 is isomorphic to a direct product of pairwise isomorphic non-abelian simple
 groups that are permuted transitively by the conjugation action of $G/N$ on
-$N$). In this section we present a new idea to solve these two problems
+on the set of direct factors of $N/Z$). 
+In this section we present a new idea to solve these two problems
 which works very well in practice. As for the \DD2 and \DD4 cases, the reader is
 kindly referred to future publications by the author for a complete analysis.
 
@@ -1449,9 +1458,12 @@ not commute with the two others. We then conjugate three-tuples of elements
 with the generators of $G$. To compare two such three-tuples, we simply
 check, whether or not the first element of the first tuple commutes with
 every element in the second tuple. If so, the two conjugates of $T$ commute
-and thus are not equal. Otherwise, we assume that the two conjugates are
-equal. Since in the \DD7 case, $T/Z$ is non-abelian simple, this test is
-good enough and can be done very quickly.
+since $T/Z$ is a non-abelian simple group with trivial centre.
+Thus the two groups generated by our tuples are not the same. 
+Otherwise, we know that the two conjugates are
+equal. This test can be done very quickly. There is of course a small error
+possibility if the first three-tuple accidentally generates a proper
+subgroup of $T$.
 
 This whole procedure finds the action of $G$ on the direct factors of $N/Z$
 with high probability and thus returns a reduction provided $G$ is in \DD7
