@@ -64,7 +64,7 @@ The overall approach of  the project relies on a fundamental
 theorem of Aschbacher \cite{aschbacher} on the maximal
 subgroups of classical groups. The theorem says that every subgroup of
 $\GL(d,q)$ lies in at least one of nine classes $\CC1, \ldots, \CC9$.
-Classes $\CC1, \ldots, \CC8$ are treated by reducing to 
+The classes $\CC1, \ldots, \CC8$ are treated by reducing to 
 some sort of easier setting, and there are algorithms  
 for these cases. However, the
 complexity of some of them has not been analysed and many
@@ -95,7 +95,7 @@ Class $\CC1$ (reducible groups)
 \cite{MeatAxeHoltRees, IL, MeatAxeRP}.
 In the case that $G$ or $\overline{G}$ is in \CC3 or \CC5 
 we either find a proper nontrivial homomorphism from $G$ to a permutation, matrix or projective group, or an isomorphism writing $G$ or $\overline{G}$ over a smaller field, or in a smaller dimension. 
-  In addition, for some groups in classes \CC2, \CC4 or \CC6,
+  In addition, for some groups in the classes \CC2, \CC4 or \CC6,
  we find a nontrivial reduction homomorphism: 
 This is important as there is as yet no fully 
 polynomial-time analysis for these classes. 
@@ -192,14 +192,16 @@ if one is a scalar multiple of the other,
 so replacing any of the $g_i$ by scalar multiples will 
 alter the matrix group but not the projective group.
 We assume throughout that $G$ acts irreducibly on the natural
-module $V = \F_q^d$ and that $\overline{G}$ acts irreducibly
-on the corresponding projective space $\overline{V}$.
+module $V = \F_q^d$.
+%and that $\overline{G}$ acts irreducibly
+%on the corresponding projective space $\overline{V}$.
 
 %The class \CC3 is defined as follows. 
 
 \begin{Def} \label{def:semilin}
 The group $G$ lies in \CC3 (the class of semilinear groups) 
-if there is an $\F_q$-vector space identification between
+if there is a divisor $e$ of $d$ with $1 < e < d$, and 
+an $\F_q$-vector space identification between
 $\F_q^d$ and $\F_{q^e}^{d/e}$ such that
 for $1 \le i \le m$ 
 there exist automorphisms $\alpha_i \in \Gal(\F_{q^e}/\F_q)$ 
@@ -280,7 +282,7 @@ whether $N$ can be written over a smaller field, as in
 \CC5, return {\tt false} as $G$ is not in \CC3 or \CC5.
 \item If $N$ is irreducible but not absolutely 
 irreducible, find a semilinear decomposition 
-of $G$, as in Section~\ref{subsec:semilin}.
+of $G$ as in Section~\ref{subsec:semilin}.
 \item If $N$ is reducible with more than one 
 homogeneous component, find an imprimitive 
 decomposition of $G$ as in  
@@ -301,14 +303,16 @@ can be applied to both matrix and projective groups,
 because the success or failure of each step is unaffected 
 by multiplying generating matrices by scalars. 
 The following theorem summarises the main 
-algorithmic results of this article.
+algorithmic results of this chapter.
 
 \begin{Theo} [Main Theorem]
-Let $G \leq \GL(d, q)$ or $\overline{G} \leq \PGL(d, q)$ be an absolutely 
+Let $G = \left< g_1, \ldots, g_m \right> \leq \GL(d, q)$ or 
+$\overline{G} = \left< \bar g_1, \ldots, \bar g_m \right>\leq \PGL(d, q)$ 
+be an absolutely 
 irreducible group that lies in \CC3, \CC5 or 
 whose derived group is not absolutely irreducible. 
 There exists an $O(d^4 \log (\log d) \log q + md^3)$ Las Vegas 
-algorithm, where $m$ is the number of generators, to find a nontrivial
+algorithm to find a nontrivial
 reduction of $G$ or $\overline{G}$, respectively.
 \end{Theo}
 
@@ -405,8 +409,8 @@ order of $G'$. Then
 \begin{enumerate}
 \item the exponent of $G/Z(G)$ is at most $c$, 
 \item the exponent of $G$ is at most $cz$, and 
-\item the order of $G$ is a divisor of $c^{l}z$, where $l$ is the number of 
-non-central generators of $G$.
+\item the order of $G$ is a divisor of $c^{l}z$, where $l = |\left\{ i \mid
+g_i \notin Z\right\}|$.
 \end{enumerate}
 \end{Prop}
 
@@ -417,10 +421,10 @@ elements $g_1, \ldots, g_m$. Let $\psi_i:G \rightarrow
 Then $\psi_i$ is a homomorphism by Lemma~\ref{lem:facts}.6, 
 and the  kernel $K_i$ of $\psi_i$ has index in $G$ 
 at most $c$, since $\mathrm{Im}(\psi_i)$ has order dividing $c$. 
-Let $\psi_i^c$ be defined by  $\psi_i^c(x):= \psi_i(x)^c$, 
-then $\psi_i^c$ 
+Let $\psi_i^c$ be defined by  $\psi_i^c(x):= \psi_i(x)^c$. 
+Then $\psi_i^c$ 
 is the constant homomorphism from $G$ to $\{1\}$. From this and         
-Lemma~\ref{lem:facts}.5 it follows that $g_i^c$ is in the centre of $G$ 
+Lemma~\ref{lem:facts}.6 it follows that $g_i^c$ is in the centre of $G$ 
 for all $i$. This proves $(1)$.                                         
 
 Part $(2)$
@@ -453,7 +457,7 @@ Since $V$ is absolutely irreducible, so is each factor.
 
 \begin{Prop} [Eigenspace decomposition] \label{prop:eigenspace} 
 Let
-$g \in G$ have all eigenvalues in  $k$.
+$\rho(g) \in G$ have all eigenvalues in  $k$.
 Then $V$ is a vector space direct sum 
 \[
 V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \cdots \oplus V_{\lambda_s},
@@ -485,7 +489,7 @@ If $g \in Z(G)$, then in Proposition~\ref{prop:eigenspace}, $V$ is only a single
 %Proposition~\ref{prop:eigenspace}.
 
 \begin{Theo} [Non-central element of prime order] \label{thm:exists_g}
-Let $G$ be an  $r$-group %such that $G' \leq Z(G)$
+Let $r$ be a prime and $G$ an  $r$-group %such that $G' \leq Z(G)$
 satisfying Hypothesis~\ref{group-info}. Then either 
 $G$ is the quaternion group of order $8$ or $G$ 
 has an element $g$ of order $r$ such that 
@@ -509,7 +513,7 @@ element of order $r$ or $G$ is generalised quaternion.
 The generalised quaternion group of order $2^i$ 
 for $i \geq 3$ has presentation 
 $\langle a, b \ | a^{2^{i-1}} = b^4 = 
-a^{2^{n-2}}b^{-2} =  b^{-1} a ba = 1 \rangle$. 
+a^{2^{i-2}}b^{-2} =  b^{-1} a ba = 1 \rangle$. 
 A short calculation shows that the derived group 
 contains non-central elements for $i > 3$, 
 and hence if $G$ is a generalised quaternion 
@@ -543,12 +547,13 @@ dimension of $V_i$ is $2$ (see for instance \cite[\S 47]{CR0}).
 Otherwise, by Theorem~\ref{thm:exists_g} 
 the  action has a
  non-central element  $\rho(g)$ of order $r$.
-The group $G$ also contains a central element of order $r$, which is mapped to a scalar.  
- Hence all of the eigenvalues 
+The group $G$ also contains a central element of order $r$, which is mapped to a 
+scalar. This shows that the field $k$ contains primitive $r$-th roots of
+unity.  Hence all of the eigenvalues 
 of $\rho(g)$ lie in $k$. Since $\rho(g)$ is 
 not central, it has more than one eigenvalue.  
 It follows from Proposition~\ref{prop:eigenspace} 
-that all elements of $G$ permute the eigenspaces. 
+that the elements of $G$ permute the eigenspaces. 
 Since $G$ acts irreducibly, this action on 
 the eigenspaces is transitive and hence $\rho(G)$ is imprimitive.
 
@@ -594,7 +599,8 @@ Perhaps surprisingly, we do this via results for permutation groups.
     \label{babailemma}
     Let $X_1, X_2, \ldots$ be a sequence of\/ $0$-$1$ valued random
     variables such that $\Pro(X_i = 1) \ge p$ for any values of the
-    previous $X_j$ (but $X_i$ may depend on these $X_j$). 
+    previous $X_j$ (but the distribution of $X_i$ may depend on the 
+    outcome of the $X_j$ for $j < i$). 
     
     Then, for
     all integers $t$ and all\/ $0 < \epsilon < 1$,
@@ -605,11 +611,12 @@ Perhaps surprisingly, we do this via results for permutation groups.
     2.3.3]{Ser}.
 \end{proof}
 
-\pagebreak
+%\pagebreak
 The following proposition is based on \cite[2.3.7]{Ser}, where it is    
-proved for the case $G$ transitive. Note that the assumptions are       
-slightly more general than for $G$ given as a group of permutations, as 
-(for example) this can be applied to any finite group equipped with a   
+proved for the case $G$ transitive. Note that the hypotheses here are       
+slightly more general than in \cite[2.3.7]{Ser}, where $G$ is given as a 
+group of permutations. Our Proposition~\ref{prop:orbits}
+can for example be applied to any finite group equipped with a   
 permutation action.                                                     
 
 \begin{Prop} [Correct orbits of subgroup] \label{prop:orbits}
@@ -666,7 +673,8 @@ probability $1-p$. Therefore
 so $p \leq 2/3$.
 Hence, with probability at least $1/3$, at 
 least $k/4$ of the $G_{i-1}$-orbits that are not $G$-orbits 
-are proper subsets of orbits of $G_{i}$. Thus
+are proper subsets of orbits of $G_{i}$. Thus, with probability at least
+$1/3$, 
  the number of orbits of $G_{i}$, which are 
 not orbits of $G$, is at most $7k/8$, and the claim follows. 
 
@@ -695,8 +703,8 @@ In turn this is less than or equal to $\delta$.
 %\leq \delta$, and the result follows. 
 \end{proof}
  
-\pagebreak
-We now apply the previous theorem to matrix groups by considering their
+%\pagebreak
+We now apply the previous proposition to matrix groups by considering their
 action on vectors.
 
 \begin{Theo} [Correct action of subgroup]
@@ -722,16 +730,18 @@ has the same orbits as $G$ with probability $1-\delta$.
 A submodule for $G$ is a union of orbits of 
 $G$ in its action on vectors that is closed 
 under addition and scalar multiplication, 
-and a submodule is irreducible if and only 
-if it contains no smaller unions of orbits 
-that are closed under addition and scalar 
-multiplication, except for $\{0\}$, so the first claim follows. 
+%and a submodule is irreducible if and only 
+%if it contains no smaller unions of orbits 
+%that are closed under addition and scalar 
+%multiplication, except for $\{0\}$, 
+so the first claim follows. 
 
-For the second claim, let $G$ be irreducible and $\End_{\F_qG} = \F_{q^f}$.
+For the second claim, let $G$ be irreducible and $\End_{\F_qG}(V) = \F_{q^f}$.
 Let $H_0$ be generated 
 by $O(\log \delta^{-1} + d \log q)$ random 
 elements of $G$, so that $H_0$ is irreducible 
-with probability $1-\delta/2$. Let $t = c \log d$ 
+with probability $1-\delta/2$ (adjusting the constant
+in the capital $O$). Let $t = c \log d$ 
 for $c \geq \max\{22,  16\log (2\delta^{-1}) /(3 \log d)\}$
 and let $h_1, \ldots, h_t$ be further random 
 elements of $G$. For $1 \leq i \leq t$ let 
@@ -752,7 +762,7 @@ see this let $x$ generate
 $x$ is not centralised by  $G$, at 
 most half of the elements of $G$ commute 
 with $x$. If $[h_i, x] \neq 1$ 
-then $N_i$ is a divisor of $N_{i-1}$ so the claim follows. 
+then $N_i$ is a proper divisor of $N_{i-1}$ so the claim follows. 
 
 Now for $1 \leq i \leq t$ define $Y_i = 0$ 
 if $N_{i-1} > 1$ and $N_i = N_{i-1}$ and 
@@ -783,7 +793,7 @@ which generate a group whose normal closure is $N$.
 generating set for a normal subgroup of $G$ which is contained in $G'$. 
 
 
-\section{Writing $\mathbf{G}$ over a smaller field}
+\section{Writing $G$ over a smaller field}
 \label{realisesubfield}
 
 In this section, unless indicated otherwise, we let $K$ be a finite field, let
@@ -833,15 +843,17 @@ is irreducible.
 
 For a subfield $F$ of $K$ we denote by $F[G]$ the set of $F$-linear
 combinations of the elements of $G$ as an $F$-subalgebra of $K^{d \times d}$.
-This is also called the \emph{$F$-enveloping algebra of $G$}. For any finite field $K$ we denote the prime field by $K_0$. 
+This is also called the \emph{$F$-enveloping algebra of $G$}.
+We denote the prime field of $K$ by $K_0$.
 
 
 \begin{Prop}[Prime field enveloping algebra I] 
 \label{pfenvalgI}
 Let $G \leq \GL(d,F)$ for $F$ finite, 
 and let $V := F^{1 \times d}$ be irreducible.
-Let $E := \End_{F[G]}(V)$ with  $e = [E:F]$ and $d' = d/e$. Identify $V$ with 
-with $E^{1 \times d'}$ %and $G \le GL(d',E) \le GL(d,F)$, 
+Let $E := \End_{F[G]}(V) = \End_{FG}(V)$ with  
+$e = [E:F]$ and $d' = d/e$. Identify $V$ with 
+$E^{1 \times d'}$ %and $G \le GL(d',E) \le GL(d,F)$, 
 so that $F[G] = E^{d' \times d'}$. Set $L := F_0[G] \cap (E \cdot
 \mathbf{1})$.
  Then $F_0[G] \cong L^{d' \times d'}$ as an
@@ -854,9 +866,11 @@ Choosing an $F$-basis $(c_1,\ldots,c_e)$ of $E$ we can express each element
 of $E$ as an $(e\times e)$-matrix over $F$.
 The set $V$ is an $E$-vector space and if $(b_1, \ldots, b_{d'})$ is an
 $E$-basis of $V$, then $(c_ib_j)_{i,j}$ is
-an $F$-basis of $V$. Since the action of $G$ on $V$ is
-$E$-linear, this choice of basis fixes an embedding
-$E^{d' \times d'} \subseteq F^{d \times d}$. Therefore we may assume that
+an $F$-basis of $V$. 
+This choice of basis fixes an embedding
+$E^{d' \times d'} \subseteq F^{d \times d}$. 
+Since the action of $G$ on $V$ is $E$-linear, 
+we may assume that
 $G \le \GL(d',E) \le \GL(d,F)$.
 By the Density Theorem (see \cite[(3.27)]{CRI}), since $V$ is an
 irreducible $F[G]$-module, $F[G] = E^{d' \times d'}$.
@@ -877,7 +891,7 @@ Consequently, $B$ is a simple algebra.
 By the usual Wedderburn Theorems there exists an isomorphism
  $\psi: L^{s \times s} \rightarrow B$
 for some $s$,  and some extension $L$ of $F_0$. 
-The field $L$ needs not contain $F$. However,  the elements of $B$ corresponding
+The field $L$ does not need to contain $F$. However, the elements of $B$ corresponding
 to scalar matrices in $L^{s \times s}$ are central in $B$ and hence also
 central in $FB = E^{d' \times d'}$. Therefore we can identify
 $L$ with the centre of $B$ and thus with some subfield of $E$.
@@ -896,7 +910,7 @@ $s = d'$.
 \label{pfenvalgII}
 Let $G$ be as in Proposition~\ref{pfenvalgI}, and suppose
 additionally  that 
-there is no subfield $D$ of $F$ such that there exists $t \in \GL(d,F)$
+there is no proper subfield $D$ of $F$ such that there exists $t \in \GL(d,F)$
 with $G^t \leq \GL(d,D)$. Then $F_0[G] = F[G]$.
 \end{Prop}
 \begin{proof}
@@ -908,7 +922,7 @@ Then $e_{i,j} e_{k,l} = \delta_{j,k} e_{i,l}$ %for all $i, j, k, l$
 %in $\{1,\ldots, d'\}$ 
 and the $e_{i,j}$ are an $L$-basis of $F_0[G]$.
 
-We claim that the $e_{i,j}$ are an $E$-basis of $E^{d \times d}$.
+We claim that the $e_{i,j}$ are an $E$-basis of $E^{d' \times d'}$.
  To see linear independence, let
 \[ \sum_{i,j=1}^{d'} \lambda_{i,j} e_{i,j} = 0, \]
 then multiplying on the left by $e_{k,k}$ and
@@ -932,25 +946,34 @@ Thus $F_0[G^t] = L^{d' \times d'}$.
 
 If $V$ is absolutely irreducible then $E=F$ and so $L \le F$.
 By assumption $F$ is the
-smallest possible field over which $G$ can be written, so
-$L = F$ as required.
+smallest subfield of $F$ over which $G$ can be written, so
+$L = F = E$ as required.
 
-Now consider the case $F < E$,  and assume by way of contradiction that
-$l := [E:L] > 1$. Since $F[G^t] = F[G] = E^{d'
+Now consider the case $F < E$
+%,  and assume by way of contradiction that
+and let $l := [E:L]$.
+Since $F[G^t] = F[G] = E^{d'
 \times d'}$ it follows that $F \cdot L^{d' \times d'} = E^{d' \times d'}$.
 Therefore, $E$ is the smallest field containing both $F$ and $L$
 implying that  $l$ and $e = [E:F]$ are coprime.
 Let $D := F \cap L$. Then $D$ is a field with $[F:D] = l$ and $[L:D] = e$.
-We claim that $G$ can be written over $D$, contradicting our
-assumption that $F$ is the minimal field over which $G$ can be written. 
-This contradiction will give $L = E$ and hence prove the proposition. 
 
+We claim that $G$ can be written over $D$. 
 Let $(c'_1, \ldots, c'_e)$ be a $D$-basis of $L$. Then it is also
 an $F$-basis of $E$, since every element of $E$ is an $F$-linear
 combination of elements of $L$. Now  change basis in $V=F^{1 \times d}$
 from the $F$-basis $(c_i b'_j)_{i,j}$ to $(c'_i b'_j)_{i,j}$ 
 using a base change $s \in \GL(d,F)$, to get $G^{ts} \leq D^{d
 \times d}$.
+
+However, by our assumption that $F$ is the smallest subfield of
+$F$ over which $G$ can be written, we get $D = F \cap L = F$ and thus
+$F \le L$. From $F \cdot L^{d' \times d'} = E^{d' \times d'}$ follows now
+immediately $L=E$.
+
+Since we have proved $L=E$ in both cases and we already know that $F_0[G]$
+is isomorphic to $L^{d' \times d'}$ as $F_0$-algebras and contained in
+$F[G] = E^{d' \times d'}$ the proposition follows.
 \end{proof}
 
 \begin{Theo}[Characterisation of smallest possible field]
@@ -960,8 +983,8 @@ irreducibly on its natural module. Then there is a
 unique smallest subfield $F$ of $K$ such that there exists $t \in
 \GL(d,K)$ with $G^t \le \GL(d,F)$. This $F$ is uniquely determined by 
 $K_0[G] \cap (K \cdot \mathbf{1}_{d \times d}) 
-= F \cdot \mathbf{1}_{d \times d}$. Furthermore,   $K_0[G] \cong E^{d/e
-\times d/e}$, where $E = \End_{F[G^t]}(F^{1 \times d})$ is an 
+= F \cdot \mathbf{1}_{d \times d}$. Furthermore,   $K_0[G] \cong E^{(d/e)
+\times (d/e)}$, where $E = \End_{F[G^t]}(F^{1 \times d})$ is an 
 extension field of $F$ of degree $e$.
 \end{Theo}
 \begin{proof}
@@ -970,7 +993,7 @@ $K$ such that there exists a $t \in \GL(d,K)$ with $G^t \le \GL(d,F)$.
 By Lemma~\ref{extsca} the natural $F[G^t]$-module $V := F^{1 \times d}$ is
 irreducible.
 Then Proposition~\ref{pfenvalgII},  applied to $G^t$,
-shows that $F_0[G^t] = F[G^t] = E^{d/e \times d/e}$.
+shows that $F_0[G^t] = F[G^t] = E^{(d/e) \times (d/e)}$.
 Since the
 $F$-scalar matrices are central in $F^{d \times d}$, the theorem
 follows immediately.
@@ -978,27 +1001,30 @@ follows immediately.
 
 
 {} From now on we assume that the equivalent statements in Lemma~\ref{extsca}
-hold. We now develop some theory which leads to 
+hold for some subfield $F$ of $K$. We now develop some theory which leads to 
 an algorithm that finds a $t$ and the smallest possible subfield $F$, or proves
 that none exists.
 
 Let $B = \{b_1, \ldots, b_f\}$ be an $F$-basis for $K$, such that $b_1 = 1$.
 We start by noting that if the natural $KG$-module
-$V \cong K \otimes_F \tilde{V}$ as $KG$-modules, then
+$V$ is isomorphic to $K \otimes_F \tilde{V}$ as $KG$-modules, then
 $V \cong \bigoplus_{i = 1}^f b_i \otimes_F \tilde{V}$ as $FG$-modules.
 We therefore identify $V$ 
 with $K \otimes_F \tilde{V}$ and $\tilde{V}$
-with $1 \otimes_F \tilde{V}$ respectively via this second
+with $1 \otimes_F \tilde{V}$, respectively via this second
 isomorphism and thus write $b_i v$ instead of $b_i \otimes_F v$ and $v$ for
 $1 \otimes_F v \in \tilde{V}$. 
 
 \begin{Lemm} 
 \label{degsplittingfield}
-The $F$-dimension of\/ $\End_{FG}(\tilde{V})$ is  $e$.
+Let $F$ be a subfield of $K$ such that the equivalent statements in
+Lemma~\ref{extsca} hold and let $\tilde{V}$ be as above.
+Then the $F$-dimension of\/ $\End_{FG}(\tilde{V})$ is equal to 
+$e = \dim_F(\End_{KG}(V))$.
 \end{Lemm}
 
 \begin{proof}
-This result is a special case of the fact that
+This result is a consequence of the fact that
 \[\End_K(K \otimes_F \tilde{V}) \cong K \otimes_F
 \End_F(\tilde{V}),\] see for
 example \cite[(2.38)]{CRI}.
@@ -1020,20 +1046,24 @@ it suffices to check this for $v \in (m_j)_{1 \le j \le d}$. Writing
 $\psi = \sum_{i=1}^f b_i \psi_i$ with $\psi_i \in \End_F(\tilde V)$ shows that
 \[\psi \in \End_{KG}(V) \Leftrightarrow
  \sum_{i=1}^f b_i (\psi_i(m_jg)-\psi_i(m_j)g) = 0\]
-for all $1 \le j \le d$ and all $g \in G$ and thus by the uniqueness 
-above to $\psi_i(m_j g)-\psi_i(m_j)g=0$ for all $i$, $j$, and $g$. This
+for all $1 \le j \le d$ and all $g \in G$ and by the uniqueness 
+above this in turn is equivalent 
+to $\psi_i(m_j g)-\psi_i(m_j)g=0$ for all $i$, $j$, and $g$. This
 proves that $\End_{KG}(V) \cong K \otimes_{F} \End_{FG}(\tilde{V})$.
 
-Now the $F$-dimension of $K\otimes_{F} \End_{FG}(\tilde{V}) = f
-\dim_F(\End_{FG}(\tilde{V}))$ and the $F$-dimension of $\End_{KG}(V)$ is $e f$,
+Now the $F$-dimension of $K\otimes_{F} \End_{FG}(\tilde{V})$ equals
+$f \dim_F(\End_{FG}(\tilde{V}))$ and the $F$-dimension of $\End_{KG}(V)$ is $e f$,
 so $e = \dim_F(\End_{FG}(\tilde{V}))$, as required.
 \end{proof}
 
 \begin{Lemm}
 \label{lindep}
-Let $w \in \tilde{V}$ and $x_1, \ldots, x_k \in FG$. A set of vectors of the 
-form $\{\sum_{i = 1}^f b_i w x_j \ | \ 1 \leq j \leq k\}$ are linearly
-independent over $K$ if and only if they are linearly independent over
+Let $F$ be a subfield of $K$ such that the equivalent statements in
+Lemma~\ref{extsca} hold and let $\tilde{V}$ and $B = \{ b_1, \ldots, b_f\}$
+be as above.
+Let $w \in \tilde{V}$ and $x_1, \ldots, x_k \in FG$. The set of vectors
+$\{\sum_{i = 1}^f b_i w x_j \ | \ 1 \leq j \leq k\}$ is linearly
+independent over $K$ if and only if it is linearly independent over
 $F$.
 \end{Lemm}
 
@@ -1042,7 +1072,7 @@ For $1 \leq j \leq k$ let $c_j = \sum_{i = 1}^f b_i w x_j$. Let $a =
 \sum_{i = 1}^f b_i$ and for $1 \leq j \leq k$ let $d_j = a^{-1}c_j = w x_j
 \in \tilde{V}$. The $d_j$ are linearly independent over $K$ if and only
 if the $c_j$ are linearly independent over $K$. Since each $c_j$ has
-been multiplied by the \emph{same} element $a \in K$, the same statement
+been multiplied by the \emph{same} element $a^{-1} \in K$, the same statement
 is true over $F$.
 
 The set $\{d_j \ : \ 1 \leq j \leq k\}$ is linearly independent over $F$
@@ -1062,7 +1092,8 @@ use the $FG$-module isomorphism $V \cong
 \bigoplus_{i=1}^f b_i\tilde{V}$ 
 and then find an $FG$-homomorphism
 from $\tilde{V}$ to $V$. We will show that the $K$-span of the image is $V$
-and the representing matrices with respect to that basis
+such that every $F$-basis of $\tilde{V}$ is mapped to a $K$-basis of $V$.
+The representing matrices with respect to such a basis
 are the same as those on $\tilde{V}$ and thus are over $F$.
 
 To describe this, we first define the term ``standard basis'', which
@@ -1188,15 +1219,17 @@ $SB(W,w,(g_1,\ldots,g_m))$ proving our claims.
 %Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, K)$, 
 %and let $V$ be the natural\/ $KG$-module. 
 %Assume that $V$ is irreducible,
-%$E := \End_{KG}(V)$ and $e := \dim_K(E)$ is the degree of the
-%splitting field. 
 Let the global assumptions for this section on $G$ apply. 
+Let again $e := \dim_K(\End_{KG}(V))$ be the degree of the
+splitting field. We assume that $e$ is already computed.
+
 There exists a $c \in K_0 G$ such that $\dim_K \ker_V(c) = e$.
 Let $w \in \ker_V(c)$ with $w \neq 0$,  let $B := SB(V,w,(g_1, \ldots, g_m))$
 and let $t^{-1} \in \GL(d,K)$ have the vectors in $B$ as rows.
 
-If $F$ is a subfield of $K$ for which there is an $r \in \GL(d,q)$
-such that $r^{-1}Gr \leq \GL(d,F)$, then $t^{-1}Gt \leq \GL(d,F)$ as well. 
+Let $F$ be the smallest subfield of $K$ for which there is an $r \in \GL(d,K)$
+such that $r^{-1}Gr \leq \GL(d,F)$ (see Theorem~\ref{charsmallest}), 
+then $t^{-1}Gt \leq \GL(d,F)$ as well. 
 That is, $t^{-1}Gt$ writes $G$ over the smallest possible field.
 
 Let $1 > \delta > 0$ 
@@ -1211,10 +1244,14 @@ Each attempt needs $O(md^3)$ field operations.
 \end{Theo}
 
 \begin{proof}
+Let $B = \{ b_1, \ldots, b_f \}$ and $\tilde{V}$ be as in the paragraph
+before Lemma~\ref{degsplittingfield} and let $E := \End_{F[G^r]}(\F^{1
+\times d})$, then by Lemma~\ref{degsplittingfield}, we have $e = [E:F]$.
+
 We apply the standard basic technique to 
 $V \cong \bigoplus_{i=1}^f b_i\tilde{V}$, 
 where $\{b_1, \ldots, b_f\}$ is an $F$-basis for $K$, as before.
-Note that we assume that  the isomorphism exists and do not yet
+Note that we assume that  the isomorphism exists but do not yet
 have it explicitly! 
 We attempt to compute an $FG$-homomorphism
 $\varphi : \tilde{V} \to \bigoplus_{i=1}^f b_i\tilde{V}$, 
@@ -1223,7 +1260,7 @@ and will either succeed or show that $f = 1$.
 1. First we look for $c \in FG$ such that
 $\dim_F(\ker_{\tilde V}(c)) = \dim_F(\End_{FG}(\tilde V))$. 
 We do not know $F$ nor have $\tilde V$, 
-but by Lemma~\ref{degsplittingfield}, $\dim_K(E) = e = 
+but by Lemma~\ref{degsplittingfield}, $e = 
 \dim_F(\End_{FG}(\tilde V))$ and 
 \[f \cdot \dim_F(\ker_{\tilde V}(c)) = \dim_F(\ker_V(c)) =
 f \cdot \dim_K(\ker_V(c)).\] Given a possible $c$, 
@@ -1234,12 +1271,13 @@ To find $c$ we produce random $K_0$-linear
 and stop if $\dim_K(\ker_V(c)) = e$. 
  The results in \cite{MeatAxeHoltRees} and \cite{IL}
     show that there is an upper bound $b$ not depending on $|K|$, $|F|$ and 
-    $d$ for
-    the probability that a random element 
-    $c \in K_0[G] = F_0[G] \cong F[G^t] \cong E^{d/e \times d/e}$ has
+    $d$ for the probability that a random element 
+    $c \in K_0[G] = F_0[G] \cong F[G^t] \cong E^{(d/e) \times (d/e)}$ 
+    (compare Theorem~\ref{charsmallest}) has
     $\dim_{K}(\ker_V(c)) \neq e$. Thus $\log_b \delta^{-1}$ 
     tries will succeed with probability at least $1 - \delta$.  
-
+    Note that these arguments prove that such a $c \in K_0[G]$ actually
+    exists!
 
 2. Assume that we have found such a $c \in FG$, given in its action on $V$.
 We compute a non-zero $w \in \ker_V(c)$.
@@ -1248,17 +1286,28 @@ for some $w_i \in \tilde{V}$, and since $\ker_V(c) = \bigoplus_{i=1}^f b_i \ker_
  all of the $w_i$
 lie in $\ker_{\tilde{V}}(c)$.
 
+We can now use the standard basis 
+algorithm from Definition~\ref{spinup}
+with $w$ in place of $v$, testing for 
+$K$-linear independence of the resulting vectors. In fact,
+this will test for $F$-linear independence as is required 
+--- note that this works without knowing $F$ explicitly, provided we
+only take linear combinations over $K_0$ to find
+$c \in FG$!
+We need to prove these claims.
+
 By Theorem~\ref{isotest} and the fact that
 all summands $b_i \tilde{V}$ are isomorphic to $\tilde{V}$
 as $FG$-modules, we conclude that for 
 all $w$ and all nonzero $v \in \ker_{\tilde{V}}(c)$, 
 there is a unique $FG$-monomorphism from $\tilde{V}$ into $V$,  mapping
 $SB(\tilde{V},v,(g_1,\ldots,g_m))$ to $SB(V,w,(g_1,\ldots,g_m))$.
-Note that the latter is a basis for the image of this $FG$-homomorphism, which is an $F$-subspace. 
+Note that the latter is a basis for the image of this $FG$-homomorphism, 
+which is an $F$-subspace, and that these standard bases are defined using
+$F$-linear independence. 
 %which has $F$-dimension $d$. 
 
-We do yet know $F$, so we cannot yet
- test for $F$-linear independence. 
+We do yet know $F$, so we cannot yet test for $F$-linear independence. 
 %Furthermore,  Lemma~\ref{lindep} is not yet applicable, 
 %as the vectors do not all use the same 
 %basis vector. 
@@ -1276,16 +1325,13 @@ the tuple $t := (\sum_{i=1}^f b_i w_1 x_j)_{1 \le j \le k}$ is $F$-linearly
 independent if and only if it is $K$-linearly independent. 
 This in turn holds if and only if the tuple 
 $(w x_j)_{1 \le j \le k}$ is $K$-linearly independent, since it is 
-mapped to $t$ by $\alpha$. We can now use the standard basis 
-algorithm from Definition~\ref{spinup}
-with $w$ in place of $v$, testing for 
-$K$-linear independence of the resulting vectors. In fact,
-this will test for $F$-linear independence as is required 
---- note that this works without knowing $F$ explicitly, provided we
-only take linear combinations over $K_0$ to find
-$c \in FG$!
+mapped to $t$ by $\alpha$. 
 
-3. The result $SB(V,w,(g_1, \ldots, g_m))$  is an $F$-basis of an $FG$-submodule
+This proves our claim that we in fact compute $SB(V,w,(g_1,\ldots,g_m))$
+with testing for $F$-linear independence.
+
+3. By the above arguments, the 
+result $SB(V,w,(g_1, \ldots, g_m))$  is an $F$-basis of an $FG$-submodule
 of $V$ that is isomorphic to $\tilde{V}$. In particular, the representing
 matrices for the $g_i$ expressed with respect to this basis contain
 only coefficients from $F$. Since $SB(V,w,(g_1, \ldots, g_m))$ is 
@@ -1373,7 +1419,10 @@ Section~\ref{subsemi:sec:complexity}.
 We proceed differently depending on whether $G$ has at most $7$ 
 non-scalar generators. If this holds then we start by making all 
 commutators of generators. If these are all scalar then $G'$ is 
-scalar, and the methods of Section~\ref{subsec:scalars} apply with $G'$ known to be scalar. If any of them is found to be non-scalar we proceed to generate $H$ as described below.
+scalar, since $G$ modulo scalars is abelian.
+Thus the methods of Section~\ref{subsec:scalars} apply with $G'$ known
+to be scalar. If any of them is found to be non-scalar we proceed to
+generate $H$ as described below.
 
 If there are more than $7$ non-scalar generators then we compute $10$
 commutators of random elements of $G$. If these are all scalar 
@@ -1426,8 +1475,10 @@ by Clifford's Theorem.
 \item $N$ is reducible, and $V$ is a direct sum of 
 more than one homogeneous component.
 \item $N$ is reducible, and $V$ splits into a direct 
-sum of isomorphic $N$-submodules of dimension greater than $1$, so that in particular $N$ is non-scalar.
-\item $N$ is reducible, and $V$ splits into a direct sum of isomorphic $1$-dimensional submodules, so that $N$ is scalar.
+sum of isomorphic irreducible $N$-submodules of dimension greater than $1$, so that
+in particular $N$ is non-scalar.
+\item $N$ is reducible, and $V$ splits into a direct sum of isomorphic
+$1$-dimensional submodules, so that $N$ is scalar.
 \end{enumerate}
 
 We proceed differently in each of these five cases, but, assuming $G$
@@ -1636,7 +1687,7 @@ The kernel of the action as field automorphisms acts $\F_{q^e}$-linearly
 on the original space and we read off this action using
 the above base change to the $\F_{q^e}$-adapted basis. This therefore also
  leads to a reduction for the kernel by reducing the input size to
-$(d/e \times d/e)$-matrices over $\F_{q^e}$. 
+$(d/e) \times (d/e)$-matrices over $\F_{q^e}$. 
 
 Altogether, we have found a significant reduction 
 using $O(d^3(d\log q +m))$ field operations and memory for $O(d)$ matrices.
