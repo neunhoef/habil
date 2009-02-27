@@ -1524,9 +1524,8 @@ irreducible.
 \end{proof}
 
 
-We can therefore assume in this case that $G$
-lies in class \CC5, provided $G$ is in \CC3 or in \CC5 or 
-$G'$ is not absolutely irreducible.
+We can therefore assume in the case of this section that $G$
+lies in class \CC5.
 
 \begin{Lemm} [{Compare \cite[Lemma~4.1]{GLGOB}}]
 If\/ $G$ can be written over\/ $\F_{q_0}$ modulo scalars in\/ $\F_q$, 
@@ -1539,30 +1538,27 @@ a fixed scalar fixes  the value of $[g, h]$.
 \end{proof}
 
 
-
-
 \begin{Theo} [Recognition of \CC5]
 Consider $G = \langle g_1, \ldots, g_m \rangle 
 \leq \GL(d, q)$ or its projective version and let $1 > \delta > 0$ be given. 
-Let $N = \langle n_1, \ldots, n_s \rangle \unlhd G$ be a subgroup of the
-derived group known (by
-a MeatAxe run) to be absolutely irreducible. 
+Let $H = \langle n_1, \ldots, n_s \rangle \le N \unlhd G$ with $N \le G'$
+and let $H$ be known (by a MeatAxe run) to be absolutely irreducible. 
 Then in $O(sd^3 \log \delta^{-1} + md^3)$ field operations
-we construct a homomorphism to\/ $\PGL(d, q_0)$ for minimal $q_0$
+we can construct a homomorphism from $G$ to\/ $\PGL(d, q_0)$ for minimal $q_0$
  or prove that $G$ and
 $\overline{G}$ are not in \CC5. The algorithm returns {\tt fail} with
 probability at most $\delta$.
 \end{Theo}
 
 \begin{proof}
-Since $N$ is absolutely irreducible we use the methods of
-Section~\ref{realisesubfield} to find a matrix $t$ such that $t^{-1}Nt
+Since $H$ is absolutely irreducible we use the methods of
+Section~\ref{realisesubfield} to find a matrix $t$ such that $t^{-1}Ht
 \leq \GL(d, q')$
 with $\delta$ as an upper bound for the failure probability.
 This automatically finds the smallest prime power $q'$ with this       
-property. Notice that the $\F_{q'}$-subspace chosen in the kernel 
-vector by the standard basis method is unique up to multiplication 
-by elements of $\End_{\F_q N}(V) = \F_q$.   From this point on 
+property. Notice that the vector chosen in the kernel of $c$
+by the standard basis method is unique up to multiplication 
+by elements of $\End_{\F_q H}(V) = \F_q$. From this point on 
 the algorithm is guaranteed to determine   
 whether $G$ lies in~\CC5.
 
@@ -1607,6 +1603,7 @@ and in general talk about $N$ rather than $H$.
 %a reduction. 
 
 \begin{Prop}
+\label{propsemilinear}
 If $G$ is absolutely irreducible and $N \unlhd G$ is irreducible but not
 absolutely irreducible then $G$ is semilinear.
 \end{Prop}
@@ -1632,7 +1629,7 @@ Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
 projective version.
 Let $N = \langle n_1, \ldots, n_s \rangle \unlhd G$ be  known 
 to be irreducible but not absolutely irreducible. 
-In deterministic $O(d^4\log q + m d^3)$ field operations we construct
+In deterministic $O(d^4\log q + m d^3)$ field operations we can construct
  two homomorphisms, one to
 the cyclic group of order $e$ for some divisor $e$ of $d$ and a second
 from the kernel of the
@@ -1651,18 +1648,22 @@ When  $N$ is irreducible but not absolutely irreducible,
 the MeatAxe returns a generator $C$ of
 the field $\F_{q^e} = \End_{\F_q N}(V)$ realised as a matrix in
 $\GL(d,q)$ together with  $e$. Note that $e \le d$. 
-The matrix $C$ needs not generate the
+The matrix $C$ does not need to generate the
 multiplicative group of $\F_{q^e}$, but its powers $C^0, C^1, \ldots,
 C^{e-1}$ are $\F_q$-linearly independent. 
 
-If $G$ acts via field automorphisms on $\F_{q^e}$, then we can immediately
+As shown in Proposition~\ref{propsemilinear},
+the group $G$ acts by conjugation as field automorphisms on $\F_{q^e}
+= \End_{\F_q N}(V)$ and thus on the group $\left< C \right>$.
+We can immediately
 read off this action using $O(md^3)$ field operations by computing
 the matrices $C, C^q, C^{q^2}, \ldots, C^{q^{e-1}}$, conjugating
 $C$ with the generators of $G$ and looking up the result. 
 Computing these matrices requires at most $O(d^4 \log q)$ field
 operations and space for $O(d)$ matrices, since $e \le d$.
-This provides a homomorphism from $G$ to the cyclic group of order
-$e$.
+Computing this action provides a homomorphism from $G$ to the cyclic group of order
+$e$, because the above mentioned matrices are the possible images
+of $C$ under automorphisms of $\F_{q^e}$.
 
 In addition,  $C$ gives an
 explicit $\F_{q^e}$-vector space structure on  $V$.
@@ -1672,8 +1673,9 @@ perform a spinning algorithm for $V$ as an $\F_{q^e}$-vector space. All
 computations are with vectors over $\F_q$, but whenever
 we produce a new vector $v$ that does not lie in the $\F_q$-span of what we
 already have, we not only add $v$ but also $vC, vC^2, \ldots,
-vC^{e-1}$ by repeatedly multiplying with $C$. 
-This spinning algorithm needs at most $O(md^3)$ field
+vC^{e-1}$ by repeatedly multiplying with $C$. This spinning algorithm gives us a
+base change to an $\F_{q^e}$-adapted basis.
+It needs at most $O(md^3)$ field
 operations.
 
 %If we now apply the base change with the newly found $\F_{q^e}$-adapted
@@ -1714,7 +1716,8 @@ $\F_{q^e} = \End_{\F_q H}(V) \neq \End_{\F_q N}(V)$, which happens
 with probability bounded by $\delta$. 
 If  $\End_{\F_q H}(V) \neq \End_{\F_q N}(V)$ then the elements 
 of $G$ need not
-act as field automorphisms on $\F_{q^e}$. However, if $G$ is contained in 
+act as field automorphisms on $\F_{q^e}$, which we notice during the
+above computation. However, if $G$ is contained in 
 \CC3 then they
 \emph{will} act as field automorphisms on some subfield of $\F_{q^e}$
 that properly contains $\F_q$. Thus, if $e$ has not too many divisors,
@@ -1761,7 +1764,7 @@ proper nontrivial submodule $V'$ of the natural module.
 First we prove a lemma which will eventually be used to find an 
 irreducible $H$-submodule that with probability $1 - \delta$ 
 is an $N$-submodule. 
-\begin{Lemm} [Finding an irreducible submodule] \label{lem:find_irred}
+\begin{Lemm} [Finding an irreducible module] \label{lem:find_irred}
 Let $N = \langle n_1, \ldots, n_s \rangle \leq \GL(d, q)$ act reducibly
 on the natural module $V$ and let $1 > \delta > 0$ be given. 
 Given a submodule $V' < V$, an irreducible
@@ -1795,7 +1798,8 @@ run) to be reducible.
 
 In Las Vegas $O(sd^3 \log (\delta^{-1} \log
 d))$ field operations  we can either construct a homomorphism from $G$ to a
-permutation group with kernel the pointwise stabiliser of a set of blocks 
+permutation group with kernel the pointwise stabiliser of the set of
+homogeneous components of $V|_{\F_q N}$
  or prove that $V|_{\F_q N}$ has a single homogeneous component.
 The probability of failure is bounded from above by $\delta$.
 \end{Theo}
@@ -1810,11 +1814,13 @@ reduction.
 
 By Lemma~\ref{lem:find_irred} we can find an irreducible $N$-subfactor
 in $O(sd^3 \log (\delta^{-1} \log d))$ field operations with probability
-of failure $\delta$. One application of the isomorphism testing
-procedure described in Theorem~\ref{isotest} gives a homomorphism of the
-irreducible factor into $V|_{\F_q N}$ and thus an irreducible submodule
+of failure $\delta$. This subfactor is an irreducible module $\tilde S$ and we can now
+apply the isomorphism testing
+procedure described in Theorem~\ref{isotest} once to give a homomorphism of
+$\tilde S$ into $V|_{\F_q N}$ and thus an irreducible submodule
 $S$ with $O(sd^3)$ field operations. Note that when we
-proved the final subfactor to be irreducible,  we constructed the algebra
+proved the final subfactor in the procedure described in Lemma~\ref{lem:find_irred}
+to be irreducible,  we constructed the algebra
 word $c$ that is needed for isomorphism testing, namely a word 
 describing an algebra element with nullity the dimension of
 the centraliser of~$N$.
@@ -1829,7 +1835,7 @@ this provides a non-trivial homomorphism onto a permutation
 group and thus a reduction. The overall complexity 
 is $O(sd^3\log(\delta^{-1} \log d))$.
 
-Since $\F_q$-scalars act trivially on the homogeneous
+Since $\F_q$-scalars act trivially on the set of homogeneous
 components, the homomorphism onto the permutation group has all
 scalars in its kernel. Therefore we can use the same homomorphism
 for the projective situation with $\overline{G}$. Thus,  this case
@@ -1871,10 +1877,12 @@ corresponding to $S$.
 \begin{Theo} [Reduction for single homogeneous component]
 Let  $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
 projective version be absolutely irreducible, and let $1 > \delta > 0$ be given.
-Let $N = \langle n_1, \ldots, n_s \rangle  \unlhd G$ be reducible, with a single homogeneous component of dimension $n > 1$, and let an irreducible $N$-submodule $S$ be given.
-In deterministic $O((s+m)d^3)$ field operations we construct a proper nontrivial 
-homomorphism from $G$ into\/ $\PGL(d/n, q^e)$ for $e$ the degree of 
-the centraliser of $N$ on $S$. 
+Let $N = \langle n_1, \ldots, n_s \rangle \unlhd G$ be reducible,
+with a single homogeneous component of dimension $n > 1$, and let an
+irreducible $N$-submodule $S$ be given.
+In deterministic $O((s+m)d^3)$ field operations we can construct a proper nontrivial 
+homomorphism from $G$ into\/ $\PGL(d/n, q^e)$ for $e$ the $\F_q$-dimension
+of\/ $\End_{\F_q N}(S)$.
 \end{Theo}
 
 \begin{proof}
@@ -1962,7 +1970,7 @@ of $G$ after the base change from which we can read off the tensor
 decomposition.
 
 Thus we get a non-trivial homomorphism of $G$ into $\PGL(d/n,q^e)$ with
-$N$ lying in the kernel which is a significant reduction. The kernel of
+$N$ lying in the kernel, which is a significant reduction. The kernel of
 this homomorphism can immediately be reduced further since its 
 elements are block
 diagonal matrices with identical $n \times n$-diagonal blocks.
@@ -1979,7 +1987,7 @@ copies of the irreducible $H$-module $S$. In this case
 there are not enough homomorphisms from $S$ into
 the socle of $V|_{\F_q H}$ to span the whole of $V$. Secondly,
 even if $V|_{\F_q H}$ is a direct sum of copies of $S$,  the
-generators of $G$ might not be not Kronecker products after a corresponding
+generators of $G$ might not be Kronecker products after a corresponding
 base change, which we detect during the setup of the homomorphism. In
 both cases, the error is detected and the algorithm reports {\tt fail}. However,
 by Corollary~\ref{cor:right_action} this happens with probability at most $\delta$.
@@ -1995,8 +2003,8 @@ non-scalar generator $g_i$ of $G$ such that $[g_i, g_j]$ is scalar for all $j$.
 
 
 We start with a proposition giving a homomorphism 
-into the multiplicative group of the field that needs
-not necessarily correspond to an imprimitive 
+into the multiplicative group of the field that does
+not necessarily need to correspond to an imprimitive 
 decomposition of the natural module.
 
 \begin{Prop} [Scalar homomorphism] \label{prop:scal_reduct}
@@ -2011,11 +2019,14 @@ into the multiplicative group of\/ $\F_q$ at no further cost.
 \end{Prop}
 
 \begin{proof}
-We are given a non-scalar generator $g_i$, 
-and we already have calculated the homomorphism $\psi_{g_i}(g_j) = [g_j, g_i]$ from Lemma~\ref{lem:facts} 
-for all  $g_j$. 
-This
-kernel of $\psi_{g_i}$ is $C_G(g_i)$. Since $g_i$ is non-central, $\psi_{g_i}$ 
+We are given a non-scalar generator $g_i$, such that all commutators of 
+it with all other generators are scalar matrices. Thus $g_i$ is central in
+$G$ modulo scalars, thus the commutators of $g_i$ with all elements of $G$ are
+scalar. Therefore, the map $\psi_{g_i} : G \to \F_q, g \mapsto [g,g_i]$ is
+a group homomorphism into the scalar matrices. This is proved exactly as
+Lemma~\ref{lem:facts}.5. 
+
+The kernel of $\psi_{g_i}$ is $C_G(g_i)$. Since $g_i$ is non-central, $\psi_{g_i}$ 
 is nontrivial.
 Multiplying generators by scalars does not 
 change commutators, 
@@ -2034,8 +2045,8 @@ so these algorithms will also work in the projective case.  %
 %too many generators. Let $\psi_g(h)$ be a generator for the 
 %image. Then the set $\{g_i h^{o/a_i}, h^o : 1 \leq i \leq m\}$ 
 %is a normal generating set for the kernel. 
-Since $g_i \in C_G(g_i)$, the kernel will 
-be a non-absolutely irreducible group and may not be irreducible. 
+Since $g_i \in C_G(g_i)$, the kernel is
+not an absolutely irreducible group and may even not be irreducible. 
 If $G'$ is known to be scalar then
  the derived group of the kernel $C_G(g_i)$ is also
 central, and hence a hint can be passed to the kernel to return 
@@ -2100,10 +2111,11 @@ p_k)$ with kernel $\Syl(G, p_1) \times \cdots \times \Syl(G, p_{a})$.
 Notice that $p_i^{\alpha_i}$ divides $o$ for 
 all $i$  so  $N < o$, and hence we can raise each 
 generator to the power $N$ in $O(m^2 d^3 \log q)$ field 
-operations to get at most $m$ generators for the image. 
-Multiplying each generator by the inverse of its image 
+operations to get generators for the image. Some of them could be trivial,
+so we get at most $m$ generators.
+Multiplying each generator of $G$ by the inverse of its image 
 in $O(m d^3)$ field operations will produce at most $m$ 
-generators for the kernel.
+generators for the kernel, ignoring again trivial ones.
 \end{proof}
 
 
@@ -2136,7 +2148,8 @@ normal closure  in
  a  group $G \le \GL(d,q)$, in $O(d^3)$ elementary field
 operations.
 Assume further that we can generate a sufficiently evenly distributed
-random element in a matrix algebra $\mathcal{A} \le \F_q^{d \times d}$ generated by a set $X$ of matrices
+random element in a matrix algebra $\mathcal{A} \le \F_q^{d \times d}$
+generated by a set $X$ of matrices
 in $O(d^3)$ elementary field operations.
 \end{Hyp}
 
@@ -2147,7 +2160,8 @@ Replacement and \textsc{Rattle}%
  for groups and normal closures, and by taking random 
 linear combinations of random products of generators for algebras,
 at least after an initialisation phase.
-However, these assumptions are not proven to hold in general!
+However, even using such techniques,
+these assumptions are not proven to hold in general!
 
 \begin{Lemm}[MeatAxe]
 \label{MeatAxe}
