@@ -1,0 +1,248 @@
+Lieber Gerhard,
+
+vielen Dank fuer Deine vielen Aenderungsvorschlaege in meiner Arbeit.
+Das hat nochmal eine Fuelle von Verbesserungen ausgeloest!
+
+Die allermeisten Aenderungen habe ich einfach gemacht, ohne sie hier in
+dieser email zu erwaehnen. Zu einigen Punkten habe ich hier aber noch
+Bemerkungen, mitunter auch, warum es so wie es ist, OK ist. Manchmal
+beantworte ich aber auch einfach eine Frage, die Du an den Rand geschrieben
+hast. Ich schreibe jeweils die Seite in Deiner Kopie dazu.
+
+S. 12 unten: 
+  SLPs: In der Tat, der Speicherplatzbedarf zur Auswertung 
+        eines SLPs wird bei der "length" nicht beruecksichtigt.
+
+S. 15 unten:
+  Rattle: Vermutlich macht product replacement auch fuer unendliche
+          Gruppen etwas Vernuenftiges. Ich weiss aber nicht genau, ob 
+          die Beweise durchgehen und wuerde mich da lieber nicht
+          aus dem Fenster lehnen. Deswegen lasse ich "finite group".
+          Nimm z.B. die unendliche zyklische Gruppe, kein endliches
+          Verfahren hat eine Chance, auch nur approximativ eine
+          Gleichverteilung zu erreichen. 
+
+S. 16 oben:
+  Folgen von Zufallselementen: Ich habe das umformuliert, aber im
+  Wesentlichen ist das ein grundsaetzliches Problem: fasst man
+  diese Folge von "zufaelligen" Gruppenelementen als Zufallsvariable
+  in der Stochastik auf, dann sind aufeinanderfolgende eben nicht
+  statistisch unabhaengig verteilt. Insofern ist die Bemerkung, 
+  denke ich, schon richtig. Will man wirklich mehrere, statistisch
+  unabhaengig verteilte Zufallselemente in G, dann muss man die komplette
+  Initialisierungsphase von Rattle auch mehrfach laufen lassen. 
+  Das wird aber in der Praxis (zu Recht) nicht gemacht.
+
+S. 28 oben:
+  In der Tat, hier wird nur entweder mit Primkoerperelementen multipliziert
+  oder mit der Primitivwurzel des Erweiterungskoerpers (repraesentiert
+  durch das Polynom x). Deswegen zahlt man nicht die vollen Kosten fuer
+  eine skalare Multiplikation mit einem Erweiterungskoerperelement.
+
+S. 38 Mitte:
+  Die Komplexitaetsexperten nehmen immer an, dass Matrixmultiplikation
+  eben nicht O(n^3) ist, sondern nur O(n^a) wobei 2<a<3 ist. Deshalb
+  ist [Sto01] besser als [Sto98].
+
+S. 50 unten:
+  X ist ein primary cyclic module erzeugt von w, das Ordnungspolynom
+  von w ist q_i^f. Deswegen ist X isomorph zu F[x]/(q_i^f)F[x], der 
+  Isomorphismus ist w h(M) \mapsto 1 h + (q_i^f)F[x] fuer h in F[x],
+  wobei 1 die Eins von F[x] ist. Deswegen ist der maximale Untermodul
+  X' = <wq_i(M)>_M, er entspricht q_iF[x]/(q_i^f)F[x]. Ich habe eine
+  Bemerkung hinzugefuegt.
+
+S. 57 oben:
+  f im Algorithmus wird sukzessive veraendert, das neue f ist immer
+  das lcm vom alten f mit einem neuen Ordnungspolynom.
+  Dieser Absatz war unverstaendlich, weil der Verweis auf Section III.6
+  eigentlich einer auf Section III.7 sein muss, das ist geaendert.
+
+S. 57 unten:
+  Was da steht, ist wirklich gemeint. Da steht aber "wenn der output
+  gleich dem *charakteristischen Polynom* ist, dann wird auch "True"
+  zurueckgeliefert, da dann auch bewiesen ist, das das Resultat gleich
+  dem Minimalpolynom ist. Da hier \chi steht, folgt nicht, dass bei
+  Output (Uncertain, f) das Resultat f ungleich dem Minimalpolynom ist.
+  Das ist also OK so.
+
+S. 62 unten:
+  Fuer Beispiel M_5 ist die deterministische Verifikation nach Proposition
+  III.8.2 und Remark III.7.4 in der Tat schnell. Aber Algorithmus 7
+  ist langsam. Das passt also zusammen.
+
+S. 76 unten:
+  Proposition V.3.2 ist umgeschrieben, natuerlich musste das anders
+  gemacht werden mit einer endlich praesentierten Gruppe. Die
+  Relationen sind Elemente einer freien Gruppe, die durch ein SLP t
+  beschrieben sind, und die r'_i entstehen dann durch Evaluation von t
+  in den h'_i. Das sollte jetzt so OK sein.
+
+S. 85 unten:
+  Ich habe den 2. Absatz aus der Definition von D2 rausgenommen, er
+  gehoerte nicht zur Definition, sondern war nur Erlaeuterung. Ich musste
+  auf die Voraussetzung, dass die irreduziblen F_q N-Summanden von
+  V|_N absolute irreduzibel sind, verzichten wg. des Fehlers, den Du 
+  auf Seite 90 gefunden hattest (siehe unten).
+  Die V_i in der Erlaeuterung sind in der Tat eindeutig bestimmt, da 
+  es nicht die irreduziblen Summanden von V|_N sind sondern die
+  homogenen Komponenten von V|_N. Das ist jetzt besser erklaert.
+
+S. 86 unten:
+  Die Definition von D4 ist unveraendert geblieben, da ich das Problem
+  auf S. 90 durch eine verbesserte Proposition VI.2.1 in Ordnung gebracht
+  habe. Zunaechst sah es so aus, als ob ich in D4 wie nun auch in D2
+  auf die Voraussetzung, dass die irreduziblen Summanden von V|_N
+  absolute irreduzibel sind, verzichten musste. Das geht nun aber doch.
+
+S. 89 unten:
+  Wenn ich eine klassische Gruppe G ueber dem Koerper F_q definiere
+  (z.B. GL(n,q)), dann aber einbette in GL(n,q^2) (zum Beispiel),
+  dann moechte ich nicht, dass G als Untergruppe von GL(n,q^2) in D8
+  ist. In diesem Fall soll G als D5-Gruppe laufen. Es ist zwar "G
+  in natural representation" und "in defining characteristic", aber
+  "defined over a subfield". Dazu brauche ich an dieser Stelle des
+  Beweises die Annahme, dass G nicht in D5 ist. Das ist auch der Grund,
+  warum ich D8 genau so definiere.
+
+S. 90 Mitte:
+  Das war in der Tat eine Beweisluecke, mit dem alten D2 war der Satz
+  sogar falsch (soweit ich sehe). D2 enthaelt nun nicht mehr, dass
+  W ein absolut irreduzibler F_q N-Modul ist. D4 hat diese Bedingung immer
+  noch, aber ich musste einen neuen Beweis machen, dass falls W nicht
+  absolut irreduzibel ist, G in D3 liegt (siehe die neue Prop. VI.2.1).
+  Ich hoffe, dass das jetzt richtig ist. Wie Du richtig anmerkst, geht das
+  Argument, das immer noch vorkommt, da es fuer diesen Fall einfacher ist
+  als Prop. VI.2.1, nur falls W = V|_N selbst irreduzibel ist. Ich denke,
+  dass das jetzt wirklich richtig ist. Vielen Dank, dass Du diesen
+  misslichen Fehler aufgespuert hast!
+
+S. 91 unten:
+  G operiert per Konjugation auf N/Z und N. Auf N/Z permutiert es so
+  die direkten Faktoren, die also paarweise isomorph sind. Auf N
+  sind die entsprechenden Urbilder alle zentrale Erweiterungen mit Z.
+  Da aber G sein Zentrum Z per Konjugation elementweise fest laesst, 
+  operiert G per Konjugation so auf N, dass es die zentralen Faktoren
+  (obige zentrale Erweiterungen) permutiert. Also sind alle diese zentralen
+  Faktoren isomorph. Ich habe das im Text erklaert.
+
+S. 98 Mitte des Algorithmus:
+  Fuer den Algorithmus wird die Voraussetzung (inzwischen nur noch bei D4),
+  dass die irreduziblen Summanden von V|_N absolut irreduzibel sind,
+  nicht benoetigt (siehe Kapitel ueber C3/C5, wir koennen im nicht
+  absolut irreduziblen Fall ein Reduktion finden, deren Bild in einer
+  projektiven Gruppe ueber einem groesseren Koerper liegt.
+
+S. 103 unten:
+  In der Tat ist Kapitel VII das Paper mit Jon und Colva. Ich habe mit
+  beiden bereits vor einiger Zeit gesprochen und sie haben nichts dagegen,
+  dass das Paper in meiner Habilitationsschrift abgedruckt ist. Ich habe
+  zur Sicherheit gestern abend nochmals eine Mail an Jon geschrieben und
+  nochmals nachgefragt, insbesondere da wir immer noch nichts vom Referee
+  gehoert haben. Mit Colva spreche ich heute abend, da sind wir heute zum
+  Essen eingeladen. Es waere natuerlich gut, wenn das Paper zumindest
+  akzeptiert und am Besten noch publiziert wird, bevor meine
+  Habilitationsschrift veroeffentlicht wird. Soweit ich aber die beiden
+  verstanden habe, haben sie nichts dagegen, dass ich das abdrucke.
+  Gleiches gilt natuerlich fuer das Minimalpolynom-Paper mit Cheryl,
+  die habe ich aber auch schon gefragt und sie hat kein Problem, zumal 
+  das ja schon seit einiger Zeit veroeffentlicht ist.
+
+S. 105 Punkt 6.:
+  Das muss in der Tat G heissen. Das Problem sind die bloeden Skalare.
+  Es kann G in C5 sein, ohne selbst ueber dem kleineren Koerper
+  realisierbar zu sein. Das passiert, wenn man eine Gruppe ueber dem
+  kleineren Koerper nimmt, einen Basiswechsel ueber dem groesseren macht
+  und dann willkuerlich Skalare aus dem groesseren Koerper "dazunimmt".
+  Dann kann kein Basiswechsel mehr die Gruppe ueber dem kleineren Koerper
+  schreiben, sie ist aber immer noch in C5. Unser Test in Schritt 6
+  stellt das in der Tat fest, da beim Uebergang zu N diese "bloeden
+  Skalare" verschwinden, da N in G' enthalten ist.
+
+S. 108 Theorem VII.3.7:
+  Da haben wir lange nach einem Wort gesucht, "Characterisation" ist
+  das, worauf wir uns einigen konnten. Zunaechst hatten wir
+  "Classification", das ist es aber nicht. Wir zeigen im Wesentlichen, dass
+  es entweder eine zentrale Erweiterung von D_8 ist oder imprimitiv
+  operiert. Zugegeben, das ist keine "Characterisation", da wir uns
+  aber nach einigen Verhandlungen darauf einigen konnten, wuerde ich es
+  lieber so lassen.
+
+S. 108 unten:
+  In der Folge von Zufallsvariablen X_1, X_2, ... hat jedes X_i eine
+  Verteilung. Es ist aber nicht gesagt, dass die Verteilung von X_i
+  in einem echten Zufallsexperiment nicht von dem Ergebnis der vorherigen
+  Zufallsvariablen X_j mit j < i abhaengt! Wenn beispielsweise X_1 ein
+  Urnenexperiment ohne Zuruecklegen beschreibt und X_2 ein Ziehen
+  aus der selben Urne ist, dann haengt die Verteilung des Ergebnisses von
+  X_2 durchaus davon ab, was bei X_1 herauskam, naemlich was als erstes aus
+  der Urne herausgezogen wurde. Das muss man beruecksichtigen, man nimmt
+  haeufig intuitiv an, dass die Zufallsvariablen stochastisch unabhaengig
+  sind. Das Lemma gilt aber auch dann, wenn das nicht der Fall ist.
+
+S. 110 Mitte:
+  Das mit dem \delta/2 ist ein mieser Trick, zugegeben! Das ist aber
+  durchaus ueblich bei komplexitaetstheoretischen Ergebnissen. Wir haben
+  hier etwas, das Komplexitaet O(log(\delta^-1) + d log q) ist. Da im O
+  die Existenz einer Konstante steckt, ist die Komplexitaet dieser Methode
+  fuer Fehlerwahrscheinlichkeit \delta/2 *dieselbe*, da der Faktor 2
+  in der Konstante verschwindet. Wir brauchen hier 2 Ereignisse, die 
+  beide eintreten muessen (in beiden Schritten keinen Fehler), deswegen 
+  reden wir von \delta/2, um am Ende einen Algorithmus mit
+  Fehlerwahrscheinlichkeit \delta zu beschreiben. Ich hatte versucht, Colva
+  davon zu ueberzeugen, dass wir etwas wie
+    O(2\delta^{-1} + d log q)
+  oder so schreiben, sie wollte das aber nicht, da sie sagte, Konstanten
+  haben im O nichts zu suchen. Das ist nun der Kompromiss, auf den wir uns
+  einigen konnten...
+  Ich habe eine Bemerkung eingefuegt, die sagt, dass der Faktor 2 in der
+  Konstante des O verschwindet.
+
+S. 111 unten:
+  VII.5.2 und VII.5.3 waren ziemlich knifflig, das Problem ist immer,
+  dass die Koerper E und L einmal als abstrakte Koerpererweiterungen
+  da sind, aber andererseits als Matrizen ueber F auftreten, die mit
+  den Gruppenelementen kommutieren. Man muss da sehr, sehr vorsichtig
+  sein mit Aussagen wie F_0[G] = L^{d' \times d'}. Ich habe da sehr
+  sorgfaeltig unterschieden und sehe im Moment keine Moeglichkeit,
+  in VII.5.2 = statt isomorph zu schreiben. Soweit ich sehe, kommt es aber
+  dann in VII.5.3 wirklich genau hin. Ich mache da dann irgendwann einen
+  explizit gegebenen Basiswechsel. Von da an ist dann L und E wirklich
+  als Matrizen in einer Weise realisiert, dass ich von Gleichheit
+  zu L^{d' \times d'} reden kann.
+
+S. 111 noch weiter unten:
+  Schon aus F-Dimensionsgruenden ist E^{d' x d'} eingebettet in F^{d x d}.
+  E ist e=d/d'-dimensional ueber F, also hat E^{d' x d'} Kodimension e
+  in F^{d x d}.
+
+S. 112 Mitte:
+  VII.5.3 scheint mir auch zu gelten, wenn F *ein* minimaler Koerper ist,
+  ueber dem G geschrieben werden kann. Es koennte wohl zunaechst so sein,
+  dass F keinen Teilkoerper hat, ueber dem G realisierbar ist, dass
+  aber ein Koerper mit weniger Elementen existiert, ueber dem G
+  realisierbar ist. Deswegen habe ich die Formulierung von VII.5.3
+  gelassen.
+
+S. 112 etwas weiter unten:
+  Der explizite Basiswechsel ist noetig, um von Gleichheit von F_0[G^t]
+  und L^{d' x d'} zu reden.
+
+S. 115 Theorem VII.5.9:
+  Deine harmlose Frage "wird die Existenz von c bewiesen?" hat mich dazu
+  gebracht, einige Aenderungen an dem Theorem und vor allem seinem
+  Beweis zu machen. Es war im Prinzip richtig, aber es war an ein paar
+  Stellen nicht besonders gut erklaert. Ich nehme nun auch an, dass F der
+  kleinstmoegliche Koerper ist. Die Existenz von c faellt dabei in der Tat
+  beim Beweis ab. Im Prinzip ist das Ganze Geschaeft wohlbekannt. Richard
+  Parker wuerde sicher sagen, dass er das seit 20 Jahren kennt. Das Neue
+  ist, dass wir zeigen, dass die Argumente, warum die MeatAxe ein c
+  rasch findet, hier auch gelten, wenn man nur Linearkombinationen ueber 
+  dem Primkoerper nimmt. Deswegen der ganze Eiertanz. Ich denke, auch die
+  Argumentation, warum man linear Unabhaengigkeit ueber K testen darf,
+  ist neu.
+
+S. 115 unten:
+  e ist der Grad des Zerfaellungskoerper und von Anfang an bekannt. Nur
+  F ist unbekannt.
+
