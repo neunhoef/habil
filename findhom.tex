@@ -207,7 +207,7 @@ $(n-m) \times (n-m)$-identity matrix.
 A group $G \le \GL(n,q)$ is a member of \DD2 if the natural module $V$ is
 absolutely irreducible and $G$ has a normal subgroup $N$ containing $Z$ 
 such that $V|_N$ is isomorphic as an $\F_q N$-module to a direct sum of
-absolutely irreducible modules that are not all isomorphic.
+irreducible modules that are not all isomorphic.
 }
 
 Note that 
@@ -224,8 +224,7 @@ of $V|_N$.
 \diffasch2
 We include in \DD2 the subgroups of the members of \CC2 that
 permute the homogeneous components of $V|_N$ transitively, but we exclude all groups
-acting not absolutely irreducibly and we add the condition that the
-irreducible $\F_q N$-summands of $V|_{N}$ are absolutely irreducible.
+acting not absolutely irreducibly.
 We also exclude groups in \CC2 for which the kernel of the permutation
 action is contained in the centre of $G$.
 
@@ -309,8 +308,8 @@ simple groups acting on an irreducible tensor product of two
 irreducible modules. The original
 definition of \CC4 uses a tensor product decomposition of $V$
 which is invariant under $G$.
-This follows from our conditions, see Proposition~\ref{tensorprop}. 
-Contrary to \CC4, we allow for \DD4 the dimensions of the tensor factors 
+This follows from our conditions, see Proposition~\ref{tensorprop}.
+Contrary to \CC4, we allow for \DD4 the dimensions of the tensor factors
 to be equal.
 
 \smallskip
@@ -565,17 +564,39 @@ $V|_N$ is a direct sum of irreducible $\F_q N$-modules which are all
 $G$-conjugates of one irreducible $\F_q N$-submodule $W \le V|_N$. In
 particular all these irreducible summands have the same dimension. 
 
-First we assume that $W$ is not absolutely irreducible.
-Then $\End_{\F_q N}(W)$ is a proper finite
-extension field of $\F_q$, say $\F_{q^s}$, and $W$ and $V|_N$
-both can be considered as $\F_{q^s}$-vector spaces of smaller dimension
+If there is more than one homogeneous component (i.e.~not all conjugates of
+$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \DD2
+(see \ref{descD2}),
+since the homogeneous components provide a direct sum decomposition that is
+preserved by $G$ and the summands are permuted transitively. 
+% The above
+% argument shows that all $G$-conjugates of $W$ are absolutely
+% irreducible because $W$ is.
+
+We assume from now on additionally that there is only one homogeneous
+component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
+Then $\dim W > 1$ because $N$ is not scalar.
+
+First we assume that $W$ is a proper subspace of $V$. If $W$ is not
+absolutely irreducible then the first part of Proposition~\ref{tensorprop}
+shows that $G$ is semilinear and contained in \DD3 (see \ref{descD3}). Otherwise we
+have shown that $G$ lies in \DD4 (see \ref{descD4}).
+
+We proceed to the case that $W = V|_N$, that is, the restriction
+$V|_N$ is irreducible.
+
+We first assume that $V|_N$ is not absolutely irreducible.
+Then $\End_{\F_q N}(V|_N)$ is a proper finite
+extension field of $\F_q$, say $\F_{q^s}$, and $V|_N$
+can be considered as an $\F_{q^s}$-vector space of smaller dimension
 such that the action of
-$N$ on them is $\F_{q^s}$-linear, because $V|_N$ is isomorphic to a direct
-sum of $G$-conjugates of $W$. Note that the action of $c \in \End_{\F_q
-N}(W)$ on $W$ can be transferred to a conjugate $Wg$ by setting
-$(wg)c := (wc)g$ for all $w \in W$ and $g \in G$ showing that $Wg$ is
-not absolutely irreducible as well.  
-We can embed $\F_{q^s} \le \End_{\F_q N}(V) \le \GL(n,q)$.
+$N$ on it is $\F_{q^s}$-linear.
+%, because $V|_N$ is isomorphic to a direct
+% sum of $G$-conjugates of $W$. Note that the action of $c \in \End_{\F_q
+% N}(W)$ on $W$ can be transferred to a conjugate $Wg$ by setting
+% $(wg)c := (wc)g$ for all $w \in W$ and $g \in G$ showing that $Wg$ is
+% not absolutely irreducible as well.  
+We can embed $\F_{q^s} = \End_{\F_q N}(V) \le \GL(n,q)$.
 
 We claim that the action of $G$ is $\F_{q^s}$-semilinear proving that $G$ lies
 in \DD3 (see \ref{descD3}). Let $c \in \GL(n,q)$ generate the
@@ -590,27 +611,6 @@ lies in \DD3 (see \ref{descD3}).
 
 From now on we assume that $W$ is absolutely irreducible and
 distinguish several cases.
-
-If there is more than one homogeneous component (i.e.~not all conjugates of
-$W$ are isomorphic to $W$ as $\F_q N$-modules), then $G$ lies in \DD2
-(see \ref{descD2}),
-since the homogeneous components provide a direct sum decomposition that is
-preserved by $G$ and the summands are permuted transitively. The above
-argument shows that all $G$-conjugates of $W$ are absolutely
-irreducible because $W$ is.
-
-We assume from now on additionally that there is only one homogeneous
-component, that is, all $Wg$ are isomorphic to $W$ as $\F_q N$-modules.
-Then $\dim W > 1$ because $N$ is non-scalar.
-
-First we assume that $W$ is a proper subspace of $V$. Let $d :=
-\dim_{\F_q}(W)$ such that $1 < d < n$. Since by assumption 
-all $G$-conjugates of $W$ are isomorphic to $W$ as $\F_q N$-modules,
-we have shown that $G$ lies in \DD4 (see \ref{descD4}).
-
-We proceed to the case that $W = V|_N$, that is, the restriction
-$V|_N$ is irreducible. We are still assuming that $W$ is
-absolutely irreducible.
 
 Recall that by assumption $\bar N$ is a minimal normal subgroup of $G/Z$.
 As such, by \cite[Theorem 4.3A.(iii)]{DixonMort}, it is
@@ -635,7 +635,10 @@ Sylow subgroups of $N$ consist of scalar matrices since $N/Z$ is
 elementary abelian. Thus the module $V|_R$ is absolutely irreducible
 and $R$ is not abelian.
 For $x,y \in R$, we have $1 = [x^r,y] = [x,y]^r$ since $x^r$ and 
-$[x,y]$ lie in $Z(R) = R \cap Z$. Therefore $R'=N'$ has exponent $r$ and
+$[x,y]$ lie in $Z(R) = R \cap Z$:
+\[ x^{-r}y^{-1}x^ry = x^{-r}y^{-1} x^{r-1}yx\cdot[x,y]^1
+   = \cdots = x^{-r}y^{-1}yx^r\cdot [x,y]^r. \] 
+Therefore $R'=N'$ has exponent $r$ and
 because it is contained in the cyclic group $Z(R) \le Z$ we have $|R'| =
 r = |N'|$.
 
@@ -717,13 +720,23 @@ $G$ which is not realisable over a subfield (since $G$ is not \DD5).
 \medskip
 In the rest of this section we present results relating our class
 definitions to those of Aschbacher and to other concepts of group
-representations.
+representations. The following proposition is also used in the previous
+proof of Theorem~\ref{Asch}.
 
-\begin{Prop}[\DD4 implies tensor decomposability]
+\begin{Prop}[$V|_N$ is homogeneous but $N$ is not scalar]
     \label{tensorprop}
-\index{tensor decomposable groups}%
-If a group $G \le \GL(n,q)$ lies in \DD4, then it is tensor decomposable,
-by which we mean the following:
+Let $G \le \GL(n,q)$ act absolutely irreducibly on its natural module $V =
+\F_q^{1 \times n}$ and $Z = Z(G)$ be the set of scalar matrices in $G$. Let
+$Z < N \triangleleft G$ be a normal subgroup such that $V|_N$ is reducible
+and homogeneous, that is, $V|_N$ is isomorphic to a direct sum 
+\[ V|_N = \bigoplus_{i=1}^k W_i \]
+of at least $2$ irreducible, pairwise isomorphic $\F_q N$-modules $W_i$.
+
+If one and thus all $W_i$ are not absolutely irreducible, then $G$ lies in
+class \DD3. 
+
+If all $W_i$ are absolutely irreducible, then $G$ is tensor 
+decomposable, by which we mean the following:
 There is a decomposition
 of\/ $V = V_1 \otimes V_2$ into a tensor product with 
 $1 < d_1 := \dim_{\F_q}(V_1) < n$
@@ -734,18 +747,28 @@ G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
 for all $v_1 \in V_1$ and $v_2 \in V_2$.
 \end{Prop}
 \proofbeg
-This proof is taken from Section~\ref{subsec:tensor} and thus from 
+This proof is an extended version of the one in
+Section~\ref{subsec:tensor}, which is originally from
 \cite[Section~6.6]{subfieldpaper}.
 
-We assume that $G$ lies in \DD4, so the natural module $V$ is
-absolutely irreducible and $G$ has a normal subgroup $N$ such that
-$V|_N$ is isomorphic to a direct sum of $k\ge 2$ modules which are all
-isomorphic to a single absolutely irreducible $\F_q N$-module $W$
-of dimension $d < n$.
+By Clifford theory, all $W_i$ have the same dimension and for every $i$
+there is an element $g_i \in G$ such that $W_i = W_1 \cdot g_i$. Because
+$N$ does not consist of scalar matrices by hypothesis, we have
+$\dim_{\F_q}(W_i) > 1$. Since the $W_i$ are pairwise isomorphic,
+all have isomorphic endomorphism rings. Let $W := W_1$ and $d :=
+\dim_{\F_q}(W)$.
 
-It immediately follows that we can choose a basis of $V$ such that all
-elements of $N$ are block diagonal matrices in which all diagonal blocks
-are identical of size $d$.
+We first do a base change
+such that every element of $N$ is represented by a block
+diagonal matrix in which all diagonal blocks are identical of size $d$.
+Let now $E := \End_{\F_q N}(W)$ and $s := \dim_{\F_q}(E)$. Note that
+$s$ is equal to $1$ if and only if all $W_i$ are absolutely irreducible.
+
+Since $W$ is
+irreducible and $\F_q$ is finite, we get by Schur's Lemma and Wedderburn's
+Theorem about finite division rings that $E$ is a field and $E \cong \F_{q^s}$. By our
+special choice of basis we have $E = \End_{\F_q N}(W_i) \subseteq \F_q^{d
+\times d}$ for all $i$.
 
 As $N \unlhd G$, for all $h \in N$ and $g \in G$,
  the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
@@ -773,7 +796,7 @@ $h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
       g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
       g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,d/n} \end{array} \right]
+      g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,n/d} \end{array} \right]
  = hg,
 \end{eqnarray*}
 where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
@@ -783,28 +806,161 @@ structure of the matrices in $N$ we get
 $g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
 all $h \in N$.
 
-But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
-are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{d \times d}$ with
+By hypothesis, the matrix representations $D$ and $D^g$ of $N$
+are isomorphic. Thus there is an invertible matrix $T \in \F_q^{d \times d}$ with
 $T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
-since the representation $D$ is absolutely irreducible,
+since the representation $D$ is irreducible,
 the matrix $T$ is invertible and unique 
-up to multiplication by an element in $C_{\GL(d,q)}(D(N))$, which
-consists only of the scalar matrices.
+up to left multiplication by an element of $C_{\GL(d,q)}(D(N))$, which
+is isomorphic  as a group to the group of units of the extension field 
+$E = \End_{\F_q N}(W) \cong \F_{q^s}$.
 
-This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
-\{ 1, \ldots, d/n \}$ there
-is a unique element $u_{i,j} \in \F_q$ (possibly $0$) with 
-$g_{i,j} = T \cdot u_{i,j}$. Thus we have shown that with respect to
+This shows that for every pair $(i,j) \in \{ 1, \ldots, n/d \} \times 
+\{ 1, \ldots, n/d \}$ there
+is a unique element $e_{i,j} \in E$ (possibly $0$) with 
+$g_{i,j} = e_{i,j} \cdot T$. Recall that we can view $E$ as being embedded
+into $\F_q^{d \times d}$.
+
+We first consider the non-absolutely irreducible case that $s > 1$.
+Let $c \in E \subseteq \F_q^{d \times d}$ be a generator of the 
+multiplicative group of $E$ and let
+\[ C := \left[ \begin{array}{c|c|c|c}
+      c       & 0       & \cdots &     0    \\ \hline
+         0    &   c     &\cdots &      0    \\ \hline
+      \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+         0    &    0    & \cdots&    c   \end{array} \right] \]
+be the block-diagonal matrix having $c$ in all blocks on the diagonal.
+We denote elements of this form by $\mathbf{1} \otimes c$ in the rest of
+this proof.
+
+We compute now $g^{-1}Cg$ where $g$ is an arbitrary element of $G$, which
+we cut into $d \times d$ blocks as above such that we have 
+$g_{i,j} = e_{i,j} \cdot T$ for some fixed $T \in \GL(d,q)$ and
+$e_{i,j} \in E \subseteq \F_q^{d \times d}$. It follows that the
+$(i,j)$-block of $g^{-1}$ is equal to $T^{-1} \cdot f_{i,j}$, where
+$(f_{i,j}) \in E^{(n/d)\times(n/d)}$ is the inverse of the
+matrix $(e_{i,j}) \in E^{(n/d)\times(n/d)}$.
+
+We can now compute that the $(i,j)$-block of $g^{-1}Cg$ is equal to
+\[ (g^{-1}Cg)_{i,j} = \sum_{k=1}^{n/d} T^{-1} \cdot f_{i,k} \cdot c \cdot
+e_{k,j} \cdot T = T^{-1}c\cdot \left(\sum_{k=1}^{n/d} f_{i,k} \cdot
+e_{k,j}\right) \cdot T = \delta_{i,j} \cdot T^{-1}cT, \]
+since $c \in E$ and $E$ is commutative.
+That is, $g^{-1}Cg$ is a block-diagonal matrix where all diagonal blocks
+are equal to $T^{-1}cT$. Since $D^g(h) = T^{-1} \cdot D(h)\cdot T$ for all
+$h \in N$, we get that $T^{-1}cT$ commutes with all $D^g(h) = D(g^{-1}hg)$
+and thus with all $D(h)$ for $h \in N$, since $g^{-1}hg$ runs through $N$
+if $h$ does. But this means that $T^{-1}cT$ is contained in $E$ and thus
+is equal to some power of $c$ itself.
+
+Since the conjugation action of $G$ on the set of elements $1 \otimes c^k$
+is multiplicative and additive in $c^k$, we conclude that $G$ acts as 
+field automorphisms on $E$ in this way. The action is not trivial since
+$G$ itself acts absolutely irreducible. The embedding of the elements of $E$ 
+into the diagonal blocks allows us now to view $V = \F_q^{1 \times n}$
+as an $E$-vector space of dimension $n/s$ extending the $\F_q$-vector space 
+structure.  Our computations directly show that $G$ is
+$\F_{q^s}$-semilinear in the sense of \ref{descD3} and thus contained in
+\DD3.
+
+We now consider the absolutely irreducible case $s=1$.
+Here we have shown that with respect to
 the above choice of basis, every element $g$ is equal to a Kronecker 
-product of some matrix $U \in \F_q^{n/d \times n/d}$ with a matrix
-$T \in \F_q^{d \times d}$. Since $g$ is invertible both 
+product of some matrix $U \in \F_q^{(n/d) \times (n/d)}$ with a matrix
+$T \in \F_q^{d \times d}$. Since $g$ is invertible, both 
 $U$ and $T$ are invertible. 
 
 This provides an $\F_q$-linear isomorphism of 
 $\F_q^n$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
 such that all $g \in G$ act as a Kronecker product proving the
-proposition.
+rest of the proposition.
 \proofend
+
+% \begin{Prop}[\DD4 implies tensor decomposability]
+% \index{tensor decomposable groups}%
+% If a group $G \le \GL(n,q)$ lies in \DD4, then it is tensor decomposable,
+% by which we mean the following:
+% There is a decomposition
+% of\/ $V = V_1 \otimes V_2$ into a tensor product with 
+% $1 < d_1 := \dim_{\F_q}(V_1) < n$
+% and $d_2 := \dim_{\F_q}(V_2)$ that is preserved by $G$, 
+% that is, for every $g \in
+% G$ there are elements $g_1 \in \End_{\F_q}(V_1)$ and $g_2 \in
+% \End_{\F_q}(V_2)$ such that $(v_1 \otimes v_2) g = v_1 g_1 \otimes v_2 g_2$
+% for all $v_1 \in V_1$ and $v_2 \in V_2$.
+% \end{Prop}
+% \proofbeg
+% This proof is taken from Section~\ref{subsec:tensor} and thus from 
+% \cite[Section~6.6]{subfieldpaper}.
+% 
+% We assume that $G$ lies in \DD4, so the natural module $V$ is
+% absolutely irreducible and $G$ has a normal subgroup $N$ such that
+% $V|_N$ is isomorphic to a direct sum of $k\ge 2$ modules which are all
+% isomorphic to a single absolutely irreducible $\F_q N$-module $W$
+% of dimension $d < n$.
+% 
+% It immediately follows that we can choose a basis of $V$ such that all
+% elements of $N$ are block diagonal matrices in which all diagonal blocks
+% are identical of size $d$.
+% 
+% As $N \unlhd G$, for all $h \in N$ and $g \in G$,
+%  the product $g^{-1}hg \in N$ and thus $g^{-1} h g$ is also 
+% a block diagonal matrix in which all $d \times d$-blocks along the diagonal
+% are identical. Fixing $g$, we conclude that $g\cdot (g^{-1}hg) = hg$ for all
+% $h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
+% \begin{eqnarray*}
+%    &g \cdot (g^{-1}hg) & 
+%  = \left[ \begin{array}{c|c|c|c}
+%       g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
+%       g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
+%       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+%       g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,n/d} \end{array} \right]
+% \cdot \left[ \begin{array}{c|c|c|c}
+%       D^g(h) & 0   & \cdots &      0    \\ \hline
+%          0   &D^g(h)&\cdots &      0    \\ \hline
+%       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+%          0    &    0    & \cdots& D^g(h) \end{array} \right] \\
+%  &=& \left[ \begin{array}{c|c|c|c}
+%       D(h)    & 0       & \cdots &     0    \\ \hline
+%          0    &D(h)     &\cdots &      0    \\ \hline
+%       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+%          0    &    0    & \cdots& D(h)   \end{array} \right]
+% \cdot \left[ \begin{array}{c|c|c|c}
+%       g_{1,1} & g_{1,2} & \cdots & g_{1,n/d} \\ \hline
+%       g_{2,1} & g_{2,2} & \cdots & g_{2,n/d} \\ \hline
+%       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
+%       g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,d/n} \end{array} \right]
+%  = hg,
+% \end{eqnarray*}
+% where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
+% representing $h$ on the module $W$ and $D^g(h) = D(g^{-1}hg)$ is the
+% same representation twisted by the element $g$. By the block diagonal
+% structure of the matrices in $N$ we get 
+% $g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
+% all $h \in N$.
+% 
+% But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
+% are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{d \times d}$ with
+% $T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
+% since the representation $D$ is absolutely irreducible,
+% the matrix $T$ is invertible and unique 
+% up to multiplication by an element in $C_{\GL(d,q)}(D(N))$, which
+% consists only of the scalar matrices.
+% 
+% This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
+% \{ 1, \ldots, d/n \}$ there
+% is a unique element $u_{i,j} \in \F_q$ (possibly $0$) with 
+% $g_{i,j} = T \cdot u_{i,j}$. Thus we have shown that with respect to
+% the above choice of basis, every element $g$ is equal to a Kronecker 
+% product of some matrix $U \in \F_q^{n/d \times n/d}$ with a matrix
+% $T \in \F_q^{d \times d}$. Since $g$ is invertible both 
+% $U$ and $T$ are invertible. 
+% 
+% This provides an $\F_q$-linear isomorphism of 
+% $\F_q^n$ and the tensor product $\F_q^{n/d} \otimes_{\F_q} \F_q^d$
+% such that all $g \in G$ act as a Kronecker product proving the
+% proposition.
+% \proofend
 
 \begin{DefProp}[{Tensor induction of (projective) representations}]
 \label{tensorinduction}
