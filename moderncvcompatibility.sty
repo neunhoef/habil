@@ -1,0 +1,51 @@
+%% start of file `moderncvcompatibility.sty'.
+
+%-------------------------------------------------------------------------------
+%                identification
+%-------------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{moderncvcompatibility}[2006/05/02 v0.4 modern curriculum vitae compatibility patches]
+
+
+%-------------------------------------------------------------------------------
+%                required packages
+%-------------------------------------------------------------------------------
+
+
+%-------------------------------------------------------------------------------
+%                package options
+%-------------------------------------------------------------------------------
+% old casual option (version 0.1)
+%\DeclareOption{casual}{\input{moderncvstylecasual.sty}}
+
+% old classic option (version 0.1)
+%\DeclareOption{classic}{\input{moderncvstyleclassic.sty}}
+
+\DeclareOption*{}
+
+% process given options
+\ProcessOptions\relax
+
+%-------------------------------------------------------------------------------
+%                definitions
+%-------------------------------------------------------------------------------
+% compatibility with version 0.1
+\newcommand*{\cvresume}[2]{\cvlistdoubleitem{#1}{#2}}
+
+% compatibility with version 0.2
+% section, cvline, ... with width argument...
+%\newcommand*{\section}[2][0.825]{%
+%  \closesection{}%
+%  \@sectionopentrue%
+%  \addcontentsline{toc}{part}{#2}
+%  \begin{longtable}[t]{@{}r@{\hspace{.025\textwidth}}@{}p{#1\textwidth}@{}}%
+%%  \colorrule{.15\textwidth}&\mbox{\color{sectiontitlecolor}\sectionfont#2}\\[1ex]}%
+%  {\color{sectionrectanglecolor}\rule{0.15\textwidth}{1ex}}&\mbox{\color{sectiontitlecolor}\sectionfont#2}\\[1ex]}%
+%\newcommand*{\cvline}[3][.825]{%
+%  \begin{minipage}[t]{\hintscolumnwidth}\raggedleft\small\sffamily#2\end{minipage}&\begin{minipage}[t]{\maincolumnwidth}#3\end{minipage}\\}
+%\newcommand*{\cvitem}[3][.825]{%
+%  \cvline[#1]{#2}{#3\vspace*{.75em}}}   % the \vspace*{} inside the cvline environment is a hack... (should conceptually be outside the environment)
+
+\endinput
+
+%% end of file `moderncvstylethemecasual.sty'.
