@@ -1,9 +1,9 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: grease.fig
 %%Creator: fig2dev Version 3.2 Patchlevel 5
-%%CreationDate: Mon Feb 23 23:01:11 2009
+%%CreationDate: Sat Feb 28 10:06:28 2009
 %%For: neunhoef@draco (Max Neunhöffer,,,)
-%%BoundingBox: 0 0 374 141
+%%BoundingBox: 0 0 313 141
 %Magnification: 1.0000
 %%EndComments
 %%BeginProlog
@@ -95,7 +95,7 @@ end
 
 /pageheader {
 save
-newpath 0 141 moveto 0 0 lineto 374 0 lineto 374 141 lineto closepath clip newpath
+newpath 0 141 moveto 0 0 lineto 313 0 lineto 313 141 lineto closepath clip newpath
 -9.2 155.3 translate
 1 -1 scale
 $F2psBegin
@@ -221,10 +221,6 @@ n 1993 1350 m
 7.500 slw
 n 1149 1194 m
  1149 1506 l gs 0.00 setgray ef gr gs col0 s gr 
-% Polyline
-0.000 slw
-n 5085 1350 m
- 6075 1350 l gs 0.00 setgray ef gr 
 % here ends figure;
 pagefooter
 showpage

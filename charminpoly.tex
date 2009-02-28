@@ -766,7 +766,7 @@ for the $d+1$ runs of Algorithm~\ref{clean} is at most
 \[
    = s^{(2)}(m+d-1,m-1) + (2n+2)s^{(1)}(m+d-1,m-1) + (n+2)d +2(m+d)n.
 \]
-\enlargethispage{1\baselineskip}%
+%\enlargethispage{1\baselineskip}%
 In addition, we have to do $d$ multiplications of $v'$ with $M$, which require
 $2n^2$ elementary field operations each, and finally the computation of $b$
 requires $2s^{(1)}(m+d,0)$ elementary field operations, again since 
@@ -1174,8 +1174,9 @@ Let $w:=w_{i,1}$, with $w_{i,1}$ as in (\ref{primary}), so that $V=X\oplus Y$ wi
 $X, Y$ invariant under $M$ and $X=\la w\ra_M$. Then $\mu_{M,X}=
 q_i^{f}$. We may identify the primary cyclic $\F[x]$-module 
 $X$ with  $w\F[x]$, which is
-isomorphic to the module $\F[x]/(q_i^{f}\F[x])$,
-and in turn this is uniserial with composition series
+isomorphic to the module $\F[x]/(q_i^{f}\F[x])$ via the map
+$w h \mapsto h + q_i^{f} \F[x]$ for $h \in \F[x]$.
+This module is uniserial with composition series
 \[ 
 0 <   \frac{q_i^{f-1}\F[x]}{q_i^{f}\F[x]}
      <   \frac{q_i^{f-2}\F[x]}{q_i^{f}\F[x]} <
@@ -1185,7 +1186,7 @@ and in turn this is uniserial with composition series
 Thus, $X$ has a unique maximal $\F[x]$-submodule, namely  $X':=\la w q_i(M)\ra_M$,
 and $X'$ has codimension $r:=\deg(q_i)$ in $X$. 
 
-\enlargethispage{1\baselineskip}
+\enlargethispage{2\baselineskip}
 As discussed above, each vector $v\in V$ has a 
 unique expression as $v=x+y$ with $x\in X, y\in Y$. Moreover
 $\ord_M(v)$ is the least common multiple of $\ord_M(x)$ and $\ord_M(y)$.
@@ -1303,6 +1304,8 @@ the order polynomials $\ord_M(vY)$ and $\ord_{YMY^{-1}}(v)$ are equal for every
 $v \in V$.
 
 \begin{figure}
+\caption{Overview of the matrix $YMY^{-1}$}
+\label{bigmat}
 \[ \left[ \ \begin{array}{cccccc|cccccc|c|cccccc}
 \cline{1-6}
   0 & 1 &      &      &   &   \\
@@ -1329,8 +1332,6 @@ $v \in V$.
   {}*&*&*&*&*&*& *&*&*&*&*&*&* &*& * &   *  &   *  & * & * \\
 \hline
 \end{array} \ \right] \]
-\caption{Overview of the matrix $YMY^{-1}$}
-\label{bigmat}
 \end{figure}
 
 For the convenience of the reader we display the matrix
@@ -1477,6 +1478,7 @@ further cost of at most
 $ds_i$, making a total cost to compute $wf(M')$ of at most
 $(2d+1)s_i +2d\sum_{r=1}^i s_r $ elementary field operations.
 
+\enlargethispage{1\baselineskip}
 The polynomial $g(x)$ is available in factorised form,
 say $g(x)=\prod_{s=1}^uf_s(x)$ with $\deg f_s=m_s$,
 where $\sum_{s=1}^um_s=\deg g=d_i$. From the previous
@@ -1776,8 +1778,9 @@ with coefficient $2d(k-j+1)$. Thus the second term is at most
 Adding this to the upper bound for the first term we get at most
 $dn(k-u)(k+u+4)$ as claimed in the proposition.
 \proofend
-\enlargethispage{-2\baselineskip}
+%\enlargethispage{-2\baselineskip}
 
+\pagebreak
 \medskip
 For the following discussion we need a lemma:
 
@@ -1993,7 +1996,7 @@ $\varepsilon = 1/100$ for all runs.
 \subsection{The test matrices}
 Next, we describe the matrices $M_1, \ldots, M_{10}$ we used.
 
-\enlargethispage{1\baselineskip}
+%\enlargethispage{1\baselineskip}
 (a) \quad The matrices $M_1$ and $M'_1$ were purely random matrices from
 $\F_3^{1000\times 1000}$ with all entries
 chosen with uniform distribution from the field $\F_3$. Such matrices
@@ -2047,7 +2050,7 @@ with older techniques. The reason for this is that the high dimensional
 cyclic subspace is spun up many times in the standard minimal polynomial
 algorithm as for the matrix $M_2$.
 
-\enlargethispage{-1\baselineskip}
+%\enlargethispage{-1\baselineskip}
 For $M_4 \in \F_3^{1200 \times 1200}$ we chose 400 cyclic summands with
 minimal polynomial $(x+1)^2$ plus 400~cyclic summands with
 minimal polynomial $(x+1)$.
@@ -2078,6 +2081,7 @@ $f(x) \in \F_{10}[x]$ of degree $10$ and added cyclic spaces with
 respective minimal polynomials $f^{10}$, $f$, $f^2$, $f^3$, $f$, $f^2$ and
 $f^3$.
 
+\pagebreak
 (d)\quad The matrices $M_8$ and $M_9$ were standard generators of 
 ${\rm GL}(400,17)$, 
 conjugated by the pseu\-do-ran\-dom element $M_{10}$ of the same group.
@@ -2092,6 +2096,8 @@ very quickly discovered that the least common multiple of the relative order
 polynomials was already equal to the characteristic polynomial.
 
 \begin{figure}
+\caption{Timings for minimal polynomial computation}
+\label{timings}
 \begin{center}
 \hspace*{-5mm}
 \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}
@@ -2129,8 +2135,6 @@ $M_{10}$& 17  &  400 & 0.26 & 0.19 & 0.22 & 0.22 & 0 & 0 & 0 & 1 \\
 \medskip
 $^*$ averaged over 10 runs
 \end{center}
-\caption{Timings for minimal polynomial computation}
-\label{timings}
 \end{figure}
 
 %\bigskip\noindent

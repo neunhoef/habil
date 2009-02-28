@@ -125,6 +125,7 @@ packing $w$ prime field elements into a word.
 We illustrate this layout in the following example for $p=5$ and thus
 $e=4$ on a machine with $32$-bit word length.
 
+\pagebreak
 \begin{verbatim}
   bit             3322|2222|2222|1111|1111|1100|0000|0000
   number:         1098|7654|3210|9876|5432|1098|7654|3210
@@ -487,6 +488,9 @@ marked with ``L'' are results obtained using the {\sf GAP} library.
 In the next section we discuss some aspects of these results.
 
 \begin{table}[ht]
+\caption{Memory throughput for vector operations, C: {\sf cvec} package, 
+L: {\sf GAP} library}
+\label{memthrough}
 \begin{center}
 \begin{tabular}{|l|r|r|r|r|r|r|}
 \hline
@@ -558,9 +562,6 @@ $\F_{243}$, vectors $32\cdot 10^6 B$, $w := sw$
 \hline
 \end{tabular}
 \end{center}
-\caption{Memory throughput for vector operations, C: {\sf cvec} package, 
-L: {\sf GAP} library}
-\label{memthrough}
 \end{table}
 
 \subsection{Discussion of results}
@@ -749,16 +750,17 @@ look up the linear combination and add it to the result. The number
 $\ell$ of elements in each group is called ``grease level''.
 
 \begin{figure}[ht]
+\caption{Illustration for Vector-matrix multiplication and grease}
+\index{grease}%
+\label{grease}
 \begin{center}
 \begin{picture}(0,0)%
 \pgfdeclareimage{grease_pstex}{grease_pstex}%
 \pgfuseimage{grease_pstex}%
 \end{picture}%
 \input{grease.pstex_t}
+\hspace*{2cm}
 \end{center}
-\caption{Illustration for Vector-matrix multiplication and grease}
-\index{grease}%
-\label{grease}
 \end{figure}
 
 This technique is illustrated pictorially in Figure~\ref{grease}. There
@@ -906,7 +908,7 @@ The third method is to use the methods of Strassen and Winograd to
 \index{Strassen}\index{Winograd}%
 get a lower exponent than $3$~in the complexity of matrix multiplication
 of square matrices.
-This produces cache locality
+This latter method produces cache locality
 automatically, therefore we only discuss the second method briefly below.
 For some additional discussion of caches see Section~\ref{sec:cache}. 
 
@@ -967,28 +969,28 @@ kB second level cache running at 2.4~GHz. The displayed behaviour is
 typical and holds also for other finite fields.
 
 \begin{figure}[ht]
+\caption{Multiplication times over $\F_2$ against matrix dimension
+using grease}
+\index{grease}%
+\label{matmulgrease}
 \begin{center}
 %\includegraphics[width=14cm]{matmulF2grease}
 \pgfdeclareimage[width=14cm]{matmulF2grease}{matmulF2grease}
 \pgfuseimage{matmulF2grease}
 \end{center}
-\caption{Multiplication times over $\F_2$ against matrix dimension
-using grease}
-\index{grease}%
-\label{matmulgrease}
 \end{figure}
 
 \begin{figure}[ht]
-\begin{center}
-%\includegraphics[width=14cm]{matmulF2grease_scaled}
-\pgfdeclareimage[width=14cm]{matmulF2grease_scaled}{matmulF2grease_scaled}
-\pgfuseimage{matmulF2grease_scaled}
-\end{center}
 \caption{Multiplication times over $\F_2$ against matrix dimension
 using grease
 (magnification)}
 \label{matmulgrease_scaled}
 \index{grease}%
+\begin{center}
+%\includegraphics[width=14cm]{matmulF2grease_scaled}
+\pgfdeclareimage[width=14cm]{matmulF2grease_scaled}{matmulF2grease_scaled}
+\pgfuseimage{matmulF2grease_scaled}
+\end{center}
 \end{figure}
 
 The actual measurements are depicted by little $\times$ signs and
@@ -1082,6 +1084,9 @@ means that the trick is used twice, that is, the matrices are cut once
 and the pieces are cut once again.
 
 \begin{table}[ht]
+\caption{Matrix multiplication times over $\F_2$ using Winograd}
+\label{MatMulWinograd2}
+\index{Winograd}%
 \begin{center}
 \begin{tabular}{|r||r|r|r|r|}
 \hline
@@ -1108,9 +1113,6 @@ $n$ & Wino 0 & Wino 1 & Wino 2 & Wino 3 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Matrix multiplication times over $\F_2$ using Winograd}
-\label{MatMulWinograd2}
-\index{Winograd}%
 \end{table}
 
 One can observe that it is not true that the bigger the matrices are
@@ -1127,6 +1129,9 @@ fields as can be seen by comparison with the field $\F_3$ for which we
 show some analogous timings in Table~\ref{MatMulWinograd3}.
 
 \begin{table}[ht]
+\caption{Matrix multiplication times over $\F_3$ using Winograd}
+\label{MatMulWinograd3}
+\index{Winograd}%
 \begin{center}
 \begin{tabular}{|r||r|r|r|r|}
 \hline
@@ -1153,9 +1158,6 @@ $n$ & Wino 0 & Wino 1 & Wino 2 & Wino 3 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Matrix multiplication times over $\F_3$ using Winograd}
-\label{MatMulWinograd3}
-\index{Winograd}%
 \end{table}
 
 A good theoretical explanation of these findings is difficult, in
@@ -1182,20 +1184,20 @@ $2000$--$4500$ is repeated in the range $5000$--$9000$ and possibly
 above.
 
 % \begin{figure}[ht]
+% \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+% \label{matmulf2}
 % \begin{center}
 % \includegraphics[width=14cm]{matmulF2_all}
 % \end{center}
-% \caption{Matrix multiplication times over $\F_2$ against matrix dimension}
-% \label{matmulf2}
 % \end{figure}
 % 
 % \begin{figure}[ht]
-% \begin{center}
-% \includegraphics[width=14cm]{matmulF2_low}
-% \end{center}
 % \caption{Matrix multiplication times over $\F_2$ against matrix dimension
 % (magnification)}
 % \label{matmulf2scaled}
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF2_low}
+% \end{center}
 % \end{figure}
 % 
 % We want to underpin this claim by experimental evidence. In
@@ -1241,11 +1243,11 @@ above.
 % $\F_2$ for matrices of at least size $1600 \times 1600$.
 % 
 % \begin{figure}[ht]
+% \caption{Matrix multiplication times over $\F_7$ against matrix dimension}
+% \label{matmulf7}
 % \begin{center}
 % \includegraphics[width=14cm]{matmulF7_all}
 % \end{center}
-% \caption{Matrix multiplication times over $\F_7$ against matrix dimension}
-% \label{matmulf7}
 % \end{figure}
 % 
 % For the field with $7$ elements the situation is similar,
@@ -1253,12 +1255,12 @@ above.
 % analogously. Here the break-even point lies at about $600$.
 % 
 % \begin{figure}[ht]
-% \begin{center}
-% \includegraphics[width=14cm]{matmulF7_low}
-% \end{center}
 % \caption{Matrix multiplication times over $\F_7$ against matrix dimension
 % (magnification)}
 % \label{matmulf7scaled}
+% \begin{center}
+% \includegraphics[width=14cm]{matmulF7_low}
+% \end{center}
 % \end{figure}
 % 
 % For the field with $3^5 = 243$ elements the situation is even more extreme.
@@ -1269,11 +1271,11 @@ above.
 % needs about $450$ megabytes in main memory.
 % 
 % \begin{figure}[ht]
+% \caption{Matrix multiplication times over $\F_{243}$ against matrix dimension}
+% \label{matmulF243}
 % \begin{center}
 % \includegraphics[width=14cm]{matmulF243_all}
 % \end{center}
-% \caption{Matrix multiplication times over $\F_{243}$ against matrix dimension}
-% \label{matmulF243}
 % \end{figure}
 % 
 % The behaviour for other finite fields is similar. 
@@ -1326,23 +1328,23 @@ The better complexity begins to show with a few outliers following
 the pattern observed above.
 
 \begin{figure}[ht]
+\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
+\label{matmulf2}
 \begin{center}
 %\includegraphics[width=14cm]{matmulF2_all}
 \pgfdeclareimage[width=14cm]{matmulF2_all}{matmulF2_all}
 \pgfuseimage{matmulF2_all}
 \end{center}
-\caption{Matrix multiplication times over $\F_2$ against matrix dimension}
-\label{matmulf2}
 \end{figure}
 
 \begin{figure}[ht]
+\caption{Matrix multiplication times over $\F_3$ against matrix dimension}
+\label{matmulf3}
 \begin{center}
 %\includegraphics[width=14cm]{matmulF3_all}
 \pgfdeclareimage[width=14cm]{matmulF3_all}{matmulF3_all}
 \pgfuseimage{matmulF3_all}
 \end{center}
-\caption{Matrix multiplication times over $\F_3$ against matrix dimension}
-\label{matmulf3}
 \end{figure}
 
 % \subsection{Semi echelonisation}
@@ -1416,6 +1418,8 @@ the pattern observed above.
 % echelon form.
 % 
 % \begin{figure}[ht]
+% \caption{Algorithm \textsf{CleanRow}}
+% \label{AlgCleanRow}
 % \hrule
 % \vspace*{1mm}
 % \begin{algorithmic}
@@ -1438,8 +1442,6 @@ the pattern observed above.
 % \end{algorithmic}
 % \vspace*{1mm}
 % \hrule
-% \caption{Algorithm \textsf{CleanRow}}
-% \label{AlgCleanRow}
 % \end{figure}
 % 
 % \begin{Prop}[Analysis of Algorithm~\ref{AlgCleanRow} \textsf{CleanRow}]

@@ -457,7 +457,7 @@ Since $V$ is absolutely irreducible, so is each factor.
 
 \begin{Prop} [Eigenspace decomposition] \label{prop:eigenspace} 
 Let
-$\rho(g) \in G$ have all eigenvalues in  $k$.
+$\rho(g) \in \GL(n,k)$ have all eigenvalues in  $k$.
 Then $V$ is a vector space direct sum 
 \[
 V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \cdots \oplus V_{\lambda_s},
@@ -999,6 +999,7 @@ $F$-scalar matrices are central in $F^{d \times d}$, the theorem
 follows immediately.
 \end{proof}
 
+\enlargethispage{1\baselineskip}
 
 {} From now on we assume that the equivalent statements in Lemma~\ref{extsca}
 hold for some subfield $F$ of $K$. We now develop some theory which leads to 
@@ -1246,7 +1247,8 @@ Each attempt needs $O(md^3)$ field operations.
 \begin{proof}
 Let $B = \{ b_1, \ldots, b_f \}$ and $\tilde{V}$ be as in the paragraph
 before Lemma~\ref{degsplittingfield} and let $E := \End_{F[G^r]}(\F^{1
-\times d})$, then by Lemma~\ref{degsplittingfield}, we have $e = [E:F]$.
+\times d})$, then by Lemma~\ref{degsplittingfield}, we have $e = [E:F]$
+and know it in advance, since we know $\End_{KG}(V)$ by a MeatAxe run.
 
 We apply the standard basic technique to 
 $V \cong \bigoplus_{i=1}^f b_i\tilde{V}$, 
@@ -1790,7 +1792,7 @@ cost for finding an irreducible subfactor is
 $O(sd^3 \log(\delta^{-1} \log d))$.
 \end{proof}
 
-\begin{Theo} [Construction of block action] \label{thm:imp_reduct}
+\begin{Theo} [Construction of a block action] \label{thm:imp_reduct}
 Let $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
 projective version, and let $1 > \delta > 0$ be given. Let $N =
 \langle n_1, \ldots, n_s \rangle \unlhd G$ be known (by a MeatAxe
@@ -1874,6 +1876,8 @@ this fails to find a block system, then (assuming $H$ has the same
 submodule structure as $N$) there is only one homogeneous component,
 corresponding to $S$.
 
+%\enlargethispage{-2\baselineskip}
+\pagebreak
 \begin{Theo} [Reduction for single homogeneous component]
 Let  $G = \langle g_1, \ldots, g_m \rangle \leq \GL(d, q)$ or its
 projective version be absolutely irreducible, and let $1 > \delta > 0$ be given.
@@ -1919,10 +1923,10 @@ $h \in N$. If we now cut $g$ into $n \times n$-blocks, we get:
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
       g_{d/n,1}&g_{d/n,2}& \cdots& g_{d/n,d/n} \end{array} \right]
 \cdot \left[ \begin{array}{c|c|c|c}
-      D^g(h) & 0   & \cdots &      0    \\ \hline
-         0   &D^g(h)&\cdots &      0    \\ \hline
+      D^{g^{-1}}(h) & 0   & \cdots &      0    \\ \hline
+         0   &D^{g^{-1}}(h)&\cdots &      0    \\ \hline
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-         0    &    0    & \cdots& D^g(h) \end{array} \right] \\
+         0    &    0    & \cdots& D^{g^{-1}}(h) \end{array} \right] \\
  &=& \left[ \begin{array}{c|c|c|c}
       D(h)    & 0       & \cdots &     0    \\ \hline
          0    &D(h)     &\cdots &      0    \\ \hline
@@ -1936,25 +1940,25 @@ $h \in N$. If we now cut $g$ into $n \times n$-blocks, we get:
  = hg,
 \end{eqnarray*}
 where the $g_{i,j}$ are $n \times n$-matrices, $D(h)$ is a matrix
-representing $h$ on the module $S$ and $D^g(h) = D(g^{-1}hg)$ is the
-same representation twisted by the element $g$. By the block diagonal
+representing $h$ on the module $S$ and $D^{g^{-1}}(h) = D(g^{-1}hg)$ is the
+same representation twisted by the element $g^{-1}$. By the block diagonal
 structure of the matrices in $N$ we get 
-$g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
+$g_{i,j} \cdot D^{g^{-1}}(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
 all $h \in N$.
 
-But by hypothesis, the matrix representations $D$ and $D^g$ of $N$
+But by hypothesis, the matrix representations $D$ and $D^{g^{-1}}$ of $N$
 are isomorphic. Thus there is a nonzero matrix $T \in \F_q^{n \times n}$ with
-$T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
+$T \cdot D^{g^{-1}}(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
 since the representation $D$ is irreducible,
 the matrix $T$ is invertible and unique 
-up to multiplication by an element of $C_{\GL(n,q)}(D(N))$, which
+up to left multiplication by an element of $C_{\GL(n,q)}(D(N))$, which
 is isomorphic  as a group to the group of units of the extension field 
 $\End_{\F_q N}(S) \cong \F_{q^e}$.
 
 This shows that for every pair $(i,j) \in \{ 1, \ldots, d/n \} \times 
 \{ 1, \ldots, d/n \}$ there
 is a unique element $e_{i,j} \in \End_{\F_q N}(S)$ (possibly $0$) with 
-$g_{i,j} = T \cdot e_{i,j}$. Thus we have shown that with respect to
+$g_{i,j} = e_{i,j} \cdot T$. Thus we have shown that with respect to
 the above choice of basis, every element $g$ is equal to a Kronecker 
 product of some matrix in $U \in \F_{q^e}^{d/n \times d/n}$ with a matrix
 $T \in \F_q^{n \times n}$. Since $g$ is invertible both 

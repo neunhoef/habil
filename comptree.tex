@@ -239,14 +239,14 @@ a further reduction.
 \index{leaf}%
 
 \begin{figure}
+\caption{A composition tree}
+\label{comptreefig}
+\index{composition tree}%
 \begin{center}
 %\includegraphics[width=2.5in]{comptree}
 \pgfdeclareimage[width=2.5in]{comptree}{comptree}%
 \pgfuseimage{comptree}%
 \end{center}
-\caption{A composition tree}
-\label{comptreefig}
-\index{composition tree}%
 \end{figure}
 
 To make this recursion work we have to say quite carefully what has to
@@ -261,7 +261,7 @@ generators and not in the original ones. This is the reason why we have to
 refine the formulation once more. This time we present the final
 formulation.
 
-\pagebreak
+%\pagebreak
 \begin{Problem}[Constructive recognition --- final formulation]
 \label{ProbCR3}\index{constructive recognition!final formulation}%
 \index{constructive recognition problem}\index{CRP}%
@@ -578,7 +578,10 @@ the generic procedure by returning one of the four values in
 Table~\ref{methselresults}.
 
 \begin{table}[ht]
-\begin{tabular}{lp{4in}}
+\caption{Possible results of a find homomorphism method}
+\label{methselresults}
+\vspace*{3mm}
+\begin{tabular}{lp{4.2in}}
 \texttt{true}: &
    The method was successful and has either set up a
    leaf or a non-leaf node. For details see below. \\
@@ -594,8 +597,6 @@ Table~\ref{methselresults}.
    but it might become applicable later, provided new knowledge is
    found out about the group $G$.
 \end{tabular}
-\caption{Possible results of a find homomorphism method}
-\label{methselresults}
 \end{table}
 
 The first case is the only one that terminates the recognition procedure
@@ -795,6 +796,9 @@ and handle alternating composition factors without computing a stabiliser
 chain.
 
 \begin{table}[ht]
+\caption{Find homomorphism methods for permutation groups}
+\index{finding homomorphism!for permutation groups}%
+\label{permdb}
 \begin{center}
 \begin{tabular}{|c|l|l|c|}
 \hline
@@ -813,9 +817,6 @@ Rank & Name & Action & Hom/Leaf \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Find homomorphism methods for permutation groups}
-\index{finding homomorphism!for permutation groups}%
-\label{permdb}
 \end{table}
 
 The method with the highest rank $50$ is the reduction method called

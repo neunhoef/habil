@@ -630,7 +630,7 @@ with dimension greater than $1$), we have $k > 1$.
 The derived subgroup $N'$ of $N$ is contained in $Z$ and
 we recall that $Z$ is the centre of $N$ since $V|_N = W$ is absolutely
 irreducible. So $N$ is nilpotent and thus the direct product of its
-Sylow subgroups. Let $R$ be the $r$-Sylow subgroup of $N$. All other
+Sylow subgroups. Let $R$ be the Sylow $r$-subgroup of $N$. All other
 Sylow subgroups of $N$ consist of scalar matrices since $N/Z$ is
 elementary abelian. Thus the module $V|_R$ is absolutely irreducible
 and $R$ is not abelian.
@@ -704,7 +704,7 @@ acts as scalars. Since $G$ acts on $N$ by permuting the factors
 transitively, all modules $W_i$ have the same dimension. So $G$ lies in
 \DD7 concluding case~(ii).
 
-\enlargethispage{-1\baselineskip}
+%\enlargethispage{-1\baselineskip}
 We finally consider case (iii) that $\bar N = N/Z$ is a non-abelian finite 
 simple group. Since in this case the centraliser $C_{G/Z}(\bar N)$ is 
 trivial (because $W=V|_N$ is absolutely irreducible), 
@@ -783,10 +783,10 @@ $h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
       g_{n/d,1}&g_{n/d,2}& \cdots& g_{n/d,n/d} \end{array} \right]
 \cdot \left[ \begin{array}{c|c|c|c}
-      D^g(h) & 0   & \cdots &      0    \\ \hline
-         0   &D^g(h)&\cdots &      0    \\ \hline
+      D^{g^{-1}}(h) & 0   & \cdots &      0    \\ \hline
+         0   &D^{g^{-1}}(h)&\cdots &      0    \\ \hline
       \vdots  & \vdots  & \ddots & \vdots    \\ \hline
-         0    &    0    & \cdots& D^g(h) \end{array} \right] \\
+         0    &    0    & \cdots& D^{g^{-1}}(h) \end{array} \right] \\
  &=& \left[ \begin{array}{c|c|c|c}
       D(h)    & 0       & \cdots &     0    \\ \hline
          0    &D(h)     &\cdots &      0    \\ \hline
@@ -800,15 +800,15 @@ $h \in N$. If we now cut $g$ into $d \times d$-blocks, we get:
  = hg,
 \end{eqnarray*}
 where the $g_{i,j}$ are $d \times d$-matrices, $D(h)$ is a matrix
-representing $h$ on the module $W$ and $D^g(h) = D(g^{-1}hg)$ is the
-same representation twisted by the element $g$. By the block diagonal
+representing $h$ on the module $W$ and $D^{g^{-1}}(h) = D(g^{-1}hg)$ is the
+same representation twisted by the element $g^{-1}$. By the block diagonal
 structure of the matrices in $N$ we get 
-$g_{i,j} \cdot D^g(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
+$g_{i,j} \cdot D^{g^{-1}}(h) = D(h) \cdot g_{i,j}$ for all $i$ and $j$ and 
 all $h \in N$.
 
-By hypothesis, the matrix representations $D$ and $D^g$ of $N$
+By hypothesis, the matrix representations $D$ and $D^{g^{-1}}$ of $N$
 are isomorphic. Thus there is an invertible matrix $T \in \F_q^{d \times d}$ with
-$T \cdot D^g(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
+$T \cdot D^{g^{-1}}(h) = D(h) \cdot T$ for all $h \in N$. By Schur's lemma and
 since the representation $D$ is irreducible,
 the matrix $T$ is invertible and unique 
 up to left multiplication by an element of $C_{\GL(d,q)}(D(N))$, which
@@ -847,8 +847,8 @@ e_{k,j} \cdot T = T^{-1}c\cdot \left(\sum_{k=1}^{n/d} f_{i,k} \cdot
 e_{k,j}\right) \cdot T = \delta_{i,j} \cdot T^{-1}cT, \]
 since $c \in E$ and $E$ is commutative.
 That is, $g^{-1}Cg$ is a block-diagonal matrix where all diagonal blocks
-are equal to $T^{-1}cT$. Since $D^g(h) = T^{-1} \cdot D(h)\cdot T$ for all
-$h \in N$, we get that $T^{-1}cT$ commutes with all $D^g(h) = D(g^{-1}hg)$
+are equal to $T^{-1}cT$. Since $D^{g^{-1}}(h) = T^{-1} \cdot D(h)\cdot T$ for all
+$h \in N$, we get that $T^{-1}cT$ commutes with all $D^{g^{-1}}(h) = D(g^{-1}hg)$
 and thus with all $D(h)$ for $h \in N$, since $g^{-1}hg$ runs through $N$
 if $h$ does. But this means that $T^{-1}cT$ is contained in $E$ and thus
 is equal to some power of $c$ itself.
@@ -1151,44 +1151,8 @@ In the following description of Algorithm~\ref{alginvjump}
 slight variation which will be used in Section~\ref{solveD7} to resolve
 the \DD7 case as well.
 
-\begin{algorithm}
-\caption{$\quad$ \sc InvolutionJumper}
-\index{InvolutionJumper@\textsc{InvolutionJumper}}%
-\label{alginvjump}
-\begin{algorithmic}
-\STATE \textbf{Input:} A group $G$, an involution
-$x \in G$, an integer $t$, and a boolean $b$.
-\STATE \textbf{Output:} An involution in $G$ or \textsc{Fail}.
 
-\smallskip
-\STATE $i := 0$
-\REPEAT
-    \STATE $i := i + 1$
-    \STATE $y := \textsc{Random}(G)$ \hspace*{10mm} \COMMENT{produce a random
-element of $G$}
-    \STATE $c := [x,y]$ and
-    $o := \textsc{Order}(c)$
-    \IF {$o > 1$}
-        \IF {$o$ is even}
-            \STATE \textbf{Return} $c^{o/2}$
-        \ELSIF {$b = \textsc{True}$}
-            \STATE $z := y \cdot c^{(o-1)/2}$ and
-            $o := \textsc{Order}(z)$
-            \IF {$o$ is even}
-                \STATE \textbf{Return} $z^{o/2}$
-            \ENDIF
-        \ENDIF
-    \ELSIF {$b = \textsc{True}$}
-        \STATE $o := \textsc{Order}(y)$
-        \IF {$o$ is even}
-            \STATE \textbf{Return} $y^{o/2}$
-        \ENDIF
-    \ENDIF
-\UNTIL $i \ge t$
-\STATE \textbf{Return} \textsc{Fail}
-\end{algorithmic}
-\end{algorithm}
-
+\enlargethispage{1\baselineskip}
 \begin{Prop}[The Involution Jumper]
 \index{InvolutionJumper@\textsc{InvolutionJumper}}%
 Let $G$ be a finite group. If Algorithm~\ref{alginvjump}
@@ -1247,6 +1211,46 @@ every subgroup $H \le G$ containing $x$.
 This option will be used in Section~\ref{solveD7} to handle the case
 of a group in \DD7.
 \end{Rem}
+
+\begin{algorithm}
+\caption{$\quad$ \sc InvolutionJumper}
+\index{InvolutionJumper@\textsc{InvolutionJumper}}%
+\label{alginvjump}
+\begin{algorithmic}
+\STATE \textbf{Input:} A group $G$, an involution
+$x \in G$, an integer $t$, and a boolean $b$.
+\STATE \textbf{Output:} An involution in $G$ or \textsc{Fail}.
+
+\smallskip
+\STATE $i := 0$
+\REPEAT
+    \STATE $i := i + 1$
+    \STATE $y := \textsc{Random}(G)$ \hspace*{10mm} \COMMENT{produce a random
+element of $G$}
+    \STATE $c := [x,y]$ and
+    $o := \textsc{Order}(c)$
+    \IF {$o > 1$}
+        \IF {$o$ is even}
+            \STATE \textbf{Return} $c^{o/2}$
+        \ELSIF {$b = \textsc{True}$}
+            \STATE $z := y \cdot c^{(o-1)/2}$ and
+            $o := \textsc{Order}(z)$
+            \IF {$o$ is even}
+                \STATE \textbf{Return} $z^{o/2}$
+            \ENDIF
+        \ENDIF
+    \ELSIF {$b = \textsc{True}$}
+        \STATE $o := \textsc{Order}(y)$
+        \IF {$o$ is even}
+            \STATE \textbf{Return} $y^{o/2}$
+        \ENDIF
+    \ENDIF
+\UNTIL $i \ge t$
+\STATE \textbf{Return} \textsc{Fail}
+\end{algorithmic}
+\end{algorithm}
+
+
 
 \begin{DefProp}[A Markov chain on involution classes]
 \index{Markov chain!on involution classes}%
@@ -1391,45 +1395,6 @@ matrices. An element $x \in G \setminus Z$ with $x^2 \in Z$ is
 called \emph{projective involution in $G$}.
 \end{Def}
 
-\begin{algorithm}
-\caption{$\quad$ \textsc{FindHomD247}}
-\index{FindHomD247@\textsc{FindHomD247}}%
-\label{algreductionD24}
-\begin{algorithmic}
-\STATE \textbf{Input:} A group $G \le \GL(n,q)$ known to act absolutely
-irreducibly.
-\STATE \textbf{Output:} A reduction homomorphism or \textsc{Fail}.
-
-\smallskip
-\STATE $x := \textsc{InvolutionMaker}(G/Z,100)$
-\IF {$x = \textsc{Fail}$}
-    \STATE \textbf{Return} \textsc{Fail}
-\ENDIF
-\STATE $i := 0$
-\WHILE {\textsc{True}} 
-    \STATE $i := i + 1$
-    \STATE Compute the normal closure $N := \left< x \right>^G$ in $G$
-    \STATE Run the MeatAxe on $V|_N$
-    \IF {$V|_N$ is reducible}
-        \IF {$V|_N$ is semisimple and has more than one homogeneous component}
-            \STATE \textbf{Return} action on homogeneous components (\DD2)
-        \ELSIF {$V|_N$ is semisimple but has only one homogeneous component}
-            \STATE \textbf{Return} tensor product decomposition (\DD4)
-        \ENDIF
-    \ELSE 
-        \STATE Perform check for \DD7 (see Section~\ref{solveD7} below)
-    \ENDIF
-    \IF {$i \ge 9$}
-        \STATE \textbf{Return} \textsc{Fail}
-    \ENDIF
-    \STATE $y := \textsc{InvolutionJumper}(G/Z,x,100,\textsc{True})$
-    \IF {$y = \textsc{Fail}$}
-        \STATE \textbf{Return} \textsc{Fail}
-    \ENDIF
-\ENDWHILE
-\end{algorithmic}
-\end{algorithm}
-
 We summarise the method to find a reduction in the case that $G$ lies in
 \DD2 or \DD4 in Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}''. 
 This algorithm
@@ -1479,6 +1444,45 @@ For example in all cases where the commutator $[x,y]$ of the previous
 involution $x$ with a random element $y$ has even order but has odd order in
 $G/N$, the Involution Jumper immediately jumps into $N$!
 
+\begin{algorithm}
+\caption{$\quad$ \textsc{FindHomD247}}
+\index{FindHomD247@\textsc{FindHomD247}}%
+\label{algreductionD24}
+\begin{algorithmic}
+\STATE \textbf{Input:} A group $G \le \GL(n,q)$ known to act absolutely
+irreducibly.
+\STATE \textbf{Output:} A reduction homomorphism or \textsc{Fail}.
+
+\smallskip
+\STATE $x := \textsc{InvolutionMaker}(G/Z,100)$
+\IF {$x = \textsc{Fail}$}
+    \STATE \textbf{Return} \textsc{Fail}
+\ENDIF
+\STATE $i := 0$
+\WHILE {\textsc{True}} 
+    \STATE $i := i + 1$
+    \STATE Compute the normal closure $N := \left< x \right>^G$ in $G$
+    \STATE Run the MeatAxe on $V|_N$
+    \IF {$V|_N$ is reducible}
+        \IF {$V|_N$ is semisimple and has more than one homogeneous component}
+            \STATE \textbf{Return} action on homogeneous components (\DD2)
+        \ELSIF {$V|_N$ is semisimple but has only one homogeneous component}
+            \STATE \textbf{Return} tensor product decomposition (\DD4)
+        \ENDIF
+    \ELSE 
+        \STATE Perform check for \DD7 (see Section~\ref{solveD7} below)
+    \ENDIF
+    \IF {$i \ge 9$}
+        \STATE \textbf{Return} \textsc{Fail}
+    \ENDIF
+    \STATE $y := \textsc{InvolutionJumper}(G/Z,x,100,\textsc{True})$
+    \IF {$y = \textsc{Fail}$}
+        \STATE \textbf{Return} \textsc{Fail}
+    \ENDIF
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
 The experimental evidence suggests that it is feasible to analyse this
 procedure and to come up with a proof that it is in fact a Las Vegas
 algorithm that works with high probability for all or at least most groups
@@ -1515,6 +1519,54 @@ element of $N$ with relatively high probability also holds for the \DD7
 case. To some extent it seems to work even better in this case, since the 
 factor group $G/N$ has an action on $k$ points, where $n=r^k$ for some $r$
 and $k$, which makes $k$ relatively small in real world situations.
+
+There are basically two problems. The first is that we cannot easily detect 
+that the normal closure of our involution produced by the Involution
+Jumper is equal to $N$, because $V|_N$ is absolutely irreducible. The
+second is that even if we assume this, we have to find the action of $G/N$ on
+the direct factors of $N/Z$ (recall that in the \DD7 case the group $N/Z$
+is isomorphic to a direct product of pairwise isomorphic non-abelian simple
+groups that are permuted transitively by the conjugation action of $G/N$
+on the set of direct factors of $N/Z$). 
+In this section we present a new idea to solve these two problems
+which works very well in practice. As for the \DD2 and \DD4 cases, the reader is
+kindly referred to future publications by the author for a complete analysis.
+
+Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' already contains a 
+statement ``Perform check for \DD7'' in a situation in which we have produced
+a candidate for the normal subgroup $N$. We now describe how to perform
+this check, which is summarised in Algorithm~\ref{algreductionD7}
+``\textsc{FindHomD7}''.
+\index{FindHomD7@\textsc{FindHomD7}}%
+
+First of all, if $n$ does not have a decomposition as
+$n=r^k$, then we do nothing since $G$ cannot lie in \DD7. Otherwise,
+we need a relatively quick check whether $N/Z$ is a direct product of
+pairwise isomorphic non-abelian simple groups acting irreducibly. To
+this end, we simply play the same trick again, since if $G$ is in \DD7,
+then $N$ is in \DD4. That is, we run Algorithm~\ref{alginvjump}
+``\textsc{InvolutionJumper}'' on $N/Z$. Note that we already have an
+involution in $N/Z$, namely the one we used to produce $N$.
+
+In comparison to the method for \DD2 and \DD4, we change two things,
+firstly, we set the boolean argument $b$ to \textsc{False}, and
+secondly, we call the Involution Jumper three times in a row (whenever
+it returns \textsc{Fail}, we stick to the previous involution).
+Both changes should improve our chances to produce an involution in $N/Z$
+that is trivial in all but one of the direct factors of $N/Z$. With $b$ set
+to \textsc{False} we only take commutators with random elements of $N$.
+This means that once a component in the direct decomposition is trivial it
+will stay trivial. Due to the fact that the number of direct factors is
+relatively small, doing three steps will usually suffice to produce an
+involution whose normal closure in $N/Z$ is exactly one direct factor.
+
+\enlargethispage{-1\baselineskip}
+Let now $T$ be the normal closure of the final involution of $N/Z$ we
+produce. We run the MeatAxe on the restriction $V|_T$ of the natural module
+and immediately give up if $V|_T$ is irreducible, not semisimple or not
+homogeneous. Otherwise, we determine the dimension $d$ of an irreducible
+submodule. If $n=d^k$ for some $k$, then we assume that $T$ is in fact
+equal to one of the $k$ central factors of $N$.
 
 \begin{algorithm}
 \caption{$\quad$ \textsc{FindHomD7}}
@@ -1555,53 +1607,6 @@ to act absolutely irreducibly
 \end{algorithmic}
 \end{algorithm}
 
-There are basically two problems. The first is that we cannot easily detect 
-that the normal closure of our involution produced by the Involution
-Jumper is equal to $N$, because $V|_N$ is absolutely irreducible. The
-second is that even if we assume this, we have to find the action of $G/N$ on
-the direct factors of $N/Z$ (recall that in the \DD7 case the group $N/Z$
-is isomorphic to a direct product of pairwise isomorphic non-abelian simple
-groups that are permuted transitively by the conjugation action of $G/N$ on
-on the set of direct factors of $N/Z$). 
-In this section we present a new idea to solve these two problems
-which works very well in practice. As for the \DD2 and \DD4 cases, the reader is
-kindly referred to future publications by the author for a complete analysis.
-
-Algorithm~\ref{algreductionD24} ``\textsc{FindHomD247}'' already contains a 
-statement ``Perform check for \DD7'' in a situation in which we have produced
-a candidate for the normal subgroup $N$. We now describe how to perform
-this check, which is summarised in Algorithm~\ref{algreductionD7}
-``\textsc{FindHomD7}''.
-\index{FindHomD7@\textsc{FindHomD7}}%
-
-First of all, if $n$ does not have a decomposition as
-$n=r^k$, then we do nothing since $G$ cannot lie in \DD7. Otherwise,
-we need a relatively quick check whether $N/Z$ is a direct product of
-pairwise isomorphic non-abelian simple groups acting irreducibly. To
-this end, we simply play the same trick again, since if $G$ is in \DD7,
-then $N$ is in \DD4. That is, we run Algorithm~\ref{alginvjump}
-``\textsc{InvolutionJumper}'' on $N/Z$. Note that we already have an
-involution in $N/Z$, namely the one we used to produce $N$.
-
-In comparison to the method for \DD2 and \DD4, we change two things,
-firstly, we set the boolean argument $b$ to \textsc{False}, and
-secondly, we call the Involution Jumper three times in a row (whenever
-it returns \textsc{Fail}, we stick to the previous involution).
-Both changes should improve our chances to produce an involution in $N/Z$
-that is trivial in all but one of the direct factors of $N/Z$. With $b$ set
-to \textsc{False} we only take commutators with random elements of $N$.
-This means that once a component in the direct decomposition is trivial it
-will stay trivial. Due to the fact that the number of direct factors is
-relatively small, doing three steps will usually suffice to produce an
-involution whose normal closure in $N/Z$ is exactly one direct factor.
-
-Let now $T$ be the normal closure of the final involution of $N/Z$ we
-produce. We run the MeatAxe on the restriction $V|_T$ of the natural module
-and immediately give up if $V|_T$ is irreducible, not semisimple or not
-homogeneous. Otherwise, we determine the dimension $d$ of an irreducible
-submodule. If $n=d^k$ for some $k$, then we assume that $T$ is in fact
-equal to one of the $k$ central factors of $N$.
-
 We then try to enumerate the orbit of $G$ acting on the central factors of
 $T$, immediately giving up if this orbit has a different length than $k$.
 
@@ -1621,6 +1626,7 @@ equal. This test can be done very quickly. There is of course a small error
 possibility if the first three-tuple accidentally generates a proper
 subgroup of $T$.
 
+\enlargethispage{1\baselineskip}
 This whole procedure finds the action of $G$ on the direct factors of $N/Z$
 with high probability and thus returns a reduction provided $G$ is in \DD7
 and $N$ is the normal subgroup from the definition of the class \DD7.
@@ -1630,7 +1636,6 @@ even less a full complexity analysis. However, in real life examples this
 method seems to work extremely well and quickly fails if $G$ is not a \DD7 group.
 Further work to analyse these ideas is required.
 
-\enlargethispage{2\baselineskip}
 We conclude this section with a few references to the existing
 literature. In \cite{RecogTensInd} an algorithm is described to
 determine algorithmically whether or not a group is projectively

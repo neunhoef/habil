@@ -3,7 +3,7 @@
 all:	habil.pdf
 
 habil.pdf:	*.tex matmulF2_all.pdf matmulF7_all.pdf matmulF243_all.pdf \
-		matmulF17_all.pdf grease_pstex_t matmulF2grease.pdf \
+		matmulF17_all.pdf grease.pstex_t matmulF2grease.pdf \
 		matmulF2grease_scaled.pdf matmulF3_all.pdf comptree.pdf \
 		habil.bib matmulF2_all.bb matmulF7_all.bb matmulF243_all.bb \
 		matmulF17_all.bb matmulF2grease.bb matmulF2grease_scaled.bb \
