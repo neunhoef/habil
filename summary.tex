@@ -1,0 +1,133 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,top=1in,bottom=1in]{geometry}
+\usepackage[mtpluscal]{mathtime}
+\usepackage{times}
+
+\begin{document}
+\title{Summary of content}
+\author{Max Neunh\"offer}
+\maketitle
+
+The matrix group recognition project has produced many results but is
+not yet fully completed. This book gives an overview of the current
+state of the art and shows some contributions of the author. The
+collaborative nature of the whole project lends itself to joint papers
+by more than one person. Therefore, some of the author’s work in the
+context of this project, which can be found in Chapters III, V and VII,
+are in fact collaborations with other authors.
+
+A second major part of the contributions of the author to the project
+lies in actual implementations. Together with \'{A}kos Seress
+we have started an implementation of the best known algorithms
+for group recognition in the GAP computer algebra system. This
+implementation comes in the form of two GAP packages \textsf{recogbase}
+and \textsf{recog} which were first published in 2009. The first
+provides a generic framework to implement composition trees in GAP
+for arbitrary types of groups. One interesting feature of the generic
+framework is that within a single composition tree there can be groups
+in different representations, that is, there can be a mixture of
+permutation groups, matrix groups and projective groups. The second
+package tries to collect the best known methods for group recognition
+for each of these types of groups. Thus, everybody who contributes
+implementations will be an author of the recog package.
+
+This book describes a major part of the algorithms used in both
+packages. For some methods, mainly for the leaves of the composition
+tree, the reader is however referred to the literature. Since the
+matrix group recognition project is not yet finished, the present work
+cannot give a complete description of a solution to the constructive
+recognition problem. In particular for the leaves of the composition
+tree a lot of work and improvement of algorithms still has to be done,
+as is explained in some detail in Chapter VIII.
+
+We have intentionally left out a number of topics which are related,
+mostly because research on them is not completed or not even in a state
+for a satisfactory description. One is the whole field of algorithms
+for matrix groups that build on constructive recognition. Derek Holt
+and Mark Stather have recently published a paper pointing in that
+direction and Mark Stather’s PhD thesis also lies in this area.
+Another topic left out is the constructive recognition of black box
+groups, because we wanted to concentrate on matrix groups and projective
+groups. We only cover the verification phase very briefly, although
+this phase is necessary to have computational proofs of the results.
+The reason for this is that in fact very little work has been done on
+the actual implementation of verification routines. What is needed for
+this is basically good presentations for the groups occurring in the
+leaves. Finally, a global analysis of the whole procedure of building a
+composition tree is still needed. This seems achievable using estimates
+on the length of a composition series but is not done yet.
+
+Now we turn to the contents of this book and outline its structure.
+Chapter I introduces briefly some concepts from computer science, which
+apply to computational group theory, and describes a way to produce
+nearly uniformly distributed random elements in a finite group. Chapter
+II introduces a new method to implement matrices over finite fields
+on a computer. Having an efficient implementation of the finite field
+arithmetic and linear algebra routines is obviously an indispensable
+foundation for implementing matrix group algorithms. The contents of
+this chapter are not yet published elsewhere.
+
+Chapter III contains a new randomised method to compute the minimal
+polynomial of a square matrix over a finite field. It is basically
+a copy of a paper jointly written by Cheryl Praeger and the author.
+Computing minimal polynomials of invertible matrices is an important
+ingredient to compute the order and projective order of such matrices,
+which are computations that are used throughout nearly all matrix group
+algorithms.
+
+Chapter IV completes the description of the infrastructure for
+implementing matrix group algorithms by explaining how to compute the
+order and projective order of a matrix and how to perform higher level
+linear algebra computations like solving systems of linear equations
+and inverting matrices. In addition the two major obstacles for
+polynomial time algorithms, the discrete logarithm problem and integer
+factorisation, are introduced. This chapter is nothing new but is needed
+for the sake of completeness.
+
+In Chapter V we explain the basic problem attacked by the matrix group
+recognition project, namely the constructive recognition problem. We
+give a gentle introduction starting with a rough formulation of the
+problem followed by two refinements. Then the fundamental approach using 
+composition trees and a generic framework for group recognition
+are described. We explain in detail the idea and purpose of reduction
+homomorphisms. The contents of this chapter are a variation and
+extension of a paper by \'{A}kos Seress and the author, in which the
+composition tree approach is refined by allowing for a change in
+the generating set of the group to be recognised. This refinement can
+dramatically increase the performance, because the resulting straight
+line programs are much shorter than in the traditional version. Finally,
+the chapter closes with a description how the currently best known
+algorithms for the constructive recognition of permutation groups fit in
+nicely with the proposed framework.
+
+The next Chapter VI explains a variant of Aschbacher’s theorem on
+subgroups of classical groups restricted to the general linear group
+case. A relatively short complete proof is given. Our variant changes
+the definition of the occurring classes of subgroups slightly to make
+it easier to devise algorithms for finding reduction homomorphisms
+for groups in some of these classes. This approach already seems
+to bear fruit in the last part of the chapter, where we present an
+overview of algorithms to find reduction homomorphisms for groups in the
+different classes. For our classes $\mathcal{D}_2$, $\mathcal{D}_4$ and
+$\mathcal{D}_7$ new ideas to tackle groups in these classes are given
+as well as references to the literature for the currently best known
+methods.
+
+Chapter VII is a copy of a paper which is joint work of the author
+with Jon Carlson and Colva Roney-Dougal. It presents new completely
+analysed randomised algorithms to find a reduction for the case that
+$G \le \mathrm{GL}(n, q)$ acts irreducibly on its natural module and
+lies in at least one of the semilinear or subfield Aschbacher classes
+$\mathcal{C}_3$ and $\mathcal{C}_5$.
+
+Chapter VIII finally tries to summarise the state of the art for
+algorithms to do constructive recognition for the leaves of the
+composition tree, that is for groups in the Aschbacher classes
+$\mathcal{C}_8$ and $\mathcal{C}_9$. We do not try to explain any of the
+best known methods there, because the final word on them seems not to be
+spoken at the time of this writing. Rather, we explain the concepts of
+non-constructive recognition and standard generators and give references
+to the literature.
+
+\end{document}
